@@ -33,7 +33,7 @@ void CLevelManager::init()
 	
 
 	//m_pCurLevel->init();
-	this->LoadLevelEvent(LEVEL_TYPE::EDITOR);
+	this->LoadLevelEvent(LEVEL_TYPE::TITLE);
 
 }
 

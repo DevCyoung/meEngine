@@ -1,14 +1,23 @@
 #include "pch.h"
-
+#define _CRT_SECURE_NO_WARNINGS
 //Sound
 #include <mmsystem.h>
 #include <Windows.h>
 #include "CPlayer.h"
 #include "CAnimator.h"
+#include "CPathManager.h"
 
 void CPlayer::EventAttack1(void)
-{
-	PlaySoundA((LPCSTR)"C:\\Users\\tkdlq\\Desktop\\Sounds\\saver", NULL, SND_FILENAME | SND_ASYNC);
+{		
+	std::wstring str = GETINSTANCE(CPathManager)->GetContentPath();
+	char* buff = new char[255];
+	sprintf_s(buff, 255, "%ls", str.c_str());
+	std::string path = buff;
+	path += "\\Sounds\\saver";
+
+
+
+	PlaySoundA((LPCSTR)path.c_str(), NULL, SND_FILENAME | SND_ASYNC);
 	this->attackCount = 1;
 	isAtkkAvailable = false;
 	//isMoveReay = false;
@@ -17,7 +26,13 @@ void CPlayer::EventAttack1(void)
 
 void CPlayer::EventAttack2(void)
 {
-	PlaySoundA((LPCSTR)"C:\\Users\\tkdlq\\Desktop\\Sounds\\saver", NULL, SND_FILENAME | SND_ASYNC);
+	std::wstring str = GETINSTANCE(CPathManager)->GetContentPath();
+	char* buff = new char[255];
+	sprintf_s(buff, 255, "%ls", str.c_str());
+	std::string path = buff;
+	path += "\\Sounds\\saver";
+
+	PlaySoundA((LPCSTR)path.c_str(), NULL, SND_FILENAME | SND_ASYNC);
 	this->attackCount = 2;
 	isAtkkAvailable = false;
 	//isMoveReay = false;
@@ -26,7 +41,13 @@ void CPlayer::EventAttack2(void)
 
 void CPlayer::EventAttack3(void)
 {
-	PlaySoundA((LPCSTR)"C:\\Users\\tkdlq\\Desktop\\Sounds\\saver", NULL, SND_FILENAME | SND_ASYNC);
+	std::wstring str = GETINSTANCE(CPathManager)->GetContentPath();
+	char* buff = new char[255];
+	sprintf_s(buff,255, "%ls", str.c_str());
+	std::string path = buff;
+	path += "\\Sounds\\saver";
+
+	PlaySoundA((LPCSTR)path.c_str(), NULL, SND_FILENAME | SND_ASYNC);
 	this->attackCount = 0;
 	isAtkkAvailable = false;
 	//isMoveReay = false;
@@ -35,6 +56,12 @@ void CPlayer::EventAttack3(void)
 
 void CPlayer::EventSCABBARD(void)
 {	
+	std::wstring str = GETINSTANCE(CPathManager)->GetContentPath();
+	char* buff = new char[255];
+	sprintf_s(buff, 255, "%ls", str.c_str());
+	std::string path = buff;
+	path += "\\Sounds\\saver";
+
 	EventAtkkAvailable();
 	attackCount = 0;
 	GetAnimator()->Play(L"SCABBARD", false);
@@ -42,6 +69,7 @@ void CPlayer::EventSCABBARD(void)
 
 void CPlayer::EventWalkReady(void)
 {
+	
 	//isMoveReay = true;
 	//EventAtkkAvailable();
 	canWalk = true;
@@ -50,6 +78,7 @@ void CPlayer::EventWalkReady(void)
 
 void CPlayer::EventIdle(void)
 {
+
 	attackCount = 0;
 	canWalk = false;
 	canWalkReady = true;
@@ -64,12 +93,24 @@ void CPlayer::EventAtkkAvailable(void)
 
 void CPlayer::EventStartVim(void)
 {
-	PlaySoundA((LPCSTR)"C:\\Users\\tkdlq\\Desktop\\Sounds\\startvim", NULL, SND_FILENAME | SND_ASYNC);
+	std::wstring str = GETINSTANCE(CPathManager)->GetContentPath();
+	char* buff = new char[255];
+	sprintf_s(buff, 255, "%ls", str.c_str());
+	std::string path = buff;
+	path += "\\Sounds\\startvim";
+
+	PlaySoundA((LPCSTR)path.c_str(), NULL, SND_FILENAME | SND_ASYNC);
 }
 
 void CPlayer::EventReturnHome(void)
 {
-	PlaySoundA((LPCSTR)"C:\\Users\\tkdlq\\Desktop\\Sounds\\Finish_form", NULL, SND_FILENAME | SND_ASYNC);
+	std::wstring str = GETINSTANCE(CPathManager)->GetContentPath();
+	char* buff = new char[255];
+	sprintf_s(buff, 255, "%ls", str.c_str());
+	std::string path = buff;
+	path += "\\Sounds\\Finish_form";
+
+	PlaySoundA((LPCSTR)path.c_str(), NULL, SND_FILENAME | SND_ASYNC);
 }
 
 
