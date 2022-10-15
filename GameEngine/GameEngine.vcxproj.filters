@@ -1,0 +1,330 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{d117ba91-fe61-4641-a3a8-6b43ac6b41c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\00. Header">
+      <UniqueIdentifier>{24ce75c3-a39d-4f8e-bf64-764c1d384057}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\01. Engine">
+      <UniqueIdentifier>{6b75bd2e-522e-4153-b6e9-03eb470be294}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager">
+      <UniqueIdentifier>{3d0cd855-4f00-42c1-bf6d-66213018a5e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04. Level">
+      <UniqueIdentifier>{c9c47591-9bde-48bf-8dcf-73249e1bcfb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{ab3628de-ab27-40ac-98d6-4f4af6997299}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameObject">
+      <UniqueIdentifier>{bd189b22-be30-4957-a93f-6bbf28a254fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameObject\Player">
+      <UniqueIdentifier>{e0d8b454-e8bf-4816-a25d-7c1df115f6ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Component">
+      <UniqueIdentifier>{b696acc6-0bc3-4962-94ff-9816637921a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Component\Collider">
+      <UniqueIdentifier>{2b2f1c74-31e5-4cef-80cf-c00809dcdfff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Component\Animator">
+      <UniqueIdentifier>{0ae85e5e-c284-4f07-b065-4c3d79f028d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameObject\Monster">
+      <UniqueIdentifier>{e4681763-04c2-4c84-9303-1d887a4fd232}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\08. Camera">
+      <UniqueIdentifier>{5135b921-4bc7-42c2-ad9a-d26508a28b32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\01. Key">
+      <UniqueIdentifier>{f109ebee-6221-4b7d-aba7-911dcfca4226}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\02. Time">
+      <UniqueIdentifier>{9e807a8e-82a8-40e7-84e1-105d80141f86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\03. Level">
+      <UniqueIdentifier>{9d4e0ba8-91b1-4ce2-884c-8d8508407206}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\04. Collision">
+      <UniqueIdentifier>{02d732b0-88ab-46f0-a938-74cefe2baeae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\05. Event">
+      <UniqueIdentifier>{727215c2-e743-4b1b-aa81-080a168c01bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\06. Path">
+      <UniqueIdentifier>{ebfebf09-03ba-4d97-bf8d-7beab36ded7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\07. Resource">
+      <UniqueIdentifier>{adba2a72-d611-49e0-be07-463e71eb5110}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameObject\Missile">
+      <UniqueIdentifier>{7ca0ce64-86f3-4a1a-ba32-baab7c7cd9f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Component\Rigidbody">
+      <UniqueIdentifier>{cefb061e-cffc-420f-817a-6fa706f0d82d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Level">
+      <UniqueIdentifier>{52daad95-d54c-4e43-b21a-fe3eca36769e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Level\TitleLevel">
+      <UniqueIdentifier>{661f5a0e-e660-482f-bfb9-1ccbcca0d697}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Level\StartLevel">
+      <UniqueIdentifier>{4cb1821e-72a2-4323-b9fd-5174f71f01ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Component\Component">
+      <UniqueIdentifier>{cbc2b625-76fe-4c8e-9e3d-bb0fb1f4229e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. GameObject">
+      <UniqueIdentifier>{5120138a-7e61-4c0b-bb08-b6564455448d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameObject\Platform">
+      <UniqueIdentifier>{1531f9e5-8690-40dc-b86e-5ecc9e549b50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Resource">
+      <UniqueIdentifier>{e2181a22-a8ca-43a7-941a-c5af022a002f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Resource\Texture">
+      <UniqueIdentifier>{90a823df-7ad9-4750-8317-306018e935a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Component\Animator\Animation">
+      <UniqueIdentifier>{18adbe3b-ca01-4eaa-b0f2-3aca1dc8b127}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\00. Header\리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Engine\04. Level\Editor">
+      <UniqueIdentifier>{d7190759-4190-45cd-80a3-59744f684aec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sounds">
+      <UniqueIdentifier>{94168878-4215-4801-9297-45fc7c61900a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\05. Event\AnimEventManager">
+      <UniqueIdentifier>{871ebfc9-b142-426a-b72a-185857cdbde6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. GameObject\Tile">
+      <UniqueIdentifier>{c5f9c97f-8385-43bb-b4c5-5626304b9bd5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Engine\00. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngine.h">
+      <Filter>Engine\00. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Engine\00. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Engine\00. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Engine\00. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CEngine.h">
+      <Filter>Engine\01. Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="define.h">
+      <Filter>Engine\00. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="struct.h">
+      <Filter>Engine\00. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="function.h">
+      <Filter>Engine\00. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CKeyManager.h">
+      <Filter>Engine\02. Manager\01. Key</Filter>
+    </ClInclude>
+    <ClInclude Include="CTimeManager.h">
+      <Filter>Engine\02. Manager\02. Time</Filter>
+    </ClInclude>
+    <ClInclude Include="CLevelManager.h">
+      <Filter>Engine\02. Manager\03. Level</Filter>
+    </ClInclude>
+    <ClInclude Include="CEntity.h">
+      <Filter>Engine\00. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CGameObject.h">
+      <Filter>Engine\03. GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="CLevel.h">
+      <Filter>Engine\04. Level</Filter>
+    </ClInclude>
+    <ClInclude Include="CTitleLevel.h">
+      <Filter>Game\Level\TitleLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollisionManager.h">
+      <Filter>Engine\02. Manager\04. Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollider.h">
+      <Filter>Engine\05. Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayer.h">
+      <Filter>Game\GameObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CPathManager.h">
+      <Filter>Engine\02. Manager\06. Path</Filter>
+    </ClInclude>
+    <ClInclude Include="CEventManager.h">
+      <Filter>Engine\02. Manager\05. Event</Filter>
+    </ClInclude>
+    <ClInclude Include="CMonster.h">
+      <Filter>Game\GameObject\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CCamera.h">
+      <Filter>Engine\02. Manager\08. Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="CMissile.h">
+      <Filter>Game\GameObject\Missile</Filter>
+    </ClInclude>
+    <ClInclude Include="CResource.h">
+      <Filter>Engine\06. Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="CTexture.h">
+      <Filter>Engine\06. Resource\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="CResourceManager.h">
+      <Filter>Engine\02. Manager\07. Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="CRigidbody.h">
+      <Filter>Engine\05. Component\Rigidbody</Filter>
+    </ClInclude>
+    <ClInclude Include="CComponent.h">
+      <Filter>Engine\05. Component\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlatform.h">
+      <Filter>Game\GameObject\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="CStartLevel.h">
+      <Filter>Game\Level\StartLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnimation.h">
+      <Filter>Engine\05. Component\Animator\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnimator.h">
+      <Filter>Engine\05. Component\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="CEditorLevel.h">
+      <Filter>Engine\04. Level\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="CTile.h">
+      <Filter>Engine\03. GameObject\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnimEnvManager.h">
+      <Filter>Engine\02. Manager\05. Event\AnimEventManager</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GameEngine.rc">
+      <Filter>Engine\00. Header\리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>Engine\00. Header\리소스 파일</Filter>
+    </Image>
+    <Image Include="GameEngine.ico">
+      <Filter>Engine\00. Header\리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp">
+      <Filter>Engine\00. Header</Filter>
+    </ClCompile>
+    <ClCompile Include="CEngine.cpp">
+      <Filter>Engine\01. Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="CKeyManager.cpp">
+      <Filter>Engine\02. Manager\01. Key</Filter>
+    </ClCompile>
+    <ClCompile Include="CTimeManager.cpp">
+      <Filter>Engine\02. Manager\02. Time</Filter>
+    </ClCompile>
+    <ClCompile Include="CLevelManager.cpp">
+      <Filter>Engine\02. Manager\03. Level</Filter>
+    </ClCompile>
+    <ClCompile Include="CEntity.cpp">
+      <Filter>Engine\00. Header</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="CGameObject.cpp">
+      <Filter>Engine\03. GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="CLevel.cpp">
+      <Filter>Engine\04. Level</Filter>
+    </ClCompile>
+    <ClCompile Include="CTitleLevel.cpp">
+      <Filter>Game\Level\TitleLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollisionManager.cpp">
+      <Filter>Engine\02. Manager\04. Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollider.cpp">
+      <Filter>Engine\05. Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayer.cpp">
+      <Filter>Game\GameObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CPathManager.cpp">
+      <Filter>Engine\02. Manager\06. Path</Filter>
+    </ClCompile>
+    <ClCompile Include="CEventManager.cpp">
+      <Filter>Engine\02. Manager\05. Event</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonster.cpp">
+      <Filter>Game\GameObject\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CCamera.cpp">
+      <Filter>Engine\02. Manager\08. Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="CMissile.cpp">
+      <Filter>Game\GameObject\Missile</Filter>
+    </ClCompile>
+    <ClCompile Include="CResource.cpp">
+      <Filter>Engine\06. Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="CTexture.cpp">
+      <Filter>Engine\06. Resource\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="CResourceManager.cpp">
+      <Filter>Engine\02. Manager\07. Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="CRigidbody.cpp">
+      <Filter>Engine\05. Component\Rigidbody</Filter>
+    </ClCompile>
+    <ClCompile Include="CComponent.cpp">
+      <Filter>Engine\05. Component\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlatform.cpp">
+      <Filter>Game\GameObject\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="CStartLevel.cpp">
+      <Filter>Game\Level\StartLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimation.cpp">
+      <Filter>Engine\05. Component\Animator\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimator.cpp">
+      <Filter>Engine\05. Component\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="CEditorLevel.cpp">
+      <Filter>Engine\04. Level\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="CTile.cpp">
+      <Filter>Engine\03. GameObject\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimEnvManager.cpp">
+      <Filter>Engine\02. Manager\05. Event\AnimEventManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerEvent.cpp">
+      <Filter>Game\GameObject\Player</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
