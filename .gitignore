@@ -1,7 +1,4 @@
-.vs/*
 GameEngine/Debug
 GameEngine/x64
-OutputFile/*
-
-GameEngine/GameEngine.aps
-GameEngine/GameEngine.vcxproj.user
+*.exe
+*.pdb
