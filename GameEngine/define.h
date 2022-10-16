@@ -24,8 +24,16 @@
 //#define windowSizeX 720
 //#define windowSizeY 460
 
+#define EDITOR_MODE
+
+
+#ifdef EDITOR_MODE
 #define windowSizeX 1280
 #define windowSizeY 720
+#else
+#define windowSizeX 720
+#define windowSizeY 460
+#endif
 
 class CGameObject;
 typedef void(CGameObject::* DELEGATE)(void);
