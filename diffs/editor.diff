@@ -1,0 +1,958 @@
+diff --git a/GameEngine/CCamera.cpp b/GameEngine/CCamera.cpp
+index 4c22868..50c44eb 100644
+--- a/GameEngine/CCamera.cpp
++++ b/GameEngine/CCamera.cpp
+@@ -42,8 +42,8 @@ void CCamera::tick()
+ 		m_vLook.x += 300.f * DELTATIME;
+ 	}
+ 
+-	Vector2	vScreenSize = GETINSTANCE(CEngine)->GetWndScreenSize();
+-	m_vDiff = m_vLook - (vScreenSize / 2.f);
++	Vector2	WndScreenSize = GETINSTANCE(CEngine)->GetWndScreenSize();
++	m_vDiff = m_vLook - (WndScreenSize / 2.f);
+ 	m_vDiff;
+ }
+ 
+diff --git a/GameEngine/CEditorLevel.cpp b/GameEngine/CEditorLevel.cpp
+index 6b35f39..b0a666f 100644
+--- a/GameEngine/CEditorLevel.cpp
++++ b/GameEngine/CEditorLevel.cpp
+@@ -6,40 +6,48 @@
+ #include "CTexture.h"
+ 
+ #include "CTile.h"
++#include "resource.h"
++#include "CLevelManager.h"
++#include "CKeyManager.h"
++#include "CPathManager.h"
++
+ 
+ CEditorLevel::CEditorLevel()
++	: m_hMenu(nullptr)
++	, m_eMode(EDITOR_MODE::NONE)
+ {
+ 
+ }
+ 
+ CEditorLevel::~CEditorLevel()
+-{
+-
++{	
++	//DeleteMenu 는 파일 도움말 등 파일하나를 지우는
++	//DestroyMenu 메뉴단위가 없어져야할때
++	if (nullptr != m_hMenu)
++		DestroyMenu(m_hMenu);
+ }
+ 
+ 
++
++
+ void CEditorLevel::init()
+ {
+ 	Vector2 vResolution = GETINSTANCE(CEngine)->GetWndScreenSize();
+ 	vResolution /= 2.f;
+ 	GETINSTANCE(CCamera)->SetLook(vResolution);
+-	CTexture* pTex  = GETINSTANCE(CResourceManager)->LoadTexture(L"TILE_EDIT", L"texture\\TILE.bmp");
+-
+-	/*pTex->Width()  / TILE_SIZE;
+-	pTex->Height() / TILE_SIZE;*/
+ 
+-	//타일생성
+-	CreateTile(8, 6);
+-		
++	CTexture* pTex  = GETINSTANCE(CResourceManager)->LoadTexture(L"TILE_EDIT", L"texture\\TILE.bmp");	
++	CreateTile(8, 6);		
+ 	const vector<CGameObject*>& vecTile = GetLayer(LAYER::TILE);
+ 	
+-	for (size_t i = 0; i < vecTile.size(); i++)
++	for (int i = 0; i < vecTile.size(); i++)
+ 	{
+ 		((CTile*)vecTile[i])->SetAtlas(pTex);
+ 		((CTile*)vecTile[i])->SetImgIdx(i);
+ 	}
+ 	
+ 
++	m_eMode = EDITOR_MODE::TILE;
+ }
+ 
+ 
+@@ -48,45 +56,216 @@ void CEditorLevel::tick()
+ {
+ 	//직접구현했으면 틱돌게햐아함
+ 	CLevel::tick();
++	
++	if (IS_INPUT_TAB(KEY::_1))
++	{
++		m_eMode = EDITOR_MODE::TILE;
++	}
++	if (IS_INPUT_TAB(KEY::_2))
++	{
++		m_eMode = EDITOR_MODE::ANIMATION;
++	}
++	if (IS_INPUT_TAB(KEY::_3))
++	{
++		m_eMode = EDITOR_MODE::OBJECT;
++	}
++	
++	if (IS_INPUT_TAB(KEY::ENTER))
++	{		
++		CLevelManager::LoadLevel(LEVEL_TYPE::TITLE);
++	}
++	Update();
++}
++void CEditorLevel::Update()
++{
++	switch (m_eMode)
++	{
++	case EDITOR_MODE::TILE:
++		UpdateTile();
++		break;
++	case EDITOR_MODE::ANIMATION:
++		break;
++	case EDITOR_MODE::OBJECT:
++		break;	
++	}
++}
++
++void CEditorLevel::UpdateTile()
++{
++	if (IS_INPUT_TAB(KEY::LBTN))
++	{
++		//마우스 좌표를 실제좌표로 변환
++		Vector2 vMousePos = GETINSTANCE(CKeyManager)->GetMousePos();
++		//실제좌표로변환
++		vMousePos = GETINSTANCE(CCamera)->GetRealPos(vMousePos);
++
++		
++		//-32도 64로 나누면 0이다.
++		int x = vMousePos.x / TILE_SIZE;
++		int y = vMousePos.y / TILE_SIZE;
++		int idx = y * GetTIleXCount() + x;
++
++		if (0.f <= vMousePos.x && x < GetTIleXCount() && 0.f <= vMousePos.y && y < GetTIleYCount())
++		{
++			const std::vector<CGameObject*>& tiles = GetLayer(LAYER::TILE);		
++			idx %= tiles.size();;
++			((CTile*)tiles[idx])->AddImgIdx();		
++		}
++
++	}
++
++
++	//모달 방식으로 해도상관업슨데 일단 이렇게해보아여ㅛ
++	if (IS_INPUT_TAB(KEY::_8))
++	{
++		SaveTIle();
++	}
++	else if (IS_INPUT_TAB(KEY::_9))
++	{
++		LoadTIle();
++	}
+ 
+ }
+ 
+-void CEditorLevel::Enter()
++void CEditorLevel::UpdateAnimation()
+ {
+-	CEditorLevel::init();
++}
+ 
++void CEditorLevel::UpdateObject()
++{
+ }
+ 
+-void CEditorLevel::Exit()
++void CEditorLevel::SaveTIle()
+ {
++	wstring strFilePath = GETINSTANCE(CPathManager)->GetContentPath();
++	strFilePath += L"tile\\test.tile";
++
++	FILE* pFile = nullptr;
++	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
++
++
++
++	// 타일 가로 세로 개수저장
++	UINT iTileXCount = GetTIleXCount();
++	UINT iTileYCount = GetTIleYCount();
++
++	fwrite(&iTileXCount, sizeof(UINT), 1, pFile);
++	fwrite(&iTileYCount, sizeof(UINT), 1, pFile);
++
++	const vector<CGameObject*>& vecTile = GetLayer(LAYER::TILE);
++	//무엇을 저장해야하는지는 확정지을수가없다.
++
++	for (size_t i = 0; i < vecTile.size(); i++)
++	{
++		((CTile*)vecTile[i])->Save(pFile);
++	}
++
++	fclose(pFile);
+ }
+ 
++void CEditorLevel::LoadTIle()
++{
++	wstring strFilePath = GETINSTANCE(CPathManager)->GetContentPath();
++	strFilePath += L"tile\\test.tile";
+ 
++	FILE* pFile = nullptr;
++	_wfopen_s(&pFile, strFilePath.c_str(), L"rb");
++	const vector<CGameObject*>& vecTile = GetLayer(LAYER::TILE);
+ 
+ 
++	UINT iTileXCount = 0;
++	UINT iTileYCount = 0;
+ 
++	fread(&iTileXCount, sizeof(UINT), 1, pFile);
++	fread(&iTileYCount, sizeof(UINT), 1, pFile);
+ 
++	CreateTile(iTileXCount, iTileYCount);
+ 
++	for (size_t i = 0; i < vecTile.size(); i++)
++	{
++		((CTile*)vecTile[i])->Load(pFile);
++	}
+ 
++	fclose(pFile);
++}
+ 
+ 
++void CEditorLevel::Enter()
++{
++	//메뉴바생성
++	if (nullptr == m_hMenu)
++	{
++		m_hMenu = LoadMenu(nullptr, MAKEINTRESOURCEW(IDC_GAMEENGINE));
++	}
++
++	HWND hWnd = GETINSTANCE(CEngine)->GetMainWnd();
++	SetMenu(hWnd, m_hMenu);
++	
++	POINT ptWndScreenSize = GETINSTANCE(CEngine)->GetWndScreenSize();
++	GETINSTANCE(CEngine)->WindowReSize(ptWndScreenSize.x, ptWndScreenSize.y);
++
++
++
++	//초기 오브젝트 설정
++	init();
++}
+ 
++void CEditorLevel::Exit()
++{
++	//메뉴바뽑기
++	HWND hWnd = GETINSTANCE(CEngine)->GetMainWnd();
++	SetMenu(hWnd, nullptr);
+ 
++	POINT ptWndScreenSize = GETINSTANCE(CEngine)->GetWndScreenSize();
++	GETINSTANCE(CEngine)->WindowReSize(ptWndScreenSize.x, ptWndScreenSize.y);
++}
+ 
+ 
+ 
+ 
+ // 정보 대화 상자의 메시지 처리기입니다.
++// this prc my engine important
+ INT_PTR CALLBACK TileCount(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+ {
+-	UNREFERENCED_PARAMETER(lParam);
+ 	switch (message)
+ 	{
+ 	case WM_INITDIALOG:
+ 		return (INT_PTR)TRUE;
+ 
+ 	case WM_COMMAND:
+-		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
++		//왠만하면 OK CANCLE ID를 그대로 쓸것
++		if (LOWORD(wParam) == IDOK)
++		{
++			// Editor COntrol 에입력된숫자 받아오기.
++			// 엔터를 눌러도 OK로 맵핑이되있음
++			// ESC는 CANCLE 로맵핑되어있음
++			// 확인 취소버튼은 자체 ID로 할것 키입력으로 했을때 문제가 발생할수있다. 연동이안됨
++			int iTileXCount = GetDlgItemInt(hDlg, IDC_EDIT1, nullptr, true);
++			int iTileYCount = GetDlgItemInt(hDlg, IDC_EDIT2, nullptr, true);
++
++			//메세지박스는 이미 완성된 윈도우
++			if (iTileXCount == 0 || iTileYCount == 0)
++			{
++				MessageBox(nullptr, L"타일 개수를 지정하세요", L"타일생성오류", MB_OK);
++				return (INT_PTR)TRUE;
++			}
++
++			CLevel* pCurLevel = GETINSTANCE(CLevelManager)->GetCurLevel();
++			pCurLevel->CreateTile(iTileXCount, iTileYCount);
++
++			CTexture* pTex = GETINSTANCE(CResourceManager)->LoadTexture(L"TILE_EDIT", L"texture\\TILE.bmp");
++			const vector<CGameObject*>& vecTile = pCurLevel->GetLayer(LAYER::TILE);
++
++			for (size_t i = 0; i < vecTile.size(); i++)
++			{
++				((CTile*)vecTile[i])->SetAtlas(pTex);
++				((CTile*)vecTile[i])->SetImgIdx(0);
++			}
++
++			EndDialog(hDlg, LOWORD(wParam));
++			return (INT_PTR)TRUE;
++		}
++		else if (LOWORD(wParam) == IDCANCEL)
+ 		{
+ 			EndDialog(hDlg, LOWORD(wParam));
+ 			return (INT_PTR)TRUE;
+@@ -95,3 +274,5 @@ INT_PTR CALLBACK TileCount(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
+ 	}
+ 	return (INT_PTR)FALSE;
+ }
++
++
+diff --git a/GameEngine/CEditorLevel.h b/GameEngine/CEditorLevel.h
+index baaa84e..4ba7cc8 100644
+--- a/GameEngine/CEditorLevel.h
++++ b/GameEngine/CEditorLevel.h
+@@ -1,9 +1,32 @@
+ #pragma once
+ #include "CLevel.h"
++
++
++//에디터모드
++enum class EDITOR_MODE
++{
++    TILE,
++    ANIMATION,
++    OBJECT,
++
++    NONE
++};
++
++
+ class CEditorLevel :
+     public CLevel
+ {
+ 
++public:
++    HMENU           m_hMenu;
++    EDITOR_MODE     m_eMode;
++
++public:
++    void Update();
++    void UpdateTile();
++    void UpdateAnimation();
++    void UpdateObject();
++
+ public:
+     // CLevel을(를) 통해 상속됨
+     virtual void init() override;
+@@ -13,6 +36,9 @@ public:
+     virtual void Exit() override;
+ 
+ 
++public:
++    void SaveTIle();
++    void LoadTIle();
+ 
+ public:
+     CEditorLevel();
+diff --git a/GameEngine/CEngine.cpp b/GameEngine/CEngine.cpp
+index 3277d09..fb8cd10 100644
+--- a/GameEngine/CEngine.cpp
++++ b/GameEngine/CEngine.cpp
+@@ -7,15 +7,19 @@
+ #include "CKeyManager.h"
+ #include "CLevelManager.h"
+ #include "CCollisionManager.h"
++#include "CResourceManager.h"
+ #include "CEventManager.h"
+ #include "CCamera.h"
+ #include "CAnimEnvManager.h"
++#include "CTexture.h"
++
++//그냥 윈도우가 시키는대로하는거임
++//DeleteDC(m_pTexBuffer->GetDC());
++//DeleteObject(m_pTexBuffer->Get);
+ 
+ CEngine::CEngine()
+ 	: m_hMainWnd(nullptr)
+-	, m_hMainDC(nullptr)
+-	, m_hBufferDC(nullptr)
+-	, m_hBufferBit(nullptr)
++	, m_hMainDC(nullptr)	
+ 	, m_ptWndScreenSize{}
+ 	, m_arrpen{}
+ {
+@@ -25,11 +29,7 @@ CEngine::~CEngine()
+ {
+ 	//DC해제
+ 	//m_hDCl 아이디가 겹칠수있음 윈도우전용이기때문에!
+-	ReleaseDC(m_hMainWnd, m_hMainDC); //GetDC
+-
+-	//그냥 윈도우가 시키는대로하는거임
+-	DeleteDC(m_hBufferDC);				//CreateDC
+-	DeleteObject(m_hBufferBit);
++	ReleaseDC(m_hMainWnd, m_hMainDC);
+ 
+ 	for (size_t i = 0; i < (UINT)PEN_TYPE::END; i++)
+ 	{
+@@ -43,32 +43,14 @@ void CEngine::Init(HWND _hwnd, UINT _iWidth, UINT _iHeight)
+ 	m_ptWndScreenSize.x = _iWidth;
+ 	m_ptWndScreenSize.y = _iHeight;
+ 
+-	//Window
+-	RECT rect = { 0,0, (LONG)m_ptWndScreenSize.x, (LONG)m_ptWndScreenSize.y };
+-	SetWindowPos(m_hMainWnd, nullptr, 0, 0, m_ptWndScreenSize.x, m_ptWndScreenSize.y, 0);
+-
+-	AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false); // -> inout
+-	int sw = GetSystemMetrics(SM_CXSCREEN);
+-	int sh = GetSystemMetrics(SM_CYSCREEN);
+-	SetWindowPos(m_hMainWnd, nullptr, sw / 2 - _iWidth / 2, sh / 2 - _iHeight / 2 - 25, rect.right - rect.left, rect.bottom - rect.top, 0);
+-
+ 	//메인 DC초기화
+-	//커널오브젝트
+-	m_hMainDC = GetDC(m_hMainWnd);
+-	
+-	//m_hDC와 호환가능한 BITMAP
+-	m_hBufferBit = CreateCompatibleBitmap(m_hMainDC, m_ptWndScreenSize.x, m_ptWndScreenSize.y);
+-	//m_hDC와 호환가능한 DC
+-	m_hBufferDC = CreateCompatibleDC(m_hMainDC);
++	m_hMainDC = GetDC(m_hMainWnd);	
+ 
+-	//dc 도 만들어졌을때 기본적으로 1픽셀 짜리 비트맵을 물고있다.
+-	HBITMAP hPrebit = (HBITMAP)SelectObject(m_hBufferDC, m_hBufferBit);
+-	DeleteObject(hPrebit);
++	WindowReSize(_iWidth, _iHeight);
+ 
+ 	//Pen 초기화
+ 	CreatePenBrush();
+ 
+-
+ 	//각종 Manager 초기화
+ 	GETINSTANCE(CPathManager)->init();
+ 	GETINSTANCE(CTimeManager)->init();
+@@ -110,15 +92,15 @@ void CEngine::render()
+ 	//모니터갱신률
+ 	//윈도우에선 픽셀 덩어리를 비트맵이라고한다.
+ 	//우리가 지금까지 그림을 그리는건 윈도우가 소유하고있는 비트맵에 그림을 그린거고 우리가 그것을 보고있던것이다.
+-	Rectangle(m_hBufferDC, -1, -1, m_ptWndScreenSize.x + 1, m_ptWndScreenSize.y + 1);	
++	Rectangle(m_pTexBuffer->GetDC(), -1, -1, m_ptWndScreenSize.x + 1, m_ptWndScreenSize.y + 1);
+ 
+-	GETINSTANCE(CLevelManager)->render(m_hBufferDC);
++	GETINSTANCE(CLevelManager)->render(m_pTexBuffer->GetDC());
+ 
+ 	//Rectangle(m_hBufferDC, (int)test.x, (int)test.y, (int)test.x  + 100, (int)test.y  + 100);
+ 	
+ 	// MemBitmap -> MainWindowBitmap
+ 	// 더블버퍼링
+-	BitBlt(m_hMainDC, 0, 0, m_ptWndScreenSize.x, m_ptWndScreenSize.y, m_hBufferDC, 0, 0, SRCCOPY);
++	BitBlt(m_hMainDC, 0, 0, m_ptWndScreenSize.x, m_ptWndScreenSize.y, m_pTexBuffer->GetDC(), 0, 0, SRCCOPY);
+ 
+ 
+ 	//
+@@ -132,3 +114,38 @@ void CEngine::CreatePenBrush()
+ 	m_arrpen[(UINT)PEN_TYPE::GREEN] = CreatePen(PS_SOLID, 1, RGB(0, 255, 0));
+ 	m_arrpen[(UINT)PEN_TYPE::BLUE] = CreatePen(PS_SOLID, 1, RGB(0, 0, 255));
+ }
++
++void CEngine::WindowReSize(UINT _iWidth, UINT _iHeight)
++{
++	m_ptWndScreenSize.x = _iWidth;
++	m_ptWndScreenSize.y = _iHeight;	
++
++	RECT rt = { 0, 0, m_ptWndScreenSize.x, m_ptWndScreenSize.y };
++
++	HMENU hMenu = GetMenu(m_hMainWnd);	
++
++	if (nullptr != hMenu)
++		AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, true);
++	else
++		AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
++
++	UINT sw = GetSystemMetrics(SM_CXSCREEN);
++	UINT sh = GetSystemMetrics(SM_CYSCREEN);
++	UINT ww = rt.right - rt.left;
++	UINT wh = rt.bottom - rt.top;
++	SetWindowPos(m_hMainWnd, nullptr, sw / 2 - ww / 2, sh / 2 - wh / 2, ww, wh, 0);
++
++
++	// 백버퍼가 없으면 생성
++	if (nullptr == m_pTexBuffer)
++	{
++		// 백버퍼 용 비트맵 제작
++		m_pTexBuffer = GETINSTANCE(CResourceManager)->CreateTexture(L"BackBuffer", m_ptWndScreenSize.x, m_ptWndScreenSize.y);
++	}
++
++	// 백버퍼가 있으면, 변경된 해상도에 맞추어 크기 재조정
++	else
++	{
++		m_pTexBuffer->Resize(m_ptWndScreenSize.x, m_ptWndScreenSize.y);
++	}
++}
+\ No newline at end of file
+diff --git a/GameEngine/CEngine.h b/GameEngine/CEngine.h
+index 5313da0..3d4cb2d 100644
+--- a/GameEngine/CEngine.h
++++ b/GameEngine/CEngine.h
+@@ -1,5 +1,7 @@
+ #pragma once
+ 
++class CTexture;
++
+ class CEngine
+ {
+ 	SINGLETON(CEngine);
+@@ -7,23 +9,31 @@ class CEngine
+ private:
+ 	HWND	m_hMainWnd;
+ 	HDC		m_hMainDC;
+-	HDC		m_hBufferDC;
+-	HBITMAP m_hBufferBit;
+-
+ 	POINT	m_ptWndScreenSize;
+ 	HPEN	m_arrpen[(UINT)PEN_TYPE::END];
+ 
++
++
++	/*HDC		m_hBufferDC;
++	HBITMAP m_hBufferBit;*/
++
++	CTexture* m_pTexBuffer;
++
+ public:
+ 	HWND	GetMainWnd() { return m_hMainWnd; }
+ 	HDC		GetMainDC() { return m_hMainDC; }
+ 	HPEN	GetPen(PEN_TYPE type) { return m_arrpen[(UINT)type]; }
+-	Vector2	GetWndScreenSize() { return m_ptWndScreenSize; }
++	POINT	GetWndScreenSize() { return m_ptWndScreenSize; }
+ 
+ 	void Init(HWND _hwnd, UINT _iWidth, UINT _iheight);
+ 	void progress();
+ 	void tick(); // 갱신 update
+ 	void render(); // 그리기
+ 
++public:
++	void WindowReSize(UINT _iWidth, UINT _iHeight);
++
++
+ private:
+ 	void CreatePenBrush();
+ 
+diff --git a/GameEngine/CKeyManager.cpp b/GameEngine/CKeyManager.cpp
+index b75ebc9..6041890 100644
+--- a/GameEngine/CKeyManager.cpp
++++ b/GameEngine/CKeyManager.cpp
+@@ -24,6 +24,16 @@ int g_arrVK[(UINT)KEY::END] =
+ 	'Z',
+ 	'X',
+ 	'C',
++
++	'1',
++	'2',
++	'3',
++	'4',
++	'5',
++	'6',
++	'7',
++	'8',
++	'9',
+ };
+ 
+ CKeyManager::CKeyManager()
+diff --git a/GameEngine/CKeyManager.h b/GameEngine/CKeyManager.h
+index 5ff98b7..a967eb3 100644
+--- a/GameEngine/CKeyManager.h
++++ b/GameEngine/CKeyManager.h
+@@ -25,6 +25,15 @@ enum class KEY
+ 	Z,
+ 	X,
+ 	C,
++	_1,
++	_2,
++	_3,
++	_4,
++	_5,
++	_6,
++	_7,
++	_8,
++	_9,
+ 	END,
+ };
+ 
+diff --git a/GameEngine/CLevel.h b/GameEngine/CLevel.h
+index c4419b7..c24c121 100644
+--- a/GameEngine/CLevel.h
++++ b/GameEngine/CLevel.h
+@@ -26,8 +26,9 @@ class CLevel :
+     UINT            m_iTileYCount;
+ 
+ public:
+-    UINT GetTileXCount() { return m_iTileXCount; }
+-    UINT GetTileYCount() { return m_iTileYCount; }
++    UINT GetTIleXCount() { return m_iTileXCount; }
++    UINT GetTIleYCount() { return m_iTileYCount; }
++    
+ 
+ public:
+     //자식이만약 오버라이딩 했으면 오버라이딩 함수를호출함 안했다면 부모쪽
+@@ -50,6 +51,7 @@ public:
+     //void DeleteObject(LAYER _eLayer);
+     void CreateTile(UINT _X, UINT _Y);
+ 
++
+ public:
+     CLONE_DEACTIVATE(CLevel);
+ 
+diff --git a/GameEngine/CPlayerEvent.cpp b/GameEngine/CPlayerEvent.cpp
+index 2df9b97..c5a6e11 100644
+--- a/GameEngine/CPlayerEvent.cpp
++++ b/GameEngine/CPlayerEvent.cpp
+@@ -20,6 +20,7 @@ void CPlayer::EventAttack1(void)
+ 	PlaySoundA((LPCSTR)path.c_str(), NULL, SND_FILENAME | SND_ASYNC);
+ 	this->attackCount = 1;
+ 	isAtkkAvailable = false;
++	free(buff);
+ 	//isMoveReay = false;
+ 	//PlaySoundA((LPCSTR)"C:\\Users\\tkdlq\\Desktop\\Sounds\\hu", NULL, SND_FILENAME | SND_ASYNC);
+ }
+@@ -27,7 +28,7 @@ void CPlayer::EventAttack1(void)
+ void CPlayer::EventAttack2(void)
+ {
+ 	std::wstring str = GETINSTANCE(CPathManager)->GetContentPath();
+-	char* buff = new char[255];
++	char* buff = new char[256];
+ 	sprintf_s(buff, 255, "%ls", str.c_str());
+ 	std::string path = buff;
+ 	path += "\\Sounds\\saver";
+@@ -35,6 +36,7 @@ void CPlayer::EventAttack2(void)
+ 	PlaySoundA((LPCSTR)path.c_str(), NULL, SND_FILENAME | SND_ASYNC);
+ 	this->attackCount = 2;
+ 	isAtkkAvailable = false;
++	free(buff);
+ 	//isMoveReay = false;
+ 	//PlaySoundA((LPCSTR)"C:\\Users\\tkdlq\\Desktop\\Sounds\\ha", NULL, SND_FILENAME | SND_ASYNC);
+ }
+@@ -50,6 +52,7 @@ void CPlayer::EventAttack3(void)
+ 	PlaySoundA((LPCSTR)path.c_str(), NULL, SND_FILENAME | SND_ASYNC);
+ 	this->attackCount = 0;
+ 	isAtkkAvailable = false;
++	free(buff);
+ 	//isMoveReay = false;
+ 	//PlaySoundA((LPCSTR)"C:\\Users\\tkdlq\\Desktop\\Sounds\\huo", NULL, SND_FILENAME | SND_ASYNC);
+ }
+@@ -65,6 +68,7 @@ void CPlayer::EventSCABBARD(void)
+ 	EventAtkkAvailable();
+ 	attackCount = 0;
+ 	GetAnimator()->Play(L"SCABBARD", false);
++	free(buff);
+ }
+ 
+ void CPlayer::EventWalkReady(void)
+@@ -100,6 +104,7 @@ void CPlayer::EventStartVim(void)
+ 	path += "\\Sounds\\startvim";
+ 
+ 	PlaySoundA((LPCSTR)path.c_str(), NULL, SND_FILENAME | SND_ASYNC);
++	free(buff);
+ }
+ 
+ void CPlayer::EventReturnHome(void)
+@@ -111,6 +116,7 @@ void CPlayer::EventReturnHome(void)
+ 	path += "\\Sounds\\Finish_form";
+ 
+ 	PlaySoundA((LPCSTR)path.c_str(), NULL, SND_FILENAME | SND_ASYNC);
++	free(buff);
+ }
+ 
+ 
+diff --git a/GameEngine/CResource.cpp b/GameEngine/CResource.cpp
+index 5d6847f..c63a90e 100644
+--- a/GameEngine/CResource.cpp
++++ b/GameEngine/CResource.cpp
+@@ -8,3 +8,4 @@ CResource::CResource()
+ CResource::~CResource()
+ {
+ }
++
+diff --git a/GameEngine/CResource.h b/GameEngine/CResource.h
+index ddae69e..9f0b2fb 100644
+--- a/GameEngine/CResource.h
++++ b/GameEngine/CResource.h
+@@ -14,6 +14,7 @@ public:
+ private:
+     void SetKey(const wstring& _strKey) { m_strKey = _strKey; }
+     void SetRelativePath(const wstring& _strRelativePath) { m_strRelativePath = _strRelativePath; }
++    
+ 
+ protected:
+     virtual int Load(const wstring& _strFilePath) = 0;
+diff --git a/GameEngine/CTexture.cpp b/GameEngine/CTexture.cpp
+index 7dd3ba5..fc4c853 100644
+--- a/GameEngine/CTexture.cpp
++++ b/GameEngine/CTexture.cpp
+@@ -16,6 +16,7 @@ CTexture::~CTexture()
+ }
+ 
+ 
++
+ int CTexture::Load(const wstring& _strFilePath)
+ {
+     // Bitmap 로딩
+@@ -44,25 +45,24 @@ void CTexture::Create(UINT _iWidth, UINT _iHeight)
+     GetObject(m_hBit, sizeof(BITMAP), &m_tBitmapInfo);
+ }
+ 
+-//void CTexture::Resize(UINT _iWidth, UINT _iHeight)
+-//{
+-//    // 새로운 비트맵과 새로운 DC 를 생성
+-//    HBITMAP hNewBit = CreateCompatibleBitmap(CEngine::GetInst()->GetMainDC(), _iWidth, _iHeight);
+-//    HDC hNewDC = CreateCompatibleDC(CEngine::GetInst()->GetMainDC());
+-//    HBITMAP hPrevBit = (HBITMAP)SelectObject(hNewDC, hNewBit);
+-//    DeleteObject(hPrevBit);
+-//
+-//    // 기존에 있던 그림을 새로운 곳으로 복사
+-//    BitBlt(hNewDC, 0, 0, m_tBitmapInfo.bmWidth, m_tBitmapInfo.bmHeight, m_hDC, 0, 0, SRCCOPY);
+-//
+-//    // 기존 비트맵, DC 를 삭제
+-//    DeleteObject(m_hBit);
+-//    DeleteDC(m_hDC);
+-//
+-//    // 새로운 비트맵으로 아이디 대체
+-//    m_hBit = hNewBit;
+-//    m_hDC = hNewDC;
+-//
+-//    // 비트맵 정보 갱신
+-//    GetObject(m_hBit, sizeof(BITMAP), &m_tBitmapInfo);
+-//}
+\ No newline at end of file
++
++void CTexture::Resize(UINT _iWidth, UINT _iHeight)
++{
++    // 새로운비트맵 DC를 생성
++    HBITMAP hNewBit = CreateCompatibleBitmap(GETINSTANCE(CEngine)->GetMainDC(), _iWidth, _iHeight);   
++    HDC hNewDC = CreateCompatibleDC(GETINSTANCE(CEngine)->GetMainDC());
++
++    HBITMAP hPrevBit = (HBITMAP)SelectObject(hNewDC, hNewBit);
++    DeleteObject(hPrevBit);
++
++    BitBlt(hNewDC, 0, 0, m_tBitmapInfo.bmWidth, m_tBitmapInfo.bmHeight, m_hDC, 0, 0, SRCCOPY);
++
++    //기존비트맵DC삭제
++    DeleteObject(m_hBit);
++    DeleteDC(m_hDC);
++
++    //갱신
++    m_hBit = hNewBit;
++    m_hDC = hNewDC;
++    GetObject(m_hBit, sizeof(BITMAP), &m_tBitmapInfo);
++}
+\ No newline at end of file
+diff --git a/GameEngine/CTexture.h b/GameEngine/CTexture.h
+index 4fdd8da..c86bc90 100644
+--- a/GameEngine/CTexture.h
++++ b/GameEngine/CTexture.h
+@@ -14,7 +14,7 @@ public:
+     UINT Height() { return m_tBitmapInfo.bmHeight; }
+     HDC GetDC() { return m_hDC; }
+ 
+-    //void Resize(UINT _iWidth, UINT _iHeight);
++    void Resize(UINT _iWidth, UINT _iHeight);
+ 
+ private:
+     virtual int Load(const wstring& _strFilePath) override;
+diff --git a/GameEngine/CTile.cpp b/GameEngine/CTile.cpp
+index efa4ff4..e4def0f 100644
+--- a/GameEngine/CTile.cpp
++++ b/GameEngine/CTile.cpp
+@@ -2,6 +2,7 @@
+ #include "CTile.h"
+ #include "CCamera.h"
+ #include "CTexture.h"
++#include "CResourceManager.h"
+ 
+ CTile::CTile()
+ 	:m_pAtlas(nullptr)
+@@ -70,13 +71,57 @@ void CTile::render(HDC _dc)
+ 
+ void CTile::AddImgIdx()
+ {
++	assert(m_pAtlas);
++	int xSize = m_pAtlas->Width() / TILE_SIZE;
++	int ySIze = m_pAtlas->Height() / TILE_SIZE;
++	int iImgMaxCount = xSize * ySIze;
++	++m_iImgIdx;
++	m_iImgIdx %= iImgMaxCount;	
+ }
+ 
+ void CTile::Save(FILE* _pFile)
+ {
++	//위치저장
++	Vector2 vPos = GetPos();
++	fwrite(&vPos, sizeof(Vector2), 1, _pFile);
++	//아틀라스 이미지 정보 주소값이있었으면 1 아니면 0
++	bool bAtlas = m_pAtlas;
++	fwrite(&bAtlas, sizeof(bool), 1, _pFile);
++
++	if (bAtlas)
++	{
++		//키값 저장
++		wstring strKey = m_pAtlas->GetKey();
++		SaveWString(strKey, _pFile);
++
++		//상대경로
++		wstring strRelativePath = m_pAtlas->GetRelativePath();
++		SaveWString(strRelativePath, _pFile);	
++	}
++
++	fwrite(&m_iImgIdx, sizeof(int), 1, _pFile);
++	//이미지 인덱스정보 어느부위를 그리려고했는지
+ }
+ 
+ void CTile::Load(FILE* _pFile)
+ {
++	Vector2 vPos;
++	fread(&vPos, sizeof(Vector2), 1, _pFile);
++	SetPos(vPos);
++
++	bool bAtlas = m_pAtlas;
++	fread(&bAtlas, sizeof(bool), 1, _pFile);
++
++	if (bAtlas)
++	{
++		//키값 저장
++		wstring strKey;
++		wstring strRelativePath;		
++		LoadWString(strKey, _pFile);
++		LoadWString(strRelativePath, _pFile);
++		this->m_pAtlas = GETINSTANCE(CResourceManager)->LoadTexture(strKey, strRelativePath);
++	}
++	
++	fread(&m_iImgIdx, sizeof(int), 1, _pFile);
+ }
+ 
+diff --git a/GameEngine/CTile.h b/GameEngine/CTile.h
+index 3d06c0f..c041271 100644
+--- a/GameEngine/CTile.h
++++ b/GameEngine/CTile.h
+@@ -21,6 +21,7 @@ public:
+     void AddImgIdx();
+ 
+ 
++    //어떤기능일지 알수가없기때문에 세이브 로드를 여기서구현한다.
+ public:
+     void Save(FILE* _pFile);
+     void Load(FILE* _pFile);
+diff --git a/GameEngine/CTitleLevel.cpp b/GameEngine/CTitleLevel.cpp
+index 528cdeb..d904f13 100644
+--- a/GameEngine/CTitleLevel.cpp
++++ b/GameEngine/CTitleLevel.cpp
+@@ -80,9 +80,9 @@ void CTitleLevel::tick()
+ 		//CCamera::GetInst()->FadeIn(1.f);	
+ 		//CCamera::GetInst()->CameraShake(15.f, 600.f, 0.3f);
+ 
+-
+ 		//ChangeLevel(LEVEL_TYPE::STAGE_01);
+-		CLevelManager::LoadLevel(LEVEL_TYPE::START);
++
++		CLevelManager::LoadLevel(LEVEL_TYPE::EDITOR);
+ 	}
+ 
+ 	if (IS_INPUT_TAB(KEY::RBTN))
+diff --git a/GameEngine/GameEngine.vcxproj b/GameEngine/GameEngine.vcxproj
+index af9347d..90993b2 100644
+--- a/GameEngine/GameEngine.vcxproj
++++ b/GameEngine/GameEngine.vcxproj
+@@ -214,6 +214,7 @@
+     <ClCompile Include="CTile.cpp" />
+     <ClCompile Include="CTimeManager.cpp" />
+     <ClCompile Include="CTitleLevel.cpp" />
++    <ClCompile Include="function.cpp" />
+     <ClCompile Include="main.cpp" />
+     <ClCompile Include="pch.cpp">
+       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+diff --git a/GameEngine/GameEngine.vcxproj.filters b/GameEngine/GameEngine.vcxproj.filters
+index 185a6de..b79aa6f 100644
+--- a/GameEngine/GameEngine.vcxproj.filters
++++ b/GameEngine/GameEngine.vcxproj.filters
+@@ -335,5 +335,8 @@
+     <ClCompile Include="CTest.cpp">
+       <Filter>Game\Test</Filter>
+     </ClCompile>
++    <ClCompile Include="function.cpp">
++      <Filter>Engine\00. Header</Filter>
++    </ClCompile>
+   </ItemGroup>
+ </Project>
+\ No newline at end of file
+diff --git a/GameEngine/define.h b/GameEngine/define.h
+index a555959..6c22a53 100644
+--- a/GameEngine/define.h
++++ b/GameEngine/define.h
+@@ -25,13 +25,13 @@
+ //#define windowSizeY 460
+ 
+ 
+-//#define EDITOR_MODE
++#define _EDITOR_MODE
+ 
+ 
+ #define LEVEL_EDITOR 1
+ #define LEVEL_GAME   2
+ 
+-#ifdef  EDITOR_MODE
++#ifdef  _EDITOR_MODE
+ #define LEVEL_MODE LEVEL_EDITOR
+ #define windowSizeX 1280
+ #define windowSizeY 720
+diff --git a/GameEngine/function.h b/GameEngine/function.h
+index e69de29..8120530 100644
+--- a/GameEngine/function.h
++++ b/GameEngine/function.h
+@@ -0,0 +1,4 @@
++#pragma once
++
++void SaveWString(const wstring& _str, FILE* _pFile);
++void LoadWString(wstring& _str, FILE* _pFile);
+\ No newline at end of file
+diff --git a/GameEngine/main.cpp b/GameEngine/main.cpp
+index b1aafb9..4b6c86a 100644
+--- a/GameEngine/main.cpp
++++ b/GameEngine/main.cpp
+@@ -28,7 +28,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
+                      _In_ int       nCmdShow)
+ {
+     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+-    //_CrtSetBreakAlloc(299);
++    //_CrtSetBreakAlloc(699);
+     UNREFERENCED_PARAMETER(hPrevInstance);
+     UNREFERENCED_PARAMETER(lpCmdLine);
+ 
+@@ -96,7 +96,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
+     wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_GAMEENGINE));
+     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
+     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
+-    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_GAMEENGINE);
++    wcex.lpszMenuName = nullptr;//MAKEINTRESOURCEW(IDC_GAMEENGINE);
+     wcex.lpszClassName  = szWindowClass; 
+     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
+ 
+diff --git a/GameEngine/pch.h b/GameEngine/pch.h
+index 9acd0b1..f772443 100644
+--- a/GameEngine/pch.h
++++ b/GameEngine/pch.h
+@@ -16,10 +16,6 @@
+ #include <string>
+ #include <assert.h>
+ 
+-#include "define.h"
+-#include "struct.h"
+-#include "function.h"
+-
+ using std::vector;
+ using std::list;
+ using std::map;
+@@ -27,6 +23,10 @@ using std::make_pair;
+ using std::string;
+ using std::wstring;
+ 
++#include "function.h"
++#include "define.h"
++#include "struct.h"
++
+ 
+ //미리컴파일된 헤더는 상대적으로 컴파일속도가 빨라진다. 강제적으로 모든곳에서 알게할수있다.
+ 

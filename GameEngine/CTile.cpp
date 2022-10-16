@@ -2,6 +2,7 @@
 #include "CTile.h"
 #include "CCamera.h"
 #include "CTexture.h"
+#include "CResourceManager.h"
 
 CTile::CTile()
 	:m_pAtlas(nullptr)
@@ -70,13 +71,57 @@ void CTile::render(HDC _dc)
 
 void CTile::AddImgIdx()
 {
+	assert(m_pAtlas);
+	int xSize = m_pAtlas->Width() / TILE_SIZE;
+	int ySIze = m_pAtlas->Height() / TILE_SIZE;
+	int iImgMaxCount = xSize * ySIze;
+	++m_iImgIdx;
+	m_iImgIdx %= iImgMaxCount;	
 }
 
 void CTile::Save(FILE* _pFile)
 {
+	//위치저장
+	Vector2 vPos = GetPos();
+	fwrite(&vPos, sizeof(Vector2), 1, _pFile);
+	//아틀라스 이미지 정보 주소값이있었으면 1 아니면 0
+	bool bAtlas = m_pAtlas;
+	fwrite(&bAtlas, sizeof(bool), 1, _pFile);
+
+	if (bAtlas)
+	{
+		//키값 저장
+		wstring strKey = m_pAtlas->GetKey();
+		SaveWString(strKey, _pFile);
+
+		//상대경로
+		wstring strRelativePath = m_pAtlas->GetRelativePath();
+		SaveWString(strRelativePath, _pFile);	
+	}
+
+	fwrite(&m_iImgIdx, sizeof(int), 1, _pFile);
+	//이미지 인덱스정보 어느부위를 그리려고했는지
 }
 
 void CTile::Load(FILE* _pFile)
 {
+	Vector2 vPos;
+	fread(&vPos, sizeof(Vector2), 1, _pFile);
+	SetPos(vPos);
+
+	bool bAtlas = m_pAtlas;
+	fread(&bAtlas, sizeof(bool), 1, _pFile);
+
+	if (bAtlas)
+	{
+		//키값 저장
+		wstring strKey;
+		wstring strRelativePath;		
+		LoadWString(strKey, _pFile);
+		LoadWString(strRelativePath, _pFile);
+		this->m_pAtlas = GETINSTANCE(CResourceManager)->LoadTexture(strKey, strRelativePath);
+	}
+	
+	fread(&m_iImgIdx, sizeof(int), 1, _pFile);
 }
 

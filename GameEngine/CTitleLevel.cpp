@@ -80,9 +80,9 @@ void CTitleLevel::tick()
 		//CCamera::GetInst()->FadeIn(1.f);	
 		//CCamera::GetInst()->CameraShake(15.f, 600.f, 0.3f);
 
-
 		//ChangeLevel(LEVEL_TYPE::STAGE_01);
-		CLevelManager::LoadLevel(LEVEL_TYPE::START);
+
+		CLevelManager::LoadLevel(LEVEL_TYPE::EDITOR);
 	}
 
 	if (IS_INPUT_TAB(KEY::RBTN))

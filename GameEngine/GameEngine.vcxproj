@@ -214,6 +214,7 @@
     <ClCompile Include="CTile.cpp" />
     <ClCompile Include="CTimeManager.cpp" />
     <ClCompile Include="CTitleLevel.cpp" />
+    <ClCompile Include="function.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>

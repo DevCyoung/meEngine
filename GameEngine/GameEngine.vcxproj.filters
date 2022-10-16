@@ -335,5 +335,8 @@
     <ClCompile Include="CTest.cpp">
       <Filter>Game\Test</Filter>
     </ClCompile>
+    <ClCompile Include="function.cpp">
+      <Filter>Engine\00. Header</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

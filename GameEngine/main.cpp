@@ -28,7 +28,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ int       nCmdShow)
 {
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-    //_CrtSetBreakAlloc(299);
+    //_CrtSetBreakAlloc(699);
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
@@ -96,7 +96,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_GAMEENGINE));
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_GAMEENGINE);
+    wcex.lpszMenuName = nullptr;//MAKEINTRESOURCEW(IDC_GAMEENGINE);
     wcex.lpszClassName  = szWindowClass; 
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 

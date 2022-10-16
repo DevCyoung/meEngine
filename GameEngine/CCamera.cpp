@@ -42,8 +42,8 @@ void CCamera::tick()
 		m_vLook.x += 300.f * DELTATIME;
 	}
 
-	Vector2	vScreenSize = GETINSTANCE(CEngine)->GetWndScreenSize();
-	m_vDiff = m_vLook - (vScreenSize / 2.f);
+	Vector2	WndScreenSize = GETINSTANCE(CEngine)->GetWndScreenSize();
+	m_vDiff = m_vLook - (WndScreenSize / 2.f);
 	m_vDiff;
 }
 

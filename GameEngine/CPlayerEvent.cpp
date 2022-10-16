@@ -20,6 +20,7 @@ void CPlayer::EventAttack1(void)
 	PlaySoundA((LPCSTR)path.c_str(), NULL, SND_FILENAME | SND_ASYNC);
 	this->attackCount = 1;
 	isAtkkAvailable = false;
+	free(buff);
 	//isMoveReay = false;
 	//PlaySoundA((LPCSTR)"C:\\Users\\tkdlq\\Desktop\\Sounds\\hu", NULL, SND_FILENAME | SND_ASYNC);
 }
@@ -27,7 +28,7 @@ void CPlayer::EventAttack1(void)
 void CPlayer::EventAttack2(void)
 {
 	std::wstring str = GETINSTANCE(CPathManager)->GetContentPath();
-	char* buff = new char[255];
+	char* buff = new char[256];
 	sprintf_s(buff, 255, "%ls", str.c_str());
 	std::string path = buff;
 	path += "\\Sounds\\saver";
@@ -35,6 +36,7 @@ void CPlayer::EventAttack2(void)
 	PlaySoundA((LPCSTR)path.c_str(), NULL, SND_FILENAME | SND_ASYNC);
 	this->attackCount = 2;
 	isAtkkAvailable = false;
+	free(buff);
 	//isMoveReay = false;
 	//PlaySoundA((LPCSTR)"C:\\Users\\tkdlq\\Desktop\\Sounds\\ha", NULL, SND_FILENAME | SND_ASYNC);
 }
@@ -50,6 +52,7 @@ void CPlayer::EventAttack3(void)
 	PlaySoundA((LPCSTR)path.c_str(), NULL, SND_FILENAME | SND_ASYNC);
 	this->attackCount = 0;
 	isAtkkAvailable = false;
+	free(buff);
 	//isMoveReay = false;
 	//PlaySoundA((LPCSTR)"C:\\Users\\tkdlq\\Desktop\\Sounds\\huo", NULL, SND_FILENAME | SND_ASYNC);
 }
@@ -65,6 +68,7 @@ void CPlayer::EventSCABBARD(void)
 	EventAtkkAvailable();
 	attackCount = 0;
 	GetAnimator()->Play(L"SCABBARD", false);
+	free(buff);
 }
 
 void CPlayer::EventWalkReady(void)
@@ -100,6 +104,7 @@ void CPlayer::EventStartVim(void)
 	path += "\\Sounds\\startvim";
 
 	PlaySoundA((LPCSTR)path.c_str(), NULL, SND_FILENAME | SND_ASYNC);
+	free(buff);
 }
 
 void CPlayer::EventReturnHome(void)
@@ -111,6 +116,7 @@ void CPlayer::EventReturnHome(void)
 	path += "\\Sounds\\Finish_form";
 
 	PlaySoundA((LPCSTR)path.c_str(), NULL, SND_FILENAME | SND_ASYNC);
+	free(buff);
 }
 
 

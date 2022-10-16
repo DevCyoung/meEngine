@@ -21,6 +21,7 @@ public:
     void AddImgIdx();
 
 
+    //어떤기능일지 알수가없기때문에 세이브 로드를 여기서구현한다.
 public:
     void Save(FILE* _pFile);
     void Load(FILE* _pFile);

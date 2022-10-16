@@ -14,7 +14,7 @@ public:
     UINT Height() { return m_tBitmapInfo.bmHeight; }
     HDC GetDC() { return m_hDC; }
 
-    //void Resize(UINT _iWidth, UINT _iHeight);
+    void Resize(UINT _iWidth, UINT _iHeight);
 
 private:
     virtual int Load(const wstring& _strFilePath) override;

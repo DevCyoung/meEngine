@@ -8,3 +8,4 @@ CResource::CResource()
 CResource::~CResource()
 {
 }
+

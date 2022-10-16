@@ -14,6 +14,7 @@ public:
 private:
     void SetKey(const wstring& _strKey) { m_strKey = _strKey; }
     void SetRelativePath(const wstring& _strRelativePath) { m_strRelativePath = _strRelativePath; }
+    
 
 protected:
     virtual int Load(const wstring& _strFilePath) = 0;

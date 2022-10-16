@@ -16,16 +16,16 @@
 #include <string>
 #include <assert.h>
 
-#include "define.h"
-#include "struct.h"
-#include "function.h"
-
 using std::vector;
 using std::list;
 using std::map;
 using std::make_pair;
 using std::string;
 using std::wstring;
+
+#include "function.h"
+#include "define.h"
+#include "struct.h"
 
 
 //미리컴파일된 헤더는 상대적으로 컴파일속도가 빨라진다. 강제적으로 모든곳에서 알게할수있다.

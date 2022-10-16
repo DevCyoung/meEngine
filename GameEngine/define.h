@@ -25,13 +25,13 @@
 //#define windowSizeY 460
 
 
-//#define EDITOR_MODE
+#define _EDITOR_MODE
 
 
 #define LEVEL_EDITOR 1
 #define LEVEL_GAME   2
 
-#ifdef  EDITOR_MODE
+#ifdef  _EDITOR_MODE
 #define LEVEL_MODE LEVEL_EDITOR
 #define windowSizeX 1280
 #define windowSizeY 720

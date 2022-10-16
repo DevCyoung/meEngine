@@ -26,8 +26,9 @@ class CLevel :
     UINT            m_iTileYCount;
 
 public:
-    UINT GetTileXCount() { return m_iTileXCount; }
-    UINT GetTileYCount() { return m_iTileYCount; }
+    UINT GetTIleXCount() { return m_iTileXCount; }
+    UINT GetTIleYCount() { return m_iTileYCount; }
+    
 
 public:
     //자식이만약 오버라이딩 했으면 오버라이딩 함수를호출함 안했다면 부모쪽
@@ -49,6 +50,7 @@ public:
 
     //void DeleteObject(LAYER _eLayer);
     void CreateTile(UINT _X, UINT _Y);
+
 
 public:
     CLONE_DEACTIVATE(CLevel);
