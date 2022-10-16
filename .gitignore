@@ -1,6 +1,6 @@
 GameEngine/Debug
 GameEngine/x64
-.vs/
+.vs
 *.obj
 *.vxproj
 *.user
