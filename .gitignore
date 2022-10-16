@@ -2,7 +2,7 @@ GameEngine/Debug
 GameEngine/x64
 .vs
 *.obj
-*.vxproj
 *.user
 *.exe
 *.pdb
+*.aps
