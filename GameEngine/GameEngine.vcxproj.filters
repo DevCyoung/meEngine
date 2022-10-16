@@ -110,6 +110,9 @@
     <Filter Include="Engine\03. GameObject\Tile">
       <UniqueIdentifier>{c5f9c97f-8385-43bb-b4c5-5626304b9bd5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Test">
+      <UniqueIdentifier>{1a0163f5-7158-4ec3-b329-5f09bab258a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -220,6 +223,9 @@
     <ClInclude Include="CAnimEnvManager.h">
       <Filter>Engine\02. Manager\05. Event\AnimEventManager</Filter>
     </ClInclude>
+    <ClInclude Include="CTest.h">
+      <Filter>Game\Test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameEngine.rc">
@@ -325,6 +331,9 @@
     </ClCompile>
     <ClCompile Include="CPlayerEvent.cpp">
       <Filter>Game\GameObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CTest.cpp">
+      <Filter>Game\Test</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

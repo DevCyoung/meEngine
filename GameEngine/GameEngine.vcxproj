@@ -169,6 +169,7 @@
     <ClInclude Include="CResourceManager.h" />
     <ClInclude Include="CRigidbody.h" />
     <ClInclude Include="CStartLevel.h" />
+    <ClInclude Include="CTest.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CTile.h" />
     <ClInclude Include="CTimeManager.h" />
@@ -208,6 +209,7 @@
     <ClCompile Include="CResourceManager.cpp" />
     <ClCompile Include="CRigidbody.cpp" />
     <ClCompile Include="CStartLevel.cpp" />
+    <ClCompile Include="CTest.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CTile.cpp" />
     <ClCompile Include="CTimeManager.cpp" />
