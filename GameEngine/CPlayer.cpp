@@ -113,6 +113,7 @@ CPlayer::CPlayer()
 		
 
 	//GetAnimator()->Play(L"ATTACK", false);
+	// 
 	//GetAnimator()->Play(L"IDLE", true);
 	GetAnimator()->Play(L"START_VIM", false);
 	//Áö¿ö¾ß¤¿¤¾¤±
