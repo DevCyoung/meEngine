@@ -33,7 +33,11 @@ void CLevelManager::init()
 	
 
 	//m_pCurLevel->init();
-	this->LoadLevelEvent(LEVEL_TYPE::EDITOR);
+	
+	if (LEVEL_MODE == LEVEL_EDITOR)
+		this->LoadLevelEvent(LEVEL_TYPE::EDITOR);
+	else if(LEVEL_MODE == LEVEL_GAME)
+		this->LoadLevelEvent(LEVEL_TYPE::TITLE);
 
 }
 
