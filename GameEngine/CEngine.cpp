@@ -48,7 +48,9 @@ void CEngine::Init(HWND _hwnd, UINT _iWidth, UINT _iHeight)
 	SetWindowPos(m_hMainWnd, nullptr, 0, 0, m_ptWndScreenSize.x, m_ptWndScreenSize.y, 0);
 
 	AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false); // -> inout
-	SetWindowPos(m_hMainWnd, nullptr, 1920 / 2 - _iWidth / 2, 1080 / 2 - _iHeight / 2 - 100, rect.right - rect.left, rect.bottom - rect.top, 0);
+	int sw = GetSystemMetrics(SM_CXSCREEN);
+	int sh = GetSystemMetrics(SM_CYSCREEN);
+	SetWindowPos(m_hMainWnd, nullptr, sw / 2 - _iWidth / 2, sh / 2 - _iHeight / 2 - 25, rect.right - rect.left, rect.bottom - rect.top, 0);
 
 	//메인 DC초기화
 	//커널오브젝트
