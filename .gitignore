@@ -4,3 +4,5 @@ GameEngine/x64
 *.obj
 *.vxproj
 *.user
+*.exe
+*.pdb
