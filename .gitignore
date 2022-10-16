@@ -1,4 +1,6 @@
-#*.exe
-#*.pdb
 GameEngine/Debug
 GameEngine/x64
+.vs/
+*.obj
+*.vxproj
+*.user
