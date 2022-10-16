@@ -2,7 +2,7 @@
 class CTest
 {
 public:
-	void Test() { int a = 0; };
+	void Test() { int a = 100; };
 };
 
 	
