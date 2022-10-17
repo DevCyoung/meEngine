@@ -93,7 +93,7 @@ CUI* CUIManager::GetPriorityUI(CUI* _pParentUI)
 			// 기존 UI 의 LBTNDown 상태를 갱신한다.
 			if (bLbtnReleased && nullptr != pPriorityUI && pPriorityUI->IsLbtnDown())
 			{
-				pUI->m_bLbtnDown = false;
+				pPriorityUI->m_bLbtnDown = false;
 			}
 
 			// 우선순위 UI 로 지정

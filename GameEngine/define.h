@@ -25,7 +25,7 @@
 //#define windowSizeY 460
 
 
-#define _EDITOR_MODE
+//#define _EDITOR_MODE
 
 
 #define LEVEL_EDITOR 1
@@ -34,11 +34,11 @@
 #ifdef  _EDITOR_MODE
 #define LEVEL_MODE LEVEL_EDITOR
 #define windowSizeX 1280
-#define windowSizeY 720
+#define windowSizeY 1000
 #else
 #define LEVEL_MODE LEVEL_GAME
-#define windowSizeX 720
-#define windowSizeY 460
+#define windowSizeX 960
+#define windowSizeY 720
 #endif
 
 class CEntity;

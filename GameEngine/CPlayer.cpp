@@ -30,10 +30,10 @@ CPlayer::CPlayer()
 	this->GetCollider()->SetScale(Vector2(50.f, 50.f));
 
 	this->CreateRigidbody();
-	this->GetRigidbody()->SetGravity(false);
-	this->GetRigidbody()->SetGravityAccel(310.f);
-	this->GetRigidbody()->SetVelocityLimit(200.f);
-	this->GetRigidbody()->SetGravityVelocityLimit(300.f);
+	this->GetRigidbody()->SetGravity(true);
+	this->GetRigidbody()->SetGravityAccel(1600.f);
+	this->GetRigidbody()->SetVelocityLimit(300.f);
+	this->GetRigidbody()->SetGravityVelocityLimit(330.f);
 
 
 	this->CreateAnimator();
@@ -219,6 +219,7 @@ void CPlayer::tick()
 		GetAnimator()->Play(L"IDLE", true);
 	}
 
+		//GETINSTANCE(CCamera)->SetLook(GetPos());
 	if (IS_INPUT_PRESSED(KEY::LEFT) && canWalk)
 	{
 		this->SetFilpX(false);
@@ -233,6 +234,7 @@ void CPlayer::tick()
 		Vector2 pos = this->GetPos();
 		pos.x += 300 * DELTATIME;
 		this->SetPos(pos);
+		//GETINSTANCE(CCamera)->SetLook(GetPos());
 		//GetAnimator()->Play(L"WALK_READY", false);
 	}
 	if (IS_INPUT_PRESSED(KEY::UP) && canWalk)
@@ -275,15 +277,15 @@ void CPlayer::tick()
 		GetAnimator()->Play(L"RETURN_HOME", false);
 	}
 
-	if (IS_INPUT_TAB(KEY::X))
+	if (IS_INPUT_PRESSED(KEY::X))
 	{		
 		GetRigidbody()->SetVelocity(Vector2(0, -400.f));		
 	}
 	else
 	{
-		Vector2 pos = this->GetPos();
+		/*Vector2 pos = this->GetPos();
 		pos.y += 300 * DELTATIME;
-		this->SetPos(pos);
+		this->SetPos(pos);*/
 	}
 
 	/*if (IS_INPUT_PRESSED(KEY::LEFT))

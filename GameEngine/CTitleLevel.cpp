@@ -26,7 +26,7 @@ void CTitleLevel::init()
 
 	CGameObject* platform = new CPlatform();
 	platform->SetPos(Vector2(500.f, 250.f));
-	platform->SetScale(Vector2(800.f, 100.f));
+	platform->SetScale(Vector2(10.f, 100.f));
 	this->AddObject(platform, LAYER::PLATFORM);
 
 
@@ -42,9 +42,9 @@ void CTitleLevel::init()
 
 
 
-	GETINSTANCE(CCamera)->SetLook(Vector2(-2368.38f, -1436.f));
+	/*GETINSTANCE(CCamera)->SetLook(Vector2(-2368.38f, -1436.f));
 	player->SetPos(Vector2(-2575.16f, -1300.53f));
-	platform->SetPos(Vector2(-2575.16f, -1225.53f));
+	platform->SetPos(Vector2(-2575.16f, -1225.53f));*/
 
 
 	/*CGameObject* monster = new CMonster();

@@ -11,13 +11,16 @@
 
 
 CTexture* m_pTexuture;
+CTexture* m_pWalk;
 
 CMonster::CMonster()
 {
 	this->CreateCollider();
 	this->GetCollider()->SetOffsetPos(Vector2(0.f, 0.f));
 	this->GetCollider()->SetScale(Vector2(50.f, 50.f));
-	m_pTexuture = GETINSTANCE(CResourceManager)->LoadTexture(L"Player", L"texture\\ppap.bmp");
+
+	m_pTexuture = GETINSTANCE(CResourceManager)->LoadTexture(L"Player", L"texture\\ppap.bmp");	
+	m_pWalk = GETINSTANCE(CResourceManager)->LoadTexture(L"WPlayer", L"texture\\walk.bmp");
 }
 
 CMonster::~CMonster()
@@ -75,6 +78,21 @@ void CMonster::render(HDC _dc)
 		0,
 		m_pTexuture->Width(),
 		m_pTexuture->Height(),
+		tBlend
+	);
+
+	AlphaBlend
+	(
+		_dc,
+		pos.x - m_pWalk->Width() / 2,
+		pos.y - m_pWalk->Height() / 2,
+		m_pWalk->Width(),
+		m_pWalk->Height(),
+		m_pWalk->GetDC(),
+		0,
+		0,
+		m_pWalk->Width(),
+		m_pWalk->Height(),
 		tBlend
 	);
 
