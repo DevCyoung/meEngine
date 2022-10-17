@@ -1,0 +1,321 @@
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   GameEngine/CEditorLevel.cpp
+	modified:   GameEngine/CEditorLevel_init.cpp
+	modified:   GameEngine/CLevel.cpp
+	modified:   GameEngine/CLevel.h
+	modified:   GameEngine/CPanelUI.cpp
+	modified:   GameEngine/CPanelUI.h
+	modified:   GameEngine/CUI.cpp
+	modified:   GameEngine/CUI.h
+	modified:   GameEngine/CUIManager.cpp
+	modified:   GameEngine/CUIManager.h
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	panelfocus.diff
+
+no changes added to commit (use "git add" and/or "git commit -a")
+diff --git a/GameEngine/CEditorLevel.cpp b/GameEngine/CEditorLevel.cpp
+index 1c89cef..fcb67ee 100644
+--- a/GameEngine/CEditorLevel.cpp
++++ b/GameEngine/CEditorLevel.cpp
+@@ -255,6 +255,7 @@ void CEditorLevel::Exit()
+ 
+ 	POINT ptWndScreenSize = GETINSTANCE(CEngine)->GetWndScreenSize();
+ 	GETINSTANCE(CEngine)->WindowReSize(ptWndScreenSize.x, ptWndScreenSize.y);
++	this->DeleteAllObject();
+ }
+ 
+ 
+diff --git a/GameEngine/CEditorLevel_init.cpp b/GameEngine/CEditorLevel_init.cpp
+index 0bd1c61..5f18f6b 100644
+--- a/GameEngine/CEditorLevel_init.cpp
++++ b/GameEngine/CEditorLevel_init.cpp
+@@ -75,4 +75,11 @@ void CEditorLevel::CreateUI()
+ 	pPanelUI->AddChildUI(pLoadButton);
+ 
+ 	AddObject(pPanelUI, LAYER::UI);
++
++	for (size_t i = 0; i < 100; i++)
++	{
++		pPanelUI = pPanelUI->Clone();
++		pPanelUI->SetPos(Vector2(vResolution.x - pPanelTex->Width() + 20.f - pPanelTex->Width(), 10.f));
++		AddObject(pPanelUI, LAYER::UI);
++	}
+ }
+diff --git a/GameEngine/CLevel.cpp b/GameEngine/CLevel.cpp
+index 5b1085d..fd5988e 100644
+--- a/GameEngine/CLevel.cpp
++++ b/GameEngine/CLevel.cpp
+@@ -113,3 +113,23 @@ void CLevel::CreateTile(UINT _X, UINT _Y)
+ 		}
+ 	}
+ }
++
++void CLevel::SetFocusUI(CGameObject* _pUI)
++{
++	vector<CGameObject*>& vecUI = m_arrLayer[(UINT)LAYER::UI];
++
++	if (vecUI.back() == _pUI)
++		return;
++
++	vector<CGameObject*>::iterator iter = vecUI.begin();
++	for (; iter != vecUI.end(); ++iter)
++	{
++		if ((*iter) == _pUI)
++		{
++			vecUI.erase(iter);
++			vecUI.push_back(_pUI);
++			return;
++		}
++	}
++	assert(nullptr);
++}
+diff --git a/GameEngine/CLevel.h b/GameEngine/CLevel.h
+index c24c121..70e4099 100644
+--- a/GameEngine/CLevel.h
++++ b/GameEngine/CLevel.h
+@@ -51,6 +51,8 @@ public:
+     //void DeleteObject(LAYER _eLayer);
+     void CreateTile(UINT _X, UINT _Y);
+ 
++    void SetFocusUI(CGameObject* _pUI);
++
+ 
+ public:
+     CLONE_DEACTIVATE(CLevel);
+diff --git a/GameEngine/CPanelUI.cpp b/GameEngine/CPanelUI.cpp
+index fe5b20c..a742716 100644
+--- a/GameEngine/CPanelUI.cpp
++++ b/GameEngine/CPanelUI.cpp
+@@ -48,3 +48,8 @@ void CPanelUI::MouseLbtnDown()
+ 	CUI::MouseLbtnDown();
+ 	m_vPressedPos = GETINSTANCE(CKeyManager)->GetMousePos();
+ }
++
++void CPanelUI::MouseLbtnClicked()
++{
++	int a = 0;
++}
+diff --git a/GameEngine/CPanelUI.h b/GameEngine/CPanelUI.h
+index e347ac3..2655160 100644
+--- a/GameEngine/CPanelUI.h
++++ b/GameEngine/CPanelUI.h
+@@ -18,7 +18,7 @@ public:
+     virtual void tick() override;
+     virtual void render(HDC _dc) override;
+     virtual void MouseLbtnDown() override;
+-
++    virtual void MouseLbtnClicked() override;
+ 
+ 
+ public:
+diff --git a/GameEngine/CUI.cpp b/GameEngine/CUI.cpp
+index 1d8b3a3..fd0961d 100644
+--- a/GameEngine/CUI.cpp
++++ b/GameEngine/CUI.cpp
+@@ -15,6 +15,20 @@ CUI::CUI()
+ {
+ }
+ 
++CUI::CUI(const CUI& _other)
++	: CGameObject(_other)
++	, m_pParentUI(nullptr)
++	, m_pIdleTex(_other.m_pIdleTex)
++	, m_bLbtnDown(false)
++	, m_bMouseOn(false)
++	, m_bCmrAfctd(_other.m_bCmrAfctd)
++{
++	for (size_t i = 0; i < _other.m_vecChildUI.size(); i++)
++	{
++		AddChildUI(_other.m_vecChildUI[i]->Clone());		
++	}
++}
++
+ CUI::~CUI()
+ {
+ 	for (size_t i = 0; i < m_vecChildUI.size(); i++)
+@@ -106,7 +120,7 @@ void CUI::SetIdleTex(CTexture* _pTex)
+ void CUI::MouseOnCheck()
+ {
+ 	
+-	Vector2 vPos = GetPos();
++	Vector2 vPos = GetFinalPos();
+ 	Vector2 vScale = GetScale();
+ 	Vector2 vMousePos = GETINSTANCE(CKeyManager)->GetMousePos();
+ 	if (m_bCmrAfctd)
+diff --git a/GameEngine/CUI.h b/GameEngine/CUI.h
+index 33f37bd..3266135 100644
+--- a/GameEngine/CUI.h
++++ b/GameEngine/CUI.h
+@@ -34,6 +34,8 @@ public:
+ 	Vector2 GetFinalPos() { return m_vFinalPos; }
+ 
+ 	CUI* GetParentUI() { return m_pParentUI; }
++	const vector<CUI*>& GetChildUI() { return m_vecChildUI; }
++
+ 	CTexture* GetIdleTex() { return m_pIdleTex; }
+ 
+ 	void AddChildUI(CUI* _pChildUI)
+@@ -59,6 +61,7 @@ private:
+ 
+ public:
+ 	CUI();
++	CUI(const CUI& _other);
+ 	~CUI();
+ 
+ 	friend class CUIManager;
+diff --git a/GameEngine/CUIManager.cpp b/GameEngine/CUIManager.cpp
+index 020da7d..7c57320 100644
+--- a/GameEngine/CUIManager.cpp
++++ b/GameEngine/CUIManager.cpp
+@@ -7,6 +7,8 @@
+ #include "CUI.h"
+ 
+ CUIManager::CUIManager()
++	: m_pFocusedUI(nullptr)
++	, m_pPriorityUI(nullptr)
+ {
+ }
+ 
+@@ -24,41 +26,85 @@ void CUIManager::tick()
+ 	CLevel* pCurLevel = GETINSTANCE(CLevelManager)->GetCurLevel();
+ 	const vector<CGameObject*>& vecUI = pCurLevel->GetLayer(LAYER::UI);
+ 
+-	for (size_t i = 0; i < vecUI.size(); ++i)
++	//뒤에서 부터 검사하는이유는 판넬ui중엣거 맨앞에 그려진애부터 하려고
++	for (int i = (int)vecUI.size() - 1; 0 <= i; --i)
+ 	{
+-		CUI* pUI = (CUI*)vecUI[i];
++		m_pPriorityUI = GetPriorityUI((CUI*)vecUI[i]);
+ 
+-		//
+-		//CUI* GetPriorityUI(pParentUI);
++		if (nullptr == m_pPriorityUI)
++			continue;
+ 
+-		// UI 위에 마우스가 있다.
+-		if (pUI->IsMouseOn())
++		// 마우스온 이벤트 호출
++		m_pPriorityUI->MouseOn();
++
++		// 이번에 LBTN 이 눌렸다
++		if (bLbtnPressed)
+ 		{
+-			// 마우스온 이벤트 호출
+-			pUI->MouseOn();
++			// LbtnDown 이벤트 호출
++			m_pPriorityUI->MouseLbtnDown();
++
++			// 부모UI 를 FocusedUI 로 설정
++			m_pFocusedUI = (CUI*)vecUI[i];
++			pCurLevel->SetFocusUI(m_pFocusedUI);
++			break;
++		}
+ 
+-			// 이번에 LBTN 이 눌렸다
+-			if (bLbtnPressed)
++		// 이번에 LBTN 이 떼졌다
++		else if (bLbtnReleased)
++		{
++			// 이전에 눌린적이 있다.
++			if (m_pPriorityUI->m_bLbtnDown)
+ 			{
+-				// LbtnDown 이벤트 호출
+-				pUI->MouseLbtnDown();
++				// 클릭 이벤트 호출
++				m_pPriorityUI->MouseLbtnClicked();
++				m_pPriorityUI->m_bLbtnDown = false;
+ 			}
++		}
++	}
++}
++
++CUI* CUIManager::GetPriorityUI(CUI* _pParentUI)
++{
++
++	bool bLbtnReleased = IS_INPUT_RELEASE(KEY::LBTN);
+ 
+-			// 이번에 LBTN 이 떼졌다
+-			else if (bLbtnReleased)
++	CUI* pPriorityUI = nullptr;
++
++	static list<CUI*> queue;
++	queue.clear();
++	queue.push_back(_pParentUI);
++
++
++	while (!queue.empty())
++	{
++		CUI* pUI = queue.front();
++		queue.pop_front();
++
++		const vector<CUI*>& vecChild = pUI->GetChildUI();
++		for (size_t i = 0; i < vecChild.size(); ++i)
++		{
++			queue.push_back(vecChild[i]);
++		}
++
++		// UI 의 상태 확인
++		if (pUI->IsMouseOn())
++		{
++			// 우선순위 UI 로 지정됐지만, 더 높은 우선순위를 가진 다른 UI 가 나온 경우.
++			// 기존 UI 의 LBTNDown 상태를 갱신한다.
++			if (bLbtnReleased && nullptr != pPriorityUI && pPriorityUI->IsLbtnDown())
+ 			{
+-				// 이전에 눌린적이 있다.
+-				if (pUI->m_bLbtnDown)
+-				{
+-					// 클릭 이벤트 호출
+-					pUI->MouseLbtnClicked();
+-				}
++				pUI->m_bLbtnDown = false;
+ 			}
++
++			// 우선순위 UI 로 지정
++			pPriorityUI = pUI;
+ 		}
+ 
+-		if (bLbtnReleased)
++		// 우선순위 UI 로 지정 안된 UI 는 마우스 해제조건이 발생하면 LBtnDown 을 해제해놓는다.
++		else if (bLbtnReleased)
+ 		{
+ 			pUI->m_bLbtnDown = false;
+ 		}
+ 	}
+-}
++	return pPriorityUI;
++}
+\ No newline at end of file
+diff --git a/GameEngine/CUIManager.h b/GameEngine/CUIManager.h
+index 4998b69..e40768e 100644
+--- a/GameEngine/CUIManager.h
++++ b/GameEngine/CUIManager.h
+@@ -1,12 +1,21 @@
+ #pragma once
++class CUI;
++
+ class CUIManager
+ {
+ 	SINGLETON(CUIManager);
+ 
++private:
++	CUI* m_pFocusedUI;
++	CUI* m_pPriorityUI;
++
+ 
+ public:
+ 	void tick();
+ 
+-
++	
++private:
++	// 최상위 부모UI 포함, 자식 UI 까지 포함해서 가장 우선순위가 높은 UI 를 찾아낸다.
++	CUI* GetPriorityUI(CUI* _pParentUI);
+ };
+ 

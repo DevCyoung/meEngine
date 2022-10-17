@@ -255,6 +255,7 @@ void CEditorLevel::Exit()
 
 	POINT ptWndScreenSize = GETINSTANCE(CEngine)->GetWndScreenSize();
 	GETINSTANCE(CEngine)->WindowReSize(ptWndScreenSize.x, ptWndScreenSize.y);
+	this->DeleteAllObject();
 }
 
 

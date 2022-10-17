@@ -51,6 +51,8 @@ public:
     //void DeleteObject(LAYER _eLayer);
     void CreateTile(UINT _X, UINT _Y);
 
+    void SetFocusUI(CGameObject* _pUI);
+
 
 public:
     CLONE_DEACTIVATE(CLevel);

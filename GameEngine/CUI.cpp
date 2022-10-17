@@ -15,6 +15,20 @@ CUI::CUI()
 {
 }
 
+CUI::CUI(const CUI& _other)
+	: CGameObject(_other)
+	, m_pParentUI(nullptr)
+	, m_pIdleTex(_other.m_pIdleTex)
+	, m_bLbtnDown(false)
+	, m_bMouseOn(false)
+	, m_bCmrAfctd(_other.m_bCmrAfctd)
+{
+	for (size_t i = 0; i < _other.m_vecChildUI.size(); i++)
+	{
+		AddChildUI(_other.m_vecChildUI[i]->Clone());		
+	}
+}
+
 CUI::~CUI()
 {
 	for (size_t i = 0; i < m_vecChildUI.size(); i++)
@@ -106,7 +120,7 @@ void CUI::SetIdleTex(CTexture* _pTex)
 void CUI::MouseOnCheck()
 {
 	
-	Vector2 vPos = GetPos();
+	Vector2 vPos = GetFinalPos();
 	Vector2 vScale = GetScale();
 	Vector2 vMousePos = GETINSTANCE(CKeyManager)->GetMousePos();
 	if (m_bCmrAfctd)

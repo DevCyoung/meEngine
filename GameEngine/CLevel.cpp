@@ -113,3 +113,23 @@ void CLevel::CreateTile(UINT _X, UINT _Y)
 		}
 	}
 }
+
+void CLevel::SetFocusUI(CGameObject* _pUI)
+{
+	vector<CGameObject*>& vecUI = m_arrLayer[(UINT)LAYER::UI];
+
+	if (vecUI.back() == _pUI)
+		return;
+
+	vector<CGameObject*>::iterator iter = vecUI.begin();
+	for (; iter != vecUI.end(); ++iter)
+	{
+		if ((*iter) == _pUI)
+		{
+			vecUI.erase(iter);
+			vecUI.push_back(_pUI);
+			return;
+		}
+	}
+	assert(nullptr);
+}

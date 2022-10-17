@@ -18,7 +18,7 @@ public:
     virtual void tick() override;
     virtual void render(HDC _dc) override;
     virtual void MouseLbtnDown() override;
-
+    virtual void MouseLbtnClicked() override;
 
 
 public:

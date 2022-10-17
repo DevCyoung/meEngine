@@ -48,3 +48,8 @@ void CPanelUI::MouseLbtnDown()
 	CUI::MouseLbtnDown();
 	m_vPressedPos = GETINSTANCE(CKeyManager)->GetMousePos();
 }
+
+void CPanelUI::MouseLbtnClicked()
+{
+	int a = 0;
+}

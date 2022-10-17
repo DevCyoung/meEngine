@@ -75,4 +75,11 @@ void CEditorLevel::CreateUI()
 	pPanelUI->AddChildUI(pLoadButton);
 
 	AddObject(pPanelUI, LAYER::UI);
+
+	for (size_t i = 0; i < 100; i++)
+	{
+		pPanelUI = pPanelUI->Clone();
+		pPanelUI->SetPos(Vector2(vResolution.x - pPanelTex->Width() + 20.f - pPanelTex->Width(), 10.f));
+		AddObject(pPanelUI, LAYER::UI);
+	}
 }

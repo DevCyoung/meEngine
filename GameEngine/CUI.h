@@ -34,6 +34,8 @@ public:
 	Vector2 GetFinalPos() { return m_vFinalPos; }
 
 	CUI* GetParentUI() { return m_pParentUI; }
+	const vector<CUI*>& GetChildUI() { return m_vecChildUI; }
+
 	CTexture* GetIdleTex() { return m_pIdleTex; }
 
 	void AddChildUI(CUI* _pChildUI)
@@ -59,6 +61,7 @@ private:
 
 public:
 	CUI();
+	CUI(const CUI& _other);
 	~CUI();
 
 	friend class CUIManager;
