@@ -1,0 +1,588 @@
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   GameEngine/CAnimEnvManager.h
+	modified:   GameEngine/CAnimation.h
+	modified:   GameEngine/CAnimator.cpp
+	modified:   GameEngine/CAnimator.h
+	modified:   GameEngine/CCollider.cpp
+	modified:   GameEngine/CCollider.h
+	modified:   GameEngine/CEditorLevel.cpp
+	modified:   GameEngine/CEditorLevel.h
+	modified:   GameEngine/CEngine.cpp
+	modified:   GameEngine/CEventManager.h
+	modified:   GameEngine/CGameObject.cpp
+	modified:   GameEngine/GameEngine.vcxproj
+	modified:   GameEngine/GameEngine.vcxproj.filters
+	modified:   GameEngine/define.h
+	modified:   GameEngine/pch.h
+	modified:   GameEngine/struct.h
+	modified:   OutputFile/bin/resource/tile/test.tile
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	GameEngine/CButton.cpp
+	GameEngine/CButton.h
+	GameEngine/CEditorLevel_init.cpp
+	GameEngine/CPanelUI.cpp
+	GameEngine/CPanelUI.h
+	GameEngine/CUI.cpp
+	GameEngine/CUI.h
+	GameEngine/CUIManager.cpp
+	GameEngine/CUIManager.h
+	OutputFile/bin/resource/texture/OakUI.bmp
+	OutputFile/bin/resource/texture/button.bmp
+	OutputFile/bin/resource/texture/button_pressed.bmp
+	delegate.diff
+
+no changes added to commit (use "git add" and/or "git commit -a")
+diff --git a/GameEngine/CAnimEnvManager.h b/GameEngine/CAnimEnvManager.h
+index 7e4e30e..7aaf9b4 100644
+--- a/GameEngine/CAnimEnvManager.h
++++ b/GameEngine/CAnimEnvManager.h
+@@ -1,9 +1,5 @@
+ #pragma once
+ 
+-typedef void(CGameObject::* DELEGATE)(void);
+-
+-
+-
+ class CAnimEnvManager
+ {
+ 	SINGLETON(CAnimEnvManager);
+diff --git a/GameEngine/CAnimation.h b/GameEngine/CAnimation.h
+index cc5a03e..ff74de2 100644
+--- a/GameEngine/CAnimation.h
++++ b/GameEngine/CAnimation.h
+@@ -1,8 +1,6 @@
+ #pragma once
+ #include "CEntity.h"
+ 
+-typedef void(CGameObject::* DELEGATE)(void);
+-
+ class CAnimator;
+ class CTexture;
+ 
+@@ -42,7 +40,7 @@ public:
+     CLONE(CAnimation);
+ 
+     //내가만든코드
+-    void SetFrameFunc(int _iFrameNum, CGameObject* _obj, DELEGATE _delegate)
++    void SetFrameFunc(int _iFrameNum, CEntity* _obj, DELEGATE _delegate)
+     {
+         assert(_iFrameNum < m_vecFrm.size());
+         m_vecFrm[_iFrameNum].action.func = _delegate;
+diff --git a/GameEngine/CAnimator.cpp b/GameEngine/CAnimator.cpp
+index f9ef60b..ff84ea7 100644
+--- a/GameEngine/CAnimator.cpp
++++ b/GameEngine/CAnimator.cpp
+@@ -44,6 +44,10 @@ CAnimator::~CAnimator()
+ }
+ 
+ void CAnimator::tick()
++{	
++}
++
++void CAnimator::final_tick()
+ {
+ 	if (nullptr == m_pCurAnim)
+ 		return;
+diff --git a/GameEngine/CAnimator.h b/GameEngine/CAnimator.h
+index fefc353..a87ed1d 100644
+--- a/GameEngine/CAnimator.h
++++ b/GameEngine/CAnimator.h
+@@ -16,6 +16,7 @@ private:
+ 
+ public:
+     virtual void tick() override;
++    virtual void final_tick() override;
+     virtual void render(HDC _dc) override;
+ 
+ 
+diff --git a/GameEngine/CCollider.cpp b/GameEngine/CCollider.cpp
+index d4fecd3..b94ffb2 100644
+--- a/GameEngine/CCollider.cpp
++++ b/GameEngine/CCollider.cpp
+@@ -28,14 +28,16 @@ CCollider::~CCollider()
+ 
+ void CCollider::tick()
+ {
+-	//충돌 체의 최종 위치값을 결정한다.
+-	m_vFinalPos = this->GetOwner()->GetPos() + m_vOffsetPos;
+-
+-
+ 	//중첩수가 음수인경우
+ 	assert(!(m_iOverlapCount < 0));
+ }
+ 
++void CCollider::final_tick()
++{
++	//충돌 체의 최종 위치값을 결정한다.
++	m_vFinalPos = this->GetOwner()->GetPos() + m_vOffsetPos;
++}
++
+ void CCollider::render(HDC _dc)
+ {
+ 	//충돌체를 그린다.
+diff --git a/GameEngine/CCollider.h b/GameEngine/CCollider.h
+index 2c06b67..b03551c 100644
+--- a/GameEngine/CCollider.h
++++ b/GameEngine/CCollider.h
+@@ -14,8 +14,9 @@ private:
+     int    m_iOverlapCount;
+ 
+ public:
+-    virtual void tick();
+-    virtual void render(HDC _dc);
++    virtual void tick() override;
++    virtual void final_tick() override;
++    virtual void render(HDC _dc) override;
+ 
+ public:
+     void SetOffsetPos(Vector2 _voffsetPos) { m_vOffsetPos = _voffsetPos; }
+diff --git a/GameEngine/CEditorLevel.cpp b/GameEngine/CEditorLevel.cpp
+index b0a666f..1c89cef 100644
+--- a/GameEngine/CEditorLevel.cpp
++++ b/GameEngine/CEditorLevel.cpp
+@@ -10,7 +10,8 @@
+ #include "CLevelManager.h"
+ #include "CKeyManager.h"
+ #include "CPathManager.h"
+-
++#include "CUI.h"
++#include "CButton.h"
+ 
+ CEditorLevel::CEditorLevel()
+ 	: m_hMenu(nullptr)
+@@ -30,25 +31,6 @@ CEditorLevel::~CEditorLevel()
+ 
+ 
+ 
+-void CEditorLevel::init()
+-{
+-	Vector2 vResolution = GETINSTANCE(CEngine)->GetWndScreenSize();
+-	vResolution /= 2.f;
+-	GETINSTANCE(CCamera)->SetLook(vResolution);
+-
+-	CTexture* pTex  = GETINSTANCE(CResourceManager)->LoadTexture(L"TILE_EDIT", L"texture\\TILE.bmp");	
+-	CreateTile(8, 6);		
+-	const vector<CGameObject*>& vecTile = GetLayer(LAYER::TILE);
+-	
+-	for (int i = 0; i < vecTile.size(); i++)
+-	{
+-		((CTile*)vecTile[i])->SetAtlas(pTex);
+-		((CTile*)vecTile[i])->SetImgIdx(i);
+-	}
+-	
+-
+-	m_eMode = EDITOR_MODE::TILE;
+-}
+ 
+ 
+ 
+@@ -101,11 +83,11 @@ void CEditorLevel::UpdateTile()
+ 
+ 		
+ 		//-32도 64로 나누면 0이다.
+-		int x = vMousePos.x / TILE_SIZE;
+-		int y = vMousePos.y / TILE_SIZE;
++		int x = (int)vMousePos.x / TILE_SIZE;
++		int y = (int)vMousePos.y / TILE_SIZE;
+ 		int idx = y * GetTIleXCount() + x;
+ 
+-		if (0.f <= vMousePos.x && x < GetTIleXCount() && 0.f <= vMousePos.y && y < GetTIleYCount())
++		if (0.f <= vMousePos.x && x < (int)GetTIleXCount() && 0.f <= vMousePos.y && y < (int)GetTIleYCount())
+ 		{
+ 			const std::vector<CGameObject*>& tiles = GetLayer(LAYER::TILE);		
+ 			idx %= tiles.size();;
+@@ -135,13 +117,41 @@ void CEditorLevel::UpdateObject()
+ {
+ }
+ 
++//좀더 편하게 사용하기위해 UI를 만들어보자
++//UI도 결국 오브젝트를 상속받는다.
+ void CEditorLevel::SaveTIle()
+ {
+-	wstring strFilePath = GETINSTANCE(CPathManager)->GetContentPath();
+-	strFilePath += L"tile\\test.tile";
++	// open a file name
++	//이미 만들어진 윈도우에서 제공해주는 매우편한 모달방식의 윈도우
++	//해당창은 그냥 Path 문자열을 저장할뿐임
++	OPENFILENAME ofn = {};
++
++	wstring strTileFolderPath = GETINSTANCE(CPathManager)->GetContentPath();
++	strTileFolderPath += L"tile\\";
++
++
++	wchar_t szFilePath[256] = {};
++
++	ZeroMemory(&ofn, sizeof(ofn));														//
++	ofn.lStructSize = sizeof(ofn);														//
++	ofn.hwndOwner = NULL;																//
++	ofn.lpstrFile = szFilePath;															//
++	ofn.lpstrFile[0] = '\0';															//
++	ofn.nMaxFile = 256;																	//
++	ofn.lpstrFilter = L"Tile\0*.tile\0Animation\0*.anim\0ALL\0*.*";						//실습용 애니메이션
++	ofn.nFilterIndex = 1;																//기본필터지정
++	ofn.lpstrFileTitle = NULL;															//
++	ofn.nMaxFileTitle = 0;																//
++	ofn.lpstrInitialDir = strTileFolderPath.c_str();									//매번 필요없는경로를열면 비효율적이기때문에 그곳을보여줌
++	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;									//
++
++	//다이어로그열기
++	if (false == GetSaveFileName(&ofn))
++		return;	
+ 
+ 	FILE* pFile = nullptr;
+-	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
++	_wfopen_s(&pFile, szFilePath, L"wb");
++	assert(pFile);
+ 
+ 
+ 
+@@ -165,11 +175,38 @@ void CEditorLevel::SaveTIle()
+ 
+ void CEditorLevel::LoadTIle()
+ {
+-	wstring strFilePath = GETINSTANCE(CPathManager)->GetContentPath();
+-	strFilePath += L"tile\\test.tile";
++	// open a file name
++	//이미 만들어진 윈도우에서 제공해주는 매우편한 모달방식의 윈도우
++	//해당창은 그냥 Path 문자열을 저장할뿐임
++	OPENFILENAME ofn = {};
++
++	wstring strTileFolderPath = GETINSTANCE(CPathManager)->GetContentPath();
++	strTileFolderPath += L"tile\\";
++
++
++	wchar_t szFilePath[256] = {};
++
++	ZeroMemory(&ofn, sizeof(ofn));														//
++	ofn.lStructSize = sizeof(ofn);														//
++	ofn.hwndOwner = NULL;																//
++	ofn.lpstrFile = szFilePath;															//
++	ofn.lpstrFile[0] = '\0';															//
++	ofn.nMaxFile = 256;																	//
++	ofn.lpstrFilter = L"Tile\0*.tile\0Animation\0*.anim\0ALL\0*.*";						//실습용 애니메이션
++	ofn.nFilterIndex = 1;																//기본필터지정
++	ofn.lpstrFileTitle = NULL;															//
++	ofn.nMaxFileTitle = 0;																//
++	ofn.lpstrInitialDir = strTileFolderPath.c_str();									//매번 필요없는경로를열면 비효율적이기때문에 그곳을보여줌
++	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;									//
++
++	//다이어로그열기 ID값에따라 리턴
++	if (false == GetOpenFileName(&ofn))
++		return;
+ 
+ 	FILE* pFile = nullptr;
+-	_wfopen_s(&pFile, strFilePath.c_str(), L"rb");
++	_wfopen_s(&pFile, szFilePath, L"rb");
++	assert(pFile);
++
+ 	const vector<CGameObject*>& vecTile = GetLayer(LAYER::TILE);
+ 
+ 
+diff --git a/GameEngine/CEditorLevel.h b/GameEngine/CEditorLevel.h
+index 4ba7cc8..cbe122c 100644
+--- a/GameEngine/CEditorLevel.h
++++ b/GameEngine/CEditorLevel.h
+@@ -27,6 +27,9 @@ public:
+     void UpdateAnimation();
+     void UpdateObject();
+ 
++public:
++    void CreateUI();
++
+ public:
+     // CLevel을(를) 통해 상속됨
+     virtual void init() override;
+diff --git a/GameEngine/CEngine.cpp b/GameEngine/CEngine.cpp
+index fb8cd10..931b220 100644
+--- a/GameEngine/CEngine.cpp
++++ b/GameEngine/CEngine.cpp
+@@ -12,6 +12,7 @@
+ #include "CCamera.h"
+ #include "CAnimEnvManager.h"
+ #include "CTexture.h"
++#include "CUIManager.h"
+ 
+ //그냥 윈도우가 시키는대로하는거임
+ //DeleteDC(m_pTexBuffer->GetDC());
+@@ -80,6 +81,7 @@ void CEngine::tick()
+ 	GETINSTANCE(CCamera)->tick();
+ 	GETINSTANCE(CLevelManager)->tick();	
+ 	GETINSTANCE(CCollisionManager)->tick();
++	GETINSTANCE(CUIManager)->tick();
+ }
+ 
+ Vector2 test = {};
+diff --git a/GameEngine/CEventManager.h b/GameEngine/CEventManager.h
+index ba5e607..ee40661 100644
+--- a/GameEngine/CEventManager.h
++++ b/GameEngine/CEventManager.h
+@@ -1,6 +1,7 @@
+ #pragma once
+ 
+-typedef void(CGameObject::* DELEGATE)(void);
++//typedef void(CGameObject::* DELEGATE)(void);
++
+ class CGameObject;
+ 
+ class CEventManager
+diff --git a/GameEngine/CGameObject.cpp b/GameEngine/CGameObject.cpp
+index 2b41745..8c7e8e4 100644
+--- a/GameEngine/CGameObject.cpp
++++ b/GameEngine/CGameObject.cpp
+@@ -64,30 +64,36 @@ void CGameObject::tick()
+ {
+ 	if (nullptr != m_pCollider)
+ 		m_pCollider->tick();
++
+ 	if (nullptr != m_pAnimator)
+ 		m_pAnimator->tick();
++
+ 	if (nullptr != m_pRigidbody)
+ 		m_pRigidbody->tick();
+ }
+ 
+ void CGameObject::final_tick()
+ {
+-	if (nullptr != m_pCollider)
+-		m_pCollider->final_tick();
+-	if (nullptr != m_pAnimator)
+-		m_pAnimator->final_tick();
+ 	if (nullptr != m_pRigidbody)
+ 		m_pRigidbody->final_tick();
++
++	if (nullptr != m_pAnimator)
++		m_pAnimator->final_tick();
++
++	if (nullptr != m_pCollider)
++		m_pCollider->final_tick();			//콜라이더 최종위치는 가장마지막에
+ }
+ 
+ void CGameObject::render(HDC _dc)
+ {
+ 	if (nullptr != m_pCollider)
+ 		m_pCollider->render(_dc);
+-	if (nullptr != m_pAnimator)
+-		m_pAnimator->render(_dc);
++
+ 	if (nullptr != m_pRigidbody)
+ 		m_pRigidbody->render(_dc);
++
++	if (nullptr != m_pAnimator)
++		m_pAnimator->render(_dc);
+ }
+ 
+ void CGameObject::CreateCollider()
+diff --git a/GameEngine/GameEngine.vcxproj b/GameEngine/GameEngine.vcxproj
+index 90993b2..00c04e1 100644
+--- a/GameEngine/GameEngine.vcxproj
++++ b/GameEngine/GameEngine.vcxproj
+@@ -148,6 +148,7 @@
+     <ClInclude Include="CAnimation.h" />
+     <ClInclude Include="CAnimator.h" />
+     <ClInclude Include="CAnimEnvManager.h" />
++    <ClInclude Include="CButton.h" />
+     <ClInclude Include="CCamera.h" />
+     <ClInclude Include="CCollider.h" />
+     <ClInclude Include="CCollisionManager.h" />
+@@ -162,6 +163,7 @@
+     <ClInclude Include="CLevelManager.h" />
+     <ClInclude Include="CMissile.h" />
+     <ClInclude Include="CMonster.h" />
++    <ClInclude Include="CPanelUI.h" />
+     <ClInclude Include="CPathManager.h" />
+     <ClInclude Include="CPlatform.h" />
+     <ClInclude Include="CPlayer.h" />
+@@ -174,6 +176,8 @@
+     <ClInclude Include="CTile.h" />
+     <ClInclude Include="CTimeManager.h" />
+     <ClInclude Include="CTitleLevel.h" />
++    <ClInclude Include="CUI.h" />
++    <ClInclude Include="CUIManager.h" />
+     <ClInclude Include="define.h" />
+     <ClInclude Include="framework.h" />
+     <ClInclude Include="function.h" />
+@@ -187,11 +191,13 @@
+     <ClCompile Include="CAnimation.cpp" />
+     <ClCompile Include="CAnimator.cpp" />
+     <ClCompile Include="CAnimEnvManager.cpp" />
++    <ClCompile Include="CButton.cpp" />
+     <ClCompile Include="CCamera.cpp" />
+     <ClCompile Include="CCollider.cpp" />
+     <ClCompile Include="CCollisionManager.cpp" />
+     <ClCompile Include="CComponent.cpp" />
+     <ClCompile Include="CEditorLevel.cpp" />
++    <ClCompile Include="CEditorLevel_init.cpp" />
+     <ClCompile Include="CEngine.cpp" />
+     <ClCompile Include="CEntity.cpp" />
+     <ClCompile Include="CEventManager.cpp" />
+@@ -201,6 +207,7 @@
+     <ClCompile Include="CLevelManager.cpp" />
+     <ClCompile Include="CMissile.cpp" />
+     <ClCompile Include="CMonster.cpp" />
++    <ClCompile Include="CPanelUI.cpp" />
+     <ClCompile Include="CPathManager.cpp" />
+     <ClCompile Include="CPlatform.cpp" />
+     <ClCompile Include="CPlayer.cpp" />
+@@ -214,6 +221,8 @@
+     <ClCompile Include="CTile.cpp" />
+     <ClCompile Include="CTimeManager.cpp" />
+     <ClCompile Include="CTitleLevel.cpp" />
++    <ClCompile Include="CUI.cpp" />
++    <ClCompile Include="CUIManager.cpp" />
+     <ClCompile Include="function.cpp" />
+     <ClCompile Include="main.cpp" />
+     <ClCompile Include="pch.cpp">
+diff --git a/GameEngine/GameEngine.vcxproj.filters b/GameEngine/GameEngine.vcxproj.filters
+index b79aa6f..ba8139f 100644
+--- a/GameEngine/GameEngine.vcxproj.filters
++++ b/GameEngine/GameEngine.vcxproj.filters
+@@ -113,6 +113,21 @@
+     <Filter Include="Game\Test">
+       <UniqueIdentifier>{1a0163f5-7158-4ec3-b329-5f09bab258a3}</UniqueIdentifier>
+     </Filter>
++    <Filter Include="Engine\03. GameObject\UI">
++      <UniqueIdentifier>{7aeab810-1995-458e-a630-ca3c448c1473}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="Engine\02. Manager\09. UI">
++      <UniqueIdentifier>{ca290ca1-6b3d-41e8-a945-b1c5e7add24e}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="Engine\03. GameObject\UI\Button">
++      <UniqueIdentifier>{c5161b99-2bcf-44e3-9d8b-e177e0e60cac}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="Engine\03. GameObject\UI\Panel">
++      <UniqueIdentifier>{dc518838-b4d3-40db-98e6-4e5f1bfa6e6d}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="Engine\04. Level\Level">
++      <UniqueIdentifier>{39c21d8b-7ef4-4208-8a3b-45f5085d6c2e}</UniqueIdentifier>
++    </Filter>
+   </ItemGroup>
+   <ItemGroup>
+     <ClInclude Include="framework.h">
+@@ -157,9 +172,6 @@
+     <ClInclude Include="CGameObject.h">
+       <Filter>Engine\03. GameObject</Filter>
+     </ClInclude>
+-    <ClInclude Include="CLevel.h">
+-      <Filter>Engine\04. Level</Filter>
+-    </ClInclude>
+     <ClInclude Include="CTitleLevel.h">
+       <Filter>Game\Level\TitleLevel</Filter>
+     </ClInclude>
+@@ -226,6 +238,21 @@
+     <ClInclude Include="CTest.h">
+       <Filter>Game\Test</Filter>
+     </ClInclude>
++    <ClInclude Include="CUI.h">
++      <Filter>Engine\03. GameObject\UI</Filter>
++    </ClInclude>
++    <ClInclude Include="CUIManager.h">
++      <Filter>Engine\02. Manager\09. UI</Filter>
++    </ClInclude>
++    <ClInclude Include="CButton.h">
++      <Filter>Engine\03. GameObject\UI\Button</Filter>
++    </ClInclude>
++    <ClInclude Include="CPanelUI.h">
++      <Filter>Engine\03. GameObject\UI\Panel</Filter>
++    </ClInclude>
++    <ClInclude Include="CLevel.h">
++      <Filter>Engine\04. Level\Level</Filter>
++    </ClInclude>
+   </ItemGroup>
+   <ItemGroup>
+     <ResourceCompile Include="GameEngine.rc">
+@@ -263,9 +290,6 @@
+     <ClCompile Include="CGameObject.cpp">
+       <Filter>Engine\03. GameObject</Filter>
+     </ClCompile>
+-    <ClCompile Include="CLevel.cpp">
+-      <Filter>Engine\04. Level</Filter>
+-    </ClCompile>
+     <ClCompile Include="CTitleLevel.cpp">
+       <Filter>Game\Level\TitleLevel</Filter>
+     </ClCompile>
+@@ -338,5 +362,23 @@
+     <ClCompile Include="function.cpp">
+       <Filter>Engine\00. Header</Filter>
+     </ClCompile>
++    <ClCompile Include="CUI.cpp">
++      <Filter>Engine\03. GameObject\UI</Filter>
++    </ClCompile>
++    <ClCompile Include="CUIManager.cpp">
++      <Filter>Engine\02. Manager\09. UI</Filter>
++    </ClCompile>
++    <ClCompile Include="CButton.cpp">
++      <Filter>Engine\03. GameObject\UI\Button</Filter>
++    </ClCompile>
++    <ClCompile Include="CEditorLevel_init.cpp">
++      <Filter>Engine\04. Level\Editor</Filter>
++    </ClCompile>
++    <ClCompile Include="CPanelUI.cpp">
++      <Filter>Engine\03. GameObject\UI\Panel</Filter>
++    </ClCompile>
++    <ClCompile Include="CLevel.cpp">
++      <Filter>Engine\04. Level\Level</Filter>
++    </ClCompile>
+   </ItemGroup>
+ </Project>
+\ No newline at end of file
+diff --git a/GameEngine/define.h b/GameEngine/define.h
+index 6c22a53..8dc0deb 100644
+--- a/GameEngine/define.h
++++ b/GameEngine/define.h
+@@ -41,10 +41,8 @@
+ #define windowSizeY 460
+ #endif
+ 
+-
+-
+-class CGameObject;
+-typedef void(CGameObject::* DELEGATE)(void);
++class CEntity;
++typedef void(CEntity::* DELEGATE)(void);
+ 
+ enum class PEN_TYPE
+ {
+@@ -78,6 +76,8 @@ enum class LAYER
+ 	PLAYER_PROJECTILE,	//플레이어가 쏜 미사일
+ 	MONSTER_PROJECTTILE,
+ 	PLATFORM,
++
++	UI=15,						//가중나중에 그려져야함
+ 	END = 16,
+ };
+ 
+diff --git a/GameEngine/pch.h b/GameEngine/pch.h
+index f772443..ebcd78d 100644
+--- a/GameEngine/pch.h
++++ b/GameEngine/pch.h
+@@ -15,6 +15,7 @@
+ #include <map>
+ #include <string>
+ #include <assert.h>
++#include <commdlg.h>
+ 
+ using std::vector;
+ using std::list;
+diff --git a/GameEngine/struct.h b/GameEngine/struct.h
+index 2437bea..9ef421e 100644
+--- a/GameEngine/struct.h
++++ b/GameEngine/struct.h
+@@ -116,7 +116,7 @@ struct tAnimEvent
+ {
+ 	//내가추가함
+ 	DELEGATE        func;
+-	CGameObject*	instance;
++	CEntity*	instance;
+ };
+ 
+ 
+diff --git a/OutputFile/bin/resource/tile/test.tile b/OutputFile/bin/resource/tile/test.tile
+index e58a554..95b6962 100644
+Binary files a/OutputFile/bin/resource/tile/test.tile and b/OutputFile/bin/resource/tile/test.tile differ
