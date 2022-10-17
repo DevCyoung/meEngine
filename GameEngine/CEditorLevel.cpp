@@ -10,7 +10,8 @@
 #include "CLevelManager.h"
 #include "CKeyManager.h"
 #include "CPathManager.h"
-
+#include "CUI.h"
+#include "CButton.h"
 
 CEditorLevel::CEditorLevel()
 	: m_hMenu(nullptr)
@@ -30,25 +31,6 @@ CEditorLevel::~CEditorLevel()
 
 
 
-void CEditorLevel::init()
-{
-	Vector2 vResolution = GETINSTANCE(CEngine)->GetWndScreenSize();
-	vResolution /= 2.f;
-	GETINSTANCE(CCamera)->SetLook(vResolution);
-
-	CTexture* pTex  = GETINSTANCE(CResourceManager)->LoadTexture(L"TILE_EDIT", L"texture\\TILE.bmp");	
-	CreateTile(8, 6);		
-	const vector<CGameObject*>& vecTile = GetLayer(LAYER::TILE);
-	
-	for (int i = 0; i < vecTile.size(); i++)
-	{
-		((CTile*)vecTile[i])->SetAtlas(pTex);
-		((CTile*)vecTile[i])->SetImgIdx(i);
-	}
-	
-
-	m_eMode = EDITOR_MODE::TILE;
-}
 
 
 
@@ -101,11 +83,11 @@ void CEditorLevel::UpdateTile()
 
 		
 		//-32도 64로 나누면 0이다.
-		int x = vMousePos.x / TILE_SIZE;
-		int y = vMousePos.y / TILE_SIZE;
+		int x = (int)vMousePos.x / TILE_SIZE;
+		int y = (int)vMousePos.y / TILE_SIZE;
 		int idx = y * GetTIleXCount() + x;
 
-		if (0.f <= vMousePos.x && x < GetTIleXCount() && 0.f <= vMousePos.y && y < GetTIleYCount())
+		if (0.f <= vMousePos.x && x < (int)GetTIleXCount() && 0.f <= vMousePos.y && y < (int)GetTIleYCount())
 		{
 			const std::vector<CGameObject*>& tiles = GetLayer(LAYER::TILE);		
 			idx %= tiles.size();;
@@ -135,13 +117,41 @@ void CEditorLevel::UpdateObject()
 {
 }
 
+//좀더 편하게 사용하기위해 UI를 만들어보자
+//UI도 결국 오브젝트를 상속받는다.
 void CEditorLevel::SaveTIle()
 {
-	wstring strFilePath = GETINSTANCE(CPathManager)->GetContentPath();
-	strFilePath += L"tile\\test.tile";
+	// open a file name
+	//이미 만들어진 윈도우에서 제공해주는 매우편한 모달방식의 윈도우
+	//해당창은 그냥 Path 문자열을 저장할뿐임
+	OPENFILENAME ofn = {};
+
+	wstring strTileFolderPath = GETINSTANCE(CPathManager)->GetContentPath();
+	strTileFolderPath += L"tile\\";
+
+
+	wchar_t szFilePath[256] = {};
+
+	ZeroMemory(&ofn, sizeof(ofn));														//
+	ofn.lStructSize = sizeof(ofn);														//
+	ofn.hwndOwner = NULL;																//
+	ofn.lpstrFile = szFilePath;															//
+	ofn.lpstrFile[0] = '\0';															//
+	ofn.nMaxFile = 256;																	//
+	ofn.lpstrFilter = L"Tile\0*.tile\0Animation\0*.anim\0ALL\0*.*";						//실습용 애니메이션
+	ofn.nFilterIndex = 1;																//기본필터지정
+	ofn.lpstrFileTitle = NULL;															//
+	ofn.nMaxFileTitle = 0;																//
+	ofn.lpstrInitialDir = strTileFolderPath.c_str();									//매번 필요없는경로를열면 비효율적이기때문에 그곳을보여줌
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;									//
+
+	//다이어로그열기
+	if (false == GetSaveFileName(&ofn))
+		return;	
 
 	FILE* pFile = nullptr;
-	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
+	_wfopen_s(&pFile, szFilePath, L"wb");
+	assert(pFile);
 
 
 
@@ -165,11 +175,38 @@ void CEditorLevel::SaveTIle()
 
 void CEditorLevel::LoadTIle()
 {
-	wstring strFilePath = GETINSTANCE(CPathManager)->GetContentPath();
-	strFilePath += L"tile\\test.tile";
+	// open a file name
+	//이미 만들어진 윈도우에서 제공해주는 매우편한 모달방식의 윈도우
+	//해당창은 그냥 Path 문자열을 저장할뿐임
+	OPENFILENAME ofn = {};
+
+	wstring strTileFolderPath = GETINSTANCE(CPathManager)->GetContentPath();
+	strTileFolderPath += L"tile\\";
+
+
+	wchar_t szFilePath[256] = {};
+
+	ZeroMemory(&ofn, sizeof(ofn));														//
+	ofn.lStructSize = sizeof(ofn);														//
+	ofn.hwndOwner = NULL;																//
+	ofn.lpstrFile = szFilePath;															//
+	ofn.lpstrFile[0] = '\0';															//
+	ofn.nMaxFile = 256;																	//
+	ofn.lpstrFilter = L"Tile\0*.tile\0Animation\0*.anim\0ALL\0*.*";						//실습용 애니메이션
+	ofn.nFilterIndex = 1;																//기본필터지정
+	ofn.lpstrFileTitle = NULL;															//
+	ofn.nMaxFileTitle = 0;																//
+	ofn.lpstrInitialDir = strTileFolderPath.c_str();									//매번 필요없는경로를열면 비효율적이기때문에 그곳을보여줌
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;									//
+
+	//다이어로그열기 ID값에따라 리턴
+	if (false == GetOpenFileName(&ofn))
+		return;
 
 	FILE* pFile = nullptr;
-	_wfopen_s(&pFile, strFilePath.c_str(), L"rb");
+	_wfopen_s(&pFile, szFilePath, L"rb");
+	assert(pFile);
+
 	const vector<CGameObject*>& vecTile = GetLayer(LAYER::TILE);
 
 

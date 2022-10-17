@@ -1,6 +1,7 @@
 #pragma once
 
-typedef void(CGameObject::* DELEGATE)(void);
+//typedef void(CGameObject::* DELEGATE)(void);
+
 class CGameObject;
 
 class CEventManager

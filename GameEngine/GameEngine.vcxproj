@@ -148,6 +148,7 @@
     <ClInclude Include="CAnimation.h" />
     <ClInclude Include="CAnimator.h" />
     <ClInclude Include="CAnimEnvManager.h" />
+    <ClInclude Include="CButton.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CCollider.h" />
     <ClInclude Include="CCollisionManager.h" />
@@ -162,6 +163,7 @@
     <ClInclude Include="CLevelManager.h" />
     <ClInclude Include="CMissile.h" />
     <ClInclude Include="CMonster.h" />
+    <ClInclude Include="CPanelUI.h" />
     <ClInclude Include="CPathManager.h" />
     <ClInclude Include="CPlatform.h" />
     <ClInclude Include="CPlayer.h" />
@@ -174,6 +176,8 @@
     <ClInclude Include="CTile.h" />
     <ClInclude Include="CTimeManager.h" />
     <ClInclude Include="CTitleLevel.h" />
+    <ClInclude Include="CUI.h" />
+    <ClInclude Include="CUIManager.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="function.h" />
@@ -187,11 +191,13 @@
     <ClCompile Include="CAnimation.cpp" />
     <ClCompile Include="CAnimator.cpp" />
     <ClCompile Include="CAnimEnvManager.cpp" />
+    <ClCompile Include="CButton.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCollider.cpp" />
     <ClCompile Include="CCollisionManager.cpp" />
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CEditorLevel.cpp" />
+    <ClCompile Include="CEditorLevel_init.cpp" />
     <ClCompile Include="CEngine.cpp" />
     <ClCompile Include="CEntity.cpp" />
     <ClCompile Include="CEventManager.cpp" />
@@ -201,6 +207,7 @@
     <ClCompile Include="CLevelManager.cpp" />
     <ClCompile Include="CMissile.cpp" />
     <ClCompile Include="CMonster.cpp" />
+    <ClCompile Include="CPanelUI.cpp" />
     <ClCompile Include="CPathManager.cpp" />
     <ClCompile Include="CPlatform.cpp" />
     <ClCompile Include="CPlayer.cpp" />
@@ -214,6 +221,8 @@
     <ClCompile Include="CTile.cpp" />
     <ClCompile Include="CTimeManager.cpp" />
     <ClCompile Include="CTitleLevel.cpp" />
+    <ClCompile Include="CUI.cpp" />
+    <ClCompile Include="CUIManager.cpp" />
     <ClCompile Include="function.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">

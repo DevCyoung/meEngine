@@ -44,6 +44,10 @@ CAnimator::~CAnimator()
 }
 
 void CAnimator::tick()
+{	
+}
+
+void CAnimator::final_tick()
 {
 	if (nullptr == m_pCurAnim)
 		return;

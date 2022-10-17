@@ -28,6 +28,9 @@ public:
     void UpdateObject();
 
 public:
+    void CreateUI();
+
+public:
     // CLevel을(를) 통해 상속됨
     virtual void init() override;
     virtual void tick() override;

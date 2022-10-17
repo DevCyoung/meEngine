@@ -1,9 +1,5 @@
 #pragma once
 
-typedef void(CGameObject::* DELEGATE)(void);
-
-
-
 class CAnimEnvManager
 {
 	SINGLETON(CAnimEnvManager);

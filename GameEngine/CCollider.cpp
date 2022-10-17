@@ -28,12 +28,14 @@ CCollider::~CCollider()
 
 void CCollider::tick()
 {
-	//충돌 체의 최종 위치값을 결정한다.
-	m_vFinalPos = this->GetOwner()->GetPos() + m_vOffsetPos;
-
-
 	//중첩수가 음수인경우
 	assert(!(m_iOverlapCount < 0));
+}
+
+void CCollider::final_tick()
+{
+	//충돌 체의 최종 위치값을 결정한다.
+	m_vFinalPos = this->GetOwner()->GetPos() + m_vOffsetPos;
 }
 
 void CCollider::render(HDC _dc)

@@ -113,6 +113,21 @@
     <Filter Include="Game\Test">
       <UniqueIdentifier>{1a0163f5-7158-4ec3-b329-5f09bab258a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\03. GameObject\UI">
+      <UniqueIdentifier>{7aeab810-1995-458e-a630-ca3c448c1473}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\09. UI">
+      <UniqueIdentifier>{ca290ca1-6b3d-41e8-a945-b1c5e7add24e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. GameObject\UI\Button">
+      <UniqueIdentifier>{c5161b99-2bcf-44e3-9d8b-e177e0e60cac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. GameObject\UI\Panel">
+      <UniqueIdentifier>{dc518838-b4d3-40db-98e6-4e5f1bfa6e6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04. Level\Level">
+      <UniqueIdentifier>{39c21d8b-7ef4-4208-8a3b-45f5085d6c2e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -156,9 +171,6 @@
     </ClInclude>
     <ClInclude Include="CGameObject.h">
       <Filter>Engine\03. GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="CLevel.h">
-      <Filter>Engine\04. Level</Filter>
     </ClInclude>
     <ClInclude Include="CTitleLevel.h">
       <Filter>Game\Level\TitleLevel</Filter>
@@ -226,6 +238,21 @@
     <ClInclude Include="CTest.h">
       <Filter>Game\Test</Filter>
     </ClInclude>
+    <ClInclude Include="CUI.h">
+      <Filter>Engine\03. GameObject\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CUIManager.h">
+      <Filter>Engine\02. Manager\09. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CButton.h">
+      <Filter>Engine\03. GameObject\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="CPanelUI.h">
+      <Filter>Engine\03. GameObject\UI\Panel</Filter>
+    </ClInclude>
+    <ClInclude Include="CLevel.h">
+      <Filter>Engine\04. Level\Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameEngine.rc">
@@ -262,9 +289,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="CGameObject.cpp">
       <Filter>Engine\03. GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="CLevel.cpp">
-      <Filter>Engine\04. Level</Filter>
     </ClCompile>
     <ClCompile Include="CTitleLevel.cpp">
       <Filter>Game\Level\TitleLevel</Filter>
@@ -337,6 +361,24 @@
     </ClCompile>
     <ClCompile Include="function.cpp">
       <Filter>Engine\00. Header</Filter>
+    </ClCompile>
+    <ClCompile Include="CUI.cpp">
+      <Filter>Engine\03. GameObject\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CUIManager.cpp">
+      <Filter>Engine\02. Manager\09. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CButton.cpp">
+      <Filter>Engine\03. GameObject\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="CEditorLevel_init.cpp">
+      <Filter>Engine\04. Level\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="CPanelUI.cpp">
+      <Filter>Engine\03. GameObject\UI\Panel</Filter>
+    </ClCompile>
+    <ClCompile Include="CLevel.cpp">
+      <Filter>Engine\04. Level\Level</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

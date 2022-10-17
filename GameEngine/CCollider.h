@@ -14,8 +14,9 @@ private:
     int    m_iOverlapCount;
 
 public:
-    virtual void tick();
-    virtual void render(HDC _dc);
+    virtual void tick() override;
+    virtual void final_tick() override;
+    virtual void render(HDC _dc) override;
 
 public:
     void SetOffsetPos(Vector2 _voffsetPos) { m_vOffsetPos = _voffsetPos; }

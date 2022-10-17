@@ -41,10 +41,8 @@
 #define windowSizeY 460
 #endif
 
-
-
-class CGameObject;
-typedef void(CGameObject::* DELEGATE)(void);
+class CEntity;
+typedef void(CEntity::* DELEGATE)(void);
 
 enum class PEN_TYPE
 {
@@ -78,6 +76,8 @@ enum class LAYER
 	PLAYER_PROJECTILE,	//플레이어가 쏜 미사일
 	MONSTER_PROJECTTILE,
 	PLATFORM,
+
+	UI=15,						//가중나중에 그려져야함
 	END = 16,
 };
 

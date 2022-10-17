@@ -16,6 +16,7 @@ private:
 
 public:
     virtual void tick() override;
+    virtual void final_tick() override;
     virtual void render(HDC _dc) override;
 
 

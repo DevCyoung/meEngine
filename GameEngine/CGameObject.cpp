@@ -64,30 +64,36 @@ void CGameObject::tick()
 {
 	if (nullptr != m_pCollider)
 		m_pCollider->tick();
+
 	if (nullptr != m_pAnimator)
 		m_pAnimator->tick();
+
 	if (nullptr != m_pRigidbody)
 		m_pRigidbody->tick();
 }
 
 void CGameObject::final_tick()
 {
-	if (nullptr != m_pCollider)
-		m_pCollider->final_tick();
-	if (nullptr != m_pAnimator)
-		m_pAnimator->final_tick();
 	if (nullptr != m_pRigidbody)
 		m_pRigidbody->final_tick();
+
+	if (nullptr != m_pAnimator)
+		m_pAnimator->final_tick();
+
+	if (nullptr != m_pCollider)
+		m_pCollider->final_tick();			//콜라이더 최종위치는 가장마지막에
 }
 
 void CGameObject::render(HDC _dc)
 {
 	if (nullptr != m_pCollider)
 		m_pCollider->render(_dc);
-	if (nullptr != m_pAnimator)
-		m_pAnimator->render(_dc);
+
 	if (nullptr != m_pRigidbody)
 		m_pRigidbody->render(_dc);
+
+	if (nullptr != m_pAnimator)
+		m_pAnimator->render(_dc);
 }
 
 void CGameObject::CreateCollider()

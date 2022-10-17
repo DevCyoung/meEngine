@@ -12,6 +12,7 @@
 #include "CCamera.h"
 #include "CAnimEnvManager.h"
 #include "CTexture.h"
+#include "CUIManager.h"
 
 //그냥 윈도우가 시키는대로하는거임
 //DeleteDC(m_pTexBuffer->GetDC());
@@ -80,6 +81,7 @@ void CEngine::tick()
 	GETINSTANCE(CCamera)->tick();
 	GETINSTANCE(CLevelManager)->tick();	
 	GETINSTANCE(CCollisionManager)->tick();
+	GETINSTANCE(CUIManager)->tick();
 }
 
 Vector2 test = {};

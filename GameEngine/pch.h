@@ -15,6 +15,7 @@
 #include <map>
 #include <string>
 #include <assert.h>
+#include <commdlg.h>
 
 using std::vector;
 using std::list;

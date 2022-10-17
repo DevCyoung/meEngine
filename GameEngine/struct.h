@@ -116,7 +116,7 @@ struct tAnimEvent
 {
 	//내가추가함
 	DELEGATE        func;
-	CGameObject*	instance;
+	CEntity*	instance;
 };
 
 
