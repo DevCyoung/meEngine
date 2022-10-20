@@ -27,6 +27,8 @@
 
 //#define _EDITOR_MODE
 
+//960 720
+//320 240
 
 #define LEVEL_EDITOR 1
 #define LEVEL_GAME   2
@@ -37,9 +39,9 @@
 #define windowSizeY 1000
 #else
 #define LEVEL_MODE LEVEL_GAME
-#define windowSizeX 960
-#define windowSizeY 720
-#endif
+#define windowSizeX 320
+#define windowSizeY 240
+#endif`
 
 class CEntity;
 typedef void(CEntity::* DELEGATE)(void);

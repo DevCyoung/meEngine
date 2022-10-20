@@ -50,7 +50,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     //엔진초기화
     //GETINSTANCE(CEngine)->Init(g_hWnd, 960,720);
-    GETINSTANCE(CEngine)->Init(g_hWnd, windowSizeX, windowSizeY);
+    GETINSTANCE(CEngine)->Init(g_hWnd, WINDOW_ORIGINAL_X * WINDOWX_PER_X, WINDOW_ORIGINAL_Y * WINDOWX_PER_Y);
+
     while (true)
     {       
 

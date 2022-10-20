@@ -46,8 +46,9 @@ void CEngine::Init(HWND _hwnd, UINT _iWidth, UINT _iHeight)
 
 	//메인 DC초기화
 	m_hMainDC = GetDC(m_hMainWnd);	
-
 	WindowReSize(_iWidth, _iHeight);
+	m_pRealBuffer = GETINSTANCE(CResourceManager)->CreateTexture(L"RealBackBuffer", WINDOW_ORIGINAL_X, WINDOW_ORIGINAL_Y);
+
 
 	//Pen 초기화
 	CreatePenBrush();
@@ -94,19 +95,26 @@ void CEngine::render()
 	//모니터갱신률
 	//윈도우에선 픽셀 덩어리를 비트맵이라고한다.
 	//우리가 지금까지 그림을 그리는건 윈도우가 소유하고있는 비트맵에 그림을 그린거고 우리가 그것을 보고있던것이다.
-	Rectangle(m_pTexBuffer->GetDC(), -1, -1, m_ptWndScreenSize.x + 1, m_ptWndScreenSize.y + 1);
 
-	GETINSTANCE(CLevelManager)->render(m_pTexBuffer->GetDC());
+	if (LEVEL_MODE == LEVEL_EDITOR)
+	{
+		Rectangle(m_pTexBuffer->GetDC(), -1, -1, m_pTexBuffer->Width() + 1, m_pTexBuffer->Height() + 1);
+		GETINSTANCE(CLevelManager)->render(m_pTexBuffer->GetDC());
+		// 더블버퍼링
+		BitBlt(m_hMainDC, 0, 0, m_ptWndScreenSize.x, m_ptWndScreenSize.y, m_pTexBuffer->GetDC(), 0, 0, SRCCOPY);
 
-	//Rectangle(m_hBufferDC, (int)test.x, (int)test.y, (int)test.x  + 100, (int)test.y  + 100);
-	
-	// MemBitmap -> MainWindowBitmap
-	// 더블버퍼링
-	BitBlt(m_hMainDC, 0, 0, m_ptWndScreenSize.x, m_ptWndScreenSize.y, m_pTexBuffer->GetDC(), 0, 0, SRCCOPY);
-
-
-	//
+	}
+	else
+	{
+		Rectangle(m_pRealBuffer->GetDC(), -1, -1, m_pRealBuffer->Width() + 1, m_pRealBuffer->Height() + 1);
+		GETINSTANCE(CLevelManager)->render(m_pRealBuffer->GetDC());
+		StretchBlt
+		(
+			m_hMainDC, 0, 0, m_ptWndScreenSize.x, m_ptWndScreenSize.y, m_pRealBuffer->GetDC(), 0, 0, m_pRealBuffer->Width(), m_pRealBuffer->Height(), SRCCOPY
+		);
+	}
 	GETINSTANCE(CTimeManager)->render();
+
 }
 
 void CEngine::CreatePenBrush()
@@ -143,6 +151,7 @@ void CEngine::WindowReSize(UINT _iWidth, UINT _iHeight)
 	{
 		// 백버퍼 용 비트맵 제작
 		m_pTexBuffer = GETINSTANCE(CResourceManager)->CreateTexture(L"BackBuffer", m_ptWndScreenSize.x, m_ptWndScreenSize.y);
+		
 	}
 
 	// 백버퍼가 있으면, 변경된 해상도에 맞추어 크기 재조정
@@ -150,4 +159,6 @@ void CEngine::WindowReSize(UINT _iWidth, UINT _iHeight)
 	{
 		m_pTexBuffer->Resize(m_ptWndScreenSize.x, m_ptWndScreenSize.y);
 	}
+
+
 }

@@ -29,11 +29,11 @@ CPlayer::CPlayer()
 	this->GetCollider()->SetOffsetPos(Vector2(0.f, 0.f));
 	this->GetCollider()->SetScale(Vector2(50.f, 50.f));
 
-	this->CreateRigidbody();
+	/*this->CreateRigidbody();
 	this->GetRigidbody()->SetGravity(true);
 	this->GetRigidbody()->SetGravityAccel(1600.f);
 	this->GetRigidbody()->SetVelocityLimit(300.f);
-	this->GetRigidbody()->SetGravityVelocityLimit(330.f);
+	this->GetRigidbody()->SetGravityVelocityLimit(330.f);*/
 
 
 	this->CreateAnimator();
@@ -46,7 +46,7 @@ CPlayer::CPlayer()
 	GetAnimator()->LoadAnimation(L"animation\\VIM.anim");*/
 
 	//GetAnimator()->LoadAnimation(L"animation\\LEFT_WALK.anim");
-	GetAnimator()->LoadAnimation(L"animation\\ATTACK_1.anim");
+	/*GetAnimator()->LoadAnimation(L"animation\\ATTACK_1.anim");
 	GetAnimator()->LoadAnimation(L"animation\\ATTACK_2.anim");
 	GetAnimator()->LoadAnimation(L"animation\\ATTACK_3.anim");
 	GetAnimator()->LoadAnimation(L"animation\\WALK.anim");
@@ -57,17 +57,17 @@ CPlayer::CPlayer()
 	GetAnimator()->LoadAnimation(L"animation\\RETURN_HOME.anim");
 
 	GetAnimator()->LoadAnimation(L"animation\\JUMP_READY.anim");
-	GetAnimator()->LoadAnimation(L"animation\\JUMP.anim");	
+	GetAnimator()->LoadAnimation(L"animation\\JUMP.anim");
 	GetAnimator()->LoadAnimation(L"animation\\DOWN_READY.anim");
 	GetAnimator()->LoadAnimation(L"animation\\DOWN.anim");
-	GetAnimator()->LoadAnimation(L"animation\\DOWN_FINISH.anim");
+	GetAnimator()->LoadAnimation(L"animation\\DOWN_FINISH.anim");*/
 
 
 
 
 
 
-	GetAnimator()->SetAnimFrameFunc(L"ATTACK_1", 0, this, (DELEGATE)&CPlayer::EventAttack1);
+	/*GetAnimator()->SetAnimFrameFunc(L"ATTACK_1", 0, this, (DELEGATE)&CPlayer::EventAttack1);
 	GetAnimator()->SetAnimFrameFunc(L"ATTACK_2", 0, this, (DELEGATE)&CPlayer::EventAttack2);
 	GetAnimator()->SetAnimFrameFunc(L"ATTACK_3", 0, this, (DELEGATE)&CPlayer::EventAttack3);
 
@@ -87,7 +87,7 @@ CPlayer::CPlayer()
 	GetAnimator()->SetAnimFrameFunc(L"START_VIM", 1, this, (DELEGATE)&CPlayer::EventStartVim);
 	GetAnimator()->SetAnimFrameFunc(L"START_VIM", 15, this, (DELEGATE)&CPlayer::EventIdle);
 
-	GetAnimator()->SetAnimFrameFunc(L"RETURN_HOME", 5, this, (DELEGATE)&CPlayer::EventReturnHome);
+	GetAnimator()->SetAnimFrameFunc(L"RETURN_HOME", 5, this, (DELEGATE)&CPlayer::EventReturnHome);*/
 
 
 
@@ -110,14 +110,18 @@ CPlayer::CPlayer()
 	GetAnimator()->LoadAnimation(L"animation\\WALK_LEFT.anim");
 	GetAnimator()->LoadAnimation(L"animation\\WALK_UP.anim");
 	GetAnimator()->LoadAnimation(L"animation\\WALK_RIGHT.anim");*/
-		
+
 
 	//GetAnimator()->Play(L"ATTACK", false);
 	// 
 	//GetAnimator()->Play(L"IDLE", true);
-	GetAnimator()->Play(L"START_VIM", false);
+	//GetAnimator()->Play(L"START_VIM", false);
+
 	//지워야ㅏㅎㅁ
 	//m_pTexuture = GETINSTANCE(CResourceManager)->LoadTexture(L"Player", L"texture\\ppap.bmp");
+
+	GetAnimator()->LoadAnimation(L"animation\\ZERO_IDLE.anim");
+	GetAnimator()->Play(L"IDLE", true);
 }
 
 CPlayer::~CPlayer()
@@ -192,169 +196,174 @@ void CPlayer::tick()
 		}*/
 	}
 
-	if (IS_INPUT_TAB(KEY::LEFT) && canWalkReady)
-	{
-		canWalkReady = false;
-		this->SetFilpX(false);
-		GetAnimator()->Play(L"WALK_READY", false);
-	}
-	if (IS_INPUT_TAB(KEY::RIGHT) && canWalkReady)
-	{
-		canWalkReady = false;
-		this->SetFilpX(true);
-		GetAnimator()->Play(L"WALK_READY", false);
-	}
-
-
-	if (IS_INPUT_RELEASE(KEY::LEFT) && false == canWalkReady)
-	{
-		canWalkReady = true;
-		canWalk = false;
-		GetAnimator()->Play(L"IDLE", true);
-	}
-	if (IS_INPUT_RELEASE(KEY::RIGHT) && false == canWalkReady)
-	{
-		canWalkReady = true;
-		canWalk = false;
-		GetAnimator()->Play(L"IDLE", true);
-	}
-
-		//GETINSTANCE(CCamera)->SetLook(GetPos());
-	if (IS_INPUT_PRESSED(KEY::LEFT) && canWalk)
-	{
-		this->SetFilpX(false);
-		Vector2 pos = this->GetPos();
-		pos.x -= 300 * DELTATIME;
-		this->SetPos(pos);
-		//GetAnimator()->Play(L"WALK_READY", false);
-	}
-	if (IS_INPUT_PRESSED(KEY::RIGHT) && canWalk)
-	{
-		this->SetFilpX(true);
-		Vector2 pos = this->GetPos();
-		pos.x += 300 * DELTATIME;
-		this->SetPos(pos);
-		//GETINSTANCE(CCamera)->SetLook(GetPos());
-		//GetAnimator()->Play(L"WALK_READY", false);
-	}
-	if (IS_INPUT_PRESSED(KEY::UP) && canWalk)
-	{
-		Vector2 pos = this->GetPos();
-		pos.y -= 300 * DELTATIME;
-		this->SetPos(pos);
-	}
-	if (IS_INPUT_PRESSED(KEY::DOWN) && canWalk)
-	{
-		Vector2 pos = this->GetPos();
-		pos.y += 300 * DELTATIME;
-		this->SetPos(pos);
-	}
-
-
-	if (isAtkkAvailable && IS_INPUT_TAB(KEY::Z))
-	{
-		if (attackCount == 0)
-		{
-			GetAnimator()->Play(L"ATTACK_1", false);
-		}
-		else if (attackCount == 1)
-		{
-			GetAnimator()->Play(L"ATTACK_2", false);
-		}
-		else if (attackCount == 2)
-		{
-			GetAnimator()->Play(L"ATTACK_3", false);
-		}		
-	}
-
-	if (IS_INPUT_TAB(KEY::TAB))
-	{
-		GetAnimator()->Play(L"START_VIM", false);
-	}
-
-	if (IS_INPUT_TAB(KEY::ESE))
-	{
-		GetAnimator()->Play(L"RETURN_HOME", false);
-	}
-
-	if (IS_INPUT_PRESSED(KEY::X))
-	{		
-		GetRigidbody()->SetVelocity(Vector2(0, -400.f));		
-	}
-	else
-	{
-		/*Vector2 pos = this->GetPos();
-		pos.y += 300 * DELTATIME;
-		this->SetPos(pos);*/
-	}
-
-	/*if (IS_INPUT_PRESSED(KEY::LEFT))
-	{
-		Vector2 pos = this->GetPos();
-		pos.x -= 1000 * DELTATIME;
-		this->SetPos(pos);
-	}
-	if (IS_INPUT_PRESSED(KEY::RIGHT))
-	{
-		Vector2 pos = this->GetPos();
-		pos.x += 1000 * DELTATIME;
-		this->SetPos(pos);
-	}
-	if (IS_INPUT_PRESSED(KEY::UP))
-	{
-		Vector2 pos = this->GetPos();
-		pos.y -= 1000 * DELTATIME;
-		this->SetPos(pos);
-	}
-	if (IS_INPUT_PRESSED(KEY::DOWN))
-	{
-		Vector2 pos = this->GetPos();
-		pos.y += 1000 * DELTATIME;
-		this->SetPos(pos);
-	}*/
-
-
-
-	/*if (IS_INPUT_TAB(KEY::TAB))
-	{
-		GetAnimator()->Play(L"START", false);
-	}*/
-
-	//if (IS_INPUT_TAB(KEY::LEFT))
-	//{		
-	//	GetAnimator()->Play(L"LEFT_WALK", true);
+	////여기부터잠시주석
+	//if (IS_INPUT_TAB(KEY::LEFT) && canWalkReady)
+	//{
+	//	canWalkReady = false;
+	//	this->SetFilpX(false);
+	//	GetAnimator()->Play(L"WALK_READY", false);
+	//}
+	//if (IS_INPUT_TAB(KEY::RIGHT) && canWalkReady)
+	//{
+	//	canWalkReady = false;
+	//	this->SetFilpX(true);
+	//	GetAnimator()->Play(L"WALK_READY", false);
 	//}
 
-	//if (IS_INPUT_PRESSED(KEY::LEFT))
+
+	//if (IS_INPUT_RELEASE(KEY::LEFT) && false == canWalkReady)
+	//{
+	//	canWalkReady = true;
+	//	canWalk = false;
+	//	GetAnimator()->Play(L"IDLE", true);
+	//}
+	//if (IS_INPUT_RELEASE(KEY::RIGHT) && false == canWalkReady)
+	//{
+	//	canWalkReady = true;
+	//	canWalk = false;
+	//	GetAnimator()->Play(L"IDLE", true);
+	//}
+
+	//	//GETINSTANCE(CCamera)->SetLook(GetPos());
+	//if (IS_INPUT_PRESSED(KEY::LEFT) && canWalk)
+	//{
+	//	this->SetFilpX(false);
+	//	Vector2 pos = this->GetPos();
+	//	pos.x -= 300 * DELTATIME;
+	//	this->SetPos(pos);
+	//	//GetAnimator()->Play(L"WALK_READY", false);
+	//}
+	//if (IS_INPUT_PRESSED(KEY::RIGHT) && canWalk)
+	//{
+	//	this->SetFilpX(true);
+	//	Vector2 pos = this->GetPos();
+	//	pos.x += 300 * DELTATIME;
+	//	this->SetPos(pos);
+	//	//GETINSTANCE(CCamera)->SetLook(GetPos());
+	//	//GetAnimator()->Play(L"WALK_READY", false);
+	//}
+	//if (IS_INPUT_PRESSED(KEY::UP) && canWalk)
 	//{
 	//	Vector2 pos = this->GetPos();
-	//	pos.x -= 100 * DELTATIME;
+	//	pos.y -= 300 * DELTATIME;
+	//	this->SetPos(pos);
+	//}
+	//if (IS_INPUT_PRESSED(KEY::DOWN) && canWalk)
+	//{
+	//	Vector2 pos = this->GetPos();
+	//	pos.y += 300 * DELTATIME;
 	//	this->SetPos(pos);
 	//}
 
-	//if (IS_INPUT_TAB(KEY::UP))
-	//{
-	//	m_fRatio += 0.1f;
-	//	if (m_fRatio <= 1.0000001f)
-	//		m_fRatio = 0.0f;
 
+	//if (isAtkkAvailable && IS_INPUT_TAB(KEY::Z))
+	//{
+	//	if (attackCount == 0)
+	//	{
+	//		GetAnimator()->Play(L"ATTACK_1", false);
+	//	}
+	//	else if (attackCount == 1)
+	//	{
+	//		GetAnimator()->Play(L"ATTACK_2", false);
+	//	}
+	//	else if (attackCount == 2)
+	//	{
+	//		GetAnimator()->Play(L"ATTACK_3", false);
+	//	}		
 	//}
 
-	//if (IS_INPUT_TAB(KEY::DOWN))
+	//if (IS_INPUT_TAB(KEY::TAB))
 	//{
-	//	m_fRatio -= 0.1f;
-	//	if (m_fRatio >= 0.99999f)
-	//		m_fRatio = 1.0f;
+	//	GetAnimator()->Play(L"START_VIM", false);
 	//}
 
-	/*if (IS_INPUT_TAB(KEY::RIGHT))
+	//if (IS_INPUT_TAB(KEY::ESE))
+	//{
+	//	GetAnimator()->Play(L"RETURN_HOME", false);
+	//}
+
+	//if (IS_INPUT_PRESSED(KEY::X))
+	//{		
+	//	GetRigidbody()->SetVelocity(Vector2(0, -400.f));		
+	//}
+	//else
+	//{
+	//	/*Vector2 pos = this->GetPos();
+	//	pos.y += 300 * DELTATIME;
+	//	this->SetPos(pos);*/
+	//}
+
+	///*if (IS_INPUT_PRESSED(KEY::LEFT))
+	//{
+	//	Vector2 pos = this->GetPos();
+	//	pos.x -= 1000 * DELTATIME;
+	//	this->SetPos(pos);
+	//}
+	//if (IS_INPUT_PRESSED(KEY::RIGHT))
+	//{
+	//	Vector2 pos = this->GetPos();
+	//	pos.x += 1000 * DELTATIME;
+	//	this->SetPos(pos);
+	//}
+	//if (IS_INPUT_PRESSED(KEY::UP))
+	//{
+	//	Vector2 pos = this->GetPos();
+	//	pos.y -= 1000 * DELTATIME;
+	//	this->SetPos(pos);
+	//}
+	//if (IS_INPUT_PRESSED(KEY::DOWN))
+	//{
+	//	Vector2 pos = this->GetPos();
+	//	pos.y += 1000 * DELTATIME;
+	//	this->SetPos(pos);
+	//}*/
+
+
+
+	///*if (IS_INPUT_TAB(KEY::TAB))
+	//{
+	//	GetAnimator()->Play(L"START", false);
+	//}*/
+
+	////if (IS_INPUT_TAB(KEY::LEFT))
+	////{		
+	////	GetAnimator()->Play(L"LEFT_WALK", true);
+	////}
+
+	////if (IS_INPUT_PRESSED(KEY::LEFT))
+	////{
+	////	Vector2 pos = this->GetPos();
+	////	pos.x -= 100 * DELTATIME;
+	////	this->SetPos(pos);
+	////}
+
+	////if (IS_INPUT_TAB(KEY::UP))
+	////{
+	////	m_fRatio += 0.1f;
+	////	if (m_fRatio <= 1.0000001f)
+	////		m_fRatio = 0.0f;
+
+	////}
+
+	////if (IS_INPUT_TAB(KEY::DOWN))
+	////{
+	////	m_fRatio -= 0.1f;
+	////	if (m_fRatio >= 0.99999f)
+	////		m_fRatio = 1.0f;
+	////}
+
+	///*if (IS_INPUT_TAB(KEY::RIGHT))
+	//{
+	//	GetAnimator()->Play(L"VIM", false);
+	//}*/
+
+
+	////충돌체등 위치보정
+	//CGameObject::tick();
+	if (IS_INPUT_TAB(KEY::SPACE))
 	{
-		GetAnimator()->Play(L"VIM", false);
-	}*/
-
-
-	//충돌체등 위치보정
-	CGameObject::tick();
+		GETINSTANCE(CCamera)->SetLook(GetPos());
+	}
 }
 
 void CPlayer::render(HDC _dc)

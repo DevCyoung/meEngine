@@ -24,19 +24,19 @@ CTitleLevel::~CTitleLevel()
 void CTitleLevel::init()
 {
 
-	CGameObject* platform = new CPlatform();
+	/*CGameObject* platform = new CPlatform();
 	platform->SetPos(Vector2(500.f, 250.f));
 	platform->SetScale(Vector2(10.f, 100.f));
-	this->AddObject(platform, LAYER::PLATFORM);
+	this->AddObject(platform, LAYER::PLATFORM);*/
 
 
 	CGameObject* Monster = new CMonster();
-	Monster->SetPos(Vector2(500.f, 250.f));
+	Monster->SetPos(Vector2(50.f, 50.f));
 	Monster->SetScale(Vector2(100.f, 100.f));
 	this->AddObject(Monster, LAYER::BACKGROUND);
-
+		
 	CGameObject* player = new CPlayer();
-	player->SetPos(Vector2(500.f, 250.f));
+	player->SetPos(Vector2(50.f, 50.f));
 	player->SetScale(Vector2(10000000.f, 10000000.f));
 	this->AddObject(player, LAYER::PLAYER);
 
