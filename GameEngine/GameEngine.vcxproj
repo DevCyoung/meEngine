@@ -161,6 +161,7 @@
     <ClInclude Include="CKeyManager.h" />
     <ClInclude Include="CLevel.h" />
     <ClInclude Include="CLevelManager.h" />
+    <ClInclude Include="CLineColManager.h" />
     <ClInclude Include="CMissile.h" />
     <ClInclude Include="CMonster.h" />
     <ClInclude Include="CPanelUI.h" />
@@ -182,6 +183,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="function.h" />
     <ClInclude Include="GameEngine.h" />
+    <ClInclude Include="CLineCollider.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="struct.h" />
@@ -205,6 +207,7 @@
     <ClCompile Include="CKeyManager.cpp" />
     <ClCompile Include="CLevel.cpp" />
     <ClCompile Include="CLevelManager.cpp" />
+    <ClCompile Include="CLineColManager.cpp" />
     <ClCompile Include="CMissile.cpp" />
     <ClCompile Include="CMonster.cpp" />
     <ClCompile Include="CPanelUI.cpp" />
@@ -224,6 +227,7 @@
     <ClCompile Include="CUI.cpp" />
     <ClCompile Include="CUIManager.cpp" />
     <ClCompile Include="function.cpp" />
+    <ClCompile Include="CLineCollider.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>

@@ -6,12 +6,12 @@ class CGameObject;
 class CCollider :
     public CComponent
 {
-private:
+protected:
     Vector2    m_vOffsetPos;
     Vector2    m_vFinalPos;
     Vector2    m_vScale;
-    HPEN    m_hPen;
-    int    m_iOverlapCount;
+    HPEN       m_hPen;
+    int        m_iOverlapCount;
 
 public:
     virtual void tick() override;
@@ -28,9 +28,9 @@ public:
     Vector2 GetFinalPos() const { return m_vFinalPos; }
 
 public:
-    void    OnTriggerEnter(CCollider* _pOhther);
-    void    OnTriggerStay(CCollider* _pOther);
-    void    OnTriggerExit(CCollider* _pOhther);
+    virtual void    OnTriggerEnter(CCollider* _pOhther);
+    virtual void    OnTriggerStay(CCollider* _pOther);
+    virtual void    OnTriggerExit(CCollider* _pOhther);
 
 
 public:

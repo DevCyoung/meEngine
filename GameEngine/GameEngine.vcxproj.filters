@@ -253,6 +253,12 @@
     <ClInclude Include="CLevel.h">
       <Filter>Engine\04. Level\Level</Filter>
     </ClInclude>
+    <ClInclude Include="CLineCollider.h">
+      <Filter>Engine\05. Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="CLineColManager.h">
+      <Filter>Engine\02. Manager\04. Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameEngine.rc">
@@ -379,6 +385,12 @@
     </ClCompile>
     <ClCompile Include="CLevel.cpp">
       <Filter>Engine\04. Level\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="CLineCollider.cpp">
+      <Filter>Engine\05. Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="CLineColManager.cpp">
+      <Filter>Engine\02. Manager\04. Collision</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
