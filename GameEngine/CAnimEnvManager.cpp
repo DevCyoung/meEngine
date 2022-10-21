@@ -8,7 +8,7 @@ CAnimEnvManager::CAnimEnvManager()
 
 CAnimEnvManager::~CAnimEnvManager()
 {
-
+	
 }
 
 void CAnimEnvManager::tick()

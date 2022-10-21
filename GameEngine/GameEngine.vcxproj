@@ -151,6 +151,7 @@
     <ClInclude Include="CButton.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CCollider.h" />
+    <ClInclude Include="CCollisionLevel.h" />
     <ClInclude Include="CCollisionManager.h" />
     <ClInclude Include="CComponent.h" />
     <ClInclude Include="CEditorLevel.h" />
@@ -171,6 +172,7 @@
     <ClInclude Include="CResource.h" />
     <ClInclude Include="CResourceManager.h" />
     <ClInclude Include="CRigidbody.h" />
+    <ClInclude Include="CRockmanObj.h" />
     <ClInclude Include="CStartLevel.h" />
     <ClInclude Include="CTest.h" />
     <ClInclude Include="CTexture.h" />
@@ -179,6 +181,7 @@
     <ClInclude Include="CTitleLevel.h" />
     <ClInclude Include="CUI.h" />
     <ClInclude Include="CUIManager.h" />
+    <ClInclude Include="CZero.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="function.h" />
@@ -196,6 +199,7 @@
     <ClCompile Include="CButton.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCollider.cpp" />
+    <ClCompile Include="CCollisionLevel.cpp" />
     <ClCompile Include="CCollisionManager.cpp" />
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CEditorLevel.cpp" />
@@ -218,6 +222,7 @@
     <ClCompile Include="CResource.cpp" />
     <ClCompile Include="CResourceManager.cpp" />
     <ClCompile Include="CRigidbody.cpp" />
+    <ClCompile Include="CRockmanObj.cpp" />
     <ClCompile Include="CStartLevel.cpp" />
     <ClCompile Include="CTest.cpp" />
     <ClCompile Include="CTexture.cpp" />
@@ -226,6 +231,7 @@
     <ClCompile Include="CTitleLevel.cpp" />
     <ClCompile Include="CUI.cpp" />
     <ClCompile Include="CUIManager.cpp" />
+    <ClCompile Include="CZero.cpp" />
     <ClCompile Include="function.cpp" />
     <ClCompile Include="CLineCollider.cpp" />
     <ClCompile Include="main.cpp" />

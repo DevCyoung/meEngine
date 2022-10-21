@@ -27,6 +27,7 @@ public:
 
 public:
 	void tick();
+	
 
 private:
 	void CollisionBtwLayer(LAYER _left, LAYER _right);

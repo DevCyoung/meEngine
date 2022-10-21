@@ -5,6 +5,7 @@
 #include "CTitleLevel.h"
 #include "CStartLevel.h"
 #include "CEditorLevel.h"
+#include "CCollisionLevel.h"
 
 CLevelManager::CLevelManager()
 	: m_pCurLevel(nullptr)
@@ -30,15 +31,16 @@ void CLevelManager::init()
 	m_arrLevel[(UINT)LEVEL_TYPE::TITLE] = new CTitleLevel;
 	m_arrLevel[(UINT)LEVEL_TYPE::START] = new CStartLevel;
 	m_arrLevel[(UINT)LEVEL_TYPE::EDITOR] = new CEditorLevel;
+	m_arrLevel[(UINT)LEVEL_TYPE::COLLISION] = new CCollisionLevel;
 	
 
 	//m_pCurLevel->init();
 	
-	if (LEVEL_MODE == LEVEL_EDITOR)
+	/*if (LEVEL_MODE == LEVEL_EDITOR)
 		this->LoadLevelEvent(LEVEL_TYPE::EDITOR);
 	else if(LEVEL_MODE == LEVEL_GAME)
-		this->LoadLevelEvent(LEVEL_TYPE::TITLE);
-
+		this->LoadLevelEvent(LEVEL_TYPE::TITLE);*/
+	this->LoadLevelEvent(LEVEL_TYPE::COLLISION);
 }
 
 void CLevelManager::tick()

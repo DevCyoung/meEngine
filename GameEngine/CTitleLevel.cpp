@@ -40,8 +40,6 @@ void CTitleLevel::init()
 	player->SetScale(Vector2(10000000.f, 10000000.f));
 	this->AddObject(player, LAYER::PLAYER);
 
-
-
 	/*GETINSTANCE(CCamera)->SetLook(Vector2(-2368.38f, -1436.f));
 	player->SetPos(Vector2(-2575.16f, -1300.53f));
 	platform->SetPos(Vector2(-2575.16f, -1225.53f));*/
@@ -62,7 +60,6 @@ void CTitleLevel::init()
 	*/
 
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::PLAYER, LAYER::PLATFORM);
-
 }
 
 void CTitleLevel::tick()

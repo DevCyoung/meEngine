@@ -44,7 +44,9 @@
 #endif`
 
 class CEntity;
+class CLineCollider;
 typedef void(CEntity::* DELEGATE)(void);
+typedef void(CEntity::* DELEGATECol)(CLineCollider* _other);
 
 enum class PEN_TYPE
 {
@@ -62,7 +64,7 @@ enum class LEVEL_TYPE
 	STAGE_01,
 	STAGE_02,
 	STAGE_03,
-
+	COLLISION,
 	EDITOR,
 	END, //갯수지정용도
 };

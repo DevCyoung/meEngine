@@ -13,6 +13,7 @@
 #include "CAnimEnvManager.h"
 #include "CTexture.h"
 #include "CUIManager.h"
+#include "CLineColManager.h"
 
 //그냥 윈도우가 시키는대로하는거임
 //DeleteDC(m_pTexBuffer->GetDC());
@@ -60,7 +61,7 @@ void CEngine::Init(HWND _hwnd, UINT _iWidth, UINT _iHeight)
 	GETINSTANCE(CLevelManager)->init();
 
 
-	//GETINSTANCE(CCamera)->SetLook(Vector2(m_ptWndScreenSize.x / 2.f, m_ptWndScreenSize.y / 2.f));
+	GETINSTANCE(CCamera)->SetLook(Vector2(m_ptWndScreenSize.x / 2.f, m_ptWndScreenSize.y / 2.f));
 }
 
 void CEngine::progress()
@@ -80,8 +81,12 @@ void CEngine::tick()
 	GETINSTANCE(CTimeManager)->tick();
 	GETINSTANCE(CKeyManager)->tick();
 	GETINSTANCE(CCamera)->tick();
+
 	GETINSTANCE(CLevelManager)->tick();	
+
 	GETINSTANCE(CCollisionManager)->tick();
+	GETINSTANCE(CLineColManager)->tick();
+
 	GETINSTANCE(CUIManager)->tick();
 }
 
@@ -100,6 +105,10 @@ void CEngine::render()
 	{
 		Rectangle(m_pTexBuffer->GetDC(), -1, -1, m_pTexBuffer->Width() + 1, m_pTexBuffer->Height() + 1);
 		GETINSTANCE(CLevelManager)->render(m_pTexBuffer->GetDC());
+
+		//내가짬
+		//GETINSTANCE(CLineColManager)->render(m_pTexBuffer->GetDC());
+
 		// 더블버퍼링
 		BitBlt(m_hMainDC, 0, 0, m_ptWndScreenSize.x, m_ptWndScreenSize.y, m_pTexBuffer->GetDC(), 0, 0, SRCCOPY);
 
@@ -107,12 +116,18 @@ void CEngine::render()
 	else
 	{
 		Rectangle(m_pRealBuffer->GetDC(), -1, -1, m_pRealBuffer->Width() + 1, m_pRealBuffer->Height() + 1);
+
 		GETINSTANCE(CLevelManager)->render(m_pRealBuffer->GetDC());
+
+		//내가짬
+		//GETINSTANCE(CLineColManager)->render(m_pRealBuffer->GetDC());
+
 		StretchBlt
 		(
 			m_hMainDC, 0, 0, m_ptWndScreenSize.x, m_ptWndScreenSize.y, m_pRealBuffer->GetDC(), 0, 0, m_pRealBuffer->Width(), m_pRealBuffer->Height(), SRCCOPY
 		);
 	}
+
 	GETINSTANCE(CTimeManager)->render();
 
 }

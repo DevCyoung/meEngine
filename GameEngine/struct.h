@@ -119,6 +119,13 @@ struct tAnimEvent
 	CEntity*	instance;
 };
 
+struct tColliEvent
+{
+	//내가추가함
+	DELEGATECol        func;
+	CEntity*		instance;
+};
+
 
 //1프레임
 struct tAnimFrm

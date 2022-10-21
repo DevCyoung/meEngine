@@ -128,6 +128,12 @@
     <Filter Include="Engine\04. Level\Level">
       <UniqueIdentifier>{39c21d8b-7ef4-4208-8a3b-45f5085d6c2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Level\CollisionLevel">
+      <UniqueIdentifier>{44336f9f-0264-4494-959a-577a0df7ca95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\RockMan">
+      <UniqueIdentifier>{e86fd8e2-0b68-4813-b2b0-64f91a2a165f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -258,6 +264,15 @@
     </ClInclude>
     <ClInclude Include="CLineColManager.h">
       <Filter>Engine\02. Manager\04. Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollisionLevel.h">
+      <Filter>Game\Level\CollisionLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="CRockmanObj.h">
+      <Filter>Game\RockMan</Filter>
+    </ClInclude>
+    <ClInclude Include="CZero.h">
+      <Filter>Game\RockMan</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -391,6 +406,15 @@
     </ClCompile>
     <ClCompile Include="CLineColManager.cpp">
       <Filter>Engine\02. Manager\04. Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollisionLevel.cpp">
+      <Filter>Game\Level\CollisionLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="CRockmanObj.cpp">
+      <Filter>Game\RockMan</Filter>
+    </ClCompile>
+    <ClCompile Include="CZero.cpp">
+      <Filter>Game\RockMan</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
