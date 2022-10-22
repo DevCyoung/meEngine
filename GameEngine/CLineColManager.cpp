@@ -61,13 +61,8 @@ void CLineColManager::LayerRegister(LAYER _left, LAYER _right)
 }
 
 
-BOOL CLineColManager::CollisionBtwCollider(const CLineCollider* _pleft, const CLineCollider* _pright)
+BOOL CLineColManager::CollisionBtwCollider(CLineCollider* _pleft, CLineCollider* _pright)
 {
-	/*Vector2 vLeftPos = _pleft->GetFinalPos();
-	Vector2 vLeftScale = _pleft->GetScale();
-
-	Vector2 vRightPos = _pright->GetFinalPos();
-	Vector2 vRightScale = _pright->GetScale();*/
 	float x1 = _pleft->GetP1().x;
 	float y1 = _pleft->GetP1().y;
 	float x2 = _pleft->GetP2().x;
@@ -80,14 +75,19 @@ BOOL CLineColManager::CollisionBtwCollider(const CLineCollider* _pleft, const CL
 
 	float uA = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1));
 	float uB = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1));
+
 	if (uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1) 
 	{
+		_pleft->m_intersection.x = x1 + (uA * (x2 - x1));
+		_pleft->m_intersection.y = y1 + (uA * (y2 - y1));
+
+		_pright->m_intersection.x = x3 + (uB * (x4 - x3));
+		_pright->m_intersection.y = y3 + (uB * (y4 - y3));
 		return TRUE;
 	}
 	return FALSE;
 
-	/*float intersectionX = x1 + (uA * (x2 - x1));
-	float intersectionY = y1 + (uA * (y2 - y1));*/
+	
 }
 CLineCollider* CLineColManager::CreateLine(Vector2 p1, Vector2 p2, LAYER _layer)
 {
@@ -97,6 +97,8 @@ CLineCollider* CLineColManager::CreateLine(Vector2 p1, Vector2 p2, LAYER _layer)
 	collider->SetP2(p2);
 	return collider;
 }
+
+
 void CLineColManager::CollisionBtwLayer(LAYER _left, LAYER _right)
 {
 	//CLevel* pCurLevel = (CLevel*)GETINSTANCE(CLevelManager)->GetCurLevel();

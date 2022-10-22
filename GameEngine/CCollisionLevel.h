@@ -15,7 +15,7 @@ class CCollisionLevel :
 
     void TestEventEnter(CLineCollider* _lineCol);
     void TestEventExit(CLineCollider* _lineCol);
-    //void TestEvent(CLineCollider* _lineCol);
+    void TestEventOverlap(CLineCollider* _lineCol);
 
 public:
     CCollisionLevel();

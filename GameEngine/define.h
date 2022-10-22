@@ -25,7 +25,7 @@
 //#define windowSizeY 460
 
 
-//#define _EDITOR_MODE
+#define _EDITOR_MODE
 
 //960 720
 //320 240
@@ -41,7 +41,7 @@
 #define LEVEL_MODE LEVEL_GAME
 #define windowSizeX 320
 #define windowSizeY 240
-#endif`
+#endif
 
 class CEntity;
 class CLineCollider;

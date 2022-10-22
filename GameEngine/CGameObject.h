@@ -68,7 +68,7 @@ public:
 
 public:
     CGameObject();
-   CGameObject(const CGameObject& _other);
+    CGameObject(const CGameObject& _other);
     ~CGameObject();
 
     friend class CEventManager;

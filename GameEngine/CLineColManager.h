@@ -34,7 +34,7 @@ public:
 
 private:
 	void CollisionBtwLayer(LAYER _left, LAYER _right);
-	BOOL CollisionBtwCollider(const CLineCollider* _pleft, const CLineCollider* _pright);
+	BOOL CollisionBtwCollider( CLineCollider* _pleft,  CLineCollider* _pright);
 
 public:
 	CLineCollider* CreateLine(Vector2 p1, Vector2 p2, LAYER l);

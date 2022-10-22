@@ -11,6 +11,7 @@ CLineCollider::CLineCollider(CGameObject* obj)
 	, OnTriggerEnterEvent{}
 	, OnTriggerStayEvent{}
 	, OnTriggerExitEvent{}
+	, m_intersection{}
 {
 
 }
@@ -75,6 +76,24 @@ void CLineCollider::render(HDC _dc)
 
 	SelectObject(_dc, hOriginPen);
 	SelectObject(_dc, hOriginBrush);
+	
+
+
+
+}
+
+void CLineCollider::TranslateMove(Vector2 add)
+{
+	m_vP1 += add;
+	m_vP2 += add;
+}
+
+void CLineCollider::TranslateSetPos(Vector2 pos)
+{
+	//기준은 1p으로 한다.
+	m_vP2.x += pos.x - m_vP1.x;
+	m_vP2.y += pos.y - m_vP1.y;
+	m_vP1 = pos;
 }
 
 void CLineCollider::OnTriggerEnter(CLineCollider* _pOhther)

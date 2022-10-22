@@ -14,6 +14,7 @@
 #include "CAnimEnvManager.h"
 
 
+#include "CEngine.h"
 
 CAnimation::CAnimation(CAnimator* _pAnimator)
 	: m_pAnimator(_pAnimator)
@@ -82,45 +83,46 @@ void CAnimation::render(HDC _dc)
 	CGameObject* pOwnerObj = m_pAnimator->GetOwner();
 	Vector2 vPos =GETINSTANCE(CCamera)->GetRenderPos(pOwnerObj->GetPos());
 
-	tAnimFrm frm = m_vecFrm[m_iCurFrm];
+	tAnimFrm frame = m_vecFrm[m_iCurFrm];
 
 
 
-	HDC		hdc		= CreateCompatibleDC(_dc);
-	HBITMAP bitmap	= CreateCompatibleBitmap(_dc, frm.vSize.x, frm.vSize.y);
+	HDC		hdc = CreateCompatibleDC(_dc);
+	HBITMAP bitmap	= CreateCompatibleBitmap(_dc, frame.vSize.x * 3, frame.vSize.y * 3);
 
 	HBITMAP hPrebit = (HBITMAP)SelectObject(hdc, bitmap);
 	DeleteObject(hPrebit);
+
 
 	if (pOwnerObj->GetFilpX())
 	{
 		StretchBlt
 		(
 			hdc
-			, frm.vSize.x - 1
+			, frame.vSize.x * 3 - 1
 			, 0
-			, (int)(-frm.vSize.x)
-			, (int)(frm.vSize.y)
+			, (int)(-frame.vSize.x * 3)
+			, (int)( frame.vSize.y * 3)
 			, m_pAtlas->GetDC()
-			, (int)(frm.vLeftTop.x)
-			, (int)(frm.vLeftTop.y)
-			, (int)(frm.vSize.x)
-			, (int)(frm.vSize.y)
+			, (int)(frame.vLeftTop.x)
+			, (int)(frame.vLeftTop.y)
+			, (int)(frame.vSize.x)
+			, (int)(frame.vSize.y)
 			, SRCCOPY
 		);
 
 		TransparentBlt
 		(
 			_dc
-			, int(vPos.x - (int)(frm.vSize.x / 2) - frm.vOffset.x)
-			, int(vPos.y - (int)(frm.vSize.y / 2) + frm.vOffset.y)
-			, int(frm.vSize.x)
-			, int(frm.vSize.y)
+			, int((int)vPos.x - (int)(frame.vSize.x * 3 + frame.vOffset.x * 3) / 2)
+			, int((int)vPos.y - (int)(frame.vSize.y * 3 - frame.vOffset.y * 3) / 2)
+			, int(frame.vSize.x * 3)
+			, int(frame.vSize.y * 3)
 			, hdc
 			, 0
 			, 0
-			, int(frm.vSize.x)
-			, int(frm.vSize.y)
+			, int(frame.vSize.x * 3)
+			, int(frame.vSize.y * 3)
 			, RGB(255, 0, 255)
 		);
 	}
@@ -131,34 +133,87 @@ void CAnimation::render(HDC _dc)
 			hdc
 			, 0
 			, 0
-			, (int)(frm.vSize.x)
-			, (int)(frm.vSize.y)
+			, (int)(frame.vSize.x * 3)
+			, (int)(frame.vSize.y * 3)
 			, m_pAtlas->GetDC()
-			, (int)(frm.vLeftTop.x)
-			, (int)(frm.vLeftTop.y)
-			, (int)(frm.vSize.x)
-			, (int)(frm.vSize.y)
+			, (int)(frame.vLeftTop.x)
+			, (int)(frame.vLeftTop.y)
+			, (int)(frame.vSize.x)
+			, (int)(frame.vSize.y)
 			, SRCCOPY
 		);
 
 		TransparentBlt
 		(
 			_dc
-			, int(vPos.x - (int)(frm.vSize.x / 2) + frm.vOffset.x)
-			, int(vPos.y - (int)(frm.vSize.y / 2) + frm.vOffset.y)
-			, int(frm.vSize.x)
-			, int(frm.vSize.y)
+			, int((int)vPos.x - (int)(frame.vSize.x * 3  - frame.vOffset.x * 3) / 2)
+			, int((int)vPos.y - (int)(frame.vSize.y * 3  - frame.vOffset.y * 3) / 2)
+			, int(frame.vSize.x * 3)
+			, int(frame.vSize.y * 3)
 			, hdc
 			, 0
 			, 0
-			, int(frm.vSize.x)
-			, int(frm.vSize.y)
+			, int(frame.vSize.x * 3)
+			, int(frame.vSize.y * 3)
 			, RGB(255, 0, 255)
 		);
 	}
 
+	//Rectangle(m_pRealBuffer->GetDC(), -1, -1, m_pRealBuffer->Width() + 1, m_pRealBuffer->Height() + 1);
+
+	//GETINSTANCE(CLevelManager)->render(m_pRealBuffer->GetDC());
+
+	//³»°¡Â«
+	//GETINSTANCE(CLineColManager)->render(m_pRealBuffer->GetDC());
+
+	//StretchBlt
+	//(
+	//	_dc, 0, 0, m_ptWndScreenSize.x, m_ptWndScreenSize.y, m_pRealBuffer->GetDC(), 0, 0, m_pRealBuffer->Width(), m_pRealBuffer->Height(), SRCCOPY
+	//);
 
 
+
+	HPEN hPen = nullptr;
+	hPen = GETINSTANCE(CEngine)->GetPen(PEN_TYPE::GREEN);
+
+	HBRUSH	hNullBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+	HPEN	hOriginPen = (HPEN)SelectObject(_dc, hPen);
+	HBRUSH	hOriginBrush = (HBRUSH)SelectObject(_dc, hNullBrush);
+
+
+
+	tColInfo colInfo = frame.colInfo;
+
+	if (colInfo.vScale.x > 0.000001f || (colInfo.vScale.y > 0.000001f))
+	{
+		Vector2 vLPos = vPos - ((colInfo.vOffset * 3  - colInfo.vScale   * 3))   / 2;
+
+		if (pOwnerObj->GetFilpX() == false)
+		{
+			vLPos.x = vPos.x - (colInfo.vScale.x  /  2  + colInfo.vOffset.x ) * 3;
+			vLPos.y = vPos.y - (colInfo.vScale.y  / 2  + colInfo.vOffset.y ) * 3;
+		}
+		else
+		{
+			vLPos.x = vPos.x + (colInfo.vOffset.x - colInfo.vScale.x / 2)  *  3  ;
+			vLPos.y = vPos.y - (colInfo.vOffset.y + colInfo.vScale.y / 2 ) *  3   ;
+		}
+
+
+
+
+		Rectangle(
+			_dc
+			, vLPos.x
+			, vLPos.y
+			, vLPos.x + colInfo.vScale.x *3
+			, vLPos.y + colInfo.vScale.y *3
+		);
+	
+	}
+
+	SelectObject(_dc, hOriginPen);
+	SelectObject(_dc, hOriginBrush);
 
 	DeleteDC(hdc);
 	DeleteObject(bitmap);
@@ -312,7 +367,35 @@ void CAnimation::Load(const wstring& _strRelativePath)
 					{
 						fwscanf_s(pFile, L"%f", &frm.fDuration);
 						break;
+					}				
+				}
+
+				while (true)
+				{
+					wchar_t szBuffer[256] = {};
+					fwscanf_s(pFile, L"%s", szBuffer, 256);
+
+
+
+					if (!wcscmp(szBuffer, L"[COLLIDER]"))
+					{						
 					}
+
+					else if (!wcscmp(szBuffer, L"[LEFT_TOP]"))
+					{
+						fwscanf_s(pFile, L"%f %f", &frm.colInfo.vLeftTop.x, &frm.colInfo.vLeftTop.y);					
+					}
+
+					else if (!wcscmp(szBuffer, L"[SIZE]"))
+					{
+						fwscanf_s(pFile, L"%f %f", &frm.colInfo.vScale.x, &frm.colInfo.vScale.y);
+					}
+
+					else if (!wcscmp(szBuffer, L"[OFFSET]"))
+					{
+						fwscanf_s(pFile, L"%f %f", &frm.colInfo.vOffset.x, &frm.colInfo.vOffset.y);
+						break;
+					}					
 				}
 
 				m_vecFrm.push_back(frm);

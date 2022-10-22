@@ -362,7 +362,7 @@ void CPlayer::tick()
 	//CGameObject::tick();
 	if (IS_INPUT_TAB(KEY::SPACE))
 	{
-		GETINSTANCE(CCamera)->SetLook(GetPos());
+		//GETINSTANCE(CCamera)->SetLook(GetPos());
 	}
 }
 

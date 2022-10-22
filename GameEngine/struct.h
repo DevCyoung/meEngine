@@ -126,6 +126,12 @@ struct tColliEvent
 	CEntity*		instance;
 };
 
+struct tColInfo
+{
+	Vector2 vLeftTop;
+	Vector2 vOffset;
+	Vector2 vScale;
+};
 
 //1프레임
 struct tAnimFrm
@@ -135,5 +141,6 @@ struct tAnimFrm
 	Vector2	vOffset;		// 추가 이동
 	float fDuration;		//shcnf 시간 해당 프레임을 몇초동안 노출시킬것인가?
 	tAnimEvent action;
+	tColInfo colInfo;
 };
 

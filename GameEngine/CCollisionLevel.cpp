@@ -5,6 +5,7 @@
 #include "CKeyManager.h"
 #include "CTimeManager.h"
 #include "CCamera.h"
+#include "CZero.h"
 
 CLineCollider* collider1;
 CLineCollider* collider2;
@@ -20,7 +21,7 @@ CCollisionLevel::~CCollisionLevel()
 
 }
 
-
+CLineCollider* collider = nullptr;
 
 void CCollisionLevel::init()
 {
@@ -37,14 +38,10 @@ void CCollisionLevel::init()
 	eventCol.instance = collider1;
 	collider1->SetOnTriggerExitEvent(eventCol);
 	collider3->SetOnTriggerExitEvent(eventCol);
-	
 
-
-	
-	
-
-	
-
+	eventCol.func = (DELEGATECol)&CCollisionLevel::TestEventOverlap;
+	eventCol.instance = collider3;
+	collider3->SetOnTriggerStayEvent(eventCol);
 
 
 	//GETINSTANCE(CCamera)->SetLook(Vector2(50.f, 50.f));
@@ -52,7 +49,7 @@ void CCollisionLevel::init()
 
 	collider2 = GETINSTANCE(CLineColManager)->CreateLine(Vector2(30.f, 30.f), Vector2(200.f, 150.f), LAYER::MONSTER);
 
-	collider2 = GETINSTANCE(CLineColManager)->CreateLine(Vector2(80.f, 80.f), Vector2(150.f, 80.f), LAYER::MONSTER);
+	//collider2 = GETINSTANCE(CLineColManager)->CreateLine(Vector2(80.f, 80.f), Vector2(150.f, 80.f), LAYER::MONSTER);
 
 	collider2 = GETINSTANCE(CLineColManager)->CreateLine(Vector2(200.f, 150.f), Vector2(350, 150.f), LAYER::MONSTER);
 
@@ -64,7 +61,9 @@ void CCollisionLevel::init()
 	}
 	
 
-
+	CZero* zero = new CZero();
+	zero->SetPos(Vector2(50.f, 50.f));
+	this->AddObject(zero, LAYER::PLAYER);
 
 	GETINSTANCE(CLineColManager)->LayerRegister(LAYER::PLAYER, LAYER::MONSTER);
 }
@@ -73,50 +72,11 @@ void CCollisionLevel::tick()
 {
 	CLevel::tick();
 
-	Vector2 p1 = collider1->GetP1();
-	Vector2 p2 = collider1->GetP2();
-
-	Vector2 p3 = collider3->GetP1();
-	Vector2 p4 = collider3->GetP2();
-
-	if (IS_INPUT_PRESSED(KEY::RIGHT))
-	{
-		p1.x += 100 * DELTATIME;
-		p2.x += 100 * DELTATIME;
-		p3.x += 100 * DELTATIME;
-		p4.x += 100 * DELTATIME;
-
-	}
-	if (IS_INPUT_PRESSED(KEY::LEFT))
-	{
-		p1.x -= 100 * DELTATIME;
-		p2.x -= 100 * DELTATIME;
-		p3.x -= 100 * DELTATIME;
-		p4.x -= 100 * DELTATIME;
-	}
-	if (IS_INPUT_PRESSED(KEY::UP))
-	{
-		p1.y -= 100 * DELTATIME;
-		p2.y -= 100 * DELTATIME;
-		p3.y -= 100 * DELTATIME;
-		p4.y -= 100 * DELTATIME;
-	}
-	if (IS_INPUT_PRESSED(KEY::DOWN))
-	{
-		p1.y += 100 * DELTATIME;
-		p2.y += 100 * DELTATIME;
-		p3.y += 100 * DELTATIME;
-		p4.y += 100 * DELTATIME;
-	}
-	collider1->SetP1(p1);
-	collider1->SetP2(p2);
-
-	collider3->SetP1(p3);
-	collider3->SetP2(p4);
 }
 
 void CCollisionLevel::render(HDC _dc)
 {
+	CLevel::render(_dc);
 	GETINSTANCE(CLineColManager)->render(_dc);
 }
 
@@ -135,9 +95,29 @@ void CCollisionLevel::Exit()
 void CCollisionLevel::TestEventEnter(CLineCollider* _lineCol)
 {
 	//MessageBox(nullptr, L"Enter", L"Enter", MB_OK);
+	collider = _lineCol;
 }
 
 void CCollisionLevel::TestEventExit(CLineCollider* _lineCol)
-{	
-	//MessageBox(nullptr, L"Exit", L"Exit", MB_OK);
+{
+	collider = nullptr;
 }
+
+void CCollisionLevel::TestEventOverlap(CLineCollider* _lineCol)
+{
+	if (collider3 == nullptr)
+		return;
+	//살짝남겨두고붙인다.
+	//현재위치
+	Vector2 inter = _lineCol->GetIntersction();
+	Vector2 p1 = collider3->GetP1();
+	Vector2 p2 = collider3->GetP2();
+
+	p1.y = inter.y + 50;
+	p2.y = inter.y + 50;
+
+	collider3->SetP1(p1);
+	collider3->SetP1(p2);
+	//collider = _lineCol;
+}
+

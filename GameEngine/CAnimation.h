@@ -34,7 +34,9 @@ public:
     }
 
     void Save(const wstring& _strRelativePath);
-    void Load(const wstring& _strRelativePath);    
+    void Load(const wstring& _strRelativePath);
+
+    tColInfo GetColinfo(int idx) { return m_vecFrm[idx].colInfo; }
 
 public:
     CLONE(CAnimation);
