@@ -22,9 +22,11 @@ CZero::CZero()
 	, m_downLandCheck(nullptr)
 {
 	m_rayDistance = 70.f;
+
 	m_downColLeft = GETINSTANCE(CLineColManager)->CreateLine(Vector2(0.f, 0.f), Vector2(0.f, m_rayDistance), LAYER::PLAYER);
 	m_downColRight = GETINSTANCE(CLineColManager)->CreateLine(Vector2(0.f, 0.f), Vector2(0.f, m_rayDistance), LAYER::PLAYER);
 	m_downLandCheck = GETINSTANCE(CLineColManager)->CreateLine(Vector2(0.f, 0.f), Vector2(0.f, m_rayDistance), LAYER::PLAYER);
+
 
 	tColliEvent eventCol = {};
 	eventCol.func = (DELEGATECol)&CZero::DownHitStay;
@@ -64,27 +66,27 @@ void CZero::tick()
 	if (IS_INPUT_PRESSED(KEY::LEFT))
 	{
 		this->SetFilpX(false);
-		pos.x -= 100 * DELTATIME;	
+		pos.x -= 100 * DELTATIME;
 	}
 	if (IS_INPUT_PRESSED(KEY::RIGHT))
 	{
 		this->SetFilpX(true);
-		pos.x += 100* DELTATIME;	
+		pos.x += 100 * DELTATIME;
 	}
 	if (IS_INPUT_PRESSED(KEY::UP))
-	{		
+	{
 		pos.y -= 100 * DELTATIME;
 	}
 	if (IS_INPUT_PRESSED(KEY::DOWN))
-	{		
-		pos.y += 100 * DELTATIME;	
+	{
+		pos.y += 100 * DELTATIME;
 	}
 
-	
+
 
 
 	this->SetPos(pos);
-	
+
 	/*pos.x = GetPos().x - 25.f;
 	m_downColRight->TranslateSetPos(pos);*/
 
@@ -103,7 +105,7 @@ void CZero::render(HDC _dc)
 	CRockmanObj::render(_dc);*/
 	//Rectangle(_dc, pos.x - 2, pos.y - 2 , pos.x + 2, pos.y + 2);
 	// 
-	 
+
 	pos = this->GetPos();
 
 

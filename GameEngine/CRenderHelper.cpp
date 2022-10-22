@@ -15,6 +15,7 @@ CRenderHelper::~CRenderHelper()
 
 void CRenderHelper::StretchRender(HDC HDCsource, int leftX, int leftY, int sizeX, int sizeY, HDC HDCdest, int posX, int posY ,int offsetX, int offsetY, bool isFlip)
 {	
+
 	HDC		HDCbuffer = CreateCompatibleDC(HDCdest);
 	HBITMAP HBITMAPbuffer = CreateCompatibleBitmap(HDCdest, sizeX * WINDOWX_PER_X, sizeY * WINDOWX_PER_Y);
 
@@ -89,6 +90,48 @@ void CRenderHelper::StretchRender(HDC HDCsource, int leftX, int leftY, int sizeX
 
 	DeleteObject(HBITMAPbuffer);
 	DeleteDC(HDCbuffer);
+}
+
+void CRenderHelper::StretchRenderCollider(HDC _dc, tAnimFrm& frame, Vector2 vPos, bool isflip)
+{
+	HPEN hPen = GETINSTANCE(CEngine)->GetPen(PEN_TYPE::RED);
+	HBRUSH	hNullBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+
+	HPEN	hOriginPen = (HPEN)SelectObject(_dc, hPen);
+	HBRUSH	hOriginBrush = (HBRUSH)SelectObject(_dc, hNullBrush);
+
+	tColInfo colInfo = frame.colInfo;
+
+	if (colInfo.vScale.x > 0.000001f || (colInfo.vScale.y > 0.000001f))
+	{
+		Vector2 vLPos;
+
+		vLPos.x = vPos.x - ((colInfo.vOffset.x * WINDOWX_PER_X - colInfo.vScale.x * WINDOWX_PER_X)) / 2;
+		vLPos.y = vPos.y - ((colInfo.vOffset.y * WINDOWX_PER_Y - colInfo.vScale.y * WINDOWX_PER_Y)) / 2;
+
+		if (isflip == false)
+		{
+			vLPos.x = vPos.x - (colInfo.vScale.x  /  2  + colInfo.vOffset.x ) * WINDOWX_PER_X;
+			vLPos.y = vPos.y - (colInfo.vScale.y  / 2  + colInfo.vOffset.y ) * WINDOWX_PER_Y;
+		}
+		else
+		{
+			vLPos.x = vPos.x + (colInfo.vOffset.x - colInfo.vScale.x / 2)  * WINDOWX_PER_X;
+			vLPos.y = vPos.y - (colInfo.vOffset.y + colInfo.vScale.y / 2 ) * WINDOWX_PER_Y;
+		}
+
+		Rectangle(
+			_dc
+			, vLPos.x
+			, vLPos.y
+			, vLPos.x + colInfo.vScale.x * WINDOWX_PER_X
+			, vLPos.y + colInfo.vScale.y * WINDOWX_PER_Y
+		);
+
+	}
+
+	SelectObject(_dc, hOriginPen);
+	SelectObject(_dc, hOriginBrush);
 }
 
 void CRenderHelper::ColorSwap(HDC HDCsource, int width, int height, vector<UNIONCOLOR32> sourceColors, vector<UNIONCOLOR32> destColors)

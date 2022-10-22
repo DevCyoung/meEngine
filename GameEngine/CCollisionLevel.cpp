@@ -60,10 +60,12 @@ void CCollisionLevel::init()
 		collider2 = GETINSTANCE(CLineColManager)->CreateLine(Vector2(300, 300.f), Vector2(300, 500.f), LAYER::MONSTER);
 	}
 	
-
-	CZero* zero = new CZero();
-	zero->SetPos(Vector2(50.f, 50.f));
-	this->AddObject(zero, LAYER::PLAYER);
+	for (size_t i = 0; i < 1; i++)
+	{
+		CZero* zero = new CZero();
+		zero->SetPos(Vector2(50.f, 50.f));
+		this->AddObject(zero, LAYER::PLAYER);
+	}
 
 	GETINSTANCE(CLineColManager)->LayerRegister(LAYER::PLAYER, LAYER::MONSTER);
 }
