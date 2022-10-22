@@ -144,3 +144,15 @@ struct tAnimFrm
 	tColInfo colInfo;
 };
 
+
+union UNIONCOLOR32
+{
+	struct
+	{
+		UCHAR A;
+		UCHAR B;
+		UCHAR G;
+		UCHAR R;
+	};
+	DWORD COLOR;
+};

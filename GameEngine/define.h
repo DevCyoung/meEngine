@@ -48,6 +48,8 @@ class CLineCollider;
 typedef void(CEntity::* DELEGATE)(void);
 typedef void(CEntity::* DELEGATECol)(CLineCollider* _other);
 
+
+
 enum class PEN_TYPE
 {
 	RED,

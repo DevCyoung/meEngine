@@ -134,6 +134,12 @@
     <Filter Include="Game\RockMan">
       <UniqueIdentifier>{e86fd8e2-0b68-4813-b2b0-64f91a2a165f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\07. Helper">
+      <UniqueIdentifier>{d99dc08f-0b89-401e-81bc-db00071480c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\RockMan\Zero">
+      <UniqueIdentifier>{adec179f-109d-4e61-b819-52c257873c3e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -271,8 +277,11 @@
     <ClInclude Include="CRockmanObj.h">
       <Filter>Game\RockMan</Filter>
     </ClInclude>
+    <ClInclude Include="CRenderHelper.h">
+      <Filter>Engine\07. Helper</Filter>
+    </ClInclude>
     <ClInclude Include="CZero.h">
-      <Filter>Game\RockMan</Filter>
+      <Filter>Game\RockMan\Zero</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -413,8 +422,14 @@
     <ClCompile Include="CRockmanObj.cpp">
       <Filter>Game\RockMan</Filter>
     </ClCompile>
+    <ClCompile Include="CRenderHelper.cpp">
+      <Filter>Engine\07. Helper</Filter>
+    </ClCompile>
     <ClCompile Include="CZero.cpp">
-      <Filter>Game\RockMan</Filter>
+      <Filter>Game\RockMan\Zero</Filter>
+    </ClCompile>
+    <ClCompile Include="ZeroInit.cpp">
+      <Filter>Game\RockMan\Zero</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

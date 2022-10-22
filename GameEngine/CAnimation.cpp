@@ -15,6 +15,7 @@
 
 
 #include "CEngine.h"
+#include "CRenderHelper.h"
 
 CAnimation::CAnimation(CAnimator* _pAnimator)
 	: m_pAnimator(_pAnimator)
@@ -86,15 +87,29 @@ void CAnimation::render(HDC _dc)
 	tAnimFrm frame = m_vecFrm[m_iCurFrm];
 
 
-
-	HDC		hdc = CreateCompatibleDC(_dc);
+	/*HDC		hdc = CreateCompatibleDC(_dc);
 	HBITMAP bitmap	= CreateCompatibleBitmap(_dc, frame.vSize.x * 3, frame.vSize.y * 3);
 
 	HBITMAP hPrebit = (HBITMAP)SelectObject(hdc, bitmap);
-	DeleteObject(hPrebit);
+	DeleteObject(hPrebit);*/
 
 
-	if (pOwnerObj->GetFilpX())
+	CRenderHelper::StretchRender
+	(
+		m_pAtlas->GetDC(), 
+		frame.vLeftTop.x, 
+		frame.vLeftTop.y, 
+		frame.vSize.x, 
+		frame.vSize.y,
+		_dc, 
+		vPos.x, 
+		vPos.y, 
+		frame.vOffset.x, 
+		frame.vOffset.y, 
+		pOwnerObj->GetFilpX()
+	);
+
+	/*if (pOwnerObj->GetFilpX())
 	{
 		StretchBlt
 		(
@@ -157,7 +172,7 @@ void CAnimation::render(HDC _dc)
 			, int(frame.vSize.y * 3)
 			, RGB(255, 0, 255)
 		);
-	}
+	}*/
 
 	//Rectangle(m_pRealBuffer->GetDC(), -1, -1, m_pRealBuffer->Width() + 1, m_pRealBuffer->Height() + 1);
 
@@ -173,7 +188,7 @@ void CAnimation::render(HDC _dc)
 
 
 
-	HPEN hPen = nullptr;
+	/*HPEN hPen = nullptr;
 	hPen = GETINSTANCE(CEngine)->GetPen(PEN_TYPE::GREEN);
 
 	HBRUSH	hNullBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
@@ -199,9 +214,6 @@ void CAnimation::render(HDC _dc)
 			vLPos.y = vPos.y - (colInfo.vOffset.y + colInfo.vScale.y / 2 ) *  3   ;
 		}
 
-
-
-
 		Rectangle(
 			_dc
 			, vLPos.x
@@ -213,10 +225,9 @@ void CAnimation::render(HDC _dc)
 	}
 
 	SelectObject(_dc, hOriginPen);
-	SelectObject(_dc, hOriginBrush);
+	SelectObject(_dc, hOriginBrush);*/
 
-	DeleteDC(hdc);
-	DeleteObject(bitmap);
+	
 }
 
 
@@ -408,5 +419,10 @@ void CAnimation::Load(const wstring& _strRelativePath)
 	m_pAtlas = GETINSTANCE(CResourceManager)->LoadTexture(strAtlasKey, strAltasRelativePath);
 
 	fclose(pFile);
+}
+
+void CAnimation::ColorSwap(vector<UNIONCOLOR32> sourceColors, vector<UNIONCOLOR32> destColors)
+{
+	CRenderHelper::ColorSwap(m_pAtlas->GetDC(), m_pAtlas->Width(), m_pAtlas->Height(), sourceColors, destColors);
 }
 
