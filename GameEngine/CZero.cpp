@@ -43,8 +43,11 @@ CZero::CZero()
 	//mm_pTexuture = GETINSTANCE(CResourceManager)->LoadTexture(L"ZZ", L"\\texture\\charactor\\atlas_zero3.bmp");
 
 	CreateAnimator();
+	GetAnimator()->LoadAnimation(L"animation\\zero\\thunder.anim");
+	GetAnimator()->LoadAnimation(L"animation\\zero\\IDLE.anim");
 	GetAnimator()->LoadAnimation(L"animation\\zero\\attack.anim");
-	GetAnimator()->Play(L"ATTACK", true);
+
+	GetAnimator()->Play(L"IDLE", true);
 }
 
 CZero::CZero(const CRockmanObj& _other)
@@ -82,7 +85,15 @@ void CZero::tick()
 		pos.y += 100 * DELTATIME;
 	}
 
+	if (IS_INPUT_TAB(KEY::LCTRL))
+	{
+		GetAnimator()->Play(L"THUNDER", false);
+	}
 
+	if (IS_INPUT_TAB(KEY::Z))
+	{
+		GetAnimator()->Play(L"ATTACK", false);
+	}
 
 
 	this->SetPos(pos);
