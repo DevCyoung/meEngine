@@ -95,9 +95,9 @@ CLineCollider* CLineColManager::CreateLine(Vector2 p1, Vector2 p2, LAYER _layer)
 	m_veclineCol[(UINT)_layer].push_back(collider);
 	collider->SetP1(p1);
 	collider->SetP2(p2);
+	collider->layer = _layer;
 	return collider;
 }
-
 
 void CLineColManager::CollisionBtwLayer(LAYER _left, LAYER _right)
 {
@@ -185,3 +185,18 @@ void CLineColManager::CollisionBtwLayer(LAYER _left, LAYER _right)
 	}
 }
 
+void CLineColManager::RemoveLine(CLineCollider* line)
+{
+	assert(line);
+
+	for (size_t i = 0; i < m_veclineCol[(UINT)line->layer].size(); i++)
+	{
+		if (m_veclineCol[(UINT)line->layer][i] == line)
+		{
+			CLineCollider* lineCol = m_veclineCol[(UINT)line->layer][i];
+			m_veclineCol[(UINT)line->layer].erase(m_veclineCol[(UINT)line->layer].begin() + i);
+			delete lineCol;
+			return;
+		}
+	}
+}

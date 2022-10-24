@@ -24,7 +24,7 @@ int g_arrVK[(UINT)KEY::END] =
 	'Z',
 	'X',
 	'C',
-
+	'Q',
 	'1',
 	'2',
 	'3',

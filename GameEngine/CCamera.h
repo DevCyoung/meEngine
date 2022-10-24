@@ -40,6 +40,7 @@ public:
 	void FadeOut(float _fTerm);
 	void FadeIn(float _fTerm);
 	void CameraShake(float _fRange, float _fSpeed, float _fTerm);
+	void CameraKeyMove();
 
 public:
 	Vector2 GetRenderPos(Vector2 _vRealPos) { return _vRealPos - m_vDiff; }

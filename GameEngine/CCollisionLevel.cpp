@@ -30,16 +30,16 @@ void CCollisionLevel::init()
 	
 	tColliEvent eventCol = {};
 
-	eventCol.func = (DELEGATECol)&CCollisionLevel::TestEventEnter;
+	eventCol.func = (DELEGATECOL)&CCollisionLevel::TestEventEnter;
 	eventCol.instance = collider1;
 	collider1->SetOnTriggerEnterEvent(eventCol);
 	collider3->SetOnTriggerEnterEvent(eventCol);
-	eventCol.func = (DELEGATECol)&CCollisionLevel::TestEventExit;
+	eventCol.func = (DELEGATECOL)&CCollisionLevel::TestEventExit;
 	eventCol.instance = collider1;
 	collider1->SetOnTriggerExitEvent(eventCol);
 	collider3->SetOnTriggerExitEvent(eventCol);
 
-	eventCol.func = (DELEGATECol)&CCollisionLevel::TestEventOverlap;
+	eventCol.func = (DELEGATECOL)&CCollisionLevel::TestEventOverlap;
 	eventCol.instance = collider3;
 	collider3->SetOnTriggerStayEvent(eventCol);
 
@@ -63,7 +63,7 @@ void CCollisionLevel::init()
 	for (size_t i = 0; i < 1; i++)
 	{
 		CZero* zero = new CZero();
-		zero->SetPos(Vector2(50.f, 50.f));
+		zero->SetPos(Vector2(150.f, 50.f));
 		this->AddObject(zero, LAYER::PLAYER);
 	}
 
@@ -79,7 +79,7 @@ void CCollisionLevel::tick()
 void CCollisionLevel::render(HDC _dc)
 {
 	CLevel::render(_dc);
-	GETINSTANCE(CLineColManager)->render(_dc);
+	//GETINSTANCE(CLineColManager)->render(_dc);
 }
 
 void CCollisionLevel::Enter()

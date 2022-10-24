@@ -122,7 +122,7 @@ struct tAnimEvent
 struct tColliEvent
 {
 	//내가추가함
-	DELEGATECol        func;
+	DELEGATECOL        func;
 	CEntity*		instance;
 };
 

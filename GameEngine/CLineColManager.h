@@ -1,6 +1,7 @@
 #pragma once
 
 class CLineCollider;
+class CEditorLevel;
 
 union CLineColliderID
 {
@@ -38,5 +39,13 @@ private:
 
 public:
 	CLineCollider* CreateLine(Vector2 p1, Vector2 p2, LAYER l);
+
+private:
+	//CLineCollider* CreateMouseCursor(UINT _size);
+	void RemoveLine(CLineCollider* _line);
+	//void MouseCursorEvent(CLineCollider* _ohter);
+
+
+	friend CEditorLevel;
 };
 

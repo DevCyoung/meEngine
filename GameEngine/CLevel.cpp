@@ -2,7 +2,7 @@
 #include "CLevel.h"
 #include "CGameObject.h"
 #include "CTile.h"
-
+#include "CLineColManager.h"
 
 CLevel::CLevel()
 {
@@ -63,6 +63,7 @@ void CLevel::render(HDC _dc)
 			}
 		}
 	}
+	GETINSTANCE(CLineColManager)->render(_dc);
 }
 
 

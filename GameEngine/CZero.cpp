@@ -10,6 +10,7 @@
 #include "CAnimator.h"
 #include "CTexture.h"
 #include "CResourceManager.h"
+#include "CRigidbody.h"
 
 CTexture* mm_pTexuture = nullptr;
 CZero::CZero()
@@ -29,15 +30,15 @@ CZero::CZero()
 
 
 	tColliEvent eventCol = {};
-	eventCol.func = (DELEGATECol)&CZero::DownHitStay;
+	eventCol.func = (DELEGATECOL)&CZero::DownHitStay;
 	eventCol.instance = this;
 	m_downColLeft->SetOnTriggerStayEvent(eventCol);
-	/*m_downColRight->SetOnTriggerStayEvent(eventCol);
+	m_downColRight->SetOnTriggerStayEvent(eventCol);
 	eventCol = {};
-	eventCol.func = (DELEGATECol)&CZero::DownHitEnter;
+	eventCol.func = (DELEGATECOL)&CZero::DownHitEnter;
 	eventCol.instance = this;
 	m_downColLeft->SetOnTriggerEnterEvent(eventCol);
-	m_downColRight->SetOnTriggerEnterEvent(eventCol);*/
+	m_downColRight->SetOnTriggerEnterEvent(eventCol);
 
 
 	//mm_pTexuture = GETINSTANCE(CResourceManager)->LoadTexture(L"ZZ", L"\\texture\\charactor\\atlas_zero3.bmp");
@@ -48,6 +49,19 @@ CZero::CZero()
 	GetAnimator()->LoadAnimation(L"animation\\zero\\attack.anim");
 
 	GetAnimator()->Play(L"IDLE", true);
+
+	//SetPos(GetPos() + Vector2(1500.f, 0.f));
+
+	//Vector2 vPos = this->GetPos();
+	//vPos += Vector2(1300, 0.f);
+	//this->SetPos(Vector2(1300, 0.f));
+
+	CreateRigidbody();
+	this->CreateRigidbody();
+	this->GetRigidbody()->SetGravity(true);
+	this->GetRigidbody()->SetGravityAccel(600.f);
+	this->GetRigidbody()->SetVelocityLimit(11800.f);
+	this->GetRigidbody()->SetGravityVelocityLimit(600.f);
 }
 
 CZero::CZero(const CRockmanObj& _other)
@@ -69,20 +83,20 @@ void CZero::tick()
 	if (IS_INPUT_PRESSED(KEY::LEFT))
 	{
 		this->SetFilpX(false);
-		pos.x -= 100 * DELTATIME;
+		pos.x -= 200 * DELTATIME;
 	}
 	if (IS_INPUT_PRESSED(KEY::RIGHT))
 	{
 		this->SetFilpX(true);
-		pos.x += 100 * DELTATIME;
+		pos.x += 200 * DELTATIME;
 	}
 	if (IS_INPUT_PRESSED(KEY::UP))
 	{
-		pos.y -= 100 * DELTATIME;
+		pos.y -= 200 * DELTATIME;
 	}
 	if (IS_INPUT_PRESSED(KEY::DOWN))
 	{
-		pos.y += 100 * DELTATIME;
+		pos.y += 200 * DELTATIME;
 	}
 
 	if (IS_INPUT_TAB(KEY::LCTRL))
@@ -95,6 +109,20 @@ void CZero::tick()
 		GetAnimator()->Play(L"ATTACK", false);
 	}
 
+	if (IS_INPUT_PRESSED(KEY::X))
+	{
+		pos.y -= 1000 * DELTATIME;
+		//GetRigidbody()->SetVelocity(Vector2(0.f, -10000.f));
+	}
+	else
+	{
+	}
+	if (IS_INPUT_PRESSED(KEY::C))
+	{
+		GetRigidbody()->SetVelocity(Vector2(200.f, 0.f));
+	}
+	m_downColLeft->TranslateSetPos(pos);
+
 
 	this->SetPos(pos);
 
@@ -102,7 +130,7 @@ void CZero::tick()
 	m_downColRight->TranslateSetPos(pos);*/
 
 	//pos.x = GetPos().x + 25.f;
-	m_downColLeft->TranslateSetPos(pos);
+	
 
 	//GETINSTANCE(CCamera)->SetLook(Vector2(pos.x / 2.f, pos.y / 2.f));
 }

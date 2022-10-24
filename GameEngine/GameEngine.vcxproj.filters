@@ -143,6 +143,21 @@
     <Filter Include="Game\RockMan\RockmanObj">
       <UniqueIdentifier>{0599eb70-c3b6-4a6b-aa2e-59a4d8c152f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\04. Level\Editor\LineCollider">
+      <UniqueIdentifier>{5434dffd-6fc3-4cbe-ba00-b5f9969f8d8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04. Level\Editor\Tile">
+      <UniqueIdentifier>{6e22c023-17c0-4f65-b8ca-d515a931c951}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04. Level\Editor\Editor">
+      <UniqueIdentifier>{7d4254f5-1f3c-4249-bf17-7bd5cd2b7fc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\04. Collision\Line">
+      <UniqueIdentifier>{9da5dcef-c0cc-421b-802d-279649932c93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\04. Collision\box">
+      <UniqueIdentifier>{baccbc37-7ba8-448d-8552-b678f5e3ae4c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -189,9 +204,6 @@
     </ClInclude>
     <ClInclude Include="CTitleLevel.h">
       <Filter>Game\Level\TitleLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="CCollisionManager.h">
-      <Filter>Engine\02. Manager\04. Collision</Filter>
     </ClInclude>
     <ClInclude Include="CCollider.h">
       <Filter>Engine\05. Component\Collider</Filter>
@@ -241,9 +253,6 @@
     <ClInclude Include="CAnimator.h">
       <Filter>Engine\05. Component\Animator</Filter>
     </ClInclude>
-    <ClInclude Include="CEditorLevel.h">
-      <Filter>Engine\04. Level\Editor</Filter>
-    </ClInclude>
     <ClInclude Include="CTile.h">
       <Filter>Engine\03. GameObject\Tile</Filter>
     </ClInclude>
@@ -271,9 +280,6 @@
     <ClInclude Include="CLineCollider.h">
       <Filter>Engine\05. Component\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="CLineColManager.h">
-      <Filter>Engine\02. Manager\04. Collision</Filter>
-    </ClInclude>
     <ClInclude Include="CCollisionLevel.h">
       <Filter>Game\Level\CollisionLevel</Filter>
     </ClInclude>
@@ -285,6 +291,15 @@
     </ClInclude>
     <ClInclude Include="CRockmanObj.h">
       <Filter>Game\RockMan\RockmanObj</Filter>
+    </ClInclude>
+    <ClInclude Include="CEditorLevel.h">
+      <Filter>Engine\04. Level\Editor\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollisionManager.h">
+      <Filter>Engine\02. Manager\04. Collision\box</Filter>
+    </ClInclude>
+    <ClInclude Include="CLineColManager.h">
+      <Filter>Engine\02. Manager\04. Collision\Line</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -325,9 +340,6 @@
     </ClCompile>
     <ClCompile Include="CTitleLevel.cpp">
       <Filter>Game\Level\TitleLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="CCollisionManager.cpp">
-      <Filter>Engine\02. Manager\04. Collision</Filter>
     </ClCompile>
     <ClCompile Include="CCollider.cpp">
       <Filter>Engine\05. Component\Collider</Filter>
@@ -377,9 +389,6 @@
     <ClCompile Include="CAnimator.cpp">
       <Filter>Engine\05. Component\Animator</Filter>
     </ClCompile>
-    <ClCompile Include="CEditorLevel.cpp">
-      <Filter>Engine\04. Level\Editor</Filter>
-    </ClCompile>
     <ClCompile Include="CTile.cpp">
       <Filter>Engine\03. GameObject\Tile</Filter>
     </ClCompile>
@@ -404,9 +413,6 @@
     <ClCompile Include="CButton.cpp">
       <Filter>Engine\03. GameObject\UI\Button</Filter>
     </ClCompile>
-    <ClCompile Include="CEditorLevel_init.cpp">
-      <Filter>Engine\04. Level\Editor</Filter>
-    </ClCompile>
     <ClCompile Include="CPanelUI.cpp">
       <Filter>Engine\03. GameObject\UI\Panel</Filter>
     </ClCompile>
@@ -415,9 +421,6 @@
     </ClCompile>
     <ClCompile Include="CLineCollider.cpp">
       <Filter>Engine\05. Component\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="CLineColManager.cpp">
-      <Filter>Engine\02. Manager\04. Collision</Filter>
     </ClCompile>
     <ClCompile Include="CCollisionLevel.cpp">
       <Filter>Game\Level\CollisionLevel</Filter>
@@ -436,6 +439,30 @@
     </ClCompile>
     <ClCompile Include="CRockmanObj.cpp">
       <Filter>Game\RockMan\RockmanObj</Filter>
+    </ClCompile>
+    <ClCompile Include="WallLineCollider_SaveLoad.cpp">
+      <Filter>Engine\04. Level\Editor\LineCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile_SaveLoad.cpp">
+      <Filter>Engine\04. Level\Editor\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile_Func.cpp">
+      <Filter>Engine\04. Level\Editor\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="CEditorLevel.cpp">
+      <Filter>Engine\04. Level\Editor\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="CEditorLevel_init.cpp">
+      <Filter>Engine\04. Level\Editor\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollisionManager.cpp">
+      <Filter>Engine\02. Manager\04. Collision\box</Filter>
+    </ClCompile>
+    <ClCompile Include="CLineColManager.cpp">
+      <Filter>Engine\02. Manager\04. Collision\Line</Filter>
+    </ClCompile>
+    <ClCompile Include="Line_Func.cpp">
+      <Filter>Engine\04. Level\Editor\LineCollider</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

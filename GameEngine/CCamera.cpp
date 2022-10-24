@@ -25,6 +25,14 @@ CCamera::~CCamera()
 
 void CCamera::tick()
 {
+	//CameraKeyMove();
+	Vector2	WndScreenSize = GETINSTANCE(CEngine)->GetWndScreenSize();
+	m_vDiff = m_vLook - (WndScreenSize / 2.f);
+}
+
+
+void CCamera::CameraKeyMove()
+{
 	if (IS_INPUT_PRESSED(KEY::W))
 	{
 		m_vLook.y -= 300.f * DELTATIME;
@@ -41,12 +49,6 @@ void CCamera::tick()
 	{
 		m_vLook.x += 300.f * DELTATIME;
 	}
-
-	Vector2	WndScreenSize = GETINSTANCE(CEngine)->GetWndScreenSize();
-	m_vDiff = m_vLook - (WndScreenSize / 2.f);
-	//m_vDiff;
-
-
 }
 
 void CCamera::render(HDC _dc)
@@ -64,6 +66,7 @@ void CCamera::FadeIn(float _fTerm)
 void CCamera::CameraShake(float _fRange, float _fSpeed, float _fTerm)
 {
 }
+
 
 void CCamera::CameraEffect()
 {

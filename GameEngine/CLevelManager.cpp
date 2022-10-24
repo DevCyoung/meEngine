@@ -40,7 +40,7 @@ void CLevelManager::init()
 		this->LoadLevelEvent(LEVEL_TYPE::EDITOR);
 	else if(LEVEL_MODE == LEVEL_GAME)
 		this->LoadLevelEvent(LEVEL_TYPE::TITLE);*/
-	this->LoadLevelEvent(LEVEL_TYPE::COLLISION);
+	this->LoadLevelEvent(LEVEL_TYPE::EDITOR);
 }
 
 void CLevelManager::tick()

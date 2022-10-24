@@ -17,7 +17,7 @@
 void CEditorLevel::init()
 {
 	//카메라시점
-	Vector2 vResolution = GETINSTANCE(CEngine)->GetWndScreenSize();
+	/*Vector2 vResolution = GETINSTANCE(CEngine)->GetWndScreenSize();
 	GETINSTANCE(CCamera)->SetLook(vResolution / 2.f);
 
 
@@ -34,7 +34,8 @@ void CEditorLevel::init()
 	}
 
 
-	m_eMode = EDITOR_MODE::TILE;
+	m_eMode = EDITOR_MODE::TILE;*/
+	m_eMode = EDITOR_MODE::LINECOLLIDER;
 }
 
 
@@ -76,10 +77,10 @@ void CEditorLevel::CreateUI()
 
 	AddObject(pPanelUI, LAYER::UI);
 
-	for (size_t i = 0; i < 100; i++)
-	{
-		pPanelUI = pPanelUI->Clone();
-		pPanelUI->SetPos(Vector2(vResolution.x - pPanelTex->Width() + 20.f - pPanelTex->Width(), 10.f));
-		AddObject(pPanelUI, LAYER::UI);
-	}
+	//for (size_t i = 0; i < 100; i++)
+	//{
+	//	pPanelUI = pPanelUI->Clone();
+	//	pPanelUI->SetPos(Vector2(vResolution.x - pPanelTex->Width() + 20.f - pPanelTex->Width(), 10.f));
+	//	AddObject(pPanelUI, LAYER::UI);
+	//}
 }

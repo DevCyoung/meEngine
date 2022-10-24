@@ -8,10 +8,12 @@ CLineCollider::CLineCollider(CGameObject* obj)
 	: CCollider(obj)
 	, m_vP1{}
 	, m_vP2{}
-	, OnTriggerEnterEvent{}
-	, OnTriggerStayEvent{}
-	, OnTriggerExitEvent{}
+	, EnterEvent{}
+	, StayEvent{}
+	, ExitEvent{}
 	, m_intersection{}
+	, layer{}
+	, bIsRenderPoint(false)
 {
 
 }
@@ -20,9 +22,10 @@ CLineCollider::CLineCollider(const CLineCollider& _other)
 	: CCollider(_other)
 	, m_vP1(_other.m_vP1)
 	, m_vP2(_other.m_vP2)
-	, OnTriggerEnterEvent(_other.OnTriggerEnterEvent)
-	, OnTriggerStayEvent (_other.OnTriggerStayEvent)
-	, OnTriggerExitEvent (_other.OnTriggerExitEvent)
+	, EnterEvent(_other.EnterEvent)
+	, StayEvent (_other.StayEvent)
+	, ExitEvent (_other.ExitEvent)
+	, bIsRenderPoint(_other.bIsRenderPoint)
 {
 }
 
@@ -77,9 +80,27 @@ void CLineCollider::render(HDC _dc)
 	SelectObject(_dc, hOriginPen);
 	SelectObject(_dc, hOriginBrush);
 	
+	//hPen = GETINSTANCE(CEngine)->GetPen(PEN_TYPE::BLUE);
+	
+	int distance = 16;
+	if (bIsRenderPoint)
+	{
+		Rectangle
+		(
+			_dc, (int)(p1.x - distance / 2)
+			, (int)(p1.y - distance / 2)
+			, (int)(p1.x + distance / 2)
+			, (int)(p1.y + distance / 2)
+		);
 
-
-
+		Rectangle
+		(
+			_dc, (int)(p2.x - distance / 2)
+			, (int)(p2.y - distance / 2)
+			, (int)(p2.x + distance / 2)
+			, (int)(p2.y + distance / 2)
+		);
+	}
 }
 
 void CLineCollider::TranslateMove(Vector2 add)
@@ -99,25 +120,25 @@ void CLineCollider::TranslateSetPos(Vector2 pos)
 void CLineCollider::OnTriggerEnter(CLineCollider* _pOhther)
 {			
 		++m_iOverlapCount;
-	if (OnTriggerEnterEvent.instance && OnTriggerEnterEvent.func)
+	if (EnterEvent.instance && EnterEvent.func)
 	{
-		(OnTriggerEnterEvent.instance->*OnTriggerEnterEvent.func)(_pOhther);
+		(EnterEvent.instance->*EnterEvent.func)(_pOhther);
 	}
 }
 
 void CLineCollider::OnTriggerStay(CLineCollider* _pOhther)
 {
-	if (OnTriggerStayEvent.instance && OnTriggerStayEvent.func)
+	if (StayEvent.instance && StayEvent.func)
 	{
-		(OnTriggerStayEvent.instance->*OnTriggerStayEvent.func)(_pOhther);
+		(StayEvent.instance->*StayEvent.func)(_pOhther);
 	}
 }
 
 void CLineCollider::OnTriggerExit(CLineCollider* _pOhther)
 {
 		--m_iOverlapCount;
-	if (OnTriggerExitEvent.instance && OnTriggerExitEvent.func)
+	if (ExitEvent.instance && ExitEvent.func)
 	{
-		(OnTriggerExitEvent.instance->*OnTriggerExitEvent.func)(_pOhther);
+		(ExitEvent.instance->*ExitEvent.func)(_pOhther);
 	}
 }

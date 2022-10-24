@@ -39,11 +39,9 @@ void CZero::DownHitEnter(CLineCollider* _pOhter)
 
 void CZero::DownHitStay(CLineCollider* _pOhter)
 {
-
 	Vector2 inter = _pOhter->GetIntersction();
-	Vector2 pos = Vector2(GetPos().x, inter.y - m_rayDistance + 5);
-
-	this->SetPos(pos);
+	Vector2 pos = Vector2(GetPos().x, inter.y - m_rayDistance+ 1);
+	SetPos(pos);
 }
 
 void CZero::DownHitExit(CLineCollider* _pOhter)
