@@ -23,9 +23,6 @@ void CEditorLevel::StartMapEditMode()
 	//이미 만들어진 윈도우에서 제공해주는 매우편한 모달방식의 윈도우
 	//해당창은 그냥 Path 문자열을 저장할뿐임
 
-
-
-
 	OPENFILENAME ofn = {};
 
 	wstring strTileFolderPath = GETINSTANCE(CPathManager)->GetMapPath();
@@ -52,6 +49,7 @@ void CEditorLevel::StartMapEditMode()
 	
 	//맵 고른후 한번클리어
 	this->DeleteAllObject();
+	GETINSTANCE(CLineColManager)->DeletCollider();
 	AddMouseLineollider();
 
 
@@ -100,6 +98,8 @@ void CEditorLevel::SaveLineCollider()
 	_wfopen_s(&pFile, szFilePath, L"wb");
 	assert(pFile);
 
+	DeleteMouse();
+
 	size_t strCount = m_backGround->m_mapAtlas->GetRelativePath().length();
 	fwrite(&strCount, sizeof(size_t), 1, pFile);
 	fwrite(m_backGround->m_mapAtlas->GetRelativePath().c_str(), sizeof(wchar_t), strCount, pFile);
@@ -139,7 +139,7 @@ void CEditorLevel::LoadLineCollider()
 
 
 	this->DeleteAllObject();
-	AddMouseLineollider();
+	
 
 	FILE* pFile = nullptr;
 	_wfopen_s(&pFile, szFilePath, L"rb");
@@ -150,6 +150,9 @@ void CEditorLevel::LoadLineCollider()
 	size_t strCount = 1;
 	wchar_t buffer[256] = {};
 
+	GETINSTANCE(CLineColManager)->DeletCollider();
+	this->DeleteAllObject();
+
 	fread(&strCount, sizeof(size_t), 1, pFile);
 	fread(buffer, sizeof(wchar_t), strCount, pFile);
 	m->m_mapAtlas = GETINSTANCE(CResourceManager)->LoadTexture(buffer, buffer);
@@ -159,7 +162,7 @@ void CEditorLevel::LoadLineCollider()
 
 	GETINSTANCE(CLineColManager)->Load(pFile);
 
-
+	AddMouseLineollider();
 
 
 	fclose(pFile);

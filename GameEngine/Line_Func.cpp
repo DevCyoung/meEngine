@@ -46,6 +46,9 @@ void CEditorLevel::LineMouseEvent(CLineCollider* _other, LINECOL_MODE _mode)
 
 void CEditorLevel::CreateLineMode()
 {
+	Vector2 pos;
+	pos = GETINSTANCE(CKeyManager)->GetMousePos();
+	pos = GETINSTANCE(CCamera)->GetRealPos(pos);
 	if (IS_INPUT_TAB(KEY::LBTN))
 	{
 		switch (m_LineMosueMode)
@@ -53,8 +56,7 @@ void CEditorLevel::CreateLineMode()
 		case LINECOLMOUSE_MODE::NONE:
 		{
 			m_LineMosueMode = LINECOLMOUSE_MODE::ONEDOWN;
-			Vector2 pos = GETINSTANCE(CKeyManager)->GetMousePos();
-			pos = GETINSTANCE(CCamera)->GetRealPos(pos);
+			
 
 			if (nullptr != m_lineColPreMouse)
 			{
@@ -76,35 +78,50 @@ void CEditorLevel::CreateLineMode()
 		break;
 		case LINECOLMOUSE_MODE::ONEDOWN:
 		{
-			if (nullptr == lineCol)
+			if (IS_INPUT_PRESSED(KEY::LSHIFT))
 			{
-				m_LineMosueMode = LINECOLMOUSE_MODE::NONE;
-				return;
+				Vector2 p1 = lineCol->GetP1();
+				if (abs(p1.y - pos.y) <= 50.f)
+				{
+					pos.y = lineCol->GetP1().y;
+				}
+				else
+				{
+					pos.x = lineCol->GetP1().x;
+				}
 			}
+			else if (nullptr != m_lineColPreMouse)
+			{
+				float dis1 = m_lineColPreMouse->GetP1Length(pos);
+				float dis2 = m_lineColPreMouse->GetP2Length(pos);
 
+				//가장가까운점찾기
+				if (dis1 > dis2)
+				{
+					pos = m_lineColPreMouse->GetP2();
+				}
+				else
+				{
+					pos = m_lineColPreMouse->GetP1();
+				}
+			}
 			m_LineMosueMode = LINECOLMOUSE_MODE::NONE;
+			lineCol = nullptr;
+			return;
 		}
 		break;
-
 		}
 	}
 
-	//draw
-	if (lineCol == nullptr)
-		return;
-	//shift 정렬
-
-	Vector2 pos = GETINSTANCE(CKeyManager)->GetMousePos();
+	pos = GETINSTANCE(CKeyManager)->GetMousePos();
 	pos = GETINSTANCE(CCamera)->GetRealPos(pos);
 
-
-	if (m_LineMosueMode == LINECOLMOUSE_MODE::ONEDOWN)
+	if (m_LineMosueMode == LINECOLMOUSE_MODE::ONEDOWN && lineCol)
 	{
-
 		if (IS_INPUT_PRESSED(KEY::LSHIFT))
 		{
 			Vector2 p1 = lineCol->GetP1();
-			if (abs(p1.y - pos.y) <= 10.f)
+			if (abs(p1.y - pos.y) <= 50.f)
 			{
 				pos.y = lineCol->GetP1().y;
 			}
@@ -113,7 +130,7 @@ void CEditorLevel::CreateLineMode()
 				pos.x = lineCol->GetP1().x;
 			}
 		}
-		else if (nullptr != m_lineColPreMouse)
+		else if (nullptr != m_lineColPreMouse && lineCol != m_lineColPreMouse)
 		{
 			float dis1 = m_lineColPreMouse->GetP1Length(pos);
 			float dis2 = m_lineColPreMouse->GetP2Length(pos);
@@ -128,27 +145,27 @@ void CEditorLevel::CreateLineMode()
 				pos = m_lineColPreMouse->GetP1();
 			}
 		}
-
-
 		lineCol->SetP2(pos);
-
-
 	}
-	if (nullptr != MouseX)
+	
+	pos = GETINSTANCE(CKeyManager)->GetMousePos();
+	pos = GETINSTANCE(CCamera)->GetRealPos(pos);
+	if (MouseX != nullptr && MouseY != nullptr)
 	{
-
-		Vector2 pos = GETINSTANCE(CKeyManager)->GetMousePos();
-		pos = GETINSTANCE(CCamera)->GetRealPos(pos);
 		MouseX->TranslateSetPos(pos + Vector2(-size / 2, 0));
 		MouseY->TranslateSetPos(pos + Vector2(0, -size / 2));
 	}
-
-	if (IS_INPUT_TAB(KEY::Q))
+	if (IS_INPUT_TAB(KEY::_7))
 	{
-		if (m_lineColPreMouse == nullptr)
-			return;
-		GETINSTANCE(CLineColManager)->RemoveLine(m_lineColPreMouse);
-		m_lineColPreMouse = nullptr;
+		StartMapEditMode();
+	}
+	if (IS_INPUT_TAB(KEY::_8))
+	{
+		SaveLineCollider();
+	}
+	if (IS_INPUT_TAB(KEY::_9))
+	{
+		LoadLineCollider();
 	}
 
 	if (IS_INPUT_TAB(KEY::RBTN))
@@ -159,35 +176,33 @@ void CEditorLevel::CreateLineMode()
 		zero->SetPos(pos);
 		this->AddObject(zero, LAYER::PLAYER);
 	}
-
-
-	if (IS_INPUT_TAB(KEY::_8))
+	if (IS_INPUT_TAB(KEY::Q) && m_lineColPreMouse != nullptr)
 	{
-		//StartMapEditMode();
-		SaveLineCollider();
+		GETINSTANCE(CLineColManager)->RemoveLine(m_lineColPreMouse);
+		m_lineColPreMouse = nullptr;
 	}
-	if (IS_INPUT_TAB(KEY::_9))
-	{
-		//StartMapEditMode();
-		LoadLineCollider();
-	}
-
 }
 
 
 void CEditorLevel::MouseStayEvent(CLineCollider* _other)
 {
 	//_other->SetRenderPoint(true);
+	if (lineCol == _other)
+		return;
 }
 
 void CEditorLevel::MouseEnterEvent(CLineCollider* _other)
-{		
+{
+	if (lineCol == _other)
+		return;
 	m_lineColPreMouse = _other;
 	_other->SetRenderPoint(true);
 }
 
 void CEditorLevel::MouseExitEvent(CLineCollider* _other)
 {
+	if (lineCol == _other)
+		return;
 	m_lineColPreMouse = nullptr;
 	_other->SetRenderPoint(false);
 }
@@ -236,7 +251,9 @@ void CEditorLevel::CreateLineUI()
 
 void CEditorLevel::AddMouseLineollider()
 {
-	GETINSTANCE(CLineColManager)->DeletCollider();
+	/*GETINSTANCE(CLineColManager)->DeletCollider();
+	this->DeleteAllObject();*/
+
 
 	//클리어해서 맵이랑 마우스 다시 설정해야함.
 	Vector2 pos = GETINSTANCE(CKeyManager)->GetMousePos();
@@ -256,4 +273,22 @@ void CEditorLevel::AddMouseLineollider()
 
 	GETINSTANCE(CLineColManager)->LayerRegister(LAYER::MOUSE, LAYER::WALL);
 	GETINSTANCE(CLineColManager)->LayerRegister(LAYER::WALL, LAYER::PLAYER);
+
+	m_LineMosueMode = LINECOLMOUSE_MODE::NONE;
+	m_eMode = EDITOR_MODE::LINECOLLIDER;
+}
+
+void CEditorLevel::DeleteMouse()
+{
+	if (nullptr != MouseX )
+	{
+		GETINSTANCE(CLineColManager)->RemoveLine(MouseX);
+		MouseX = nullptr;
+	}
+
+	if (nullptr != MouseY)
+	{
+		GETINSTANCE(CLineColManager)->RemoveLine(MouseY);
+		MouseY = nullptr;
+	}
 }

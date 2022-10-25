@@ -69,20 +69,22 @@ public:
 
     //LineCollider Edit
 public:
-    CLineCollider* m_lineColPreMouse;
-    CGameObject*   m_objCurmap;
-    CLineCollider* lineCol;
-    CLineCollider* MouseX;
-    CLineCollider* MouseY;
-    LINECOLMOUSE_MODE m_LineMosueMode;
-    CMap* m_backGround;
+    CLineCollider*      m_lineColPreMouse;
+    CLineCollider*      lineCol;
+    CLineCollider*      MouseX;
+    CLineCollider*      MouseY;
+    LINECOLMOUSE_MODE   m_LineMosueMode;
+    CGameObject*        m_objCurmap;
+    CMap*               m_backGround;
+
+
 
     float size;
     void LineMouseEvent(CLineCollider* _other, LINECOL_MODE _mode);
     void CreateLineMode();
     void CreateLineUI();
     void AddMouseLineollider();
-
+    void DeleteMouse();
 
     //void InitLine();
     void StartMapEditMode();

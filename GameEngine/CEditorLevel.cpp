@@ -19,6 +19,7 @@
 //Map
 #include "CRenderHelper.h"
 #include "CMonster.h"
+#include "CLineColManager.h"
 
 CTexture* mapText;
 
@@ -30,7 +31,7 @@ CEditorLevel::CEditorLevel()
 	, lineCol(nullptr)
 	, MouseX(nullptr)
     , MouseY(nullptr)
-	, m_LineMosueMode{}
+	, m_LineMosueMode{ LINECOLMOUSE_MODE::NONE}
 	, size(40.f)
 	, m_backGround(nullptr)
 {
@@ -54,8 +55,8 @@ void CEditorLevel::tick()
 {
 	//직접구현했으면 틱돌게햐아함
 	CLevel::tick();
-	
 
+	GETINSTANCE(CCamera)->CameraKeyMove(1200.f);
 
 	if (IS_INPUT_TAB(KEY::_1))
 	{
@@ -71,16 +72,11 @@ void CEditorLevel::tick()
 	}
 	if (IS_INPUT_TAB(KEY::_4))
 	{
-		StartMapEditMode();
+		this->DeleteAllObject();
+		GETINSTANCE(CLineColManager)->DeletCollider();
+		AddMouseLineollider();
 		m_eMode = EDITOR_MODE::LINECOLLIDER;
 	}
-
-	
-	if (IS_INPUT_TAB(KEY::ENTER))
-	{		
-		//CLevelManager::LoadLevel(LEVEL_TYPE::TITLE);
-	}
-	GETINSTANCE(CCamera)->CameraKeyMove(1200.f);
 
 
 

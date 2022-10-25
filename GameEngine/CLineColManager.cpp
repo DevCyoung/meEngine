@@ -169,7 +169,6 @@ void CLineColManager::CollisionBtwLayer(LAYER _left, LAYER _right)
 				//이전에는 겹쳐있었다. 아무튼 EndOverlap
 				if (iter->second)
 				{
-
 					vecLeft[i]->OnTriggerExit(vecRight[j]);
 					vecRight[j]->OnTriggerExit(vecLeft[i]);
 					iter->second = false;
