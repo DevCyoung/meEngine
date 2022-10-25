@@ -46,6 +46,9 @@ void CLevel::final_tick()
 
 void CLevel::render(HDC _dc)
 {
+	
+
+
 	for (size_t i = 0; i < (UINT)LAYER::END; i++)
 	{
 		vector<CGameObject*>::iterator iter = m_arrLayer[i].begin();
@@ -63,7 +66,11 @@ void CLevel::render(HDC _dc)
 			}
 		}
 	}
+
+
+
 	GETINSTANCE(CLineColManager)->render(_dc);
+
 }
 
 

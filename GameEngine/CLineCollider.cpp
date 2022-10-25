@@ -8,12 +8,13 @@ CLineCollider::CLineCollider(CGameObject* obj)
 	: CCollider(obj)
 	, m_vP1{}
 	, m_vP2{}
-	, EnterEvent{}
-	, StayEvent{}
-	, ExitEvent{}
+	, m_EnterEvent{}
+	, m_StayEvent{}
+	, m_ExitEvent{}
 	, m_intersection{}
-	, layer{}
-	, bIsRenderPoint(false)
+	, m_layer{}
+	, m_bIsRenderPoint(false)
+	, m_dir(WALLDIR::NONE)
 {
 
 }
@@ -22,10 +23,12 @@ CLineCollider::CLineCollider(const CLineCollider& _other)
 	: CCollider(_other)
 	, m_vP1(_other.m_vP1)
 	, m_vP2(_other.m_vP2)
-	, EnterEvent(_other.EnterEvent)
-	, StayEvent (_other.StayEvent)
-	, ExitEvent (_other.ExitEvent)
-	, bIsRenderPoint(_other.bIsRenderPoint)
+	, m_EnterEvent(_other.m_EnterEvent)
+	, m_StayEvent (_other.m_StayEvent)
+	, m_ExitEvent (_other.m_ExitEvent)
+	, m_bIsRenderPoint(_other.m_bIsRenderPoint)
+	, m_dir(_other.m_dir)
+	, m_layer(_other.m_layer)
 {
 }
 
@@ -83,7 +86,7 @@ void CLineCollider::render(HDC _dc)
 	//hPen = GETINSTANCE(CEngine)->GetPen(PEN_TYPE::BLUE);
 	
 	int distance = 16;
-	if (bIsRenderPoint)
+	if (m_bIsRenderPoint)
 	{
 		Rectangle
 		(
@@ -120,25 +123,25 @@ void CLineCollider::TranslateSetPos(Vector2 pos)
 void CLineCollider::OnTriggerEnter(CLineCollider* _pOhther)
 {			
 		++m_iOverlapCount;
-	if (EnterEvent.instance && EnterEvent.func)
+	if (m_EnterEvent.instance && m_EnterEvent.func)
 	{
-		(EnterEvent.instance->*EnterEvent.func)(_pOhther);
+		(m_EnterEvent.instance->*m_EnterEvent.func)(_pOhther);
 	}
 }
 
 void CLineCollider::OnTriggerStay(CLineCollider* _pOhther)
 {
-	if (StayEvent.instance && StayEvent.func)
+	if (m_StayEvent.instance && m_StayEvent.func)
 	{
-		(StayEvent.instance->*StayEvent.func)(_pOhther);
+		(m_StayEvent.instance->*m_StayEvent.func)(_pOhther);
 	}
 }
 
 void CLineCollider::OnTriggerExit(CLineCollider* _pOhther)
 {
 		--m_iOverlapCount;
-	if (ExitEvent.instance && ExitEvent.func)
+	if (m_ExitEvent.instance && m_ExitEvent.func)
 	{
-		(ExitEvent.instance->*ExitEvent.func)(_pOhther);
+		(m_ExitEvent.instance->*m_ExitEvent.func)(_pOhther);
 	}
 }

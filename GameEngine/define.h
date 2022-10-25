@@ -24,24 +24,24 @@
 //#define windowSizeX 720
 //#define windowSizeY 460
 
-
-#define _EDITOR_MODE
-
-//960 720
-//320 240
-
-#define LEVEL_EDITOR 1
-#define LEVEL_GAME   2
-
-#ifdef  _EDITOR_MODE
-#define LEVEL_MODE LEVEL_EDITOR
-#define windowSizeX 1280
-#define windowSizeY 1000
-#else
-#define LEVEL_MODE LEVEL_GAME
-#define windowSizeX 320
-#define windowSizeY 240
-#endif
+//
+//#define _EDITOR_MODE
+//
+////960 720
+////320 240
+//
+//#define LEVEL_EDITOR 1
+//#define LEVEL_GAME   2
+//
+//#ifdef  _EDITOR_MODE
+//#define LEVEL_MODE LEVEL_EDITOR
+//#define windowSizeX 1280
+//#define windowSizeY 1000
+//#else
+//#define LEVEL_MODE LEVEL_GAME
+//#define windowSizeX 320
+//#define windowSizeY 240
+//#endif
 
 class CEntity;
 class CLineCollider;
@@ -76,9 +76,9 @@ enum class LAYER
 {
 	BACKGROUND,	//배경
 	TILE,\
-	PLAYER,		//플레이어
-	DEFAUT,
 	MONSTER,
+	DEFAUT,
+	PLAYER,		//플레이어
 	PLAYER_PROJECTILE,	//플레이어가 쏜 미사일
 	MONSTER_PROJECTTILE,
 	PLATFORM,

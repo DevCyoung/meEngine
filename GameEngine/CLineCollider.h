@@ -1,8 +1,16 @@
 #pragma once
 #include "CCollider.h"
 
-class CLineColManager;
+enum class WALLDIR
+{
+    LEFT,
+    UP,
+    RIGHT,
+    DOWN,
+    NONE,
+};
 
+class CLineColManager;
 
 class CLineCollider :
     public CCollider
@@ -11,15 +19,17 @@ class CLineCollider :
 private:
     Vector2         m_vP1;
     Vector2         m_vP2;
+    WALLDIR         m_dir;
+
+
+    tColliEvent     m_EnterEvent;
+    tColliEvent     m_StayEvent;
+    tColliEvent     m_ExitEvent;
     Vector2         m_intersection;
+    LAYER           m_layer;
 
-    tColliEvent     EnterEvent;
-    tColliEvent     StayEvent;
-    tColliEvent     ExitEvent;
-
-    LAYER           layer;
-
-    bool            bIsRenderPoint;
+  
+    bool            m_bIsRenderPoint;
 
 public:
     virtual void tick() override;
@@ -34,19 +44,19 @@ public:
     void    OnTriggerStay(CLineCollider* _pOther)   ;
     void    OnTriggerExit(CLineCollider* _pOhther)  ;
 
-    void    SetOnTriggerEnterEvent(tColliEvent _colEvent) { EnterEvent = _colEvent;}    
-    void    SetOnTriggerStayEvent(tColliEvent _colEvent) { StayEvent = _colEvent;}
-    void    SetOnTriggerExitEvent(tColliEvent _colEvent) { ExitEvent = _colEvent;}
+    void    SetOnTriggerEnterEvent(tColliEvent _colEvent) { m_EnterEvent = _colEvent;}    
+    void    SetOnTriggerStayEvent(tColliEvent _colEvent) { m_StayEvent = _colEvent;}
+    void    SetOnTriggerExitEvent(tColliEvent _colEvent) { m_ExitEvent = _colEvent;}
 
-    void    SetEnterEvent(DELEGATECOL func, CEntity* instance) { EnterEvent.func = func, EnterEvent.instance = instance; }
-    void    SetStayEvent(DELEGATECOL func, CEntity* instance) { StayEvent.func = func, StayEvent.instance = instance; }
-    void    SetExitEvent(DELEGATECOL func, CEntity* instance) { ExitEvent.func = func, ExitEvent.instance = instance; }
+    void    SetEnterEvent(DELEGATECOL func, CEntity* instance) { m_EnterEvent.func = func, m_EnterEvent.instance = instance; }
+    void    SetStayEvent(DELEGATECOL func, CEntity* instance) { m_StayEvent.func = func, m_StayEvent.instance = instance; }
+    void    SetExitEvent(DELEGATECOL func, CEntity* instance) { m_ExitEvent.func = func, m_ExitEvent.instance = instance; }
 
     
     void SetP1(Vector2 _vP1) { m_vP1 = _vP1; }
     void SetP2(Vector2 _vP2) { m_vP2 = _vP2; }
     void SetP1P2(Vector2 _vP1, Vector2 _vP2) { SetP1(_vP1); SetP2(_vP2); }
-    void SetRenderPoint(bool _bRender) { bIsRenderPoint = _bRender; }
+    void SetRenderPoint(bool _bRender) { m_bIsRenderPoint = _bRender; }
 
 
     Vector2 GetP1() const { return m_vP1; }

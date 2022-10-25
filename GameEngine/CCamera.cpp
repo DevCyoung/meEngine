@@ -31,23 +31,23 @@ void CCamera::tick()
 }
 
 
-void CCamera::CameraKeyMove()
+void CCamera::CameraKeyMove(float _fSpeed)
 {
 	if (IS_INPUT_PRESSED(KEY::W))
 	{
-		m_vLook.y -= 300.f * DELTATIME;
+		m_vLook.y -= _fSpeed * DELTATIME;
 	}
 	if (IS_INPUT_PRESSED(KEY::S))
 	{
-		m_vLook.y += 300.f * DELTATIME;
+		m_vLook.y += _fSpeed * DELTATIME;
 	}
 	if (IS_INPUT_PRESSED(KEY::A))
 	{
-		m_vLook.x -= 300.f * DELTATIME;
+		m_vLook.x -= _fSpeed * DELTATIME;
 	}
 	if (IS_INPUT_PRESSED(KEY::D))
 	{
-		m_vLook.x += 300.f * DELTATIME;
+		m_vLook.x += _fSpeed * DELTATIME;
 	}
 }
 

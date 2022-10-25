@@ -2,11 +2,23 @@
 
 class CTexture;
 
+//#define EDITORMODE
+
+#ifdef EDITORMODE
+#define WINDOWX_PER_X 1
+#define WINDOWX_PER_Y 1
+
+#define WINDOW_ORIGINAL_X 960
+#define WINDOW_ORIGINAL_Y 720
+
+#else
 #define WINDOWX_PER_X 3
 #define WINDOWX_PER_Y 3
 
 #define WINDOW_ORIGINAL_X 320
 #define WINDOW_ORIGINAL_Y 240
+#endif
+
 
 class CEngine
 {

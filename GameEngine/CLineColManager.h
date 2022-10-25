@@ -2,6 +2,7 @@
 
 class CLineCollider;
 class CEditorLevel;
+class CMap;
 
 union CLineColliderID
 {
@@ -19,10 +20,12 @@ class CLineColManager
 	SINGLETON(CLineColManager);
 
 private:
+	CMap*						m_curMap;
+	map<UINT_PTR, BOOL>			m_mapPrevInfo;										//이전프레임에 두충돌체의 충돌여부
+
 	vector<CLineCollider*>		m_veclineCol[(UINT)LAYER::END];
 	//16 * 16비트매트릭스
 	WORD						m_matrix[(UINT)LAYER::END];
-	map<UINT_PTR, BOOL>			m_mapPrevInfo;										//이전프레임에 두충돌체의 충돌여부
 
 
 public:
@@ -41,10 +44,14 @@ public:
 	CLineCollider* CreateLine(Vector2 p1, Vector2 p2, LAYER l);
 
 private:
-	//CLineCollider* CreateMouseCursor(UINT _size);
 	void RemoveLine(CLineCollider* _line);
-	//void MouseCursorEvent(CLineCollider* _ohter);
+	void DeletCollider();
 
+
+
+private:
+	void Save(FILE* _pFile);
+	void Load(FILE* _pFile);
 
 	friend CEditorLevel;
 };

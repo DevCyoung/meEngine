@@ -15,6 +15,7 @@ public:
 	void tick();
 	void render(HDC m_hDC);
 
+
 public:
 	static void LoadLevel(LEVEL_TYPE type);
 	CLevel* GetCurLevel() { return m_pCurLevel; }

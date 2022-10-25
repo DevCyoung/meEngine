@@ -2,6 +2,7 @@
 #include "CRenderHelper.h"
 #include "CCamera.h"
 #include "CEngine.h"
+#include "CTexture.h"
 
 CRenderHelper::CRenderHelper()
 {
@@ -90,6 +91,24 @@ void CRenderHelper::StretchRender(HDC HDCsource, int leftX, int leftY, int sizeX
 
 	DeleteObject(HBITMAPbuffer);
 	DeleteDC(HDCbuffer);
+}
+
+void CRenderHelper::StretchRender(HDC dest, CTexture* texture, Vector2 Pos)
+{
+	StretchBlt
+	(
+		dest
+		, Pos.x 
+		, Pos.y 
+		, texture->Width()  * WINDOWX_PER_X
+		, texture->Height() * WINDOWX_PER_Y
+		, texture->GetDC()
+		, 0
+		, 0
+		, texture->Width()
+		, texture->Height()
+		, SRCCOPY
+	);
 }
 
 void CRenderHelper::StretchRenderCollider(HDC _dc, tAnimFrm& frame, Vector2 vPos, bool isflip)

@@ -15,7 +15,7 @@
 
 
 
-void CEditorLevel::UpdateTile()
+void CEditorLevel::CreateTileMode()
 {
 	if (IS_INPUT_TAB(KEY::LBTN))
 	{

@@ -13,13 +13,7 @@ CLineColManager::CLineColManager()
 
 CLineColManager::~CLineColManager()
 {
-	for (size_t i = 0; i < (UINT)LAYER::END; i++)
-	{
-		for (size_t j = 0; j < m_veclineCol[i].size(); j++)
-		{
-			delete m_veclineCol[i][j];
-		}		
-	}
+	DeletCollider();
 }
 
 void CLineColManager::tick()
@@ -95,7 +89,7 @@ CLineCollider* CLineColManager::CreateLine(Vector2 p1, Vector2 p2, LAYER _layer)
 	m_veclineCol[(UINT)_layer].push_back(collider);
 	collider->SetP1(p1);
 	collider->SetP2(p2);
-	collider->layer = _layer;
+	collider->m_layer = _layer;
 	return collider;
 }
 
@@ -185,18 +179,79 @@ void CLineColManager::CollisionBtwLayer(LAYER _left, LAYER _right)
 	}
 }
 
+
+
+
 void CLineColManager::RemoveLine(CLineCollider* line)
 {
-	assert(line);
+	if (nullptr == line)
+		return;
 
-	for (size_t i = 0; i < m_veclineCol[(UINT)line->layer].size(); i++)
+	for (size_t i = 0; i < m_veclineCol[(UINT)line->m_layer].size(); i++)
 	{
-		if (m_veclineCol[(UINT)line->layer][i] == line)
+		if (m_veclineCol[(UINT)line->m_layer][i] == line)
 		{
-			CLineCollider* lineCol = m_veclineCol[(UINT)line->layer][i];
-			m_veclineCol[(UINT)line->layer].erase(m_veclineCol[(UINT)line->layer].begin() + i);
+			CLineCollider* lineCol = m_veclineCol[(UINT)line->m_layer][i];
+			m_veclineCol[(UINT)line->m_layer].erase(m_veclineCol[(UINT)line->m_layer].begin() + i);
 			delete lineCol;
 			return;
 		}
+	}
+}
+
+void CLineColManager::DeletCollider()
+{
+	for (size_t i = 0; i < (UINT)LAYER::END; i++)
+	{
+		for (size_t j = 0; j < m_veclineCol[i].size(); j++)
+		{
+			delete m_veclineCol[i][j];
+		}
+		m_veclineCol[i].clear();
+	}
+}
+
+void CLineColManager::Save(FILE* _pFile)
+{
+
+	size_t count = 0;
+	for (size_t i = 0; i < (UINT)LAYER::END; i++)
+	{
+		count += m_veclineCol[i].size();
+	}
+
+	fwrite(&count, sizeof(size_t), 1, _pFile);
+
+	for (size_t i = 0; i < (UINT)LAYER::END; i++)
+	{
+		for (size_t j = 0; j < m_veclineCol[i].size(); j++)
+		{
+			CLineCollider lineCol = *m_veclineCol[i][j];
+			fwrite(&lineCol.m_vP1   ,sizeof(Vector2) ,1 , _pFile);
+			fwrite(&lineCol.m_vP2   ,sizeof(Vector2) ,1 , _pFile);
+			fwrite(&lineCol.m_dir   ,sizeof(WALLDIR) ,1 , _pFile);
+			fwrite(&lineCol.m_layer ,sizeof(LAYER)   ,1 , _pFile);
+
+		}
+	}
+}
+
+void CLineColManager::Load(FILE* _pFile)
+{
+	DeletCollider();
+	size_t count = 0;
+	fread(&count, sizeof(size_t), 1, _pFile);
+
+	for (size_t i = 0; i < count; i++)
+	{
+		Vector2 vP1;
+		Vector2 vP2;
+		WALLDIR	dir;
+		LAYER	layer;
+		fread(&vP1,		sizeof(Vector2), 1, _pFile);
+		fread(&vP2,		sizeof(Vector2), 1, _pFile);
+		fread(&dir,		sizeof(WALLDIR)  , 1, _pFile);
+		fread(&layer,   sizeof(LAYER), 1, _pFile);
+		GETINSTANCE(CLineColManager)->CreateLine(vP1, vP2, layer)->m_dir = dir;
 	}
 }

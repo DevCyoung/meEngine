@@ -18,6 +18,7 @@
 //그냥 윈도우가 시키는대로하는거임
 //DeleteDC(m_pTexBuffer->GetDC());
 //DeleteObject(m_pTexBuffer->Get);
+CTexture* m_pTexuturedd;
 
 CEngine::CEngine()
 	: m_hMainWnd(nullptr)
@@ -25,6 +26,7 @@ CEngine::CEngine()
 	, m_ptWndScreenSize{}
 	, m_arrpen{}
 {
+
 }
 
 CEngine::~CEngine()
@@ -62,6 +64,7 @@ void CEngine::Init(HWND _hwnd, UINT _iWidth, UINT _iHeight)
 
 
 	GETINSTANCE(CCamera)->SetLook(Vector2(m_ptWndScreenSize.x / 2.f, m_ptWndScreenSize.y / 2.f));
+	m_pTexuturedd = GETINSTANCE(CResourceManager)->LoadTexture(L"Playerd", L"texture\\c.bmp");
 }
 
 void CEngine::progress()
@@ -92,6 +95,7 @@ void CEngine::tick()
 
 Vector2 test = {};
 
+
 void CEngine::render()
 {
 	//화면 클리어
@@ -101,32 +105,37 @@ void CEngine::render()
 	//윈도우에선 픽셀 덩어리를 비트맵이라고한다.
 	//우리가 지금까지 그림을 그리는건 윈도우가 소유하고있는 비트맵에 그림을 그린거고 우리가 그것을 보고있던것이다.
 
-	if (LEVEL_MODE == LEVEL_EDITOR)
-	{
-		Rectangle(m_pTexBuffer->GetDC(), -1, -1, m_pTexBuffer->Width() + 1, m_pTexBuffer->Height() + 1);
-		GETINSTANCE(CLevelManager)->render(m_pTexBuffer->GetDC());
+	Rectangle(m_pTexBuffer->GetDC(), -1, -1, m_pTexBuffer->Width() + 1, m_pTexBuffer->Height() + 1);
+	GETINSTANCE(CLevelManager)->render(m_pTexBuffer->GetDC());
+	BitBlt(m_hMainDC, 0, 0, m_ptWndScreenSize.x, m_ptWndScreenSize.y, m_pTexBuffer->GetDC(), 0, 0, SRCCOPY);
 
-		//내가짬
-		//GETINSTANCE(CLineColManager)->render(m_pTexBuffer->GetDC());
+	//if (LEVEL_MODE == LEVEL_EDITOR)
+	//{
+	//	Rectangle(m_pTexBuffer->GetDC(), -1, -1, m_pTexBuffer->Width() + 1, m_pTexBuffer->Height() + 1);
+	//	GETINSTANCE(CLevelManager)->render(m_pTexBuffer->GetDC());
 
-		// 더블버퍼링
-		BitBlt(m_hMainDC, 0, 0, m_ptWndScreenSize.x, m_ptWndScreenSize.y, m_pTexBuffer->GetDC(), 0, 0, SRCCOPY);
+	//	////내가짬
+	//	////GETINSTANCE(CLineColManager)->render(m_pTexBuffer->GetDC());
 
-	}
-	else
-	{
-		Rectangle(m_pRealBuffer->GetDC(), -1, -1, m_pRealBuffer->Width() + 1, m_pRealBuffer->Height() + 1);
+	//	//// 더블버퍼링
 
-		GETINSTANCE(CLevelManager)->render(m_pRealBuffer->GetDC());
+	//	BitBlt(m_hMainDC, 0, 0, m_ptWndScreenSize.x, m_ptWndScreenSize.y, m_pTexBuffer->GetDC(), 0, 0, SRCCOPY);
 
-		//내가짬
-		//GETINSTANCE(CLineColManager)->render(m_pRealBuffer->GetDC());
+	//}
+	//else
+	//{
+	//	Rectangle(m_pRealBuffer->GetDC(), -1, -1, m_pRealBuffer->Width() + 1, m_pRealBuffer->Height() + 1);
 
-		StretchBlt
-		(
-			m_hMainDC, 0, 0, m_ptWndScreenSize.x, m_ptWndScreenSize.y, m_pRealBuffer->GetDC(), 0, 0, m_pRealBuffer->Width(), m_pRealBuffer->Height(), SRCCOPY
-		);
-	}
+	//	GETINSTANCE(CLevelManager)->render(m_pRealBuffer->GetDC());
+
+	//	//내가짬
+	//	//GETINSTANCE(CLineColManager)->render(m_pRealBuffer->GetDC());
+
+	//	StretchBlt
+	//	(
+	//		m_hMainDC, 0, 0, m_ptWndScreenSize.x, m_ptWndScreenSize.y, m_pRealBuffer->GetDC(), 0, 0, m_pRealBuffer->Width(), m_pRealBuffer->Height(), SRCCOPY
+	//	);
+	//}
 
 	GETINSTANCE(CTimeManager)->render();
 

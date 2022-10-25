@@ -8,7 +8,7 @@
 #include "CTexture.h"
 #include "CResourceManager.h"
 #include "CKeyManager.h"
-
+#include "CRenderHelper.h"
 
 CTexture* m_pTexuture;
 CTexture* m_pWalk;
@@ -19,7 +19,7 @@ CMonster::CMonster()
 	this->GetCollider()->SetOffsetPos(Vector2(0.f, 0.f));
 	this->GetCollider()->SetScale(Vector2(50.f, 50.f));
 
-	m_pTexuture = GETINSTANCE(CResourceManager)->LoadTexture(L"Player", L"texture\\cyberspace.bmp");	
+	m_pTexuture = GETINSTANCE(CResourceManager)->LoadTexture(L"Player", L"texture\\c.bmp");	
 	//m_pWalk = GETINSTANCE(CResourceManager)->LoadTexture(L"WPlayer", L"texture\\walk.bmp");
 }
 
@@ -66,22 +66,42 @@ void CMonster::render(HDC _dc)
 	tBlend.BlendOp = AC_SRC_OVER;
 	tBlend.SourceConstantAlpha = (int)(255.f);
 	tBlend.SourceConstantAlpha = 255;
-	AlphaBlend
-	(
-		_dc,
-		pos.x - m_pTexuture->Width() / 2,
-		pos.y - m_pTexuture->Height() / 2,
-		m_pTexuture->Width(),
-		m_pTexuture->Height(),
-		m_pTexuture->GetDC(),
-		0,
-		0,
-		m_pTexuture->Width(),
-		m_pTexuture->Height(),
-		tBlend
-	);
 
+	
 
+	//m_pTexuture = GETINSTANCE(CResourceManager)->LoadTexture(L"Player", L"texture\\TILE.bmp");
+	//Transparent bit *3 보다 훨씬빠름
+	//매우빠름
+	//StretchBlt
+	//(
+	//	_dc,
+	//	pos.x - m_pTexuture->Width() / 2,
+	//	pos.y - m_pTexuture->Height() / 2,
+	//	m_pTexuture->Width() * 3,
+	//	m_pTexuture->Height() * 3,
+	//	m_pTexuture->GetDC(),
+	//	0,
+	//	0,
+	//	m_pTexuture->Width(),
+	//	m_pTexuture->Height(),
+	//	SRCCOPY
+	//);
+
+	CRenderHelper::StretchRender(_dc, m_pTexuture, pos);
+	//CRenderHelper::StretchRender
+	//(
+	//	m_pTexuture->GetDC(),
+	//	pos.x,
+	//	pos.y,
+	//	300,
+	//	300,
+	//	_dc,
+	//	pos.x,
+	//	pos.y,
+	//	0,
+	//	0,
+	//	false
+	//);
 
 	//충돌체등 그리기
 	CGameObject::render(_dc);

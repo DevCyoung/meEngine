@@ -1,6 +1,6 @@
 #pragma once
 #include "CLevel.h"
-
+class CMap;
 
 //에디터모드
 enum class EDITOR_MODE
@@ -36,15 +36,14 @@ class CEditorLevel :
 public:
     HMENU           m_hMenu;
     EDITOR_MODE     m_eMode;
+    
 
 
-
-    std::vector<CLineCollider*> m_vecLineCol;
 
 public:
     void Update();
 public:
-    void UpdateTile();
+    void CreateTileMode();
     void UpdateAnimation();
     void UpdateObject();
     void UpdateLineCollider();
@@ -56,7 +55,7 @@ public:
     // CLevel을(를) 통해 상속됨
     virtual void init() override;
     virtual void tick() override;
-    //virtual void render(HDC _dc) override;
+    virtual void render(HDC _dc) override;
     virtual void Enter() override;
     virtual void Exit() override;
 
@@ -64,21 +63,37 @@ public:
 public:
     void SaveTIle();
     void LoadTIle();
+
     void SaveLineCollider();
-    void LoadLineColldier();
+    void LoadLineCollider();
 
     //LineCollider Edit
 public:
-    CLineCollider* m_preVMouseCol;
+    CLineCollider* m_lineColPreMouse;
+    CGameObject*   m_objCurmap;
+    CLineCollider* lineCol;
+    CLineCollider* MouseX;
+    CLineCollider* MouseY;
+    LINECOLMOUSE_MODE m_LineMosueMode;
+    CMap* m_backGround;
+
+    float size;
     void LineMouseEvent(CLineCollider* _other, LINECOL_MODE _mode);
     void CreateLineMode();
+    void CreateLineUI();
+    void AddMouseLineollider();
+
+
+    //void InitLine();
+    void StartMapEditMode();
+    void CreateMouseCol();
 
     //mouseEvent
 public:
     void MouseStayEvent(CLineCollider* _other);
     void MouseEnterEvent(CLineCollider* _other);
     void MouseExitEvent(CLineCollider* _other);
-
+    //LineCol
 
 
 public:

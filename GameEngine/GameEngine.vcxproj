@@ -163,6 +163,8 @@
     <ClInclude Include="CLevel.h" />
     <ClInclude Include="CLevelManager.h" />
     <ClInclude Include="CLineColManager.h" />
+    <ClInclude Include="CMap.h" />
+    <ClInclude Include="CMapManager.h" />
     <ClInclude Include="CMissile.h" />
     <ClInclude Include="CMonster.h" />
     <ClInclude Include="CPanelUI.h" />
@@ -206,6 +208,8 @@
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CEditorLevel.cpp" />
     <ClCompile Include="CEditorLevel_init.cpp" />
+    <ClCompile Include="CMap.cpp" />
+    <ClCompile Include="CMapManager.cpp" />
     <ClCompile Include="Line_Func.cpp" />
     <ClCompile Include="Tile_Func.cpp" />
     <ClCompile Include="Tile_SaveLoad.cpp" />

@@ -35,7 +35,8 @@ void CEditorLevel::init()
 
 
 	m_eMode = EDITOR_MODE::TILE;*/
-	m_eMode = EDITOR_MODE::LINECOLLIDER;
+	//CTexture* cyberMap = GETINSTANCE(CResourceManager)->LoadTexture(L"Panel", L"texture\\OakUI.bmp");
+
 }
 
 

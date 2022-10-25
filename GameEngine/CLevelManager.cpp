@@ -26,7 +26,7 @@ CLevelManager::~CLevelManager()
 }
 
 void CLevelManager::init()
-{
+{	
 	// Level »ý¼º
 	m_arrLevel[(UINT)LEVEL_TYPE::TITLE] = new CTitleLevel;
 	m_arrLevel[(UINT)LEVEL_TYPE::START] = new CStartLevel;

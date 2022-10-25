@@ -13,11 +13,30 @@
 #include "CUI.h"
 #include "CButton.h"
 
+
+
+
+//Map
+#include "CRenderHelper.h"
+#include "CMonster.h"
+
+CTexture* mapText;
+
 CEditorLevel::CEditorLevel()
 	: m_hMenu(nullptr)
 	, m_eMode(EDITOR_MODE::NONE)
-	, m_preVMouseCol(nullptr)
+	, m_lineColPreMouse(nullptr)
+	, m_objCurmap(nullptr)
+	, lineCol(nullptr)
+	, MouseX(nullptr)
+    , MouseY(nullptr)
+	, m_LineMosueMode{}
+	, size(40.f)
+	, m_backGround(nullptr)
 {
+	//mapText = GETINSTANCE(CResourceManager)->LoadTexture(L"CYBER", L"texture\\cyberspace.bmp");
+	//CMonster* monster = new CMonster();
+	//this->AddObject(monster, LAYER::MONSTER);
 
 }
 
@@ -27,6 +46,7 @@ CEditorLevel::~CEditorLevel()
 	//DestroyMenu 메뉴단위가 없어져야할때
 	if (nullptr != m_hMenu)
 		DestroyMenu(m_hMenu);
+
 }
 
 
@@ -51,6 +71,7 @@ void CEditorLevel::tick()
 	}
 	if (IS_INPUT_TAB(KEY::_4))
 	{
+		StartMapEditMode();
 		m_eMode = EDITOR_MODE::LINECOLLIDER;
 	}
 
@@ -59,12 +80,23 @@ void CEditorLevel::tick()
 	{		
 		//CLevelManager::LoadLevel(LEVEL_TYPE::TITLE);
 	}
-	GETINSTANCE(CCamera)->CameraKeyMove();
+	GETINSTANCE(CCamera)->CameraKeyMove(1200.f);
 
 
 
 	Update();
 }
+
+void CEditorLevel::render(HDC _dc)
+{
+	//assert(mapText);
+
+	CLevel::render(_dc);
+
+
+
+}
+
 
 
 void CEditorLevel::Update()
@@ -72,11 +104,12 @@ void CEditorLevel::Update()
 	switch (m_eMode)
 	{
 	case EDITOR_MODE::TILE:
-		UpdateTile();
+		CreateTileMode();
 		break;
 	case EDITOR_MODE::ANIMATION:
 		break;
 	case EDITOR_MODE::OBJECT:
+		//CreateObjectMode();
 		break;	
 	case EDITOR_MODE::LINECOLLIDER:
 		CreateLineMode();
