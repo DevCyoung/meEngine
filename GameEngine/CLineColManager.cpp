@@ -4,6 +4,7 @@
 #include "CLevelManager.h"
 #include "CGameObject.h"
 #include "CLineCollider.h"
+#include "CRaycast.h"
 
 CLineColManager::CLineColManager()
 	:m_matrix{}
@@ -18,21 +19,32 @@ CLineColManager::~CLineColManager()
 
 void CLineColManager::tick()
 {
-	for (UINT iRow = 0; iRow < (UINT)LAYER::END; iRow++)
+	for (UINT iRow = 0; iRow < (UINT)LINELAYER::END; iRow++)
 	{
-		for (UINT iCol = iRow; iCol < (UINT)LAYER::END; iCol++)
+		for (UINT iCol = iRow; iCol < (UINT)LINELAYER::END; iCol++)
 		{
 			if (!(m_matrix[iRow] & (1 << iCol)))
 				continue;
 
 			//iRow 레이어와 iCol레이어는 서로충돌 검사를 진행한다.
-			CollisionBtwLayer(LAYER(iRow), LAYER(iCol));
+			CollisionBtwLayer(LINELAYER(iRow), LINELAYER(iCol));
 		}
 	}
+
+	fixed_tick();
 }
+
+void CLineColManager::fixed_tick()
+{
+	for (size_t i = 0; i < m_vecFixedEvent.size(); i++)
+	{
+		(m_vecFixedEvent[i].instance->*m_vecFixedEvent[i].func)();
+	}
+}
+
 void CLineColManager::render(HDC _dc)
 {
-	for (size_t i = 0; i < (UINT)LAYER::END; i++)
+	for (size_t i = 0; i < (UINT)LINELAYER::END; i++)
 	{
 		for (size_t j = 0; j < m_veclineCol[i].size(); j++)
 		{
@@ -40,7 +52,7 @@ void CLineColManager::render(HDC _dc)
 		}
 	}
 }
-void CLineColManager::LayerRegister(LAYER _left, LAYER _right)
+void CLineColManager::LayerRegister(LINELAYER _left, LINELAYER _right)
 {
 	UINT iRaw = (UINT)_left;
 	UINT iCol = (UINT)_right;
@@ -83,7 +95,11 @@ BOOL CLineColManager::CollisionBtwCollider(CLineCollider* _pleft, CLineCollider*
 
 	
 }
-CLineCollider* CLineColManager::CreateLine(Vector2 p1, Vector2 p2, LAYER _layer)
+void CLineColManager::AddFixedTick(DELEGATE func, CEntity* instance)
+{
+	m_vecFixedEvent.push_back(tFixedEvent{ func, instance });
+}
+CLineCollider* CLineColManager::CreateLine(Vector2 p1, Vector2 p2, LINELAYER _layer)
 {
 	CLineCollider* collider = new CLineCollider(nullptr);
 	m_veclineCol[(UINT)_layer].push_back(collider);
@@ -93,7 +109,46 @@ CLineCollider* CLineColManager::CreateLine(Vector2 p1, Vector2 p2, LAYER _layer)
 	return collider;
 }
 
-void CLineColManager::CollisionBtwLayer(LAYER _left, LAYER _right)
+CLineCollider* CLineColManager::CreateRay(Vector2 point, Vector2 dir, Vector2 offset, float distance, LINELAYER _layer)
+{
+	CLineCollider* collider = new CLineCollider(nullptr);
+	m_veclineCol[(UINT)_layer].push_back(collider);
+	collider->SetRaycast(point, dir, offset,distance);
+	return collider;
+}
+
+void CLineColManager::CreateRaycast(CRaycast& ray, Vector2 vOffset, Vector2 vhdist)
+{
+	ray.m_arrRay[(UINT)RAY_TYPE::LEFT_UP]		 = CreateRay(Vector2(0.0f, 0.f), Vector2(-1.f, 0), Vector2(0.f, -vOffset.y),  vhdist.x, LINELAYER::LEFT);
+	ray.m_arrRay[(UINT)RAY_TYPE::LEFT_DOWN]		 = CreateRay(Vector2(0.0f, 0.f), Vector2(-1.f, 0), Vector2(0.f, +vOffset.y),  vhdist.x, LINELAYER::LEFT);
+
+	ray.m_arrRay[(UINT)RAY_TYPE::RIGHT_UP]		 = CreateRay(Vector2(0.0f, 0.f), Vector2(+1.f, 0), Vector2(0.f, -vOffset.y),  vhdist.x, LINELAYER::RIGHT);
+	ray.m_arrRay[(UINT)RAY_TYPE::RIGHT_DOWN]	 = CreateRay(Vector2(0.0f, 0.f), Vector2(+1.f, 0), Vector2(0.f, +vOffset.y),  vhdist.x, LINELAYER::RIGHT);
+
+	ray.m_arrRay[(UINT)RAY_TYPE::UP_LEFT]		 = CreateRay(Vector2(0.0f, 0.f), Vector2(0.f, -1.f), Vector2(-vOffset.x, 0.f), vhdist.y, LINELAYER::UP);
+	ray.m_arrRay[(UINT)RAY_TYPE::UP_RIGHT]		 = CreateRay(Vector2(0.0f, 0.f), Vector2(0.f, -1.f), Vector2(+vOffset.x, 0.f), vhdist.y, LINELAYER::UP);
+
+	ray.m_arrRay[(UINT)RAY_TYPE::DOWN_LEFT]		 = CreateRay(Vector2(0.0f, 0.f), Vector2(0.f, +1.f), Vector2(-vOffset.x, 0.f), vhdist.y, LINELAYER::DOWN);
+	ray.m_arrRay[(UINT)RAY_TYPE::DOWN_RIGHT]	 = CreateRay(Vector2(0.0f, 0.f), Vector2(0.f, +1.f), Vector2(+vOffset.x, 0.f), vhdist.y, LINELAYER::DOWN);
+
+	ray.m_arrRay[(UINT)RAY_TYPE::DOWN]			 = CreateRay(Vector2(0.0f, 0.f), Vector2(0.f, +1.f), Vector2(0.f, 0.f), vhdist.y,		 LINELAYER::DOWN);
+
+
+
+	ray.vOffset = vOffset;
+	ray.vhdist = vhdist;
+
+	LayerRegister(LINELAYER::LEFT,   LINELAYER::LEFTWALL);
+	LayerRegister(LINELAYER::UP,     LINELAYER::UPWALL);
+	LayerRegister(LINELAYER::RIGHT,  LINELAYER::RIGHTWALL);
+	LayerRegister(LINELAYER::DOWN,   LINELAYER::DOWNWALL);
+
+
+}
+
+
+
+void CLineColManager::CollisionBtwLayer(LINELAYER _left, LINELAYER _right)
 {
 	//CLevel* pCurLevel = (CLevel*)GETINSTANCE(CLevelManager)->GetCurLevel();
 
@@ -200,7 +255,7 @@ void CLineColManager::RemoveLine(CLineCollider* line)
 
 void CLineColManager::DeletCollider()
 {
-	for (size_t i = 0; i < (UINT)LAYER::END; i++)
+	for (size_t i = 0; i < (UINT)LINELAYER::END; i++)
 	{
 		for (size_t j = 0; j < m_veclineCol[i].size(); j++)
 		{
@@ -214,14 +269,14 @@ void CLineColManager::Save(FILE* _pFile)
 {
 
 	size_t count = 0;
-	for (size_t i = 0; i < (UINT)LAYER::END; i++)
+	for (size_t i = 0; i < (UINT)LINELAYER::END; i++)
 	{
 		count += m_veclineCol[i].size();
 	}
 
 	fwrite(&count, sizeof(size_t), 1, _pFile);
 
-	for (size_t i = 0; i < (UINT)LAYER::END; i++)
+	for (size_t i = 0; i < (UINT)LINELAYER::END; i++)
 	{
 		for (size_t j = 0; j < m_veclineCol[i].size(); j++)
 		{
@@ -229,7 +284,7 @@ void CLineColManager::Save(FILE* _pFile)
 			fwrite(&lineCol.m_vP1   ,sizeof(Vector2) ,1 , _pFile);
 			fwrite(&lineCol.m_vP2   ,sizeof(Vector2) ,1 , _pFile);
 			fwrite(&lineCol.m_dir   ,sizeof(WALLDIR) ,1 , _pFile);
-			fwrite(&lineCol.m_layer ,sizeof(LAYER)   ,1 , _pFile);
+			fwrite(&lineCol.m_layer ,sizeof(LINELAYER)   ,1 , _pFile);
 
 		}
 	}
@@ -246,11 +301,11 @@ void CLineColManager::Load(FILE* _pFile)
 		Vector2 vP1;
 		Vector2 vP2;
 		WALLDIR	dir;
-		LAYER	layer;
+		LINELAYER	layer;
 		fread(&vP1,		sizeof(Vector2), 1, _pFile);
 		fread(&vP2,		sizeof(Vector2), 1, _pFile);
 		fread(&dir,		sizeof(WALLDIR)  , 1, _pFile);
-		fread(&layer,   sizeof(LAYER), 1, _pFile);
+		fread(&layer,   sizeof(LINELAYER), 1, _pFile);
 		GETINSTANCE(CLineColManager)->CreateLine(vP1, vP2, layer)->m_dir = dir;
 	}
 }

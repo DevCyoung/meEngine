@@ -34,6 +34,9 @@ public:
 
 
 public:
+    int GetCollideCnt() { return m_iOverlapCount; }
+
+public:
     CLONE(CCollider);
 
 public:

@@ -90,6 +90,7 @@ void CEngine::tick()
 	GETINSTANCE(CCollisionManager)->tick();
 	GETINSTANCE(CLineColManager)->tick();
 
+
 	GETINSTANCE(CUIManager)->tick();
 }
 
@@ -147,6 +148,9 @@ void CEngine::CreatePenBrush()
 	m_arrpen[(UINT)PEN_TYPE::RED] = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
 	m_arrpen[(UINT)PEN_TYPE::GREEN] = CreatePen(PS_SOLID, 1, RGB(0, 255, 0));
 	m_arrpen[(UINT)PEN_TYPE::BLUE] = CreatePen(PS_SOLID, 1, RGB(0, 0, 255));
+	m_arrpen[(UINT)PEN_TYPE::BLACK] = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
+	m_arrpen[(UINT)PEN_TYPE::YELLOW] = CreatePen(PS_SOLID, 1, RGB(255, 255, 0));
+	m_arrpen[(UINT)PEN_TYPE::ORANGE] = CreatePen(PS_SOLID, 1, RGB(255, 127, 0));
 }
 
 void CEngine::WindowReSize(UINT _iWidth, UINT _iHeight)

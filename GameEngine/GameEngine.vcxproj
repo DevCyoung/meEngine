@@ -171,6 +171,7 @@
     <ClInclude Include="CPathManager.h" />
     <ClInclude Include="CPlatform.h" />
     <ClInclude Include="CPlayer.h" />
+    <ClInclude Include="CRaycast.h" />
     <ClInclude Include="CRenderHelper.h" />
     <ClInclude Include="CResource.h" />
     <ClInclude Include="CResourceManager.h" />
@@ -210,6 +211,7 @@
     <ClCompile Include="CEditorLevel_init.cpp" />
     <ClCompile Include="CMap.cpp" />
     <ClCompile Include="CMapManager.cpp" />
+    <ClCompile Include="CRaycast.cpp" />
     <ClCompile Include="Line_Func.cpp" />
     <ClCompile Include="Tile_Func.cpp" />
     <ClCompile Include="Tile_SaveLoad.cpp" />
@@ -250,7 +252,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="WallLineCollider_SaveLoad.cpp" />
+    <ClCompile Include="ZeroBoxEvent.cpp" />
     <ClCompile Include="ZeroInit.cpp" />
+    <ClCompile Include="ZeroRayEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameEngine.rc" />

@@ -60,6 +60,31 @@ void CLineCollider::render(HDC _dc)
 	else
 	{
 		hPen = GETINSTANCE(CEngine)->GetPen(PEN_TYPE::GREEN);
+		switch (m_dir)
+		{
+		case WALLDIR::LEFT:
+		{
+			hPen = GETINSTANCE(CEngine)->GetPen(PEN_TYPE::BLACK);
+		}
+		break;
+		case WALLDIR::UP:
+		{
+			hPen = GETINSTANCE(CEngine)->GetPen(PEN_TYPE::BLUE);
+		}
+		break;
+		case WALLDIR::RIGHT:
+		{
+			hPen = GETINSTANCE(CEngine)->GetPen(PEN_TYPE::ORANGE);
+		}
+		break;
+		case WALLDIR::DOWN:
+		{
+			hPen = GETINSTANCE(CEngine)->GetPen(PEN_TYPE::GREEN);
+		}
+		break;
+
+		}
+
 	}
 
 	HBRUSH	hNullBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
@@ -144,4 +169,20 @@ void CLineCollider::OnTriggerExit(CLineCollider* _pOhther)
 	{
 		(m_ExitEvent.instance->*m_ExitEvent.func)(_pOhther);
 	}
+}
+
+
+void CLineCollider::SetRaycast(Vector2 point, Vector2 dir, Vector2 offset, float distance)
+{
+	//시작점을 p1으로한다.
+	m_vP1 = point + offset;
+	m_vP2 = point + dir * distance + offset;
+}
+
+void CLineCollider::SetMoveRaycast(Vector2 point)
+{
+	Vector2 vDiff = point - m_vP1;
+
+	m_vP1 = point;
+	m_vP2 = m_vP2 + m_vP1;
 }

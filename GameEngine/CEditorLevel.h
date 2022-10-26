@@ -2,29 +2,6 @@
 #include "CLevel.h"
 class CMap;
 
-//에디터모드
-enum class EDITOR_MODE
-{
-    TILE,
-    ANIMATION,
-    OBJECT,
-    LINECOLLIDER,
-    NONE
-};
-
-enum class LINECOL_MODE
-{
-    ADD,
-    REMOVE,
-    NONE,
-};
-
-enum class LINECOLMOUSE_MODE
-{
-    ONEDOWN,
-    TWODOWN,
-    NONE,
-};
 
 
 class CLineCollider;
@@ -76,6 +53,7 @@ public:
     LINECOLMOUSE_MODE   m_LineMosueMode;
     CGameObject*        m_objCurmap;
     CMap*               m_backGround;
+    WALLDIR             m_wallDir;
 
 
 

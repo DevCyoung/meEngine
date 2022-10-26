@@ -55,7 +55,9 @@ enum class PEN_TYPE
 	RED,
 	GREEN,
 	BLUE,
-
+	BLACK,
+	YELLOW,
+	ORANGE,	
 	END,
 };
 
@@ -88,6 +90,23 @@ enum class LAYER
 	END = 16,
 };
 
+enum class LINELAYER
+{
+	LEFT,
+	UP,
+	RIGHT,
+	DOWN,
+	MOUSE,
+	LEFTWALL,
+	UPWALL,
+	RIGHTWALL,
+	DOWNWALL,
+
+	PLAYER,
+	MONSTER,
+	END = 16,
+};
+
 enum class EVENT_TYPE
 {
 	CREATE_OBJECT,	//wParam : Object Adress lParam : Layer Type
@@ -101,4 +120,64 @@ enum class CAMERA_EFFECT
 	FADE_IN,
 	FADE_OUT,
 	NONE,
+};
+
+//에디터모드
+enum class EDITOR_MODE
+{
+	TILE,
+	ANIMATION,
+	OBJECT,
+	LINECOLLIDER,
+	NONE
+};
+
+enum class LINECOL_MODE
+{
+	ADD,
+	REMOVE,
+	NONE,
+};
+
+enum class LINECOLMOUSE_MODE
+{
+	ONEDOWN,
+	TWODOWN,
+	NONE,
+};
+
+enum class WALLDIR
+{
+	LEFT,
+	UP,
+	RIGHT,
+	DOWN,
+	NONE,
+};
+
+enum class RAY_TYPE
+{
+	LEFT_UP     ,
+	LEFT_DOWN   ,
+	UP_LEFT     ,
+	UP_RIGHT    ,
+	RIGHT_UP    ,
+	RIGHT_DOWN  ,
+	DOWN_LEFT   ,
+	DOWN_RIGHT  ,
+	DOWN		, //걸어다니기
+	END         ,
+};
+
+enum class RAY_FLAG
+{
+	DOWN_LEFT  = 0X00000001,
+	DOWN_RIGHT = 0X00000002,
+	UP_LEFT    = 0X00000004,
+	UP_RIGHT   = 0X00000008,
+	LEFT_UP    = 0X00000010,
+	LEFT_DOWN  = 0X00000020,
+	RIGHT_UP   = 0X00000040,
+	RIGHT_DOWN = 0X00000080,
+
 };

@@ -73,7 +73,22 @@ void CEditorLevel::CreateLineMode()
 					pos = m_lineColPreMouse->GetP1();
 				}
 			}
-			lineCol = GETINSTANCE(CLineColManager)->CreateLine(pos, pos, LAYER::WALL);
+			switch (m_wallDir)
+			{
+			case WALLDIR::LEFT:
+				lineCol = GETINSTANCE(CLineColManager)->CreateLine(pos, pos, LINELAYER::LEFTWALL);
+				break;
+			case WALLDIR::UP:
+				lineCol = GETINSTANCE(CLineColManager)->CreateLine(pos, pos, LINELAYER::UPWALL);
+				break;
+			case WALLDIR::RIGHT:
+				lineCol = GETINSTANCE(CLineColManager)->CreateLine(pos, pos, LINELAYER::RIGHTWALL);
+				break;
+			case WALLDIR::DOWN:
+				lineCol = GETINSTANCE(CLineColManager)->CreateLine(pos, pos, LINELAYER::DOWNWALL);
+				break;
+			}
+			
 		}
 		break;
 		case LINECOLMOUSE_MODE::ONEDOWN:
@@ -106,6 +121,7 @@ void CEditorLevel::CreateLineMode()
 				}
 			}
 			m_LineMosueMode = LINECOLMOUSE_MODE::NONE;
+			lineCol->m_dir = m_wallDir;
 			lineCol = nullptr;
 			return;
 		}
@@ -180,6 +196,15 @@ void CEditorLevel::CreateLineMode()
 	{
 		GETINSTANCE(CLineColManager)->RemoveLine(m_lineColPreMouse);
 		m_lineColPreMouse = nullptr;
+	}
+
+	if (IS_INPUT_TAB(KEY::E))
+	{
+		UINT wallNum = (UINT)m_wallDir;
+		++wallNum;
+		wallNum %= (UINT)WALLDIR::NONE;
+		m_wallDir = (WALLDIR)wallNum;
+
 	}
 }
 
@@ -263,16 +288,21 @@ void CEditorLevel::AddMouseLineollider()
 	Vector2 p3 = Vector2(0, -size / 2.f);;
 	Vector2 p4 = Vector2(0, +size / 2.f);;;
 
-	MouseX = GETINSTANCE(CLineColManager)->CreateLine(p1, p2, LAYER::MOUSE);
-	MouseY = GETINSTANCE(CLineColManager)->CreateLine(p3, p4, LAYER::MOUSE);
+	MouseX = GETINSTANCE(CLineColManager)->CreateLine(p1, p2, LINELAYER::MOUSE);
+	MouseY = GETINSTANCE(CLineColManager)->CreateLine(p3, p4, LINELAYER::MOUSE);
 
 	MouseX->SetEnterEvent((DELEGATECOL)&CEditorLevel::MouseEnterEvent, this);
 	MouseY->SetEnterEvent((DELEGATECOL)&CEditorLevel::MouseEnterEvent, this);
 	MouseX->SetExitEvent((DELEGATECOL)&CEditorLevel::MouseExitEvent, this);
 	MouseY->SetExitEvent((DELEGATECOL)&CEditorLevel::MouseExitEvent, this);
 
-	GETINSTANCE(CLineColManager)->LayerRegister(LAYER::MOUSE, LAYER::WALL);
-	GETINSTANCE(CLineColManager)->LayerRegister(LAYER::WALL, LAYER::PLAYER);
+	GETINSTANCE(CLineColManager)->LayerRegister(LINELAYER::MOUSE, LINELAYER::LEFTWALL);
+	GETINSTANCE(CLineColManager)->LayerRegister(LINELAYER::MOUSE, LINELAYER::RIGHTWALL);
+	GETINSTANCE(CLineColManager)->LayerRegister(LINELAYER::MOUSE, LINELAYER::UPWALL);
+	GETINSTANCE(CLineColManager)->LayerRegister(LINELAYER::MOUSE, LINELAYER::DOWNWALL);
+
+	
+	GETINSTANCE(CLineColManager)->LayerRegister(LINELAYER::LEFTWALL, LINELAYER::PLAYER);
 
 	m_LineMosueMode = LINECOLMOUSE_MODE::NONE;
 	m_eMode = EDITOR_MODE::LINECOLLIDER;

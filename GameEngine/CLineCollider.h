@@ -1,17 +1,9 @@
 #pragma once
 #include "CCollider.h"
 
-enum class WALLDIR
-{
-    LEFT,
-    UP,
-    RIGHT,
-    DOWN,
-    NONE,
-};
 
 class CLineColManager;
-
+class CEditorLevel;
 class CLineCollider :
     public CCollider
 {
@@ -21,12 +13,11 @@ private:
     Vector2         m_vP2;
     WALLDIR         m_dir;
 
-
     tColliEvent     m_EnterEvent;
     tColliEvent     m_StayEvent;
     tColliEvent     m_ExitEvent;
     Vector2         m_intersection;
-    LAYER           m_layer;
+    LINELAYER       m_layer;
 
   
     bool            m_bIsRenderPoint;
@@ -44,14 +35,12 @@ public:
     void    OnTriggerStay(CLineCollider* _pOther)   ;
     void    OnTriggerExit(CLineCollider* _pOhther)  ;
 
-    void    SetOnTriggerEnterEvent(tColliEvent _colEvent) { m_EnterEvent = _colEvent;}    
-    void    SetOnTriggerStayEvent(tColliEvent _colEvent) { m_StayEvent = _colEvent;}
-    void    SetOnTriggerExitEvent(tColliEvent _colEvent) { m_ExitEvent = _colEvent;}
-
     void    SetEnterEvent(DELEGATECOL func, CEntity* instance) { m_EnterEvent.func = func, m_EnterEvent.instance = instance; }
     void    SetStayEvent(DELEGATECOL func, CEntity* instance) { m_StayEvent.func = func, m_StayEvent.instance = instance; }
     void    SetExitEvent(DELEGATECOL func, CEntity* instance) { m_ExitEvent.func = func, m_ExitEvent.instance = instance; }
 
+    void    SetRaycast(Vector2 point, Vector2 dir, Vector2 offset, float distance);
+    void    SetMoveRaycast(Vector2 point);
     
     void SetP1(Vector2 _vP1) { m_vP1 = _vP1; }
     void SetP2(Vector2 _vP2) { m_vP2 = _vP2; }
@@ -78,5 +67,6 @@ public:
     ~CLineCollider();
 
     friend CLineColManager;
+    friend CEditorLevel;
 };
 

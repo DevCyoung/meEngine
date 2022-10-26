@@ -5,6 +5,7 @@ class CRockmanObj :
 {
 public:
 	virtual void tick() override;
+	virtual void fixed_tick() {};
 	virtual void render(HDC _dc) override;
 	virtual void OnTriggerEnter(CCollider* _pOhter);
 	virtual void OnTriggerStay(CCollider* _pOhter);

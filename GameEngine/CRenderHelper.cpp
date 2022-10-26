@@ -98,8 +98,8 @@ void CRenderHelper::StretchRender(HDC dest, CTexture* texture, Vector2 Pos)
 	StretchBlt
 	(
 		dest
-		, Pos.x 
-		, Pos.y 
+		, (int)Pos.x 
+		, (int)Pos.y 
 		, texture->Width()  * WINDOWX_PER_X
 		, texture->Height() * WINDOWX_PER_Y
 		, texture->GetDC()

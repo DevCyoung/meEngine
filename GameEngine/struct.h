@@ -119,6 +119,12 @@ struct tAnimEvent
 	CEntity*	instance;
 };
 
+struct tFixedEvent
+{
+	DELEGATE        func;
+	CEntity*		instance;
+};
+
 struct tColliEvent
 {
 	//내가추가함

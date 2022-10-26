@@ -26,6 +26,8 @@ enum class KEY
 	X,
 	C,
 	Q,
+	E,
+	R,
 	_1,
 	_2,
 	_3,

@@ -157,6 +157,7 @@ void CEditorLevel::LoadLineCollider()
 	fread(buffer, sizeof(wchar_t), strCount, pFile);
 	m->m_mapAtlas = GETINSTANCE(CResourceManager)->LoadTexture(buffer, buffer);
 	GETINSTANCE(CLevelManager)->GetCurLevel()->AddObject(m, LAYER::BACKGROUND);
+	m_backGround = m;
 
 
 
