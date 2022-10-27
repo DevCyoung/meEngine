@@ -2,11 +2,13 @@
 #include "CRockmanObj.h"
 #include "CRaycast.h"
 
+enum class ZEROSTATE
+{
+
+};
+
 class CLineCollider;
 class CRaycast;
-
-
-
 
 class CZero :
     public CRockmanObj
@@ -46,6 +48,9 @@ public:
 	void init();
 	void EventInit();
 	void EventTick();
+
+public:
+	void PlayerControll();
 
 
 public:

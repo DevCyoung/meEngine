@@ -500,5 +500,8 @@
     <ClCompile Include="ZeroBoxEvent.cpp">
       <Filter>Game\RockMan\Zero</Filter>
     </ClCompile>
+    <ClCompile Include="ZeroController.cpp">
+      <Filter>Game\RockMan\Zero</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

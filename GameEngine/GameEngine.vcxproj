@@ -253,6 +253,7 @@
     </ClCompile>
     <ClCompile Include="WallLineCollider_SaveLoad.cpp" />
     <ClCompile Include="ZeroBoxEvent.cpp" />
+    <ClCompile Include="ZeroController.cpp" />
     <ClCompile Include="ZeroInit.cpp" />
     <ClCompile Include="ZeroRayEvent.cpp" />
   </ItemGroup>

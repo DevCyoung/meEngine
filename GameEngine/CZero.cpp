@@ -29,7 +29,7 @@ CZero::CZero()
 	this->CreateRigidbody();
 	this->GetRigidbody()->SetGravity(true);
 	this->GetRigidbody()->SetGravityAccel(600.f);
-	this->GetRigidbody()->SetVelocityLimit(11800.f);
+	this->GetRigidbody()->SetVelocityLimit(600.f);
 	this->GetRigidbody()->SetGravityVelocityLimit(600.f);
 	init();
 }
@@ -65,65 +65,60 @@ void CZero::tick()
 {
 	CRockmanObj::tick();
 
-	float fRayDist = 75.f;
+	//float fRayDist = 75.f;
 
-	Vector2 pos = this->GetPos();
+	//Vector2 pos = this->GetPos();
 
-	if (IS_INPUT_PRESSED(KEY::LEFT) && m_ray.GetCollideCnt(RAY_TYPE::LEFT_UP) == 0 && m_ray.GetCollideCnt(RAY_TYPE::LEFT_DOWN) == 0)
-	{
-		this->SetFilpX(false);
-		pos.x -= 200 * DELTATIME;
-	}
-	if (IS_INPUT_PRESSED(KEY::RIGHT) && m_ray.GetCollideCnt(RAY_TYPE::RIGHT_UP) == 0 && m_ray.GetCollideCnt(RAY_TYPE::RIGHT_DOWN) == 0)
-	{
-		this->SetFilpX(true);
-		pos.x += 200 * DELTATIME;
-	}
-	if (IS_INPUT_PRESSED(KEY::UP))
-	{
-		pos.y -= 200 * DELTATIME;
-	}
-	if (IS_INPUT_PRESSED(KEY::DOWN))
-	{
-		pos.y += 200 * DELTATIME;
-	}
+	//if (IS_INPUT_PRESSED(KEY::LEFT) && m_ray.GetCollideCnt(RAY_TYPE::LEFT_UP) == 0 && m_ray.GetCollideCnt(RAY_TYPE::LEFT_DOWN) == 0)
+	//{
+	//	this->SetFilpX(false);
+	//	pos.x -= 200 * DELTATIME;
+	//}
+	//if (IS_INPUT_PRESSED(KEY::RIGHT) && m_ray.GetCollideCnt(RAY_TYPE::RIGHT_UP) == 0 && m_ray.GetCollideCnt(RAY_TYPE::RIGHT_DOWN) == 0)
+	//{
+	//	this->SetFilpX(true);
+	//	pos.x += 200 * DELTATIME;
+	//}
+	//if (IS_INPUT_PRESSED(KEY::UP))
+	//{
+	//	pos.y -= 200 * DELTATIME;
+	//}
+	//if (IS_INPUT_PRESSED(KEY::DOWN))
+	//{
+	//	pos.y += 200 * DELTATIME;
+	//}
 
-	if (IS_INPUT_TAB(KEY::LCTRL))
-	{
-		GetAnimator()->Play(L"THUNDER", false);
-	}
+	//if (IS_INPUT_TAB(KEY::LCTRL))
+	//{
+	//	GetAnimator()->Play(L"THUNDER", false);
+	//}
 
-	if (IS_INPUT_TAB(KEY::Z))
-	{
-		GetAnimator()->Play(L"ATTACK", false);
-	}
+	//if (IS_INPUT_TAB(KEY::Z))
+	//{
+	//	GetAnimator()->Play(L"ATTACK", false);
+	//}
 
-	if (IS_INPUT_PRESSED(KEY::X))
-	{
-		pos.y -= 1000 * DELTATIME;
-		//GetRigidbody()->SetVelocity(Vector2(0.f, -10000.f));
-	}
-	else
-	{
-	}
-	if (IS_INPUT_PRESSED(KEY::C))
-	{
-		//GetRigidbody()->SetVelocity(Vector2(200.f, 0.f));
-	}
-	EventTick();
-	
+	//if (IS_INPUT_PRESSED(KEY::X))
+	//{
+	//	pos.y -= 1000 * DELTATIME;
+	//	//GetRigidbody()->SetVelocity(Vector2(0.f, -10000.f));
+	//}
+	//else
+	//{
+	//}
+	//if (IS_INPUT_PRESSED(KEY::C))
+	//{
+	//	//GetRigidbody()->SetVelocity(Vector2(200.f, 0.f));
+	//}
+	//EventTick();
+	//
 
-	this->SetPos(pos);
+	//this->SetPos(pos);
 
 	m_ray.TranslateSetPos(GetPos());
 }
 
-void CZero::fixed_tick()
-{
-	Vector2 vPos = GetPos();
-	vPos.x += 300.f * DELTATIME;
-	SetPos(vPos);
-}
+
 
 void CZero::render(HDC _dc)
 {

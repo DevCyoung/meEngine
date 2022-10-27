@@ -68,9 +68,9 @@ void CZero::LeftHitExit(CLineCollider* _pOhter)
 
 void CZero::RightHitEnter(CLineCollider* _pOhter)
 {
-	Vector2 inter = _pOhter->GetIntersction();
-	Vector2 pos = Vector2(inter.x + m_fHorizonRayDist, inter.y);
-	SetPos(pos);
+	//Vector2 inter = _pOhter->GetIntersction();
+	//Vector2 pos = Vector2(inter.x + m_fHorizonRayDist, inter.y);
+	//SetPos(pos);
 }
 
 void CZero::RightHitStay(CLineCollider* _pOhter)

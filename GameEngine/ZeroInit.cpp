@@ -66,8 +66,9 @@ void CZero::EventTick()
 	m_upRay->TranslateSetPos(pos);
 	m_rightRay->TranslateSetPos(pos);*/
 	m_ray.TranslateSetPos(pos);
+
+	
+
 }
-
-
 
 
