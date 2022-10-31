@@ -186,8 +186,8 @@ void CLineColManager::CollisionBtwLayer(LINELAYER _left, LINELAYER _right)
 				iter = m_mapPrevInfo.find(ID.id);
 			}
 
-			//bool bDead = vecLeft[i]->IsDead() || vecRight[j]->IsDead();
-			bool bDead = false;
+			bool bDead = vecLeft[i]->IsDead() || vecRight[j]->IsDead();
+			//bool bDead = false;
 
 			//지금 겹쳐있다.
 			if (CollisionBtwCollider(vecLeft[i], vecRight[j]) == TRUE)

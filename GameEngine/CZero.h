@@ -9,6 +9,7 @@ enum class ZEROSTATE
 
 class CLineCollider;
 class CRaycast;
+class CLine;
 
 class CZero :
     public CRockmanObj
@@ -16,13 +17,14 @@ class CZero :
 private:
 	CRaycast m_ray;
 
-
+	CLine*			m_downRay;
 
 	CLineCollider*	m_downLandCheck;
 	CLineCollider*	m_curLand;
 	Vector2			m_landDir;
 
-	UINT			m_ColDir;
+	//¼öÁ¤
+	CLineCollider* m_dirMove;
 
 
 	float	m_fVerticalRayDist;

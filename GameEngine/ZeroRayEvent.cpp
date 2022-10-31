@@ -20,9 +20,18 @@
 //무조건 Gravity를 0으로 해야한다.
 void CZero::DownHitEnter(CLineCollider* _pOhter)
 {
-	Vector2 Pos = GetRigidbody()->GetVelocity();
-	this->GetRigidbody()->SetGravity(false);
-	this->GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
+	m_LineDir |= (UINT)COL_STATE_DIR::DOWN;
+	m_dirMove = _pOhter;
+	if (m_ColDir & (UINT)COL_STATE_DIR::DOWN)
+	{
+		m_dirMove = _pOhter;
+	}
+	else
+	{
+		Vector2 Pos = GetRigidbody()->GetVelocity();
+		this->GetRigidbody()->SetGravity(false);
+		this->GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
+	}
 }
 
 void CZero::DownHitStay(CLineCollider* _pOhter)
@@ -36,7 +45,17 @@ void CZero::DownHitStay(CLineCollider* _pOhter)
 
 void CZero::DownHitExit(CLineCollider* _pOhter)
 {
-	this->GetRigidbody()->SetGravity(true);
+	m_LineDir &= ~(UINT)COL_STATE_DIR::DOWN;
+	if (m_ColDir & (UINT)COL_STATE_DIR::DOWN)
+	{
+		//m_vellocity = Vector2(1.f, 1.f);
+	}
+	else
+	{
+		Vector2 Pos = GetRigidbody()->GetVelocity();
+		this->GetRigidbody()->SetGravity(false);
+		this->GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
+	}
 }
 
 

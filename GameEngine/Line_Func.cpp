@@ -166,10 +166,10 @@ void CEditorLevel::CreateLineMode()
 	
 	pos = GETINSTANCE(CKeyManager)->GetMousePos();
 	pos = GETINSTANCE(CCamera)->GetRealPos(pos);
-	if (MouseX != nullptr && MouseY != nullptr)
+	if (m_MouseX != nullptr && m_MouseY != nullptr)
 	{
-		MouseX->TranslateSetPos(pos + Vector2(-size / 2, 0));
-		MouseY->TranslateSetPos(pos + Vector2(0, -size / 2));
+		m_MouseX->TranslateSetPos(pos + Vector2(-size / 2, 0));
+		m_MouseY->TranslateSetPos(pos + Vector2(0, -size / 2));
 	}
 	if (IS_INPUT_TAB(KEY::_7))
 	{
@@ -221,7 +221,7 @@ void CEditorLevel::MouseEnterEvent(CLineCollider* _other)
 	if (lineCol == _other)
 		return;
 	m_lineColPreMouse = _other;
-	_other->SetRenderPoint(true);
+	_other->SetIsRenderGizmo(true);
 }
 
 void CEditorLevel::MouseExitEvent(CLineCollider* _other)
@@ -229,7 +229,7 @@ void CEditorLevel::MouseExitEvent(CLineCollider* _other)
 	if (lineCol == _other)
 		return;
 	m_lineColPreMouse = nullptr;
-	_other->SetRenderPoint(false);
+	_other->SetIsRenderGizmo(false);
 }
 
 
@@ -274,7 +274,7 @@ void CEditorLevel::CreateLineUI()
 	AddObject(pPanelUI, LAYER::UI);
 }
 
-void CEditorLevel::AddMouseLineollider()
+void CEditorLevel::AddMouseLineCollider()
 {
 	/*GETINSTANCE(CLineColManager)->DeletCollider();
 	this->DeleteAllObject();*/
@@ -288,13 +288,13 @@ void CEditorLevel::AddMouseLineollider()
 	Vector2 p3 = Vector2(0, -size / 2.f);;
 	Vector2 p4 = Vector2(0, +size / 2.f);;;
 
-	MouseX = GETINSTANCE(CLineColManager)->CreateLine(p1, p2, LINELAYER::MOUSE);
-	MouseY = GETINSTANCE(CLineColManager)->CreateLine(p3, p4, LINELAYER::MOUSE);
+	m_MouseX = GETINSTANCE(CLineColManager)->CreateLine(p1, p2, LINELAYER::MOUSE);
+	m_MouseY = GETINSTANCE(CLineColManager)->CreateLine(p3, p4, LINELAYER::MOUSE);
 
-	MouseX->SetEnterEvent((DELEGATECOL)&CEditorLevel::MouseEnterEvent, this);
-	MouseY->SetEnterEvent((DELEGATECOL)&CEditorLevel::MouseEnterEvent, this);
-	MouseX->SetExitEvent((DELEGATECOL)&CEditorLevel::MouseExitEvent, this);
-	MouseY->SetExitEvent((DELEGATECOL)&CEditorLevel::MouseExitEvent, this);
+	m_MouseX->SetEnterEvent((DELEGATECOL)&CEditorLevel::MouseEnterEvent, this);
+	m_MouseY->SetEnterEvent((DELEGATECOL)&CEditorLevel::MouseEnterEvent, this);
+	m_MouseX->SetExitEvent((DELEGATECOL)&CEditorLevel::MouseExitEvent, this);
+	m_MouseY->SetExitEvent((DELEGATECOL)&CEditorLevel::MouseExitEvent, this);
 
 	GETINSTANCE(CLineColManager)->LayerRegister(LINELAYER::MOUSE, LINELAYER::LEFTWALL);
 	GETINSTANCE(CLineColManager)->LayerRegister(LINELAYER::MOUSE, LINELAYER::RIGHTWALL);
@@ -310,15 +310,15 @@ void CEditorLevel::AddMouseLineollider()
 
 void CEditorLevel::DeleteMouse()
 {
-	if (nullptr != MouseX )
+	if (nullptr != m_MouseX )
 	{
-		GETINSTANCE(CLineColManager)->RemoveLine(MouseX);
-		MouseX = nullptr;
+		GETINSTANCE(CLineColManager)->RemoveLine(m_MouseX);
+		m_MouseX = nullptr;
 	}
 
-	if (nullptr != MouseY)
+	if (nullptr != m_MouseY)
 	{
-		GETINSTANCE(CLineColManager)->RemoveLine(MouseY);
-		MouseY = nullptr;
+		GETINSTANCE(CLineColManager)->RemoveLine(m_MouseY);
+		m_MouseY = nullptr;
 	}
 }

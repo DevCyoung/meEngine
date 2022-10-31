@@ -3,6 +3,7 @@
 #include "CGameObject.h"
 #include "CRockmanObj.h"
 #include "CLevelManager.h"
+#include "CLineCollider.h"
 
 CEventManager::CEventManager()
 {
@@ -66,7 +67,18 @@ void CEventManager::tick()
 			}
 		}
 		break;
+		case EVENT_TYPE::DELETE_LINECOL:
+		{
+			//삭제예정 오브젝트를 Dead 상태로 두고 Garbage에 넣는다.
+			CLineCollider* lineCol = (CLineCollider*)m_vecEvent[i].wParam;
 
+			//낮은확률로 같은 tick 에서 동시에 오브젝트를 삭제요청 한 경우를 방어
+			/*if (false == lineCol->IsDead())
+			{
+				m_vecGarbage.push_back(pObj);
+				pObj->m_bDead = true;
+			}*/
+		}
 		case EVENT_TYPE::LEVEL_CHANGE:
 		{
 			LEVEL_TYPE eNextLevel = (LEVEL_TYPE)m_vecEvent[i].wParam;

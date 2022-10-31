@@ -111,7 +111,8 @@ enum class EVENT_TYPE
 {
 	CREATE_OBJECT,	//wParam : Object Adress lParam : Layer Type
 	DELETE_OBJECT,  //Wparam : Object Adress
-	LEVEL_CHANGE,	//Wparam : LEVEL_TYPE(Next Level Type)	
+	DELETE_LINECOL,
+	LEVEL_CHANGE,	//Wparam : LEVEL_TYPE(Next Level Type)
 	ANIMATION,
 };
 
@@ -142,9 +143,9 @@ enum class LINECOL_MODE
 
 enum class MOUSE_MODE
 {
+	NONE,
 	ONEDOWN,
 	TWODOWN,
-	NONE,
 };
 
 enum class WALLDIR
@@ -172,6 +173,7 @@ enum class COL_STATE_DIR
 	UP		= 0x00000002,
 	RIGHT	= 0x00000004,
 	DOWN	= 0x00000008,
+	LRD		= LEFT | RIGHT | DOWN,
 	NONE	= 0x00000000,
 };
 

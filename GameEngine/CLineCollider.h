@@ -20,7 +20,11 @@ private:
     LINELAYER       m_layer;
 
   
-    bool            m_bIsRenderPoint;
+    bool            m_bIsRenderGizmo;
+
+    bool            m_isDead;
+
+    
 
 public:
     virtual void tick() override;
@@ -45,17 +49,18 @@ public:
     void SetP1(Vector2 _vP1) { m_vP1 = _vP1; }
     void SetP2(Vector2 _vP2) { m_vP2 = _vP2; }
     void SetP1P2(Vector2 _vP1, Vector2 _vP2) { SetP1(_vP1); SetP2(_vP2); }
-    void SetRenderPoint(bool _bRender) { m_bIsRenderPoint = _bRender; }
+    void SetIsRenderGizmo(bool _bRender) { m_bIsRenderGizmo = _bRender; }
 
 
     Vector2 GetP1() const { return m_vP1; }
     Vector2 GetP2() const   { return m_vP2; }
     Vector2 GetIntersction() const { return m_intersection; }
+    bool GetIsRenderGizmo() const { return m_bIsRenderGizmo; }
 
     float GetP1Length(Vector2 pos) { return (pos - m_vP1).Length(); }
     float GetP2Length(Vector2 pos) { return (pos - m_vP2).Length(); }
 
-
+    bool    IsDead() { return m_isDead; }
 
 public :
     CLONE(CLineCollider);

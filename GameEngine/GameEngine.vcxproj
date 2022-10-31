@@ -162,11 +162,13 @@
     <ClInclude Include="CKeyManager.h" />
     <ClInclude Include="CLevel.h" />
     <ClInclude Include="CLevelManager.h" />
+    <ClInclude Include="CLine.h" />
     <ClInclude Include="CLineColManager.h" />
     <ClInclude Include="CMap.h" />
     <ClInclude Include="CMapManager.h" />
     <ClInclude Include="CMissile.h" />
     <ClInclude Include="CMonster.h" />
+    <ClInclude Include="CMouseBox.h" />
     <ClInclude Include="CPanelUI.h" />
     <ClInclude Include="CPathManager.h" />
     <ClInclude Include="CPlatform.h" />
@@ -211,8 +213,10 @@
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CEditorLevel.cpp" />
     <ClCompile Include="CEditorLevel_init.cpp" />
+    <ClCompile Include="CLine.cpp" />
     <ClCompile Include="CMap.cpp" />
     <ClCompile Include="CMapManager.cpp" />
+    <ClCompile Include="CMouseBox.cpp" />
     <ClCompile Include="CRaycast.cpp" />
     <ClCompile Include="CWall.cpp" />
     <ClCompile Include="Line_Func.cpp" />

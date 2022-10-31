@@ -53,7 +53,7 @@ public:
 	void AddFixedTick(DELEGATE func, CEntity* instance);
 	void ClearFixedTick() { m_vecFixedEvent.clear(); }
 
-private:
+public:
 	void RemoveLine(CLineCollider* _line);
 	void DeletCollider();
 

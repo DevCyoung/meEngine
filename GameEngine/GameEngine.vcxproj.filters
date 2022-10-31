@@ -173,6 +173,9 @@
     <Filter Include="Game\RockMan\Map">
       <UniqueIdentifier>{35753357-d7e3-4fa1-990b-025c78275da3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\04. Level\Editor\Editor\MapEditor\MouseBox">
+      <UniqueIdentifier>{88c62a64-fb7c-4a7b-a009-27a695487b88}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -326,6 +329,12 @@
       <Filter>Engine\05. Component\Collider\Line</Filter>
     </ClInclude>
     <ClInclude Include="CWall.h">
+      <Filter>Game\RockMan\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="CMouseBox.h">
+      <Filter>Engine\04. Level\Editor\Editor\MapEditor\MouseBox</Filter>
+    </ClInclude>
+    <ClInclude Include="CLine.h">
       <Filter>Game\RockMan\Map</Filter>
     </ClInclude>
   </ItemGroup>
@@ -513,6 +522,12 @@
       <Filter>Engine\04. Level\Editor\Editor\MapEditor</Filter>
     </ClCompile>
     <ClCompile Include="CWall.cpp">
+      <Filter>Game\RockMan\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="CMouseBox.cpp">
+      <Filter>Engine\04. Level\Editor\Editor\MapEditor\MouseBox</Filter>
+    </ClCompile>
+    <ClCompile Include="CLine.cpp">
       <Filter>Game\RockMan\Map</Filter>
     </ClCompile>
   </ItemGroup>

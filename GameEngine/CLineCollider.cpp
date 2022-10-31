@@ -13,8 +13,10 @@ CLineCollider::CLineCollider(CGameObject* obj)
 	, m_ExitEvent{}
 	, m_intersection{}
 	, m_layer{}
-	, m_bIsRenderPoint(false)
+	, m_bIsRenderGizmo(false)
 	, m_dir(WALLDIR::NONE)
+	, m_isDead(false)
+	
 {
 
 }
@@ -26,9 +28,10 @@ CLineCollider::CLineCollider(const CLineCollider& _other)
 	, m_EnterEvent(_other.m_EnterEvent)
 	, m_StayEvent (_other.m_StayEvent)
 	, m_ExitEvent (_other.m_ExitEvent)
-	, m_bIsRenderPoint(_other.m_bIsRenderPoint)
+	, m_bIsRenderGizmo(_other.m_bIsRenderGizmo)
 	, m_dir(_other.m_dir)
 	, m_layer(_other.m_layer)
+	, m_isDead(false)
 {
 }
 
@@ -110,25 +113,7 @@ void CLineCollider::render(HDC _dc)
 	
 	//hPen = GETINSTANCE(CEngine)->GetPen(PEN_TYPE::BLUE);
 	
-	int distance = 16;
-	if (m_bIsRenderPoint)
-	{
-		Rectangle
-		(
-			_dc, (int)(p1.x - distance / 2)
-			, (int)(p1.y - distance / 2)
-			, (int)(p1.x + distance / 2)
-			, (int)(p1.y + distance / 2)
-		);
 
-		Rectangle
-		(
-			_dc, (int)(p2.x - distance / 2)
-			, (int)(p2.y - distance / 2)
-			, (int)(p2.x + distance / 2)
-			, (int)(p2.y + distance / 2)
-		);
-	}
 }
 
 void CLineCollider::TranslateMove(Vector2 add)
@@ -181,8 +166,7 @@ void CLineCollider::SetRaycast(Vector2 point, Vector2 dir, Vector2 offset, float
 
 void CLineCollider::SetMoveRaycast(Vector2 point)
 {
-	Vector2 vDiff = point - m_vP1;
-
+	Vector2 diff = m_vP1 - m_vP2;
 	m_vP1 = point;
-	m_vP2 = m_vP2 + m_vP1;
+	m_vP2 = point + diff;
 }

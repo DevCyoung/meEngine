@@ -5,6 +5,7 @@ class CMap;
 
 
 class CLineCollider;
+class CMouseBox;
 class CWall;
 
 class CEditorLevel :
@@ -52,12 +53,16 @@ public:
 public:
     CLineCollider*      m_lineColPreMouse;
     CLineCollider*      lineCol;
-    CLineCollider*      MouseX;
-    CLineCollider*      MouseY;
+
     MOUSE_MODE          m_LineMosueMode;
     CGameObject*        m_objCurmap;
     CMap*               m_backGround;
     WALLDIR             m_wallDir;
+
+    //Editing Collider
+    CLineCollider*  m_MouseX;
+    CLineCollider*  m_MouseY;
+    CMouseBox*      m_MouseBox;
 
 
 
@@ -65,18 +70,17 @@ public:
     void LineMouseEvent(CLineCollider* _other, LINECOL_MODE _mode);
     void CreateLineMode();
     void CreateLineUI();
-    void AddMouseLineollider();
     void DeleteMouse();
 
     //void InitLine();
     void StartMapEditMode();
 
 
+    void AddMouseLineCollider();
+    void AddMouseBoxCollider();
+
 public:
-    MOUSE_MODE          m_BoxMosueMode;
-    Vector2             m_leftTop;
-    Vector2             m_bottom;
-    CWall*              m_curObj;
+   
     //BoxCollide Edit
     void CreateBoxMode();
     

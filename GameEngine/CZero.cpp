@@ -11,6 +11,7 @@
 #include "CTexture.h"
 #include "CResourceManager.h"
 #include "CRigidbody.h"
+#include "CLine.h"
 
 CTexture* mm_pTexuture = nullptr;
 CZero::CZero()
@@ -18,7 +19,8 @@ CZero::CZero()
 	, m_bisLand(false)
 	, m_curLand(nullptr)
 	, m_downLandCheck(nullptr)
-	, m_ColDir(0)
+	, m_downRay(nullptr)
+	, m_dirMove(nullptr)
 {
 	CreateAnimator();
 	GetAnimator()->LoadAnimation(L"animation\\zero\\thunder.anim");
@@ -35,7 +37,17 @@ CZero::CZero()
 	init();
 
 	CreateCollider();
-	GetCollider()->SetScale(Vector2(50.f, 50.f));
+	GetCollider()->SetScale(Vector2(70.f, 100.f));
+
+	m_downRay = new CLine();
+	m_downRay->CreateLineCollider(Vector2{}, Vector2{}, LINELAYER::DOWN);
+	m_downRay->SetEnterEvent((DELEGATECOL)&CZero::DownHitEnter, this);
+	m_downRay->SetExitEvent((DELEGATECOL)&CZero ::DownHitExit, this);
+	m_downRay->GetLineCollider()->SetRaycast(GetPos(), Vector2(0.f, -1.f), Vector2(0.f, 0.f), 35.f);
+
+	GETINSTANCE(CLineColManager)->LayerRegister(LINELAYER::DOWN, LINELAYER::DOWNWALL);
+
+	m_vellocity = Vector2(1.f, 1.f);
 }
 
 CZero::CZero(const CRockmanObj& _other)
@@ -45,14 +57,16 @@ CZero::CZero(const CRockmanObj& _other)
 	,m_downLandCheck(nullptr)
 	,m_curLand(nullptr)
 	,m_bisLand(false)
-
+	, m_downRay(nullptr)
+	, m_dirMove(nullptr)
 {
 
 }
 
 CZero::~CZero()
 {
-
+	if (nullptr != m_downRay)
+		delete m_downRay;
 }
 
 
@@ -74,57 +88,51 @@ void CZero::tick()
 	//float fRayDist = 75.f;
 
 	Vector2 pos = this->GetPos();
-
+	m_downRay->GetLineCollider()->SetRaycast(GetPos(), Vector2(0.f, 1.f), Vector2(0.f, 0.f), 50.f);
 	if (IS_INPUT_PRESSED(KEY::LEFT)  &&  (m_ColDir & (UINT)COL_STATE_DIR::LEFT) == 0)
 	{
 		this->SetFilpX(false);
+		if (nullptr == m_dirMove)
+		{
+			return;
+		}
+		Vector2 pos = GetPos();
+		pos.x += DELTATIME * -200.f;
+		Vector2 p1 = m_dirMove->GetP1();
+		Vector2 p2 = m_dirMove->GetP2();
+		pos.y = ((p2.y - p1.y) / (p2.x - p1.x)) * (pos.x - p1.x) + p1.y - 40.f;
+		SetPos(pos);
+		/*Vector2 vellocity;
+		vellocity = m_vellocity  * -200.f;
 		pos.x -= 200 * DELTATIME;
+		GetRigidbody()->AddForce(vellocity);*/
 	}
 	if (IS_INPUT_PRESSED(KEY::RIGHT) && (m_ColDir & (UINT)COL_STATE_DIR::RIGHT) == 0)
 	{
 		this->SetFilpX(true);
+		if (nullptr == m_dirMove)
+		{
+			return;
+		}
+		Vector2 pos = GetPos();
+		pos.x += DELTATIME * 200.f;
+		Vector2 p1 = m_dirMove->GetP1();
+		Vector2 p2 = m_dirMove->GetP2();
+		pos.y = ((p2.y - p1.y) / (p2.x - p1.x)) * (pos.x - p1.x) + p1.y - 40.f;
+		SetPos(pos);
+		/*Vector2 vellocity;
+		vellocity = m_vellocity * +200.f;
 		pos.x += 200 * DELTATIME;
+		GetRigidbody()->AddForce(vellocity);*/
+	}
+	if (IS_INPUT_PRESSED(KEY::X) && (m_ColDir & (UINT)COL_STATE_DIR::LRD))
+	{
+		//m_vellocity.y -= 800.f;
+		GetRigidbody()->SetVelocity(Vector2(0.f, -600.f));
+		//GetRigidbody()->SetVelocity(m_vellocity);
 	}
 
-	this->SetPos(pos);
-
-
-	/*if (IS_INPUT_PRESSED(KEY::UP))
-	{
-		pos.y -= 200 * DELTATIME;
-	}
-	if (IS_INPUT_PRESSED(KEY::DOWN))
-	{
-		pos.y += 200 * DELTATIME;
-	}*/
-	//if (IS_INPUT_TAB(KEY::LCTRL))
-	//{
-	//	GetAnimator()->Play(L"THUNDER", false);
-	//}
-
-	//if (IS_INPUT_TAB(KEY::Z))
-	//{
-	//	GetAnimator()->Play(L"ATTACK", false);
-	//}
-
-	//if (IS_INPUT_PRESSED(KEY::X))
-	//{
-	//	pos.y -= 1000 * DELTATIME;
-	//	//GetRigidbody()->SetVelocity(Vector2(0.f, -10000.f));
-	//}
-	//else
-	//{
-	//}
-	//if (IS_INPUT_PRESSED(KEY::C))
-	//{
-	//	//GetRigidbody()->SetVelocity(Vector2(200.f, 0.f));
-	//}
 	//EventTick();
-	//
-
-	//this->SetPos(pos);
-
-	//m_ray.TranslateSetPos(GetPos());
 }
 
 

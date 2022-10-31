@@ -1,9 +1,9 @@
 #pragma once
 #include "pch.h"
-#include "CRockmanObj.h"
+#include "CGameObject.h"
 
 class CWall 
-	: public CRockmanObj
+	: public CGameObject
 {
 
 public:
@@ -24,7 +24,7 @@ public:
 
 public:
 	CWall();
-	CWall(const CRockmanObj& _other);
+	CWall(const CWall& _other);
 	~CWall();
 
 };

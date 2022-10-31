@@ -26,27 +26,29 @@ void CZero::OnTriggerExit(CCollider* _pOther)
 {
 }
 
-
-
-
 void CZero::OnTriggerEnterLeft(CCollider* _pOther)
 {
-	m_ColDir |= (UINT)COL_STATE_DIR::LEFT;
+	CRockmanObj::OnTriggerEnterLeft(_pOther);
+	Vector2 vPos = GetRigidbody()->GetVelocity();
+	GetRigidbody()->SetVelocity(Vector2(0.f, vPos.y));
 }
 
 void CZero::OnTriggerEnterRight(CCollider* _pOther)
 {
-	m_ColDir |= (UINT)COL_STATE_DIR::RIGHT;
+	CRockmanObj::OnTriggerEnterRight(_pOther);
+	Vector2 vPos = GetRigidbody()->GetVelocity();
+	GetRigidbody()->SetVelocity(Vector2(0.f, vPos.y));
 }
 
 void CZero::OnTriggerEnterUp(CCollider* _pOther)
 {
-	m_ColDir |= (UINT)COL_STATE_DIR::UP;
+	CRockmanObj::OnTriggerEnterUp(_pOther);
+	GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
 }
 
 void CZero::OnTriggerEnterDown(CCollider* _pOther)
 {
-	m_ColDir |= (UINT)COL_STATE_DIR::DOWN;
+	CRockmanObj::OnTriggerEnterDown(_pOther);
 	GetRigidbody()->SetGravity(false);
 	GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
 }
@@ -54,22 +56,22 @@ void CZero::OnTriggerEnterDown(CCollider* _pOther)
 
 void CZero::OnTriggerExitLeft(CCollider* _pOther)
 {
-	m_ColDir &= ~(UINT)COL_STATE_DIR::LEFT;
+	CRockmanObj::OnTriggerExitLeft(_pOther);
 }
 
 void CZero::OnTriggerExitRight(CCollider* _pOther)
 {
-	m_ColDir &= ~(UINT)COL_STATE_DIR::RIGHT;
+	CRockmanObj::OnTriggerExitRight(_pOther);
 }
 
 void CZero::OnTriggerExitUp(CCollider* _pOther)
 {
-	m_ColDir &= ~(UINT)COL_STATE_DIR::UP;
+	CRockmanObj::OnTriggerExitUp(_pOther);
 }
 
 void CZero::OnTriggerExitDown(CCollider* _pOther)
 {
-	m_ColDir &= ~(UINT)COL_STATE_DIR::DOWN;
+	CRockmanObj::OnTriggerExitDown(_pOther);
 	GetRigidbody()->SetGravity(true);
-	GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
+	//GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
 }

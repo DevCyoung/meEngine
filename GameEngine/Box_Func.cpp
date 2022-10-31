@@ -25,40 +25,23 @@
 
 #include "CZero.h"
 
+#include "CMouseBox.h"
+
+void CEditorLevel::AddMouseBoxCollider()
+{
+	m_MouseBox = new CMouseBox();
+	AddObject(m_MouseBox, LAYER::MOUSE);
+	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::WALL);
+}
+
 void CEditorLevel::CreateBoxMode()
 {
 	//박스가 마우스를 따라다닌다.
 
 	//클릭을한다.
-	if (IS_INPUT_TAB(KEY::LBTN) && m_BoxMosueMode == MOUSE_MODE::NONE)
-	{
-		//DRAW MODE
-		m_BoxMosueMode = MOUSE_MODE::ONEDOWN;
-		m_bottom = Vector2(0.f, 0.f);
-		m_leftTop = Vector2(0.f, 0.f);
-		m_leftTop = GETINSTANCE(CCamera)->GetRealMousePos();
-		m_curObj = new CWall();
-		AddObject(m_curObj, LAYER::WALL);		
-	}
-	else if (IS_INPUT_TAB(KEY::LBTN) && m_BoxMosueMode == MOUSE_MODE::ONEDOWN)
-	{		
-		m_BoxMosueMode = MOUSE_MODE::NONE;		
-	}
-
-	if (m_BoxMosueMode == MOUSE_MODE::ONEDOWN)
-	{
-		m_bottom = GETINSTANCE(CCamera)->GetRealMousePos();
-		m_curObj->ResizeCollider(m_leftTop, m_bottom);
-	}
-	if (IS_INPUT_TAB(KEY::RBTN))
-	{
-		CZero* zero = new CZero();
-		Vector2 pos = GETINSTANCE(CKeyManager)->GetMousePos();
-		pos = GETINSTANCE(CCamera)->GetRealPos(pos);
-		/*zero->SetPos(pos);
-		this->AddObject(zero, LAYER::PLAYER);*/
-		CGameObject::Instantiate(zero, pos, LAYER::PLAYER);
-	}
+	if (nullptr == m_MouseBox)
+		return;
+	m_MouseBox->CreateBoxMode();
 	if (IS_INPUT_TAB(KEY::_8))
 	{
 		SaveBoxCollider();

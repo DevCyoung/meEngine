@@ -50,7 +50,7 @@ void CEditorLevel::StartMapEditMode()
 	//맵 고른후 한번클리어
 	this->DeleteAllObject();
 	GETINSTANCE(CLineColManager)->DeletCollider();
-	AddMouseLineollider();
+	AddMouseLineCollider();
 
 
 	m_backGround = new CMap();
@@ -164,7 +164,7 @@ void CEditorLevel::LoadLineCollider()
 
 	GETINSTANCE(CLineColManager)->Load(pFile);
 
-	AddMouseLineollider();
+	AddMouseLineCollider();
 
 
 	fclose(pFile);
