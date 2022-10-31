@@ -14,21 +14,15 @@ class CZero :
     public CRockmanObj
 {
 private:
-	//CLineCollider*	m_mapLineCol[(UINT)RAY_TYPE::END];
-	//CLineCollider* m_downRay;
-	//CLineCollider* m_leftRay;
-	//CLineCollider* m_rightRay;
-	//CLineCollider* m_upRay;
-
 	CRaycast m_ray;
 
 
 
-	CLineCollider* m_downLandCheck;
+	CLineCollider*	m_downLandCheck;
+	CLineCollider*	m_curLand;
+	Vector2			m_landDir;
 
-	CLineCollider* m_curLand;
-
-	Vector2	m_landDir;
+	UINT			m_ColDir;
 
 
 	float	m_fVerticalRayDist;
@@ -69,6 +63,19 @@ public:
 	void RightHitEnter(CLineCollider* _pOhter);
 	void RightHitStay(CLineCollider* _pOhter);
 	void RightHitExit(CLineCollider* _pOhter);
+
+
+	//box
+public:
+	virtual void OnTriggerEnterLeft(CCollider* _pOther)		override;
+	virtual void OnTriggerEnterRight(CCollider* _pOther)	override;
+	virtual void OnTriggerEnterUp(CCollider* _pOther)		override;
+	virtual void OnTriggerEnterDown(CCollider* _pOther)		override;
+
+	virtual void OnTriggerExitLeft(CCollider* _pOther)		override;
+	virtual void OnTriggerExitRight(CCollider* _pOther)		override;
+	virtual void OnTriggerExitUp(CCollider* _pOther)		override;
+	virtual void OnTriggerExitDown(CCollider* _pOther)		override;
 
 
 public:

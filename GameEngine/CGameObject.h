@@ -11,6 +11,8 @@ class CGameObject :
 private:
     Vector2     m_vPos;
     Vector2     m_vScale;
+    Vector2	    m_preFramePos;
+    LAYER		m_tag;
     bool        m_isFlipX;
     bool        m_isFlipY;
 
@@ -34,6 +36,7 @@ public:
 public:
     virtual void tick();
     virtual void final_tick() final;
+    virtual void fixed_tick();
     virtual void render(HDC _dc);
 
 public:
@@ -41,21 +44,38 @@ public:
     void SetScale(Vector2 _vec2) { m_vScale = _vec2; }
     void SetFilpX(bool _isFlipX) { m_isFlipX = _isFlipX; }
     void SetFilpY(bool _isFlipY) { m_isFlipY = _isFlipY; }
+    void SetTag(LAYER layer) { m_tag = layer; }
 
     Vector2 GetPos()        { return m_vPos; } 
     Vector2 GetScale()      { return m_vScale; } 
     bool GetFilpX() const   { return m_isFlipX; }
     bool GetFilpY() const   { return m_isFlipY; }
+    LAYER GetTag() { return m_tag; }
 
-
+    void SetPreFramePos(Vector2 pos) { m_preFramePos = pos; }
+    Vector2 GetPreFramePos() { return m_preFramePos; }
 public:
-    //전역으로변경
-    void    Instantiate(CGameObject* _pNewObj, Vector2 _vPos, LAYER _eLayer);
+    //전역으로변경?
+    static void    Instantiate(CGameObject* _pNewObj, Vector2 _vPos, LAYER _eLayer);
 
     //Physics calc
     virtual void OnTriggerEnter(CCollider* _pOther);
     virtual void OnTriggerStay(CCollider* _pOther);
     virtual void OnTriggerExit(CCollider* _pOther);
+
+
+    virtual void OnTriggerEnterLeft(CCollider* _pOther);
+    virtual void OnTriggerEnterRight(CCollider* _pOther);
+    virtual void OnTriggerEnterUp(CCollider* _pOther);
+    virtual void OnTriggerEnterDown(CCollider* _pOther);
+    virtual void OnTriggerStayLeft(CCollider* _pOther);
+    virtual void OnTriggerStayRight(CCollider* _pOther);
+    virtual void OnTriggerStayUp(CCollider* _pOther);
+    virtual void OnTriggerStayDown(CCollider* _pOther);
+    virtual void OnTriggerExitLeft(CCollider* _pOther);
+    virtual void OnTriggerExitRight(CCollider* _pOther);
+    virtual void OnTriggerExitUp(CCollider* _pOther);
+    virtual void OnTriggerExitDown(CCollider* _pOther);
 
     bool    IsDead() { return m_bDead; }
     void    Destroy();

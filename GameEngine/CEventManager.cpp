@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CEventManager.h"
 #include "CGameObject.h"
+#include "CRockmanObj.h"
 #include "CLevelManager.h"
 
 CEventManager::CEventManager()

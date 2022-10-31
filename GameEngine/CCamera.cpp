@@ -68,6 +68,12 @@ void CCamera::CameraShake(float _fRange, float _fSpeed, float _fTerm)
 }
 
 
+Vector2 CCamera::GetRealMousePos()
+{
+	Vector2 vPos = GETINSTANCE(CKeyManager)->GetMousePos();
+	return GetRealPos(vPos);
+}
+
 void CCamera::CameraEffect()
 {
 }

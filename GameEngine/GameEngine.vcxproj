@@ -185,6 +185,7 @@
     <ClInclude Include="CTitleLevel.h" />
     <ClInclude Include="CUI.h" />
     <ClInclude Include="CUIManager.h" />
+    <ClInclude Include="CWall.h" />
     <ClInclude Include="CZero.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="framework.h" />
@@ -198,6 +199,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationFileFunc.cpp" />
+    <ClCompile Include="Box_Func.cpp" />
     <ClCompile Include="CAnimation.cpp" />
     <ClCompile Include="CAnimator.cpp" />
     <ClCompile Include="CAnimEnvManager.cpp" />
@@ -212,6 +214,7 @@
     <ClCompile Include="CMap.cpp" />
     <ClCompile Include="CMapManager.cpp" />
     <ClCompile Include="CRaycast.cpp" />
+    <ClCompile Include="CWall.cpp" />
     <ClCompile Include="Line_Func.cpp" />
     <ClCompile Include="Tile_Func.cpp" />
     <ClCompile Include="Tile_SaveLoad.cpp" />

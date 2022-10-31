@@ -14,8 +14,13 @@
 
 
 #include  "CRigidbody.h"
+
+
+//최초 Down충돌이 일어난다면....
+//무조건 Gravity를 0으로 해야한다.
 void CZero::DownHitEnter(CLineCollider* _pOhter)
 {
+	Vector2 Pos = GetRigidbody()->GetVelocity();
 	this->GetRigidbody()->SetGravity(false);
 	this->GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
 }

@@ -7,11 +7,13 @@ class CCollider :
     public CComponent
 {
 protected:
-    Vector2    m_vOffsetPos;
-    Vector2    m_vFinalPos;
-    Vector2    m_vScale;
-    HPEN       m_hPen;
-    int        m_iOverlapCount;
+    Vector2                 m_vOffsetPos;
+    Vector2                 m_vFinalPos;
+    Vector2                 m_vScale;
+    HPEN                    m_hPen;
+    int                     m_iOverlapCount;
+    map<UINT, COLLIDE_DIR>	m_mapColdir;
+
 
 public:
     virtual void tick() override;
@@ -32,6 +34,8 @@ public:
     virtual void    OnTriggerStay(CCollider* _pOther);
     virtual void    OnTriggerExit(CCollider* _pOhther);
 
+
+    
 
 public:
     int GetCollideCnt() { return m_iOverlapCount; }

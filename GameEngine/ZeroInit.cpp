@@ -44,14 +44,14 @@ void CZero::EventInit()
 
 	GETINSTANCE(CLineColManager)->AddFixedTick((DELEGATE)&CZero::fixed_tick, this);
 
-	m_ray.GetLineCol(RAY_TYPE::DOWN)->SetEnterEvent((DELEGATECOL)&CZero::DownHitEnter, this);
-	m_ray.GetLineCol(RAY_TYPE::DOWN_LEFT)->SetEnterEvent((DELEGATECOL)&CZero::DownHitEnter, this);
-	m_ray.GetLineCol(RAY_TYPE::DOWN_RIGHT)->SetEnterEvent((DELEGATECOL)&CZero::DownHitEnter, this);
+	m_ray.GetLineCol(RAY_TYPE::DOWN      ) ->SetEnterEvent((DELEGATECOL)&CZero::DownHitEnter,this );
+	/*m_ray.GetLineCol(RAY_TYPE::DOWN_LEFT )->SetEnterEvent((DELEGATECOL)&CZero::DownHitEnter, this );
+	m_ray.GetLineCol(RAY_TYPE::DOWN_RIGHT)->SetEnterEvent((DELEGATECOL)&CZero::DownHitEnter, this );*/
 
 
-	m_ray.GetLineCol(RAY_TYPE::DOWN)->SetExitEvent((DELEGATECOL)&CZero::DownHitExit, this);
-	m_ray.GetLineCol(RAY_TYPE::DOWN_LEFT)->SetExitEvent((DELEGATECOL)&CZero::DownHitExit, this);
-	m_ray.GetLineCol(RAY_TYPE::DOWN_RIGHT)->SetExitEvent((DELEGATECOL)&CZero::DownHitExit, this);
+	m_ray.GetLineCol(RAY_TYPE::DOWN      )->SetExitEvent((DELEGATECOL)&CZero::DownHitExit, this   );
+	/*m_ray.GetLineCol(RAY_TYPE::DOWN_LEFT )->SetExitEvent((DELEGATECOL)&CZero::DownHitExit, this   );
+	m_ray.GetLineCol(RAY_TYPE::DOWN_RIGHT)->SetExitEvent((DELEGATECOL)&CZero::DownHitExit, this   );*/
 
 
 	//m_ray.GetLineCol(RAY_TYPE::DOWN_LEFT)->SetStayEvent((DELEGATECOL)&CZero::DownHitStay, this);

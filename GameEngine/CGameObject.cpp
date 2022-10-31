@@ -17,6 +17,8 @@ CGameObject::CGameObject()
 	, m_pCollider(nullptr)
 	, m_pAnimator(nullptr)
 	, m_pRigidbody(nullptr)
+	, m_preFramePos{}
+	, m_tag{}
 {
 }
 
@@ -30,6 +32,7 @@ CGameObject::CGameObject(const CGameObject& _other)
 	, m_bDead(false)
 	, m_isFlipX(_other.m_isFlipX)
 	, m_isFlipY(_other.m_isFlipY)
+	, m_preFramePos{}
 {
 	if (nullptr != _other.m_pCollider)
 	{
@@ -84,16 +87,22 @@ void CGameObject::final_tick()
 		m_pCollider->final_tick();			//콜라이더 최종위치는 가장마지막에
 }
 
+void CGameObject::fixed_tick()
+{
+	m_preFramePos = GetPos();
+}
+
 void CGameObject::render(HDC _dc)
 {
+	if (nullptr != m_pAnimator)
+		m_pAnimator->render(_dc);
+
 	if (nullptr != m_pCollider)
 		m_pCollider->render(_dc);
 
 	if (nullptr != m_pRigidbody)
 		m_pRigidbody->render(_dc);
 
-	if (nullptr != m_pAnimator)
-		m_pAnimator->render(_dc);
 }
 
 void CGameObject::CreateCollider()
@@ -113,6 +122,7 @@ void CGameObject::CreateRigidbody()
 	if (nullptr == m_pRigidbody)
 		m_pRigidbody = new CRigidbody(this);
 }
+
 
 void CGameObject::Destroy()
 {
@@ -138,17 +148,71 @@ void CGameObject::Instantiate(CGameObject* _pNewObj, Vector2 _vPos, LAYER _eLaye
 
 void CGameObject::OnTriggerEnter(CCollider* _pOther)
 {
-	
 }
-
+void CGameObject::OnTriggerStay(CCollider* _pOther)
+{
+}
 void CGameObject::OnTriggerExit(CCollider* _pOther)
 {
 }
 
-void CGameObject::OnTriggerStay(CCollider* _pOther)
+
+void CGameObject::OnTriggerEnterUp(CCollider* _pOther)
 {
-	
 }
+
+void CGameObject::OnTriggerEnterDown(CCollider* _pOther)
+{
+}
+void CGameObject::OnTriggerEnterLeft(CCollider* _pOther)
+{
+}
+
+void CGameObject::OnTriggerEnterRight(CCollider* _pOther)
+{
+}
+
+
+
+
+
+void CGameObject::OnTriggerStayUp(CCollider* _pOther)
+{
+}
+
+void CGameObject::OnTriggerStayDown(CCollider* _pOther)
+{
+}
+
+void CGameObject::OnTriggerStayLeft(CCollider* _pOther)
+{
+}
+
+void CGameObject::OnTriggerStayRight(CCollider* _pOther)
+{
+}
+
+
+
+
+void CGameObject::OnTriggerExitUp(CCollider* _pOther)
+{
+}
+
+void CGameObject::OnTriggerExitDown(CCollider* _pOther)
+{
+}
+
+void CGameObject::OnTriggerExitLeft(CCollider* _pOther)
+{
+}
+
+void CGameObject::OnTriggerExitRight(CCollider* _pOther)
+{
+}
+
+
+
 
 
 void CGameObject::Func(CGameObject* _obj, void(CGameObject::* Function)(void))

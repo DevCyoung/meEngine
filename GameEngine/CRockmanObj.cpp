@@ -20,6 +20,11 @@ void CRockmanObj::tick()
 	CGameObject::tick();
 }
 
+void CRockmanObj::fixed_tick()
+{
+	CGameObject::fixed_tick();
+}
+
 void CRockmanObj::render(HDC _dc)
 {
 	//충돌체등 그리기

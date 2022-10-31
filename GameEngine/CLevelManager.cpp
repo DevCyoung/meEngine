@@ -49,6 +49,11 @@ void CLevelManager::tick()
 	m_pCurLevel->final_tick();	
 }
 
+void CLevelManager::fixed_tick()
+{
+	m_pCurLevel->fixed_tick();
+}
+
 void CLevelManager::render(HDC m_hDC)
 {
 	m_pCurLevel->render(m_hDC);

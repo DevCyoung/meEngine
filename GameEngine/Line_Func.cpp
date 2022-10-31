@@ -53,9 +53,9 @@ void CEditorLevel::CreateLineMode()
 	{
 		switch (m_LineMosueMode)
 		{
-		case LINECOLMOUSE_MODE::NONE:
+		case MOUSE_MODE::NONE:
 		{
-			m_LineMosueMode = LINECOLMOUSE_MODE::ONEDOWN;
+			m_LineMosueMode = MOUSE_MODE::ONEDOWN;
 			
 
 			if (nullptr != m_lineColPreMouse)
@@ -91,7 +91,7 @@ void CEditorLevel::CreateLineMode()
 			
 		}
 		break;
-		case LINECOLMOUSE_MODE::ONEDOWN:
+		case MOUSE_MODE::ONEDOWN:
 		{
 			if (IS_INPUT_PRESSED(KEY::LSHIFT))
 			{
@@ -120,7 +120,7 @@ void CEditorLevel::CreateLineMode()
 					pos = m_lineColPreMouse->GetP1();
 				}
 			}
-			m_LineMosueMode = LINECOLMOUSE_MODE::NONE;
+			m_LineMosueMode = MOUSE_MODE::NONE;
 			lineCol->m_dir = m_wallDir;
 			lineCol = nullptr;
 			return;
@@ -132,7 +132,7 @@ void CEditorLevel::CreateLineMode()
 	pos = GETINSTANCE(CKeyManager)->GetMousePos();
 	pos = GETINSTANCE(CCamera)->GetRealPos(pos);
 
-	if (m_LineMosueMode == LINECOLMOUSE_MODE::ONEDOWN && lineCol)
+	if (m_LineMosueMode == MOUSE_MODE::ONEDOWN && lineCol)
 	{
 		if (IS_INPUT_PRESSED(KEY::LSHIFT))
 		{
@@ -304,7 +304,7 @@ void CEditorLevel::AddMouseLineollider()
 	
 	GETINSTANCE(CLineColManager)->LayerRegister(LINELAYER::LEFTWALL, LINELAYER::PLAYER);
 
-	m_LineMosueMode = LINECOLMOUSE_MODE::NONE;
+	m_LineMosueMode = MOUSE_MODE::NONE;
 	m_eMode = EDITOR_MODE::LINECOLLIDER;
 }
 

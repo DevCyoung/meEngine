@@ -111,7 +111,7 @@ enum class EVENT_TYPE
 {
 	CREATE_OBJECT,	//wParam : Object Adress lParam : Layer Type
 	DELETE_OBJECT,  //Wparam : Object Adress
-	LEVEL_CHANGE,	//Wparam : LEVEL_TYPE(Next Level Type)
+	LEVEL_CHANGE,	//Wparam : LEVEL_TYPE(Next Level Type)	
 	ANIMATION,
 };
 
@@ -129,6 +129,7 @@ enum class EDITOR_MODE
 	ANIMATION,
 	OBJECT,
 	LINECOLLIDER,
+	BOXCOLLIDER,
 	NONE
 };
 
@@ -139,7 +140,7 @@ enum class LINECOL_MODE
 	NONE,
 };
 
-enum class LINECOLMOUSE_MODE
+enum class MOUSE_MODE
 {
 	ONEDOWN,
 	TWODOWN,
@@ -153,6 +154,25 @@ enum class WALLDIR
 	RIGHT,
 	DOWN,
 	NONE,
+};
+
+enum class COLLIDE_DIR
+{
+	NONE,
+	LEFT,
+	UP,
+	RIGHT,
+	DOWN,
+	END,
+};
+
+enum class COL_STATE_DIR
+{
+	LEFT	= 0x00000001,
+	UP		= 0x00000002,
+	RIGHT	= 0x00000004,
+	DOWN	= 0x00000008,
+	NONE	= 0x00000000,
 };
 
 enum class RAY_TYPE
@@ -179,5 +199,4 @@ enum class RAY_FLAG
 	LEFT_DOWN  = 0X00000020,
 	RIGHT_UP   = 0X00000040,
 	RIGHT_DOWN = 0X00000080,
-
 };

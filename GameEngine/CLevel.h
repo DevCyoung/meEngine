@@ -1,5 +1,6 @@
 #pragma once
 #include "CEntity.h"
+#include "CGameObject.h"
 
 //레벨매니저가 다양한 레벨을 들고있을거싱다.
 //각각의 레벨에는 수많은 오브젝트들이 들어있을것이다.
@@ -35,6 +36,7 @@ public:
     // 즉 책임을 내가질수있게만듬/
     virtual void init() = 0; //추상클래스가 되버림 자식은 무조건 구현을 강제함
     virtual void tick();
+    virtual void fixed_tick();
     virtual void final_tick();
     virtual void render(HDC _dc);
 
@@ -43,7 +45,7 @@ public:
 
 public:
     //_layer is collsion type
-    void AddObject(CGameObject* _gameObject, LAYER _layer) { m_arrLayer[(UINT)_layer].push_back(_gameObject); }
+    void AddObject(CGameObject* _gameObject, LAYER _layer) { _gameObject->SetTag(_layer); m_arrLayer[(UINT)_layer].push_back(_gameObject); }
     const vector<CGameObject*>& GetLayer(LAYER _layer) { return m_arrLayer[(UINT)_layer]; } //무언가를 반환할때 일시적으로 만들어진다. 비용이매우비쌈
     void DeleteAllObject();
     void DeleteAllObject(LAYER _eLayer);

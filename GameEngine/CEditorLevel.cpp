@@ -31,10 +31,14 @@ CEditorLevel::CEditorLevel()
 	, lineCol(nullptr)
 	, MouseX(nullptr)
     , MouseY(nullptr)
-	, m_LineMosueMode{ LINECOLMOUSE_MODE::NONE}
+	, m_LineMosueMode(MOUSE_MODE::NONE)
+	, m_BoxMosueMode(MOUSE_MODE::NONE)
 	, size(40.f)
 	, m_backGround(nullptr)
 	, m_wallDir(WALLDIR::NONE)
+	, m_bottom{}
+	, m_leftTop{}
+	, m_curObj(nullptr)
 {
 	//mapText = GETINSTANCE(CResourceManager)->LoadTexture(L"CYBER", L"texture\\cyberspace.bmp");
 	//CMonster* monster = new CMonster();
@@ -78,6 +82,12 @@ void CEditorLevel::tick()
 		GETINSTANCE(CLineColManager)->ClearFixedTick();
 		AddMouseLineollider();
 		m_eMode = EDITOR_MODE::LINECOLLIDER;
+	}
+	if (IS_INPUT_TAB(KEY::_5))
+	{
+		//여기서 초기화를한다.
+
+		m_eMode = EDITOR_MODE::BOXCOLLIDER;
 	}
 	Update();
 }
@@ -175,6 +185,8 @@ void CEditorLevel::Update()
 		break;	
 	case EDITOR_MODE::LINECOLLIDER:
 		CreateLineMode();
+	case EDITOR_MODE::BOXCOLLIDER:
+		CreateBoxMode();
 		break;
 	}
 }

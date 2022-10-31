@@ -90,6 +90,7 @@ void CEngine::tick()
 	GETINSTANCE(CCollisionManager)->tick();
 	GETINSTANCE(CLineColManager)->tick();
 
+	GETINSTANCE(CLevelManager)->fixed_tick();
 
 	GETINSTANCE(CUIManager)->tick();
 }

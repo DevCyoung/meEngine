@@ -33,6 +33,7 @@ void CLevel::tick()
 	}
 }
 
+
 void CLevel::final_tick()
 {
 	for (UINT i = 0; i < (UINT)LAYER::END; ++i)
@@ -40,6 +41,18 @@ void CLevel::final_tick()
 		for (UINT j = 0; j < m_arrLayer[i].size(); ++j)
 		{
 			m_arrLayer[i][j]->final_tick();
+		}
+	}
+}
+
+
+void CLevel::fixed_tick()
+{
+	for (size_t i = 0; i < (UINT)LAYER::END; i++)
+	{
+		for (size_t j = 0; j < m_arrLayer[i].size(); j++)
+		{
+			m_arrLayer[i][j]->fixed_tick();
 		}
 	}
 }

@@ -30,6 +30,12 @@ public:
     float           GetVdist() { return vhdist.y; }
     float           GetHdist() { return vhdist.x; }
 
+public:
+    bool    GetDownWallColState();
+    bool    GetLeftWallColState();
+    bool    GetRightWallColState();
+    bool    GetUpWallColState();
+
     CLONE(CRaycast);
 
     CRaycast();

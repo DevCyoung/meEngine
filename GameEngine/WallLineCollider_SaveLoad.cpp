@@ -62,6 +62,7 @@ void CEditorLevel::StartMapEditMode()
 
 
 
+
 //좀더 편하게 사용하기위해 UI를 만들어보자
 //UI도 결국 오브젝트를 상속받는다.
 void CEditorLevel::SaveLineCollider()

@@ -13,7 +13,7 @@
 #include "CUI.h"
 #include "CButton.h"
 #include "CPanelUI.h"
-
+#include "CCollisionManager.h"
 void CEditorLevel::init()
 {
 	//카메라시점
@@ -36,7 +36,7 @@ void CEditorLevel::init()
 
 	m_eMode = EDITOR_MODE::TILE;*/
 	//CTexture* cyberMap = GETINSTANCE(CResourceManager)->LoadTexture(L"Panel", L"texture\\OakUI.bmp");
-
+	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::WALL, LAYER::PLAYER);
 }
 
 

@@ -18,6 +18,7 @@ CZero::CZero()
 	, m_bisLand(false)
 	, m_curLand(nullptr)
 	, m_downLandCheck(nullptr)
+	, m_ColDir(0)
 {
 	CreateAnimator();
 	GetAnimator()->LoadAnimation(L"animation\\zero\\thunder.anim");
@@ -32,6 +33,9 @@ CZero::CZero()
 	this->GetRigidbody()->SetVelocityLimit(600.f);
 	this->GetRigidbody()->SetGravityVelocityLimit(600.f);
 	init();
+
+	CreateCollider();
+	GetCollider()->SetScale(Vector2(50.f, 50.f));
 }
 
 CZero::CZero(const CRockmanObj& _other)
@@ -43,10 +47,12 @@ CZero::CZero(const CRockmanObj& _other)
 	,m_bisLand(false)
 
 {
+
 }
 
 CZero::~CZero()
 {
+
 }
 
 
@@ -57,8 +63,8 @@ void CZero::init()
 	//EventInit();
 	Vector2 pos = GetPos();
 	//lineColqq = GETINSTANCE(CLineColManager)->CreateRay(pos, Vector2(-1.f, 0.f), 40.f, LINELAYER::LEFTWALL);
-	GETINSTANCE(CLineColManager)->CreateRaycast(m_ray, Vector2(40.f, 60.f), Vector2(40.f, 60.f));
-	EventInit();
+	//GETINSTANCE(CLineColManager)->CreateRaycast(m_ray, Vector2(40.f, 60.f), Vector2(40.f, 60.f));
+	//EventInit();
 }
 
 void CZero::tick()
@@ -67,27 +73,30 @@ void CZero::tick()
 
 	//float fRayDist = 75.f;
 
-	//Vector2 pos = this->GetPos();
+	Vector2 pos = this->GetPos();
 
-	//if (IS_INPUT_PRESSED(KEY::LEFT) && m_ray.GetCollideCnt(RAY_TYPE::LEFT_UP) == 0 && m_ray.GetCollideCnt(RAY_TYPE::LEFT_DOWN) == 0)
-	//{
-	//	this->SetFilpX(false);
-	//	pos.x -= 200 * DELTATIME;
-	//}
-	//if (IS_INPUT_PRESSED(KEY::RIGHT) && m_ray.GetCollideCnt(RAY_TYPE::RIGHT_UP) == 0 && m_ray.GetCollideCnt(RAY_TYPE::RIGHT_DOWN) == 0)
-	//{
-	//	this->SetFilpX(true);
-	//	pos.x += 200 * DELTATIME;
-	//}
-	//if (IS_INPUT_PRESSED(KEY::UP))
-	//{
-	//	pos.y -= 200 * DELTATIME;
-	//}
-	//if (IS_INPUT_PRESSED(KEY::DOWN))
-	//{
-	//	pos.y += 200 * DELTATIME;
-	//}
+	if (IS_INPUT_PRESSED(KEY::LEFT)  &&  (m_ColDir & (UINT)COL_STATE_DIR::LEFT) == 0)
+	{
+		this->SetFilpX(false);
+		pos.x -= 200 * DELTATIME;
+	}
+	if (IS_INPUT_PRESSED(KEY::RIGHT) && (m_ColDir & (UINT)COL_STATE_DIR::RIGHT) == 0)
+	{
+		this->SetFilpX(true);
+		pos.x += 200 * DELTATIME;
+	}
 
+	this->SetPos(pos);
+
+
+	/*if (IS_INPUT_PRESSED(KEY::UP))
+	{
+		pos.y -= 200 * DELTATIME;
+	}
+	if (IS_INPUT_PRESSED(KEY::DOWN))
+	{
+		pos.y += 200 * DELTATIME;
+	}*/
 	//if (IS_INPUT_TAB(KEY::LCTRL))
 	//{
 	//	GetAnimator()->Play(L"THUNDER", false);
@@ -115,7 +124,7 @@ void CZero::tick()
 
 	//this->SetPos(pos);
 
-	m_ray.TranslateSetPos(GetPos());
+	//m_ray.TranslateSetPos(GetPos());
 }
 
 

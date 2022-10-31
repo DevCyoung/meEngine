@@ -45,6 +45,7 @@ public:
 public:
 	Vector2 GetRenderPos(Vector2 _vRealPos) { return _vRealPos - m_vDiff; }
 	Vector2 GetRealPos(Vector2 _vRenderPos) { return _vRenderPos + m_vDiff; }
+	Vector2 GetRealMousePos();
 
 private:
 	void CameraEffect();

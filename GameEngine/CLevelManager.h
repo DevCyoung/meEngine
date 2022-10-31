@@ -13,6 +13,7 @@ private:
 public:
 	void init();
 	void tick();
+	void fixed_tick();
 	void render(HDC m_hDC);
 
 
