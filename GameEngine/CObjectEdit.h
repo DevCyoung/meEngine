@@ -23,8 +23,7 @@ private:
 public:
 	void CreateUI(CLevel* level);
 	
-
-
+	void SelectObject(CRockmanObj* obj);
 
 #pragma region VIRTUAL
 	virtual void tick()				override;

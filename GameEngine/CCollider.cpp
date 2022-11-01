@@ -88,8 +88,8 @@ void CCollider::OnTriggerEnter(CCollider* _pOther)
 	Vector2 rb1 = GetFinalPos() + GetScale() / 2;
 	Vector2 rb2 = _pOther->GetFinalPos() + _pOther->GetScale() / 2;
 
-	LAYER tag1 = GetOwner()->GetTag();
-	LAYER tag2 = _pOther->GetOwner()->GetTag();
+	LAYER tag1 = GetOwner()->GetLayer();
+	LAYER tag2 = _pOther->GetOwner()->GetLayer();
 
 	float left_up_x = max(lT1.x, lT2.x);
 	float left_up_y = max(lT1.y, lT2.y);

@@ -78,14 +78,13 @@ public:
 
 
 public:
-public:
 	CLONE(CZero);
 
 
 
 public:
 	CZero();
-	CZero(const CRockmanObj& _other);
+	CZero(const CZero& _other);
 	~CZero();
 };
 

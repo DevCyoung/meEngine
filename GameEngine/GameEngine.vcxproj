@@ -166,6 +166,7 @@
     <ClInclude Include="CLineColManager.h" />
     <ClInclude Include="CMap.h" />
     <ClInclude Include="CMapManager.h" />
+    <ClInclude Include="CMiru.h" />
     <ClInclude Include="CMissile.h" />
     <ClInclude Include="CMonster.h" />
     <ClInclude Include="CCollideEdit.h" />
@@ -179,6 +180,7 @@
     <ClInclude Include="CResource.h" />
     <ClInclude Include="CResourceManager.h" />
     <ClInclude Include="CRigidbody.h" />
+    <ClInclude Include="CRockmanMonster.h" />
     <ClInclude Include="CRockmanObj.h" />
     <ClInclude Include="CStartLevel.h" />
     <ClInclude Include="CTest.h" />
@@ -218,8 +220,10 @@
     <ClCompile Include="CMap.cpp" />
     <ClCompile Include="CMapManager.cpp" />
     <ClCompile Include="CCollideEdit.cpp" />
+    <ClCompile Include="CMiru.cpp" />
     <ClCompile Include="CObjectEdit.cpp" />
     <ClCompile Include="CRaycast.cpp" />
+    <ClCompile Include="CRockmanMonster.cpp" />
     <ClCompile Include="CWall.cpp" />
     <ClCompile Include="Line_Func.cpp" />
     <ClCompile Include="Tile_Func.cpp" />

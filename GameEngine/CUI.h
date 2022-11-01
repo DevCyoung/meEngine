@@ -3,6 +3,7 @@
 
 class CTexture;
 
+
 class CUI :
 	public CGameObject
 {
@@ -15,11 +16,14 @@ private:
 	CUI*			m_pParentUI;
 	CTexture*		m_pIdleTex;
 
+
 	bool	m_bLbtnDown;
 	bool	m_bMouseOn;
 	
 	bool	m_bCmrAfctd;
 
+
+	
 public:
 	virtual void tick() override;
 	virtual void render(HDC _dc) override;

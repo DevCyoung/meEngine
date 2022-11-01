@@ -1,6 +1,8 @@
 #pragma once
 #include "CGameObject.h"
-#include "CLine.h"
+
+class CLine;
+
 class CRockmanObj :
     public CGameObject
 {
@@ -14,6 +16,11 @@ protected:
 	virtual void fixed_tick() override;
 	virtual void render(HDC _dc) override;
 
+
+public:
+	CLine* GetLineCollider() { return m_downRay; }
+
+	void CreateLineCollider();
 	//box 
 	virtual void OnTriggerEnter(CCollider* _pOhter);
 	virtual void OnTriggerStay(CCollider* _pOhter);
@@ -48,7 +55,7 @@ protected:
 	virtual void RightHitExit(CLineCollider* _pOhter)	{};
 
 
-
+public:
 	CLONE(CRockmanObj);
 
 public:
@@ -56,5 +63,6 @@ public:
 	CRockmanObj(const CRockmanObj& _other);
 	~CRockmanObj();
 
+	
 };
 

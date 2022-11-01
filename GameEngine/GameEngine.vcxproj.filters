@@ -182,6 +182,18 @@
     <Filter Include="Engine\04. Level\Editor\Editor\MapEditor\Object">
       <UniqueIdentifier>{fbfdbead-fee8-4c5c-8c91-3beae467f6c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\RockMan\Monster">
+      <UniqueIdentifier>{2b510898-a719-442b-9ecc-ecfff342bcb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\RockMan\Monster\CyberStage">
+      <UniqueIdentifier>{87f38a8d-b10c-4abf-8f33-3c4edadcb772}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\RockMan\Monster\CyberStage\MIRU">
+      <UniqueIdentifier>{ba9ed48d-320d-4120-8d0a-eda9b4b1819a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\RockMan\Monster\Monster">
+      <UniqueIdentifier>{5adafff9-c208-4e7b-8382-7f144d53bc4e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -345,6 +357,12 @@
     </ClInclude>
     <ClInclude Include="CObjectEdit.h">
       <Filter>Engine\04. Level\Editor\Editor\MapEditor\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="CMiru.h">
+      <Filter>Game\RockMan\Monster\CyberStage\MIRU</Filter>
+    </ClInclude>
+    <ClInclude Include="CRockmanMonster.h">
+      <Filter>Game\RockMan\Monster\Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -541,6 +559,12 @@
     </ClCompile>
     <ClCompile Include="CObjectEdit.cpp">
       <Filter>Engine\04. Level\Editor\Editor\MapEditor\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="CMiru.cpp">
+      <Filter>Game\RockMan\Monster\CyberStage\MIRU</Filter>
+    </ClCompile>
+    <ClCompile Include="CRockmanMonster.cpp">
+      <Filter>Game\RockMan\Monster\Monster</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

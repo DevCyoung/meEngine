@@ -323,8 +323,6 @@ void CCollideEdit::Update()
 	}
 
 
-
-
 	if (IS_INPUT_TAB(KEY::RBTN))
 	{
 		CZero* zero = new CZero();
@@ -335,6 +333,14 @@ void CCollideEdit::Update()
 
 	if (IS_INPUT_TAB(KEY::Q) && m_detectBox != nullptr)
 	{
+		CRockmanObj* obj = dynamic_cast<CRockmanObj*>(m_detectBox->GetOwner());
+		if (nullptr != obj)
+		{
+			if (nullptr != obj->GetLineCollider())
+			{
+				GETINSTANCE(CLineColManager)->RemoveLine(obj->GetLineCollider()->GetLineCollider());
+			}			
+		}
 		m_detectBox->GetOwner()->Destroy();
 	}
 	else if (IS_INPUT_TAB(KEY::Q) && m_detectColLine != nullptr)

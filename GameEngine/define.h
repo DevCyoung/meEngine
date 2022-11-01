@@ -45,7 +45,10 @@
 
 class CEntity;
 class CLineCollider;
+class CRockmanObj;
+
 typedef void(CEntity::* DELEGATE)(void);
+typedef void(CEntity::* DELEGATERockman)(CRockmanObj* _other);
 typedef void(CEntity::* DELEGATECOL)(CLineCollider* _other);
 
 

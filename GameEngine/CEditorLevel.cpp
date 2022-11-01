@@ -69,7 +69,7 @@ void CEditorLevel::tick()
 	//직접구현했으면 틱돌게햐아함
 	CLevel::tick();
 
-	GETINSTANCE(CCamera)->CameraKeyMove(1200.f);
+	GETINSTANCE(CCamera)->CameraKeyMove(100.f);
 
 	if (IS_INPUT_TAB(KEY::_1))
 	{

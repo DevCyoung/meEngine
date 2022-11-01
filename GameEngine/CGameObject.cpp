@@ -33,6 +33,7 @@ CGameObject::CGameObject(const CGameObject& _other)
 	, m_isFlipX(_other.m_isFlipX)
 	, m_isFlipY(_other.m_isFlipY)
 	, m_preFramePos{}
+	, m_tag(_other.m_tag)
 {
 	if (nullptr != _other.m_pCollider)
 	{

@@ -16,21 +16,33 @@ CRockmanObj::CRockmanObj()
 }
 
 CRockmanObj::CRockmanObj(const CRockmanObj& _other)
-	: m_ColDir(0)
+	: CGameObject(_other)
+	, m_ColDir(0)
 	, m_LineDir(0)
 	, m_vellocity{}
 	, m_downRay(nullptr) //여기서문제생길수도있음
 {
+	if (_other.m_downRay != nullptr)
+	{
+		CreateLineCollider();
+	}
 }
 
 CRockmanObj::~CRockmanObj()
 {
-	if (m_downRay != nullptr)
+	if (nullptr != m_downRay)
 	{
 		delete m_downRay;
 	}
 }
-
+void CRockmanObj::CreateLineCollider()
+{
+	if (m_downRay != nullptr)
+		return;
+	m_downRay = new CLine();
+	m_downRay->CreateLineCollider(Vector2{}, Vector2{}, LINELAYER::DOWN);
+	GETINSTANCE(CLineColManager)->LayerRegister(LINELAYER::DOWN, LINELAYER::DOWNWALL);
+}
 
 void CRockmanObj::tick()
 {

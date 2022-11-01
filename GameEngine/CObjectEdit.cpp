@@ -20,6 +20,11 @@
 #include "CLevelManager.h"
 #include "CLevel.h"
 
+//obj
+#include "CZero.h"
+#include "CMiru.h"
+#include "CRockmanObj.h"
+
 CObjectEdit::CObjectEdit()
 	: m_curSelectObj(nullptr)
 	, m_detectObj(nullptr)
@@ -82,8 +87,9 @@ void CObjectEdit::CreateUI(CLevel* level)
 		{
 			pSaveButton->SetScale(Vector2(100.f, 50.f));
 			pSaveButton->SetPos(Vector2(10.f, 20.f));
-			//pSaveButton->SetDelegate(this, (DELEGATE)&CObjectEdit::Update);
-			pSaveButton->SetIdleTex(pButtonTex);
+			pSaveButton->SetDelegate(this, (DELEGATERockman)&CObjectEdit::SelectObject);
+			//pSaveButton->SetIdleTex(pButtonTex);
+			pSaveButton->SetRockman(new CZero());
 			pSaveButton->SetPressedTex(pButtonPressedTex);			
 		}
 		pPanelUI->AddChildUI(pSaveButton);
@@ -93,7 +99,8 @@ void CObjectEdit::CreateUI(CLevel* level)
 		CButton* pLoadButton = pSaveButton->Clone();
 		{
 			pLoadButton->SetPos(Vector2(150.f, 20.f));
-			//pLoadButton->SetDelegate(this, (DELEGATE)&CObjectEdit::Update);
+			pLoadButton->SetRockman(new CMiru());
+			pLoadButton->SetDelegate(this, (DELEGATERockman)&CObjectEdit::SelectObject);
 		}
 		pPanelUI->AddChildUI(pLoadButton);
 		//level->AddObject(pLoadButton, LAYER::UI);
@@ -108,6 +115,14 @@ void CObjectEdit::CreateUI(CLevel* level)
 	//	pPanelUI->SetPos(Vector2(vResolution.x - pPanelTex->Width() + 20.f - pPanelTex->Width(), 10.f));
 	//	AddObject(pPanelUI, LAYER::UI);
 	//}
+}
+
+void CObjectEdit::SelectObject(CRockmanObj* obj)
+{
+	CRockmanObj* newObj =  obj->Clone();
+	Vector2 vPos = GETINSTANCE(CCamera)->GetRealMousePos();
+	newObj->SetPos(vPos);
+	CGameObject::Instantiate(newObj, vPos, LAYER::PLAYER);	
 }
 
 void CObjectEdit::Update()

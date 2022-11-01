@@ -18,6 +18,11 @@ CLine::CLine(const CLine& _other)
 
 CLine::~CLine()
 {
+	if (nullptr != m_lineCollider)
+	{
+		/*GETINSTANCE(CLineColManager)->RemoveLine(m_lineCollider);
+		m_lineCollider = nullptr;*/
+	}
 }
 
 void CLine::tick()
@@ -57,6 +62,11 @@ void CLine::render(HDC _dc)
 			, (int)(p2.y + distance / 2)
 		);
 	}
+}
+
+void CLine::SetRaycast(Vector2 point, Vector2 dir, Vector2 offset, float distance)
+{
+	m_lineCollider->SetRaycast(point, dir, offset, distance);
 }
 
 void CLine::CreateLineCollider(Vector2 p1, Vector2 p2, LINELAYER layer)

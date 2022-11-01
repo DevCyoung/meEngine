@@ -21,7 +21,7 @@ CUI::CUI(const CUI& _other)
 	, m_pIdleTex(_other.m_pIdleTex)
 	, m_bLbtnDown(false)
 	, m_bMouseOn(false)
-	, m_bCmrAfctd(_other.m_bCmrAfctd)
+	, m_bCmrAfctd(_other.m_bCmrAfctd)	
 {
 	for (size_t i = 0; i < _other.m_vecChildUI.size(); i++)
 	{
@@ -35,6 +35,8 @@ CUI::~CUI()
 	{
 		delete m_vecChildUI[i];
 	}
+
+
 }
 
 //UI는 반응을해야한다.

@@ -18,7 +18,7 @@ public:
 public:
 	CLineCollider*	GetLineCollider() { return m_lineCollider; }
 	void			CreateLineCollider(Vector2 p1, Vector2 p2, LINELAYER layer);
-
+	void			SetRaycast(Vector2 point, Vector2 dir, Vector2 offset, float distance);
 	void    SetEnterEvent(DELEGATECOL func, CEntity* instance);
 	void    SetStayEvent(DELEGATECOL func, CEntity* instance) ;
 	void    SetExitEvent(DELEGATECOL func, CEntity* instance) ;

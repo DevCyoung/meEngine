@@ -9,7 +9,7 @@ class CAnimation :
 {
 private:
     CAnimator*          m_pAnimator;
-    vector<tAnimFrm>    m_vecFrm;  
+    vector<tAnimFrm>    m_vecFrm;
 
     CTexture*           m_pAtlas;
     int                 m_iCurFrm;
@@ -37,8 +37,9 @@ public:
     void Load(const wstring& _strRelativePath);
     void ColorSwap(vector<UNIONCOLOR32> sourceColors, vector<UNIONCOLOR32> destColors);
 
-    tColInfo GetColinfo(int idx) { return m_vecFrm[idx].colInfo; }
-
+    tColInfo    GetColinfo(int idx) { return m_vecFrm[idx].colInfo; }
+    CTexture*   GetAtlas() { return m_pAtlas; }
+    tAnimFrm&   GetFrame(UINT idx) { return m_vecFrm[idx]; }
 public:
     CLONE(CAnimation);
 
@@ -55,5 +56,6 @@ public:
     ~CAnimation();
 
     friend class CAnimator;
+    
 };
 

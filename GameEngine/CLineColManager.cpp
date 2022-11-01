@@ -233,9 +233,6 @@ void CLineColManager::CollisionBtwLayer(LINELAYER _left, LINELAYER _right)
 	}
 }
 
-
-
-
 void CLineColManager::RemoveLine(CLineCollider* line)
 {
 	if (nullptr == line)

@@ -50,7 +50,7 @@ public:
     Vector2 GetScale()      { return m_vScale; } 
     bool GetFilpX() const   { return m_isFlipX; }
     bool GetFilpY() const   { return m_isFlipY; }
-    LAYER GetTag() { return m_tag; }
+    LAYER GetLayer() { return m_tag; }
 
     void SetPreFramePos(Vector2 pos) { m_preFramePos = pos; }
     Vector2 GetPreFramePos() { return m_preFramePos; }

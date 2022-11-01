@@ -44,7 +44,6 @@ CLineCollider::CLineCollider(const CLineCollider& _other)
 
 CLineCollider::~CLineCollider()
 {
-
 }
 
 void CLineCollider::tick()

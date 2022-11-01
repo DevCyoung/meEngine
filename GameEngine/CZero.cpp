@@ -16,6 +16,7 @@
 CTexture* mm_pTexuture = nullptr;
 CZero::CZero()
 	: m_fVerticalRayDist(0.f)
+	, m_fHorizonRayDist(0.f)
 	, m_bisLand(false)
 	, m_curLand(nullptr)
 	, m_downLandCheck(nullptr)
@@ -34,31 +35,37 @@ CZero::CZero()
 	this->GetRigidbody()->SetGravityAccel(600.f);
 	this->GetRigidbody()->SetVelocityLimit(600.f);
 	this->GetRigidbody()->SetGravityVelocityLimit(600.f);
-	init();
 
 	CreateCollider();
 	GetCollider()->SetScale(Vector2(70.f, 100.f));
 
-	m_downRay->GetLineCollider()->SetRaycast(GetPos(), Vector2(0.f, -1.f), Vector2(0.f, 0.f), 50.f);
-	m_downRay->SetEnterEvent((DELEGATECOL)&CZero::DownHitEnter, this);
-	m_downRay->SetExitEvent((DELEGATECOL)&CZero::DownHitExit, this);
-
-	//m_vellocity = Vector2(1.f, 1.f);
+	CreateLineCollider();
+	GetLineCollider()->SetRaycast(GetPos(), Vector2(0.f, -1.f), Vector2(0.f, 0.f), 50.f);
+	GetLineCollider()->SetEnterEvent((DELEGATECOL)&CZero::DownHitEnter, this);
+	GetLineCollider()->SetExitEvent((DELEGATECOL)&CZero::DownHitExit, this);	
+	SetTag(LAYER::PLAYER);
 }
 
-CZero::CZero(const CRockmanObj& _other)
-	:m_fVerticalRayDist(0.f)
-	,m_fHorizonRayDist(0.f)
-	,m_downLandCheck(nullptr)
-	,m_curLand(nullptr)
-	,m_bisLand(false)
+CZero::CZero(const CZero& _other)
+	: CRockmanObj(_other)
+	, m_fVerticalRayDist(0.f)
+	, m_fHorizonRayDist(0.f)
+	, m_downLandCheck(nullptr)
+	, m_curLand(nullptr)
+	, m_bisLand(false)
 	, m_dirMoveLine(nullptr)
+	, m_dirMoveBox(nullptr)
 {
-
+	CreateLineCollider();
+	GetLineCollider()->SetRaycast(GetPos(), Vector2(0.f, -1.f), Vector2(0.f, 0.f), 50.f);
+	GetLineCollider()->SetEnterEvent((DELEGATECOL)&CZero::DownHitEnter, this);
+	GetLineCollider()->SetExitEvent((DELEGATECOL)&CZero::DownHitExit, this);
+	SetTag(LAYER::PLAYER);
 }
 
 CZero::~CZero()
 {
+
 }
 
 

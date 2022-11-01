@@ -86,6 +86,26 @@ void CAnimation::render(HDC _dc)
 
 	tAnimFrm frame = m_vecFrm[m_iCurFrm];
 
+	Vector2 camleft;
+	Vector2 cambottom;
+	Vector2 rp = pOwnerObj->GetPos();
+	camleft.x = GETINSTANCE(CCamera)->GetLook().x - GETINSTANCE(CEngine)->GetWndScreenSize().x / 2; //left
+	camleft.y = GETINSTANCE(CCamera)->GetLook().y - GETINSTANCE(CEngine)->GetWndScreenSize().y / 2;
+	cambottom.x = camleft.x + GETINSTANCE(CEngine)->GetWndScreenSize().x;
+	cambottom.y = camleft.y + GETINSTANCE(CEngine)->GetWndScreenSize().y;
+
+	//if (camleft.x   > vPos.x + frame.vSize.x || camleft.y   > vPos.y + frame.vSize.y  ||
+	//	cambottom.x < vPos.x - frame.vSize.x || cambottom.y < vPos.y - frame.vSize.y )
+	//	return;
+
+	if (camleft.x   > rp.x + frame.vSize.x * WINDOWX_PER_X / 2 ||
+		camleft.y   > rp.y + frame.vSize.y * WINDOWX_PER_X / 2 ||
+		cambottom.x < rp.x - frame.vSize.x * WINDOWX_PER_X / 2 ||
+		cambottom.y < rp.y - frame.vSize.y * WINDOWX_PER_X / 2)
+		return;
+
+
+
 	CRenderHelper::StretchRender
 	(
 		m_pAtlas->GetDC(),
@@ -101,7 +121,7 @@ void CAnimation::render(HDC _dc)
 		pOwnerObj->GetFilpX()
 	);
 
-	CRenderHelper::StretchRenderCollider(_dc, frame, vPos, pOwnerObj->GetFilpX());
+	//CRenderHelper::StretchRenderCollider(_dc, frame, vPos, pOwnerObj->GetFilpX());
 }
 
 
