@@ -1,5 +1,7 @@
 #include "pch.h"
-#include "CMouseBox.h"
+
+#include "CCollideEdit.h"
+
 #include "CCamera.h"
 #include "CKeyManager.h"
 #include "CCollider.h"
@@ -14,13 +16,14 @@
 
 #include "CLineCollider.h"
 
-CMouseBox::CMouseBox()
+
+CCollideEdit::CCollideEdit()
 	: m_detectBox(nullptr)
 	, m_curGizmoPoint{}
 	, m_mouseMode{}
 	, m_leftTop{}
 	, m_rightbottom{}
-	, m_curColWall(nullptr)
+	, m_curMakeWall(nullptr)
 	, m_curColLine(nullptr)
 	, m_editMode(COLIDE_EIDT_MODE::BOX)
 	, m_mouseX(nullptr)
@@ -43,25 +46,25 @@ CMouseBox::CMouseBox()
 
 	GETINSTANCE(CLineColManager)->LayerRegister(LINELAYER::MOUSE, LINELAYER::DOWNWALL);
 
-	m_mouseX->GetLineCollider()->SetEnterEvent((DELEGATECOL)&CMouseBox::MouseEnterEvent, this);
-	m_mouseY->GetLineCollider()->SetEnterEvent((DELEGATECOL)&CMouseBox::MouseEnterEvent, this);
-	m_mouseX->GetLineCollider()->SetExitEvent((DELEGATECOL)&CMouseBox::MouseExitEvent, this);
-	m_mouseY->GetLineCollider()->SetExitEvent((DELEGATECOL)&CMouseBox::MouseExitEvent, this);
+	m_mouseX->GetLineCollider()->SetEnterEvent((DELEGATECOL)&CCollideEdit::MouseEnterEvent, this);
+	m_mouseY->GetLineCollider()->SetEnterEvent((DELEGATECOL)&CCollideEdit::MouseEnterEvent, this);
+	m_mouseX->GetLineCollider()->SetExitEvent((DELEGATECOL)&CCollideEdit::MouseExitEvent, this);
+	m_mouseY->GetLineCollider()->SetExitEvent((DELEGATECOL)&CCollideEdit::MouseExitEvent, this);
 }
 
-CMouseBox::CMouseBox(const CMouseBox& _other)
+CCollideEdit::CCollideEdit(const CCollideEdit& _other)
 	: m_detectBox(nullptr)
 	, m_curGizmoPoint{}
 	, m_mouseMode{}
 	, m_leftTop{}
 	, m_rightbottom{}
-	, m_curColWall(nullptr)
+	, m_curMakeWall(nullptr)
 	, m_curColLine(nullptr)
 	, m_editMode(COLIDE_EIDT_MODE::BOX)
 {
 }
 
-CMouseBox::~CMouseBox()
+CCollideEdit::~CCollideEdit()
 {
 	if (nullptr != m_mouseX)
 		delete m_mouseX;
@@ -70,7 +73,7 @@ CMouseBox::~CMouseBox()
 }
 
 
-void CMouseBox::tick()
+void CCollideEdit::tick()
 {
 	CGameObject::tick();
 	Vector2 pos = GETINSTANCE(CCamera)->GetRealMousePos();
@@ -80,6 +83,120 @@ void CMouseBox::tick()
 	Vector2 myPos1 = GETINSTANCE(CCamera)->GetRealMousePos() - Vector2(0.f, 30.f);
 	m_mouseX->GetLineCollider()->TranslateSetPos(mxPos1);
 	m_mouseY->GetLineCollider()->TranslateSetPos(myPos1);
+}
+
+#pragma region render
+
+void CCollideEdit::render(HDC _dc)
+{
+	CGameObject::render(_dc);
+
+	if (nullptr != m_detectBox || nullptr != m_detectColLine)
+	{
+		Rectangle
+		(
+			_dc,
+			m_curGizmoPoint.x - 10.f,
+			m_curGizmoPoint.y - 10.f,
+			m_curGizmoPoint.x + 10.f,
+			m_curGizmoPoint.y + 10.f
+		);
+	}
+	Vector2 lt = GETINSTANCE(CCamera)->GetRenderPos(m_leftTop);
+	Vector2 rb = GETINSTANCE(CCamera)->GetRenderPos(m_rightbottom);
+	if (m_mouseMode == MOUSE_MODE::ONEDOWN && m_editMode == COLIDE_EIDT_MODE::BOX)
+	{
+		
+		Rectangle
+		(
+			_dc,
+			lt.x,
+			lt.y,
+			rb.x ,
+			rb.y
+		);
+	}
+
+	if (m_mouseMode == MOUSE_MODE::ONEDOWN && m_editMode == COLIDE_EIDT_MODE::LINE)
+	{
+		MoveToEx(_dc, lt.x, lt.y, nullptr);
+		LineTo(_dc, rb.x, rb.y);
+	}
+
+	//충돌체를 그린다.
+	// 
+	//Vector2 vPos = GetOwner()->GetPos();
+
+	//Rectangle(_dc, (int)(vPos.x - m_vScale.x / 2)
+	//	, (int)(vPos.y - m_vScale.y / 2)
+	//	, (int)(vPos.x + m_vScale.x / 2)
+	//	, (int)(vPos.y + m_vScale.y / 2));
+
+	//if (m_eMode == EDITOR_MODE::LINECOLLIDER)
+	//{
+	//	HPEN hPen = nullptr;
+	//	Vector2 mousePos = GETINSTANCE(CKeyManager)->GetMousePos();
+	//	//mousePos = GETINSTANCE(CCamera)->GetRealPos(mousePos);
+
+	//	Vector2 p1;
+	//	Vector2 p2;
+	//	switch (m_wallDir)
+	//	{
+	//	case WALLDIR::LEFT:
+	//	{
+	//		hPen = GETINSTANCE(CEngine)->GetPen(PEN_TYPE::BLACK);
+	//		p1.x = mousePos.x - 40.f;
+	//		p1.y = mousePos.y - 40.f;
+	//		p2.x = mousePos.x - 40.f;
+	//		p2.y = mousePos.y + 40.f;
+	//	}
+	//	break;
+	//	case WALLDIR::UP:
+	//	{
+	//		hPen = GETINSTANCE(CEngine)->GetPen(PEN_TYPE::BLUE);
+	//		p1.x = mousePos.x - 40.f;
+	//		p1.y = mousePos.y - 40.f;
+	//		p2.x = mousePos.x + 40.f;
+	//		p2.y = mousePos.y - 40.f;
+	//	}
+	//	break;
+	//	case WALLDIR::RIGHT:
+	//	{
+	//		hPen = GETINSTANCE(CEngine)->GetPen(PEN_TYPE::ORANGE);
+	//		p1.x = mousePos.x + 40.f;
+	//		p1.y = mousePos.y - 40.f;
+	//		p2.x = mousePos.x + 40.f;
+	//		p2.y = mousePos.y + 40.f;
+	//	}
+	//	break;
+	//	case WALLDIR::DOWN:
+	//	{
+	//		hPen = GETINSTANCE(CEngine)->GetPen(PEN_TYPE::GREEN);
+	//		p1.x = mousePos.x - 40.f;
+	//		p1.y = mousePos.y + 40.f;
+	//		p2.x = mousePos.x + 40.f;
+	//		p2.y = mousePos.y + 40.f;
+	//	}
+	//	break;
+	//	}
+	//
+	//	HPEN	hOriginPen = (HPEN)SelectObject(_dc, hPen);
+	//	
+	//	
+	//	MoveToEx(_dc, p1.x, p1.y, nullptr);
+	//	LineTo(_dc, p2.x, p2.y);
+
+	//	//원래대로 되돌려놓기
+	//	SelectObject(_dc, hOriginPen);
+	//}
+
+}
+#pragma endregion
+
+void CCollideEdit::Update()
+{
+
+
 
 	if (nullptr != m_detectBox)
 	{
@@ -111,7 +228,7 @@ void CMouseBox::tick()
 	}
 	else if (nullptr != m_detectColLine)
 	{
-		
+
 		Vector2 mouse = GETINSTANCE(CCamera)->GetRealMousePos();
 		Vector2 p1 = m_detectColLine->GetP1();
 		Vector2 p2 = m_detectColLine->GetP2();
@@ -138,66 +255,7 @@ void CMouseBox::tick()
 	{
 		m_editMode = COLIDE_EIDT_MODE::LINE;
 	}
-}
 
-void CMouseBox::render(HDC _dc)
-{
-	CGameObject::render(_dc);
-
-	if (nullptr != m_detectBox || nullptr != m_detectColLine)
-	{
-		Rectangle
-		(
-			_dc,
-			m_curGizmoPoint.x - 10.f,
-			m_curGizmoPoint.y - 10.f,
-			m_curGizmoPoint.x + 10.f,
-			m_curGizmoPoint.y + 10.f
-		);
-	}
-	Vector2 lt = GETINSTANCE(CCamera)->GetRenderPos(m_leftTop);
-	Vector2 rb = GETINSTANCE(CCamera)->GetRenderPos(m_rightbottom);
-	if (nullptr != m_curColWall)
-	{
-		
-		Rectangle
-		(
-			_dc,
-			lt.x,
-			lt.y,
-			rb.x ,
-			rb.y
-		);
-	}
-
-	if (nullptr != m_curColLine)
-	{
-		MoveToEx(_dc, lt.x, lt.y, nullptr);
-		LineTo(_dc, rb.x, rb.y);
-	}
-
-
-
-}
-
-
-void CMouseBox::OnTriggerEnter(CCollider* _pOhter)
-{
-	m_detectBox = _pOhter;
-}
-
-void CMouseBox::OnTriggerStay(CCollider* _pOhter)
-{
-
-}
-
-void CMouseBox::OnTriggerExit(CCollider* _pOhter)
-{
-	m_detectBox = nullptr;
-}
-
-void CMouseBox::CreateBoxMode()
-{
 	if (IS_INPUT_TAB(KEY::LBTN) && m_mouseMode == MOUSE_MODE::NONE)
 	{
 
@@ -209,26 +267,6 @@ void CMouseBox::CreateBoxMode()
 		{
 			m_leftTop = GETINSTANCE(CCamera)->GetRealPos(m_curGizmoPoint);
 		}
-
-		switch (m_editMode)
-		{
-		case COLIDE_EIDT_MODE::LINE:
-		{
-			m_curColLine = new CLine();
-			m_curColLine->CreateLineCollider(m_leftTop, m_leftTop, LINELAYER::DOWNWALL);
-			m_curColLine->SetPos(m_leftTop);
-			CLevel* lv = GETINSTANCE(CLevelManager)->GetCurLevel();
-			lv->AddObject(m_curColLine, LAYER::WALL);
-		}
-			break;
-		case COLIDE_EIDT_MODE::BOX:
-		{
-			m_curColWall = new CWall();
-			CLevel* lv = GETINSTANCE(CLevelManager)->GetCurLevel();
-			lv->AddObject(m_curColWall, LAYER::WALL);
-		}
-			break;
-		}
 	}
 	else if (IS_INPUT_TAB(KEY::LBTN) && m_mouseMode == MOUSE_MODE::ONEDOWN)
 	{
@@ -237,6 +275,11 @@ void CMouseBox::CreateBoxMode()
 		{
 		case COLIDE_EIDT_MODE::LINE:
 		{			
+			m_curColLine = new CLine();
+			m_curColLine->CreateLineCollider(m_leftTop, m_leftTop, LINELAYER::DOWNWALL);
+			m_curColLine->SetPos(m_leftTop);
+			CLevel* lv = GETINSTANCE(CLevelManager)->GetCurLevel();
+			lv->AddObject(m_curColLine, LAYER::WALL);
 			m_curColLine->GetLineCollider()->SetP1(m_leftTop);
 			m_curColLine->GetLineCollider()->SetP2(m_rightbottom);
 			m_curColLine = nullptr;
@@ -244,9 +287,11 @@ void CMouseBox::CreateBoxMode()
 		break;
 		case COLIDE_EIDT_MODE::BOX:
 		{
-	
-			m_curColWall->ResizeCollider(m_leftTop, m_rightbottom);
-			m_curColWall = nullptr;
+			m_curMakeWall = new CWall();
+			CLevel* lv = GETINSTANCE(CLevelManager)->GetCurLevel();
+			lv->AddObject(m_curMakeWall, LAYER::WALL);
+			m_curMakeWall->ResizeCollider(m_leftTop, m_rightbottom);
+			m_curMakeWall = nullptr;
 		}
 		break;
 		}
@@ -266,6 +311,14 @@ void CMouseBox::CreateBoxMode()
 		else
 		{
 			m_rightbottom = GETINSTANCE(CCamera)->GetRealMousePos();
+		}
+		if (m_editMode == COLIDE_EIDT_MODE::LINE && IS_INPUT_PRESSED(KEY::LSHIFT))
+		{
+			m_rightbottom.y = m_leftTop.y;
+		}
+		if (m_editMode == COLIDE_EIDT_MODE::LINE && IS_INPUT_PRESSED(KEY::LCTRL))
+		{
+			m_rightbottom.x = m_leftTop.x;
 		}
 	}
 
@@ -287,26 +340,45 @@ void CMouseBox::CreateBoxMode()
 	else if (IS_INPUT_TAB(KEY::Q) && m_detectColLine != nullptr)
 	{
 		GETINSTANCE(CLineColManager)->RemoveLine(m_detectColLine);
+		m_detectColLine = nullptr;
 	}
 }
 
-void CMouseBox::CreateLineMode()
+#pragma region Event
+void CCollideEdit::CreateLineMode()
 {
 
 }
 
-void CMouseBox::MouseStayEvent(CLineCollider* _other)
+void CCollideEdit::MouseStayEvent(CLineCollider* _other)
 {
 }
 
-void CMouseBox::MouseEnterEvent(CLineCollider* _other)
+void CCollideEdit::MouseEnterEvent(CLineCollider* _other)
 {
 	m_detectColLine = _other;
 	_other->SetIsRenderGizmo(true);
 }
 
-void CMouseBox::MouseExitEvent(CLineCollider* _other)
+void CCollideEdit::MouseExitEvent(CLineCollider* _other)
 {
 	m_detectColLine = nullptr;
 	_other->SetIsRenderGizmo(false);
 }
+
+void CCollideEdit::OnTriggerEnter(CCollider* _pOhter)
+{
+	m_detectBox = _pOhter;
+}
+
+void CCollideEdit::OnTriggerStay(CCollider* _pOhter)
+{
+
+}
+
+void CCollideEdit::OnTriggerExit(CCollider* _pOhter)
+{
+	m_detectBox = nullptr;
+}
+
+#pragma endregion

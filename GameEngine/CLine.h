@@ -21,7 +21,8 @@ public:
 
 	void    SetEnterEvent(DELEGATECOL func, CEntity* instance);
 	void    SetStayEvent(DELEGATECOL func, CEntity* instance) ;
-	void    SetExitEvent(DELEGATECOL func, CEntity* instance);
+	void    SetExitEvent(DELEGATECOL func, CEntity* instance) ;
+	
 	//void ResizeCollider(Vector2 leftTop, Vector2 bottom);
 
 public:

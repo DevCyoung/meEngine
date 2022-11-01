@@ -15,16 +15,17 @@ class CZero :
     public CRockmanObj
 {
 private:
-	CRaycast m_ray;
+	//CRaycast m_ray;
 
-	CLine*			m_downRay;
+	//CLine*			m_downRay;
 
 	CLineCollider*	m_downLandCheck;
 	CLineCollider*	m_curLand;
 	Vector2			m_landDir;
 
 	//¼öÁ¤
-	CLineCollider* m_dirMove;
+	CLineCollider*	m_dirMoveLine;
+	CCollider*		m_dirMoveBox;
 
 
 	float	m_fVerticalRayDist;
@@ -50,22 +51,18 @@ public:
 
 
 public:
-	void DownHitEnter(CLineCollider* _pOhter);
-	void DownHitStay(CLineCollider* _pOhter);
-	void DownHitExit(CLineCollider* _pOhter);
-
-	void UpHitEnter(CLineCollider* _pOhter);
-	void UpHitStay(CLineCollider* _pOhter);
-	void UpHitExit(CLineCollider* _pOhter);
-
-	void LeftHitEnter(CLineCollider* _pOhter);
-	void LeftHitStay(CLineCollider* _pOhter);
-	void LeftHitExit(CLineCollider* _pOhter);
-
-	void RightHitEnter(CLineCollider* _pOhter);
-	void RightHitStay(CLineCollider* _pOhter);
-	void RightHitExit(CLineCollider* _pOhter);
-
+	virtual void DownHitEnter(CLineCollider* _pOhter)     override;
+	virtual void DownHitStay(CLineCollider* _pOhter)	  override;
+	virtual void DownHitExit(CLineCollider* _pOhter)	  override;
+	virtual void UpHitEnter(CLineCollider* _pOhter)		  override;
+	virtual void UpHitStay(CLineCollider* _pOhter)		  override;
+	virtual void UpHitExit(CLineCollider* _pOhter)		  override;
+	virtual void LeftHitEnter(CLineCollider* _pOhter)	  override;
+	virtual void LeftHitStay(CLineCollider* _pOhter)	  override;
+	virtual void LeftHitExit(CLineCollider* _pOhter)	  override;
+	virtual void RightHitEnter(CLineCollider* _pOhter)	  override;
+	virtual void RightHitStay(CLineCollider* _pOhter)	  override;
+	virtual void RightHitExit(CLineCollider* _pOhter)	  override;
 
 	//box
 public:

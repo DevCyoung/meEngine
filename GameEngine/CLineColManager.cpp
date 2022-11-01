@@ -278,6 +278,9 @@ void CLineColManager::Save(FILE* _pFile)
 
 	for (size_t i = 0; i < (UINT)LINELAYER::END; i++)
 	{
+		if ((LINELAYER)i == LINELAYER::MOUSE)
+			continue;
+
 		for (size_t j = 0; j < m_veclineCol[i].size(); j++)
 		{
 			CLineCollider lineCol = *m_veclineCol[i][j];
@@ -285,7 +288,6 @@ void CLineColManager::Save(FILE* _pFile)
 			fwrite(&lineCol.m_vP2   ,sizeof(Vector2) ,1 , _pFile);
 			fwrite(&lineCol.m_dir   ,sizeof(WALLDIR) ,1 , _pFile);
 			fwrite(&lineCol.m_layer ,sizeof(LINELAYER)   ,1 , _pFile);
-
 		}
 	}
 }
@@ -298,9 +300,9 @@ void CLineColManager::Load(FILE* _pFile)
 
 	for (size_t i = 0; i < count; i++)
 	{
-		Vector2 vP1;
-		Vector2 vP2;
-		WALLDIR	dir;
+		Vector2		vP1;
+		Vector2		vP2;
+		WALLDIR		dir;
 		LINELAYER	layer;
 		fread(&vP1,		sizeof(Vector2), 1, _pFile);
 		fread(&vP2,		sizeof(Vector2), 1, _pFile);

@@ -48,9 +48,16 @@ void CZero::OnTriggerEnterUp(CCollider* _pOther)
 
 void CZero::OnTriggerEnterDown(CCollider* _pOther)
 {
+
 	CRockmanObj::OnTriggerEnterDown(_pOther);
+	m_dirMoveBox = _pOther;
 	GetRigidbody()->SetGravity(false);
 	GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
+	
+	/*Vector2 vPos = GetPos();
+	float disY = _pOther->GetFinalPos().y - _pOther->GetScale().y / 2 - 49.f;
+	vPos.y = disY;
+	SetPos(vPos);*/
 }
 
 
@@ -71,6 +78,7 @@ void CZero::OnTriggerExitUp(CCollider* _pOther)
 
 void CZero::OnTriggerExitDown(CCollider* _pOther)
 {
+	m_dirMoveBox = nullptr;
 	CRockmanObj::OnTriggerExitDown(_pOther);
 	GetRigidbody()->SetGravity(true);
 	//GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));

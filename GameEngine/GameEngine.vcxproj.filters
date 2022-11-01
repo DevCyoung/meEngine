@@ -173,8 +173,14 @@
     <Filter Include="Game\RockMan\Map">
       <UniqueIdentifier>{35753357-d7e3-4fa1-990b-025c78275da3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\04. Level\Editor\Editor\MapEditor\MouseBox">
-      <UniqueIdentifier>{88c62a64-fb7c-4a7b-a009-27a695487b88}</UniqueIdentifier>
+    <Filter Include="Engine\04. Level\Editor\Editor\MapEditor\Collider">
+      <UniqueIdentifier>{d20e62f2-3eaa-4c2f-9738-bbe7379a070d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04. Level\Editor\Editor\MapEditor\Editor">
+      <UniqueIdentifier>{5e30196e-7064-4023-a5aa-e923aae496e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04. Level\Editor\Editor\MapEditor\Object">
+      <UniqueIdentifier>{fbfdbead-fee8-4c5c-8c91-3beae467f6c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -331,11 +337,14 @@
     <ClInclude Include="CWall.h">
       <Filter>Game\RockMan\Map</Filter>
     </ClInclude>
-    <ClInclude Include="CMouseBox.h">
-      <Filter>Engine\04. Level\Editor\Editor\MapEditor\MouseBox</Filter>
-    </ClInclude>
     <ClInclude Include="CLine.h">
       <Filter>Game\RockMan\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollideEdit.h">
+      <Filter>Engine\04. Level\Editor\Editor\MapEditor\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="CObjectEdit.h">
+      <Filter>Engine\04. Level\Editor\Editor\MapEditor\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -524,11 +533,14 @@
     <ClCompile Include="CWall.cpp">
       <Filter>Game\RockMan\Map</Filter>
     </ClCompile>
-    <ClCompile Include="CMouseBox.cpp">
-      <Filter>Engine\04. Level\Editor\Editor\MapEditor\MouseBox</Filter>
-    </ClCompile>
     <ClCompile Include="CLine.cpp">
       <Filter>Game\RockMan\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollideEdit.cpp">
+      <Filter>Engine\04. Level\Editor\Editor\MapEditor\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="CObjectEdit.cpp">
+      <Filter>Engine\04. Level\Editor\Editor\MapEditor\Object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

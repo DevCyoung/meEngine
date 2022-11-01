@@ -80,12 +80,14 @@ enum class LAYER
 	TILE,\
 	MONSTER,
 	DEFAUT,
+	OBJECT,
 	PLAYER,		//플레이어
 	PLAYER_PROJECTILE,	//플레이어가 쏜 미사일
 	MONSTER_PROJECTTILE,
 	PLATFORM,
 	WALL,
 	MOUSE,
+	EDITOR,
 	UI=15,						//가중나중에 그려져야함
 	END = 16,
 };
@@ -126,11 +128,13 @@ enum class CAMERA_EFFECT
 //에디터모드
 enum class EDITOR_MODE
 {
+	ATLAS,
+	COLLIDE,
 	TILE,
 	ANIMATION,
 	OBJECT,
 	LINECOLLIDER,
-	BOXCOLLIDER,
+	CAMERA,
 	NONE
 };
 

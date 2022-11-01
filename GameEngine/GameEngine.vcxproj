@@ -168,7 +168,8 @@
     <ClInclude Include="CMapManager.h" />
     <ClInclude Include="CMissile.h" />
     <ClInclude Include="CMonster.h" />
-    <ClInclude Include="CMouseBox.h" />
+    <ClInclude Include="CCollideEdit.h" />
+    <ClInclude Include="CObjectEdit.h" />
     <ClInclude Include="CPanelUI.h" />
     <ClInclude Include="CPathManager.h" />
     <ClInclude Include="CPlatform.h" />
@@ -216,7 +217,8 @@
     <ClCompile Include="CLine.cpp" />
     <ClCompile Include="CMap.cpp" />
     <ClCompile Include="CMapManager.cpp" />
-    <ClCompile Include="CMouseBox.cpp" />
+    <ClCompile Include="CCollideEdit.cpp" />
+    <ClCompile Include="CObjectEdit.cpp" />
     <ClCompile Include="CRaycast.cpp" />
     <ClCompile Include="CWall.cpp" />
     <ClCompile Include="Line_Func.cpp" />

@@ -16,7 +16,10 @@ CLineCollider::CLineCollider(CGameObject* obj)
 	, m_bIsRenderGizmo(false)
 	, m_dir(WALLDIR::NONE)
 	, m_isDead(false)
-	
+	, m_point{}
+	, m_rayDir{}
+	, m_offset{}
+	, m_distance(0.f)
 {
 
 }
@@ -32,6 +35,10 @@ CLineCollider::CLineCollider(const CLineCollider& _other)
 	, m_dir(_other.m_dir)
 	, m_layer(_other.m_layer)
 	, m_isDead(false)
+	, m_point{}
+	, m_rayDir{}
+	, m_offset{}
+	, m_distance(0.f)
 {
 }
 
@@ -160,13 +167,21 @@ void CLineCollider::OnTriggerExit(CLineCollider* _pOhther)
 void CLineCollider::SetRaycast(Vector2 point, Vector2 dir, Vector2 offset, float distance)
 {
 	//시작점을 p1으로한다.
-	m_vP1 = point + offset;
-	m_vP2 = point + dir * distance + offset;
+	
+
+	m_point = point;
+	m_rayDir = dir;
+	m_offset = offset;
+	m_distance = distance;
+
+	m_rayDir.Normalize();
+
+	m_vP1 = m_point + m_offset;
+	m_vP2 = m_point + m_rayDir * m_distance + m_offset;
 }
 
-void CLineCollider::SetMoveRaycast(Vector2 point)
+void CLineCollider::MoveRaycast(Vector2 point)
 {
-	Vector2 diff = m_vP1 - m_vP2;
-	m_vP1 = point;
-	m_vP2 = point + diff;
+	m_vP1 = point + m_offset;
+	m_vP2 = point + m_rayDir * m_distance + m_offset;
 }

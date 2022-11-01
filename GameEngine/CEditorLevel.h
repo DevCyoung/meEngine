@@ -4,9 +4,12 @@ class CMap;
 
 
 
-class CLineCollider;
-class CMouseBox;
-class CWall;
+//class CLineCollider;
+//class CWall;
+
+
+class CCollideEdit;
+class CObjectEdit;
 
 class CEditorLevel :
     public CLevel
@@ -39,63 +42,65 @@ public:
     virtual void Exit() override;
 
 
-public:
-    void SaveTIle();
-    void LoadTIle();
+//public:
+//    void SaveTIle();
+//    void LoadTIle();
+//
+//    void SaveLineCollider();
+//    void LoadLineCollider();
+//
+//    void SaveBoxCollider();
+//    void LoadBoxCollider();
 
-    void SaveLineCollider();
-    void LoadLineCollider();
-
-    void SaveBoxCollider();
-    void LoadBoxCollider();
+    void SaveGame();
 
     //LineCollider Edit
-public:
-    CLineCollider*      m_lineColPreMouse;
-    CLineCollider*      lineCol;
+private:
+    CCollideEdit*   m_collideEditor;
+    CObjectEdit*    m_objectEditor;
+    //CLineCollider*      m_lineColPreMouse;
+    //CLineCollider*      lineCol;
 
-    MOUSE_MODE          m_LineMosueMode;
-    CGameObject*        m_objCurmap;
-    CMap*               m_backGround;
-    WALLDIR             m_wallDir;
-
-    //Editing Collider
-    CLineCollider*  m_MouseX;
-    CLineCollider*  m_MouseY;
-    CMouseBox*      m_MouseBox;
+    //MOUSE_MODE          m_LineMosueMode;
+    //CGameObject*        m_objCurmap;
+    //CMap*               m_backGround;
+    
 
 
 
-    float size;
-    void LineMouseEvent(CLineCollider* _other, LINECOL_MODE _mode);
-    void CreateLineMode();
-    void CreateLineUI();
-    void DeleteMouse();
+    //float size;
+    //void LineMouseEvent(CLineCollider* _other, LINECOL_MODE _mode);
 
-    //void InitLine();
-    void StartMapEditMode();
-
-
-    void AddMouseLineCollider();
-    void AddMouseBoxCollider();
-
-public:
-   
-    //BoxCollide Edit
-    void CreateBoxMode();
+//    void CreateLineMode();
+//    void CreateLineUI();
+//    void DeleteMouse();
+//
+//    //void InitLine();
+//    void StartMapEditMode();
+//
+//
+//    void AddMouseLineCollider();
+//    void AddMouseBoxCollider();
+//
+//public:
+//   
+//    //BoxCollide Edit
+//    void CreateCollideMode();
     
 
     //mouseEvent
-public:
-    void MouseStayEvent(CLineCollider* _other);
-    void MouseEnterEvent(CLineCollider* _other);
-    void MouseExitEvent(CLineCollider* _other);
-    //LineCol
-
+//public:
+//    void MouseStayEvent(CLineCollider* _other);
+//    void MouseEnterEvent(CLineCollider* _other);
+//    void MouseExitEvent(CLineCollider* _other);
 
 public:
     CEditorLevel();
     ~CEditorLevel();
 
+    //WALLDIR             m_wallDir;
+    //Editing Collider
+    //CLineCollider*  m_MouseX;
+    //CLineCollider*  m_MouseY;
 };
 

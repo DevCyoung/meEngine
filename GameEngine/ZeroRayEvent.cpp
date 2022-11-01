@@ -21,10 +21,10 @@
 void CZero::DownHitEnter(CLineCollider* _pOhter)
 {
 	m_LineDir |= (UINT)COL_STATE_DIR::DOWN;
-	m_dirMove = _pOhter;
+	m_dirMoveLine = _pOhter;
 	if (m_ColDir & (UINT)COL_STATE_DIR::DOWN)
 	{
-		m_dirMove = _pOhter;
+		m_dirMoveLine = _pOhter;
 	}
 	else
 	{
@@ -36,25 +36,28 @@ void CZero::DownHitEnter(CLineCollider* _pOhter)
 
 void CZero::DownHitStay(CLineCollider* _pOhter)
 {
-	
 	/*Vector2 inter = _pOhter->GetIntersction();
 	Vector2 pos = Vector2(GetPos().x, inter.y -  m_ray.GetVdist() + 1);
 	SetPos(pos);*/
-
 }
 
 void CZero::DownHitExit(CLineCollider* _pOhter)
 {
 	m_LineDir &= ~(UINT)COL_STATE_DIR::DOWN;
+	m_dirMoveLine = nullptr;
+	Vector2 Pos = GetRigidbody()->GetVelocity();
+	this->GetRigidbody()->SetGravity(true);
+	//this->GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
 	if (m_ColDir & (UINT)COL_STATE_DIR::DOWN)
 	{
 		//m_vellocity = Vector2(1.f, 1.f);
+		m_dirMoveLine = nullptr;
 	}
 	else
 	{
-		Vector2 Pos = GetRigidbody()->GetVelocity();
+		/*Vector2 Pos = GetRigidbody()->GetVelocity();
 		this->GetRigidbody()->SetGravity(false);
-		this->GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
+		this->GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));*/
 	}
 }
 

@@ -13,7 +13,7 @@ enum class COLIDE_EIDT_MODE
 	END,
 };
 
-class CMouseBox :
+class CCollideEdit :
 	public CGameObject
 {
 public:
@@ -26,7 +26,7 @@ public:
 
 	//BoxCollide Mode
 	CCollider*			m_detectBox;
-	CWall*				m_curColWall;
+	CWall*				m_curMakeWall;
 
 	//LineCollide Mode
 	CLineCollider*		m_detectColLine;
@@ -43,17 +43,17 @@ public:
 	virtual void OnTriggerStay(CCollider* _pOhter);
 	virtual void OnTriggerExit(CCollider* _pOhter);
 
-	void CreateBoxMode();
+	void Update();
 	void CreateLineMode();
 
 	void MouseStayEvent(CLineCollider* _other);
 	void MouseEnterEvent(CLineCollider* _other);
 	void MouseExitEvent(CLineCollider* _other);
 
-	CLONE(CMouseBox);
+	CLONE(CCollideEdit);
 
 public:
-	CMouseBox();
-	CMouseBox(const CMouseBox& _other);
-	~CMouseBox();
+	CCollideEdit();
+	CCollideEdit(const CCollideEdit& _other);
+	~CCollideEdit();
 };

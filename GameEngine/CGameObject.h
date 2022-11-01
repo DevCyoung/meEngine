@@ -42,7 +42,7 @@ public:
 public:
     void SetPos(Vector2 _vec2) { m_vPos = _vec2; }
     void SetScale(Vector2 _vec2) { m_vScale = _vec2; }
-    void SetFilpX(bool _isFlipX) { m_isFlipX = _isFlipX; }
+    void SetFlipX(bool _isFlipX) { m_isFlipX = _isFlipX; }
     void SetFilpY(bool _isFlipY) { m_isFlipY = _isFlipY; }
     void SetTag(LAYER layer) { m_tag = layer; }
 

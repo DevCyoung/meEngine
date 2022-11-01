@@ -1,28 +1,43 @@
 #include "pch.h"
 #include "CRockmanObj.h"
+#include "CLineColManager.h"
+#include "CLineCollider.h"
+#include "CLine.h"
 
 CRockmanObj::CRockmanObj()
 	:m_ColDir(0)
 	, m_LineDir(0)
 	, m_vellocity{}
+	, m_downRay(nullptr)
 {
-	
+	m_downRay = new CLine();
+	m_downRay->CreateLineCollider(Vector2{}, Vector2{}, LINELAYER::DOWN);
+	GETINSTANCE(CLineColManager)->LayerRegister(LINELAYER::DOWN, LINELAYER::DOWNWALL);
 }
 
 CRockmanObj::CRockmanObj(const CRockmanObj& _other)
-	:m_ColDir(0)
-	,m_LineDir(0)
+	: m_ColDir(0)
+	, m_LineDir(0)
 	, m_vellocity{}
+	, m_downRay(nullptr) //여기서문제생길수도있음
 {
 }
 
 CRockmanObj::~CRockmanObj()
 {
+	if (m_downRay != nullptr)
+	{
+		delete m_downRay;
+	}
 }
 
 
 void CRockmanObj::tick()
 {
+	if (nullptr != m_downRay)
+	{
+		m_downRay->GetLineCollider()->MoveRaycast(GetPos());
+	}
 	CGameObject::tick();
 }
 

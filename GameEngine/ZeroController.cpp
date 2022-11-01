@@ -15,7 +15,8 @@
 #include  "CRigidbody.h"
 
 //여기서 충돌에대한 보정을 합니다.
-void CZero::fixed_tick()
+void CZero::fixed_tick
+()
 {
 	CRockmanObj::fixed_tick();
 

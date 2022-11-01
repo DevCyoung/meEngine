@@ -8,7 +8,7 @@
 
 #define MAX_LOADSTRING 100
 
-INT_PTR CALLBACK TileCount(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
+//INT_PTR CALLBACK TileCount(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 
 // 전역 변수:
 HWND       g_hWnd;
@@ -162,7 +162,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             case CHANGE_TILECOUNT:
             {                
                 
-                DialogBox(hInst, MAKEINTRESOURCE(IDD_TILECNT) ,hWnd, TileCount);
+                //DialogBox(hInst, MAKEINTRESOURCE(IDD_TILECNT) ,hWnd, TileCount);
                 
             }
                 break;  

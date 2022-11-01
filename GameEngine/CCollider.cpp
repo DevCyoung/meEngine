@@ -77,7 +77,7 @@ void CCollider::render(HDC _dc)
 
 void CCollider::OnTriggerEnter(CCollider* _pOther)
 {
-	++m_iOverlapCount;
+
 
 	//충돌방향 셋팅
 	//충돌 width와 height 구하기
@@ -140,7 +140,7 @@ void CCollider::OnTriggerEnter(CCollider* _pOther)
 			this->GetOwner()->OnTriggerEnterLeft(_pOther);
 		}
 	}
-
+	++m_iOverlapCount;
 	this->GetOwner()->OnTriggerEnter(_pOther);
 }
 
@@ -152,7 +152,7 @@ void CCollider::OnTriggerStay(CCollider* _pOhther)
 
 void CCollider::OnTriggerExit(CCollider* _pOther)
 {
-	--m_iOverlapCount;
+
 	UINT id = _pOther->GetOwner()->GetID();
 	map<UINT, COLLIDE_DIR>::iterator iter = m_mapColdir.find(id);
 	if (iter == m_mapColdir.end())
@@ -180,7 +180,7 @@ void CCollider::OnTriggerExit(CCollider* _pOther)
 	
 	//find dir!
 	iter->second = COLLIDE_DIR::NONE;
-
+	--m_iOverlapCount;
 	this->GetOwner()->OnTriggerExit(_pOther);
 }
 

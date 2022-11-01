@@ -24,7 +24,13 @@ private:
 
     bool            m_isDead;
 
-    
+    //RayStile
+public:
+    Vector2 m_point;
+    Vector2 m_rayDir;
+    Vector2 m_offset;
+    float   m_distance;
+
 
 public:
     virtual void tick() override;
@@ -44,7 +50,7 @@ public:
     void    SetExitEvent(DELEGATECOL func, CEntity* instance) { m_ExitEvent.func = func, m_ExitEvent.instance = instance; }
 
     void    SetRaycast(Vector2 point, Vector2 dir, Vector2 offset, float distance);
-    void    SetMoveRaycast(Vector2 point);
+    void    MoveRaycast(Vector2 point);
     
     void SetP1(Vector2 _vP1) { m_vP1 = _vP1; }
     void SetP2(Vector2 _vP2) { m_vP2 = _vP2; }
