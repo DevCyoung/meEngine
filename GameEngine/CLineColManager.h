@@ -30,6 +30,10 @@ private:
 	//16 * 16비트매트릭스
 	WORD						m_matrix[(UINT)LINELAYER::END];
 
+	bool					m_isDraw;
+public:
+	void SetDrawCollide(bool b) { m_isDraw = b; }
+	bool GetDrawCollide() { return m_isDraw; }
 
 public:
 	void LayerRegister(LINELAYER _left, LINELAYER _right);

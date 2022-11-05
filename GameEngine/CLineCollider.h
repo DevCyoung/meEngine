@@ -4,6 +4,7 @@
 
 class CLineColManager;
 class CEditorLevel;
+class CGameObject;
 class CLineCollider :
     public CCollider
 {
@@ -13,6 +14,7 @@ private:
     Vector2         m_vP2;
     WALLDIR         m_dir;
 
+public:
     tColliEvent     m_EnterEvent;
     tColliEvent     m_StayEvent;
     tColliEvent     m_ExitEvent;
@@ -24,6 +26,9 @@ private:
 
     bool            m_isDead;
 
+
+    //수정
+    CGameObject*    m_lineOwner;
     //RayStile
 public:
     Vector2 m_point;
@@ -62,7 +67,7 @@ public:
     Vector2 GetP2() const   { return m_vP2; }
     Vector2 GetIntersction() const { return m_intersection; }
     bool GetIsRenderGizmo() const { return m_bIsRenderGizmo; }
-
+    WALLDIR Getdir() const { return m_dir; }
     float GetP1Length(Vector2 pos) { return (pos - m_vP1).Length(); }
     float GetP2Length(Vector2 pos) { return (pos - m_vP2).Length(); }
 
@@ -71,7 +76,6 @@ public:
 public :
     CLONE(CLineCollider);
 
-
 public:
     CLineCollider(CGameObject* obj); //기본생성자 안만듬
     CLineCollider(const CLineCollider& _other);
@@ -79,5 +83,6 @@ public:
 
     friend CLineColManager;
     friend CEditorLevel;
+
 };
 

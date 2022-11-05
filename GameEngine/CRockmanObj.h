@@ -11,6 +11,27 @@ protected:
     UINT			m_LineDir;
 	CLine*			m_downRay;
     Vector2         m_vellocity;
+	bool			m_bColInterPolate;
+
+	//RockmanComponent
+	//¹°¸®
+
+	//CLineCollider* m_downLandCheck;
+public:
+	CLineCollider* m_curLineLand;
+	CLineCollider* m_curBoxWall;
+
+	bool			m_isDownExitState;
+	bool			m_isLineDownState;
+
+
+	//
+
+	bool			m_isBoxCollideDownState;
+
+	bool			m_isGravity;
+	float			m_gravityAceel;
+	float			m_curGravity;
 
 	virtual void tick() override;
 	virtual void fixed_tick() override;
@@ -41,9 +62,9 @@ public:
     virtual void OnTriggerExitDown(CCollider* _pOther);
 
 	//ray dir
-	virtual void DownHitEnter(CLineCollider* _pOhter)	{};
-	virtual void DownHitStay(CLineCollider* _pOhter)	{};
-	virtual void DownHitExit(CLineCollider* _pOhter)	{};
+	virtual void DownHitEnter(CLineCollider* _pOhter)	;
+	virtual void DownHitStay(CLineCollider* _pOhter)	;
+	virtual void DownHitExit(CLineCollider* _pOhter)	;
 	virtual void UpHitEnter(CLineCollider* _pOhter)		{};
 	virtual void UpHitStay(CLineCollider* _pOhter)		{};
 	virtual void UpHitExit(CLineCollider* _pOhter)		{};
@@ -53,6 +74,13 @@ public:
 	virtual void RightHitEnter(CLineCollider* _pOhter)	{};
 	virtual void RightHitStay(CLineCollider* _pOhter)	{};
 	virtual void RightHitExit(CLineCollider* _pOhter)	{};
+
+public:
+
+	bool RightColState();
+	bool LeftColState();
+	bool DownColState();
+	bool UpColState();
 
 
 public:

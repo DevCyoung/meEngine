@@ -37,9 +37,6 @@
     <Filter Include="Game\GameObject\Monster">
       <UniqueIdentifier>{e4681763-04c2-4c84-9303-1d887a4fd232}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\02. Manager\08. Camera">
-      <UniqueIdentifier>{5135b921-4bc7-42c2-ad9a-d26508a28b32}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\02. Manager\01. Key">
       <UniqueIdentifier>{f109ebee-6221-4b7d-aba7-911dcfca4226}</UniqueIdentifier>
     </Filter>
@@ -194,6 +191,12 @@
     <Filter Include="Game\RockMan\Monster\Monster">
       <UniqueIdentifier>{5adafff9-c208-4e7b-8382-7f144d53bc4e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\04. Level\Editor\Editor\MapEditor\AtlasEdit">
+      <UniqueIdentifier>{f279c978-754f-4792-b2d3-9a12db14d927}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\07. Resource\08. Camera">
+      <UniqueIdentifier>{5135b921-4bc7-42c2-ad9a-d26508a28b32}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -254,7 +257,7 @@
       <Filter>Game\GameObject\Monster</Filter>
     </ClInclude>
     <ClInclude Include="CCamera.h">
-      <Filter>Engine\02. Manager\08. Camera</Filter>
+      <Filter>Engine\02. Manager\07. Resource\08. Camera</Filter>
     </ClInclude>
     <ClInclude Include="CMissile.h">
       <Filter>Game\GameObject\Missile</Filter>
@@ -364,6 +367,15 @@
     <ClInclude Include="CRockmanMonster.h">
       <Filter>Game\RockMan\Monster\Monster</Filter>
     </ClInclude>
+    <ClInclude Include="CAtlasEdit.h">
+      <Filter>Engine\04. Level\Editor\Editor\MapEditor\AtlasEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerController.h">
+      <Filter>Game\RockMan\Zero</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerAnimEvent.h">
+      <Filter>Game\RockMan\Zero</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameEngine.rc">
@@ -417,7 +429,7 @@
       <Filter>Game\GameObject\Monster</Filter>
     </ClCompile>
     <ClCompile Include="CCamera.cpp">
-      <Filter>Engine\02. Manager\08. Camera</Filter>
+      <Filter>Engine\02. Manager\07. Resource\08. Camera</Filter>
     </ClCompile>
     <ClCompile Include="CMissile.cpp">
       <Filter>Game\GameObject\Missile</Filter>
@@ -565,6 +577,15 @@
     </ClCompile>
     <ClCompile Include="CRockmanMonster.cpp">
       <Filter>Game\RockMan\Monster\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CAtlasEdit.cpp">
+      <Filter>Engine\04. Level\Editor\Editor\MapEditor\AtlasEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerController.cpp">
+      <Filter>Game\RockMan\Zero</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerAnimEvent.cpp">
+      <Filter>Game\RockMan\Zero</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

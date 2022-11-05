@@ -12,8 +12,11 @@ protected:
     Vector2                 m_vScale;
     HPEN                    m_hPen;
     int                     m_iOverlapCount;
+
     map<UINT, COLLIDE_DIR>	m_mapColdir;
 
+    UINT                    m_curWallDir[(UINT)COLLIDE_DIR::END];
+        
 
 public:
     virtual void tick() override;
@@ -34,7 +37,7 @@ public:
     virtual void    OnTriggerStay(CCollider* _pOther);
     virtual void    OnTriggerExit(CCollider* _pOhther);
 
-
+    UINT            GetWallDirState(COLLIDE_DIR dir) { return m_curWallDir[(UINT)dir]; }
     
 
 public:

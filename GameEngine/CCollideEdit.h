@@ -50,6 +50,10 @@ public:
 	void MouseEnterEvent(CLineCollider* _other);
 	void MouseExitEvent(CLineCollider* _other);
 
+public:
+	void Save(FILE* pFIle);
+	void Load(FILE* pFIle);
+
 	CLONE(CCollideEdit);
 
 public:

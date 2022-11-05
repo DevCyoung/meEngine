@@ -6,7 +6,8 @@
 #include "CCollider.h"
 
 CCollisionManager::CCollisionManager()
-	:m_matrix{}
+	: m_matrix{}
+	, m_isDraw(false)
 {
 }
 

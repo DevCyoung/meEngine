@@ -82,6 +82,23 @@ void CAnimator::Play(const wstring& _strName, bool _bRepeat)
 	m_bRepeat = _bRepeat;
 }
 
+void CAnimator::TrigerPlay(const wstring& _strName, bool _bRepeat)
+{
+	CAnimation* pAnim = FindAnimation(_strName);
+	if (nullptr == pAnim)
+	{
+		MessageBox(nullptr, L"해당 Animation 없음", L"Animation 재생 오류", MB_OK);
+		return;
+	}
+
+	if (m_pCurAnim == pAnim)
+		return;
+	
+	m_pCurAnim = pAnim;
+	m_pCurAnim->Reset();
+	m_bRepeat = _bRepeat;
+}
+
 void CAnimator::CreateAnimation(const wstring& _strName, CTexture* _pAtlas, Vector2 _vLeftTop, Vector2 _vSize, Vector2 _vOffset, int _iMaxFrmCount, float _fDuration)
 {
 	CAnimation* pAnim = FindAnimation(_strName);
@@ -118,5 +135,5 @@ void CAnimator::SetAnimFrameFunc(const wstring& _animName, int _iFrameNum,  CGam
 {
 	CAnimation* anim = this->FindAnimation(_animName);
 	assert(anim);
-	anim->SetFrameFunc(_iFrameNum, _obj, _delegate);
+	anim->SetFrameEvent(_iFrameNum, _obj, _delegate);
 }

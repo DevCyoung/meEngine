@@ -25,8 +25,8 @@ CLineCollider* collider = nullptr;
 
 void CCollisionLevel::init()
 {
-	collider1 = GETINSTANCE(CLineColManager)->CreateLine(Vector2(25.f, 75.f), Vector2(75.f, 75.f), LINELAYER::PLAYER);
-	collider3 = GETINSTANCE(CLineColManager)->CreateLine(Vector2(50.f, 50.f), Vector2(50, 100.f), LINELAYER::PLAYER);
+	/*collider1 = GETINSTANCE(CLineColManager)->CreateLine(Vector2(25.f, 75.f), Vector2(75.f, 75.f), LINELAYER::PLAYER);
+	collider3 = GETINSTANCE(CLineColManager)->CreateLine(Vector2(50.f, 50.f), Vector2(50, 100.f), LINELAYER::PLAYER);*/
 	
 	tColliEvent eventCol = {};
 

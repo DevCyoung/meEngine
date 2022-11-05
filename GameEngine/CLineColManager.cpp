@@ -9,6 +9,8 @@
 CLineColManager::CLineColManager()
 	:m_matrix{}
 	,m_veclineCol{}
+	,m_isDraw(false)
+	, m_curMap(nullptr)
 {
 }
 
@@ -44,11 +46,14 @@ void CLineColManager::fixed_tick()
 
 void CLineColManager::render(HDC _dc)
 {
-	for (size_t i = 0; i < (UINT)LINELAYER::END; i++)
+	if (m_isDraw == true)
 	{
-		for (size_t j = 0; j < m_veclineCol[i].size(); j++)
+		for (size_t i = 0; i < (UINT)LINELAYER::END; i++)
 		{
-			m_veclineCol[i][j]->render(_dc);
+			for (size_t j = 0; j < m_veclineCol[i].size(); j++)
+			{
+				m_veclineCol[i][j]->render(_dc);
+			}
 		}
 	}
 }

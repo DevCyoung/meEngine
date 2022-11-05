@@ -10,6 +10,7 @@ class CMap;
 
 class CCollideEdit;
 class CObjectEdit;
+class CAtlasEdit;
 
 class CEditorLevel :
     public CLevel
@@ -58,6 +59,7 @@ public:
 private:
     CCollideEdit*   m_collideEditor;
     CObjectEdit*    m_objectEditor;
+    CAtlasEdit*     m_atlasEditor;
     //CLineCollider*      m_lineColPreMouse;
     //CLineCollider*      lineCol;
 
@@ -97,6 +99,11 @@ private:
 public:
     CEditorLevel();
     ~CEditorLevel();
+
+public:
+    void Save();
+    void Load();
+    void Load(const wstring& relativePath);
 
     //WALLDIR             m_wallDir;
     //Editing Collider

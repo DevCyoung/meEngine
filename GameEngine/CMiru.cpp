@@ -2,20 +2,29 @@
 #include "CMiru.h"
 #include "CAnimator.h"
 #include "CCamera.h"
-
+#include "CCollider.h"
+#include "CLine.h"
 CMiru::CMiru()
 {
+	CreateCollider();
+	GetCollider()->SetScale(Vector2(100.f, 100.f));
+
 	CreateAnimator();
 	GetAnimator()->LoadAnimation(L"animation\\monster\\miru\\idle.anim");
-
-	//GetAnimator()->LoadAnimation(L"animation\\zero\\thunder.anim");
 	GetAnimator()->Play(L"IDLE", true);
+
+
+	CreateLineCollider();
+	GetLineCollider()->SetRaycast(Vector2(-1000.f, -1000.f), Vector2(0.f, -1.f), Vector2(0.f, 0.f), 50.f);
 	SetTag(LAYER::MONSTER);
 }
 
 CMiru::CMiru(const CMiru& _other)
 	:CRockmanMonster(_other)
 {
+	CreateLineCollider();
+	GetLineCollider()->SetRaycast(Vector2(-1000.f, -1000.f), Vector2(0.f, -1.f), Vector2(0.f, 0.f), -50.f);
+	SetTag(LAYER::MONSTER);
 }
 
 CMiru::~CMiru()

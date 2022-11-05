@@ -113,7 +113,7 @@ void CRenderHelper::StretchRender(HDC dest, CTexture* texture, Vector2 Pos)
 
 void CRenderHelper::StretchRenderCollider(HDC _dc, tAnimFrm& frame, Vector2 vPos, bool isflip)
 {
-	HPEN hPen = GETINSTANCE(CEngine)->GetPen(PEN_TYPE::RED);
+	HPEN hPen = GETINSTANCE(CEngine)->GetPen(PEN_TYPE::BLUE);
 	HBRUSH	hNullBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
 
 	HPEN	hOriginPen = (HPEN)SelectObject(_dc, hPen);

@@ -11,6 +11,12 @@
 #define IS_INPUT_PRESSED(Key)		GET_INPUT_STATE(Key) ==  KEY_STATE::PRESSED
 #define IS_INPUT_RELEASE(Key)		GET_INPUT_STATE(Key) ==  KEY_STATE::RELEASED
 
+#define INPUT_RELEASE_TIME(Key)		CKeyManager::GetInstance()->GetKeyReleaseTime(Key)
+
+#define INPUT_END_TIME(Key, End)		CKeyManager::GetInstance()->GetKeyClmapTime(Key, End)
+#define INPUT_CLP_TIME(Key, End, Cmp)	CKeyManager::GetInstance()->GetKeyClmapTime(Key, End, Cmp)
+#define INPUT_ACELL(Key, Acell, Limit)	CKeyManager::GetInstance()->GetKeyClmapAceel(Key, Acell, Limit)
+
 //TIME MANAGER
 #define DELTATIME GETINSTANCE(CTimeManager)->GetDeltaTime()
 
@@ -84,11 +90,12 @@ enum class LAYER
 	MONSTER,
 	DEFAUT,
 	OBJECT,
-	PLAYER,		//플레이어
-	PLAYER_PROJECTILE,	//플레이어가 쏜 미사일
+	PLAYER,						//플레이어
+	PLAYER_PROJECTILE,			//플레이어가 쏜 미사일
 	MONSTER_PROJECTTILE,
 	PLATFORM,
-	WALL,
+	WALL,						//Camera
+	LINE,
 	MOUSE,
 	EDITOR,
 	UI=15,						//가중나중에 그려져야함

@@ -27,5 +27,6 @@ public:
     ~CComponent();
 
     friend class CGameObject;
+    friend class CLine;
 };
 

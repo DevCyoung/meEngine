@@ -66,14 +66,16 @@ CGameObject::~CGameObject()
 //Component tick
 void CGameObject::tick()
 {
+
+	if (nullptr != m_pRigidbody)
+		m_pRigidbody->tick();
+
 	if (nullptr != m_pCollider)
 		m_pCollider->tick();
 
 	if (nullptr != m_pAnimator)
 		m_pAnimator->tick();
 
-	if (nullptr != m_pRigidbody)
-		m_pRigidbody->tick();
 }
 
 void CGameObject::final_tick()

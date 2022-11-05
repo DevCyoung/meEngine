@@ -20,6 +20,8 @@ public:
 public:
 	CLONE(CWall);
 
+	void Save(FILE* pFile);
+	void Load(FILE* pFile);
 
 
 public:

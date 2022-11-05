@@ -22,15 +22,16 @@ public:
 
 public:
     void Play(const wstring& _strName, bool _bRepeat);
+    void TrigerPlay(const wstring& _strName, bool _bRepeat);
 
-    void CreateAnimation(const wstring& _strName, CTexture* _pAtlas, Vector2 _vLeftTop, Vector2 _vSize, Vector2 _vOffset, int _iMaxFrmCount, float _fDuration);
+    void        CreateAnimation(const wstring& _strName, CTexture* _pAtlas, Vector2 _vLeftTop, Vector2 _vSize, Vector2 _vOffset, int _iMaxFrmCount, float _fDuration);
     CAnimation* FindAnimation(const wstring& _strName);
     CAnimation* LoadAnimation(const wstring& _strRelativePath);
 
     //my
 public:
     void SetAnimFrameFunc(const wstring& _animName, int _iFrameNum, CGameObject* _obj, DELEGATE _delegate);
-
+    bool GetFinished();
 
 
 public:

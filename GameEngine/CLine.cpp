@@ -3,6 +3,7 @@
 #include "CLineCollider.h"
 #include "CLineColManager.h"
 #include "CCamera.h"
+
 CLine::CLine()
 	: m_isRenderPoint(false)
 	, m_lineCollider(nullptr)
@@ -13,7 +14,13 @@ CLine::CLine(const CLine& _other)
 	: m_isRenderPoint(false)
 	, m_lineCollider(nullptr)
 {
-
+	if (nullptr != _other.m_lineCollider)
+	{
+		/*if (_other.m_lineCollider->SetEnterEvent)
+		SetEnterEvent(DELEGATECOL func, CEntity* instance);
+		SetStayEvent(DELEGATECOL func, CEntity* instance) ;
+		SetExitEvent(DELEGATECOL func, CEntity* instance) ;*/
+	}
 }
 
 CLine::~CLine()
@@ -72,6 +79,7 @@ void CLine::SetRaycast(Vector2 point, Vector2 dir, Vector2 offset, float distanc
 void CLine::CreateLineCollider(Vector2 p1, Vector2 p2, LINELAYER layer)
 {
 	m_lineCollider = GETINSTANCE(CLineColManager)->CreateLine(p1, p2, layer);
+	m_lineCollider->m_lineOwner = this;
 }
 
 
@@ -88,4 +96,27 @@ void CLine::SetStayEvent(DELEGATECOL func, CEntity* instance)
 void CLine::SetExitEvent(DELEGATECOL func, CEntity* instance)
 {
 	m_lineCollider->SetExitEvent(func, instance);
+}
+
+void CLine::Save(FILE* pFile)
+{
+	assert(m_lineCollider);
+	Vector2		p1 = m_lineCollider->GetP1();
+	Vector2		p2 = m_lineCollider->GetP2();
+	LINELAYER	layer = m_lineCollider->m_layer;
+
+	fwrite(&p1, sizeof(Vector2), 1, pFile);
+	fwrite(&p2, sizeof(Vector2), 1, pFile);
+	fwrite(&layer, sizeof(LINELAYER), 1, pFile);
+}
+void CLine::Load(FILE* pFile)
+{
+	Vector2		p1	  ;
+	Vector2		p2	  ;
+	LINELAYER	layer;
+
+	fread(&p1, sizeof(Vector2), 1, pFile);
+	fread(&p2, sizeof(Vector2), 1, pFile);
+	fread(&layer, sizeof(LINELAYER), 1, pFile);
+	CreateLineCollider(p1, p2, layer);
 }

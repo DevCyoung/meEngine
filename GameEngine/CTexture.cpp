@@ -15,8 +15,6 @@ CTexture::~CTexture()
     DeleteDC(m_hDC);
 }
 
-
-
 int CTexture::Load(const wstring& _strFilePath)
 {
     // Bitmap ·Îµù

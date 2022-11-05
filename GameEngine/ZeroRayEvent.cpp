@@ -20,7 +20,9 @@
 //무조건 Gravity를 0으로 해야한다.
 void CZero::DownHitEnter(CLineCollider* _pOhter)
 {
-	m_LineDir |= (UINT)COL_STATE_DIR::DOWN;
+	CRockmanObj::DownHitEnter(_pOhter);
+	m_isLineDownState = false;
+	/*m_LineDir |= (UINT)COL_STATE_DIR::DOWN;
 	m_dirMoveLine = _pOhter;
 	if (m_ColDir & (UINT)COL_STATE_DIR::DOWN)
 	{
@@ -31,7 +33,7 @@ void CZero::DownHitEnter(CLineCollider* _pOhter)
 		Vector2 Pos = GetRigidbody()->GetVelocity();
 		this->GetRigidbody()->SetGravity(false);
 		this->GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
-	}
+	}*/
 }
 
 void CZero::DownHitStay(CLineCollider* _pOhter)
@@ -43,24 +45,28 @@ void CZero::DownHitStay(CLineCollider* _pOhter)
 
 void CZero::DownHitExit(CLineCollider* _pOhter)
 {
-	m_LineDir &= ~(UINT)COL_STATE_DIR::DOWN;
-	m_dirMoveLine = nullptr;
-	Vector2 Pos = GetRigidbody()->GetVelocity();
-	this->GetRigidbody()->SetGravity(true);
-	//this->GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
-	if (m_ColDir & (UINT)COL_STATE_DIR::DOWN)
-	{
-		//m_vellocity = Vector2(1.f, 1.f);
-		m_dirMoveLine = nullptr;
-	}
-	else
-	{
-		/*Vector2 Pos = GetRigidbody()->GetVelocity();
-		this->GetRigidbody()->SetGravity(false);
-		this->GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));*/
-	}
+	CRockmanObj::DownHitExit(_pOhter);
+	m_isLineDownState = true;
+	//m_LineDir &= ~(UINT)COL_STATE_DIR::DOWN;
+	//m_dirMoveLine = nullptr;
+	//Vector2 Pos = GetRigidbody()->GetVelocity();
+	//this->GetRigidbody()->SetGravity(true);
+	////this->GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
+	//if (m_ColDir & (UINT)COL_STATE_DIR::DOWN)
+	//{
+	//	//m_vellocity = Vector2(1.f, 1.f);
+	//	m_dirMoveLine = nullptr;
+	//}
+	//else
+	//{
+	//	/*Vector2 Pos = GetRigidbody()->GetVelocity();
+	//	this->GetRigidbody()->SetGravity(false);
+	//	this->GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));*/
+	//}
 }
 
+//raynotuse
+#pragma region rayevent
 
 void CZero::UpHitEnter(CLineCollider* _pOhter)
 {
@@ -84,7 +90,7 @@ void CZero::LeftHitEnter(CLineCollider* _pOhter)
 
 void CZero::LeftHitStay(CLineCollider* _pOhter)
 {
-	
+
 }
 
 void CZero::LeftHitExit(CLineCollider* _pOhter)
@@ -107,3 +113,5 @@ void CZero::RightHitStay(CLineCollider* _pOhter)
 void CZero::RightHitExit(CLineCollider* _pOhter)
 {
 }
+
+#pragma endregion

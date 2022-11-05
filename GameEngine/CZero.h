@@ -1,6 +1,7 @@
 #pragma once
 #include "CRockmanObj.h"
 #include "CRaycast.h"
+#include "CPlayerAnimEvent.h"
 
 enum class ZEROSTATE
 {
@@ -10,27 +11,35 @@ enum class ZEROSTATE
 class CLineCollider;
 class CRaycast;
 class CLine;
+class CPlayerController;
+class CPlayerAnimEvent;
 
 class CZero :
     public CRockmanObj
 {
 private:
-	//CRaycast m_ray;
+	CPlayerController*  m_playerController;
+	CPlayerAnimEvent*	m_animEvent;
 
 	//CLine*			m_downRay;
 
-	CLineCollider*	m_downLandCheck;
-	CLineCollider*	m_curLand;
-	Vector2			m_landDir;
+	CLineCollider*		m_downLandCheck;
+	CLineCollider*		m_curLand;
+	Vector2				m_landDir;
+	
+	
 
-	//수정
-	CLineCollider*	m_dirMoveLine;
-	CCollider*		m_dirMoveBox;
 
 
 	float	m_fVerticalRayDist;
 	float	m_fHorizonRayDist;
 	bool	m_bisLand;
+
+
+public:
+	//수정
+	CLineCollider* m_dirMoveLine;
+	CCollider* m_dirMoveBox;
 
 public:
 	virtual void tick() override;
@@ -39,6 +48,10 @@ public:
 	virtual void OnTriggerEnter(CCollider* _pOhter);
 	virtual void OnTriggerStay(CCollider* _pOhter);
 	virtual void OnTriggerExit(CCollider* _pOhter);
+
+public:
+	void CreatePlayerController();
+	void CreateAnimEvent();
 
 
 public:
@@ -76,6 +89,8 @@ public:
 	virtual void OnTriggerExitUp(CCollider* _pOther)		override;
 	virtual void OnTriggerExitDown(CCollider* _pOther)		override;
 
+
+	UINT	GetAttackState() { return m_animEvent->m_attackCount; }
 
 public:
 	CLONE(CZero);

@@ -121,7 +121,7 @@ void CAnimation::render(HDC _dc)
 		pOwnerObj->GetFilpX()
 	);
 
-	//CRenderHelper::StretchRenderCollider(_dc, frame, vPos, pOwnerObj->GetFilpX());
+	CRenderHelper::StretchRenderCollider(_dc, frame, vPos, pOwnerObj->GetFilpX());
 }
 
 

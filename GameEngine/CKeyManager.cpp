@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CKeyManager.h"
 #include "CEngine.h"
+#include "CTimeManager.h"
 //async keys
 int g_arrVK[(UINT)KEY::END] =
 {
@@ -29,6 +30,13 @@ int g_arrVK[(UINT)KEY::END] =
 	'R',
 	'O',
 	'P',
+	'F',
+	'I',
+	'U',
+	'Y',
+	'T',
+	'N',
+	'M',
 	'1',
 	'2',
 	'3',
@@ -53,7 +61,7 @@ void CKeyManager::init()
 {
 	for (int i = 0; i < (int)KEY::END; i++)
 	{
-		m_vecKey.push_back(tKeyInfo{ (KEY)i, KEY_STATE::NONE, FALSE });
+		m_vecKey.push_back(tKeyInfo{ (KEY)i, KEY_STATE::NONE, FALSE, 0.f });
 	}
 }
 
@@ -67,6 +75,7 @@ void CKeyManager::tick()
 		for (size_t i = 0; i < len; i++)
 		{
 			int vk_key = g_arrVK[(UINT)m_vecKey[i].key];
+
 			//누르고있다
 			if (GetAsyncKeyState(vk_key) & 0x8000)
 			{
@@ -80,6 +89,7 @@ void CKeyManager::tick()
 				{
 					m_vecKey[i].state = KEY_STATE::PRESSED;
 				}
+				m_vecKey[i].fTime += DELTATIME;
 			}
 			else
 			{
@@ -93,6 +103,7 @@ void CKeyManager::tick()
 					m_vecKey[i].state = KEY_STATE::RELEASED;
 					m_vecKey[i].bPrev = false;
 				}
+				m_vecKey[i].fTime = 0.f;
 			}
 		}
 
@@ -117,6 +128,30 @@ void CKeyManager::tick()
 			{
 				m_vecKey[i].state = KEY_STATE::NONE;
 			}
+			m_vecKey[i].fTime = 0.f;
 		}
 	}
+}
+
+float CKeyManager::GetKeyClmapTime(KEY _key, float end)
+{
+
+	if (m_vecKey[(UINT)_key].fTime < end)
+		return m_vecKey[(UINT)_key].fTime;
+	return end;
+
+}
+float CKeyManager::GetKeyClmapTime(KEY _key, float end, float clmap)
+{
+	if (m_vecKey[(UINT)_key].fTime >= end)
+		return clmap;
+	return m_vecKey[(UINT)_key].fTime;
+}
+
+float CKeyManager::GetKeyClmapAceel(KEY _key, float aceel, float limit)
+{
+	float result = m_vecKey[(UINT)_key].fTime * aceel;
+	if (limit < result)
+		return limit;
+	return result;
 }

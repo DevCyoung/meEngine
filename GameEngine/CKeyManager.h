@@ -30,6 +30,13 @@ enum class KEY
 	R,
 	O,
 	P,
+	F,
+	I,
+	U,
+	Y,
+	T,
+	N,
+	M,
 	_1,
 	_2,
 	_3,
@@ -56,6 +63,7 @@ struct tKeyInfo
 	KEY			key;
 	KEY_STATE	state;
 	BOOL		bPrev;	//해당키가 이전에 틱에서 눌려있었나
+	FLOAT		fTime;
 };
 
 class CKeyManager
@@ -71,6 +79,13 @@ public:
 	void tick();
 
 public:
-	KEY_STATE GetKeyState(KEY _key) { return m_vecKey[(UINT)_key].state; }
-	Vector2 GetMousePos() { return m_vMousePos; }
+	KEY_STATE	GetKeyState(KEY _key) { return m_vecKey[(UINT)_key].state; }
+	float		GetKeyReleaseTime(KEY _key) { return m_vecKey[(UINT)_key].fTime; }
+	//end 이상이면 end리턴
+	float		GetKeyClmapTime(KEY _key, float end);
+	//end 이상이면 cmlap리턴
+	float		GetKeyClmapTime(KEY _key, float end, float clmap);
+	//aceel
+	float		GetKeyClmapAceel(KEY _key, float aceel, float limit);
+	Vector2		GetMousePos() { return m_vMousePos; }
 };

@@ -195,9 +195,6 @@ void CCollideEdit::render(HDC _dc)
 
 void CCollideEdit::Update()
 {
-
-
-
 	if (nullptr != m_detectBox)
 	{
 		Vector2 vPos = m_detectBox->GetFinalPos();
@@ -279,7 +276,7 @@ void CCollideEdit::Update()
 			m_curColLine->CreateLineCollider(m_leftTop, m_leftTop, LINELAYER::DOWNWALL);
 			m_curColLine->SetPos(m_leftTop);
 			CLevel* lv = GETINSTANCE(CLevelManager)->GetCurLevel();
-			lv->AddObject(m_curColLine, LAYER::WALL);
+			lv->AddObject(m_curColLine, LAYER::LINE);
 			m_curColLine->GetLineCollider()->SetP1(m_leftTop);
 			m_curColLine->GetLineCollider()->SetP2(m_rightbottom);
 			m_curColLine = nullptr;
@@ -345,6 +342,9 @@ void CCollideEdit::Update()
 	}
 	else if (IS_INPUT_TAB(KEY::Q) && m_detectColLine != nullptr)
 	{
+		CGameObject* obj = m_detectColLine->m_lineOwner;
+		assert(obj);
+		obj->Destroy();
 		GETINSTANCE(CLineColManager)->RemoveLine(m_detectColLine);
 		m_detectColLine = nullptr;
 	}
@@ -370,6 +370,59 @@ void CCollideEdit::MouseExitEvent(CLineCollider* _other)
 {
 	m_detectColLine = nullptr;
 	_other->SetIsRenderGizmo(false);
+}
+
+void CCollideEdit::Save(FILE* pFile)
+{
+	CLevel* lv = GETINSTANCE(CLevelManager)->GetCurLevel();
+
+	//모든벽들
+	const vector<CGameObject*>& lineOjs = lv->GetLayer(LAYER::LINE);
+	const vector<CGameObject*>& WallOjs = lv->GetLayer(LAYER::WALL);
+
+	UINT size = lineOjs.size();
+	fwrite(&size, sizeof(UINT), 1, pFile);
+
+	for (size_t i = 0; i < size; i++)
+	{
+		CLine* line = dynamic_cast<CLine*>(lineOjs[i]);
+		assert(line);
+		line->Save(pFile);
+	}
+
+	size = WallOjs.size();
+	fwrite(&size, sizeof(UINT), 1, pFile);
+
+	for (size_t i = 0; i < size; i++)
+	{
+		CWall* wall = dynamic_cast<CWall*>(WallOjs[i]);
+		assert(wall);
+		wall->Save(pFile);
+	}
+}
+
+void CCollideEdit::Load(FILE* pFile)
+{
+	UINT size;
+
+	fread(&size, sizeof(UINT), 1, pFile);
+
+	for (size_t i = 0; i < size; i++)
+	{
+		CLine* line = new CLine();
+		assert(line);
+		line->Load(pFile);
+		CGameObject::Instantiate(line, line->GetPos(), LAYER::LINE);
+	}
+
+	fread(&size, sizeof(UINT), 1, pFile);
+	for (size_t i = 0; i < size; i++)
+	{
+		CWall* wall = new CWall();
+		assert(wall);
+		wall->Load(pFile);
+		CGameObject::Instantiate(wall, wall->GetPos(), LAYER::WALL);
+	}
 }
 
 void CCollideEdit::OnTriggerEnter(CCollider* _pOhter)

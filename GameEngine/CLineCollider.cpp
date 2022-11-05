@@ -4,6 +4,7 @@
 #include "CCamera.h"
 #include "CGameObject.h"
 
+
 CLineCollider::CLineCollider(CGameObject* obj)
 	: CCollider(obj)
 	, m_vP1{}
@@ -20,6 +21,7 @@ CLineCollider::CLineCollider(CGameObject* obj)
 	, m_rayDir{}
 	, m_offset{}
 	, m_distance(0.f)
+	, m_lineOwner(nullptr)
 {
 
 }
@@ -31,7 +33,7 @@ CLineCollider::CLineCollider(const CLineCollider& _other)
 	, m_EnterEvent(_other.m_EnterEvent)
 	, m_StayEvent (_other.m_StayEvent)
 	, m_ExitEvent (_other.m_ExitEvent)
-	, m_bIsRenderGizmo(_other.m_bIsRenderGizmo)
+	, m_bIsRenderGizmo(false)
 	, m_dir(_other.m_dir)
 	, m_layer(_other.m_layer)
 	, m_isDead(false)
@@ -39,7 +41,13 @@ CLineCollider::CLineCollider(const CLineCollider& _other)
 	, m_rayDir{}
 	, m_offset{}
 	, m_distance(0.f)
+	, m_lineOwner(nullptr)
 {
+	m_point = _other.m_point;
+	m_rayDir = _other.m_rayDir;
+	m_offset = _other.m_offset;
+	m_distance = _other.m_distance;
+
 }
 
 CLineCollider::~CLineCollider()

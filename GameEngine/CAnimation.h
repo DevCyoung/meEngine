@@ -44,7 +44,7 @@ public:
     CLONE(CAnimation);
 
     //내가만든코드
-    void SetFrameFunc(int _iFrameNum, CEntity* _obj, DELEGATE _delegate)
+    void SetFrameEvent(int _iFrameNum, CEntity* _obj, DELEGATE _delegate)
     {
         assert(_iFrameNum < m_vecFrm.size());
         m_vecFrm[_iFrameNum].action.func = _delegate;

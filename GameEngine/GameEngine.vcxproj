@@ -148,6 +148,7 @@
     <ClInclude Include="CAnimation.h" />
     <ClInclude Include="CAnimator.h" />
     <ClInclude Include="CAnimEnvManager.h" />
+    <ClInclude Include="CAtlasEdit.h" />
     <ClInclude Include="CButton.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CCollider.h" />
@@ -175,6 +176,8 @@
     <ClInclude Include="CPathManager.h" />
     <ClInclude Include="CPlatform.h" />
     <ClInclude Include="CPlayer.h" />
+    <ClInclude Include="CPlayerAnimEvent.h" />
+    <ClInclude Include="CPlayerController.h" />
     <ClInclude Include="CRaycast.h" />
     <ClInclude Include="CRenderHelper.h" />
     <ClInclude Include="CResource.h" />
@@ -208,6 +211,7 @@
     <ClCompile Include="CAnimation.cpp" />
     <ClCompile Include="CAnimator.cpp" />
     <ClCompile Include="CAnimEnvManager.cpp" />
+    <ClCompile Include="CAtlasEdit.cpp" />
     <ClCompile Include="CButton.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCollider.cpp" />
@@ -222,6 +226,8 @@
     <ClCompile Include="CCollideEdit.cpp" />
     <ClCompile Include="CMiru.cpp" />
     <ClCompile Include="CObjectEdit.cpp" />
+    <ClCompile Include="CPlayerAnimEvent.cpp" />
+    <ClCompile Include="CPlayerController.cpp" />
     <ClCompile Include="CRaycast.cpp" />
     <ClCompile Include="CRockmanMonster.cpp" />
     <ClCompile Include="CWall.cpp" />

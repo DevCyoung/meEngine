@@ -20,14 +20,21 @@
 #include "CLevelManager.h"
 #include "CLevel.h"
 
+#include "CAnimator.h"
+#include "CAnimation.h"
 //obj
 #include "CZero.h"
 #include "CMiru.h"
 #include "CRockmanObj.h"
 
+//helper
+#include "CRenderHelper.h"
+
 CObjectEdit::CObjectEdit()
 	: m_curSelectObj(nullptr)
 	, m_detectObj(nullptr)
+	, m_mouseState(MOUSE_MODE::NONE)
+	, m_targetPos{}
 {
 	CreateCollider();
 	GetCollider()->SetScale(Vector2(50.f, 50.f));
@@ -37,6 +44,8 @@ CObjectEdit::CObjectEdit()
 CObjectEdit::CObjectEdit(const CObjectEdit& _other)
 	:m_curSelectObj(nullptr)
 	, m_detectObj(nullptr)
+	, m_mouseState(MOUSE_MODE::NONE)
+	, m_targetPos{}
 {
 
 }
@@ -55,7 +64,15 @@ void CObjectEdit::tick()
 
 void CObjectEdit::render(HDC _dc)
 {
+	if (nullptr != m_curSelectObj && m_mouseState == MOUSE_MODE::ONEDOWN)
+	{
+		CAnimation* anim = m_curSelectObj->GetAnimator()->FindAnimation(L"IDLE");
+		tAnimFrm frm = anim->GetFrame(0);
+		Vector2 mousePos = GETINSTANCE(CKeyManager)->GetMousePos();
 
+		CRenderHelper::StretchRender(anim->GetAtlas()->GetDC(), frm.vLeftTop.x, frm.vLeftTop.y, frm.vSize.x, frm.vSize.y,
+			_dc, m_targetPos.x, m_targetPos.y, frm.vOffset.x, frm.vOffset.y, false);
+	}
 }
 
 void CObjectEdit::RegisterObject(CRockmanObj* obj)
@@ -119,14 +136,48 @@ void CObjectEdit::CreateUI(CLevel* level)
 
 void CObjectEdit::SelectObject(CRockmanObj* obj)
 {
-	CRockmanObj* newObj =  obj->Clone();
-	Vector2 vPos = GETINSTANCE(CCamera)->GetRealMousePos();
-	newObj->SetPos(vPos);
-	CGameObject::Instantiate(newObj, vPos, LAYER::PLAYER);	
+	m_curSelectObj = obj;
+	m_mouseState = MOUSE_MODE::ONEDOWN;
 }
 
 void CObjectEdit::Update()
 {
+	m_targetPos = GETINSTANCE(CKeyManager)->GetMousePos();
+	
+	if (nullptr != m_detectObj)
+	{
+		Vector2 rpos = GETINSTANCE(CCamera)->GetRealPos(m_detectObj->GetOwner()->GetPos());
+		if (IS_INPUT_PRESSED(KEY::LSHIFT))
+		{
+			m_targetPos.y = m_detectObj->GetOwner()->GetPos().y;
+		}
+		if (IS_INPUT_PRESSED(KEY::LCTRL))
+		{
+			m_targetPos.x = m_detectObj->GetOwner()->GetPos().x;
+		}
+	}
+
+	if (nullptr != m_curSelectObj && m_mouseState == MOUSE_MODE::ONEDOWN)
+	{
+		if (IS_INPUT_TAB(KEY::LBTN))
+		{
+			CRockmanObj* newObj = m_curSelectObj->Clone();		
+			//m_targetPos = GETINSTANCE(CKeyManager)->GetMousePos();
+			m_targetPos = GETINSTANCE(CCamera)->GetRealPos(m_targetPos);
+			CGameObject::Instantiate(newObj, m_targetPos, newObj->GetLayer() );
+			//m_mouseState = MOUSE_MODE::NONE;
+			//m_curSelectObj = nullptr;
+		}
+	}
+
+	if (IS_INPUT_TAB(KEY::R))
+	{
+		m_curSelectObj = nullptr;
+		m_detectObj = nullptr;
+	}
+
+	m_targetPos = GETINSTANCE(CKeyManager)->GetMousePos();
+
 }
 
 
@@ -134,7 +185,7 @@ void CObjectEdit::Update()
 
 void CObjectEdit::OnTriggerEnter(CCollider* _pOhter)
 {
-
+	m_detectObj = _pOhter;
 }
 
 void CObjectEdit::OnTriggerStay(CCollider* _pOhter)
@@ -144,7 +195,8 @@ void CObjectEdit::OnTriggerStay(CCollider* _pOhter)
 
 void CObjectEdit::OnTriggerExit(CCollider* _pOhter)
 {
-
+	//m_detectObj = nullptr;
+	m_detectObj = nullptr;
 }
 #pragma endregion
 

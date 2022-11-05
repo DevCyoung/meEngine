@@ -19,7 +19,7 @@ CRaycast::~CRaycast()
 
 void CRaycast::TranslateSetPos(Vector2 pos)
 {
-	m_arrRay[(UINT)RAY_TYPE::LEFT_UP]->SetRaycast(pos, Vector2(-1.f, 0), Vector2(0.f, -vOffset.y), vhdist.x);
+	/*m_arrRay[(UINT)RAY_TYPE::LEFT_UP]->SetRaycast(pos, Vector2(-1.f, 0), Vector2(0.f, -vOffset.y), vhdist.x);
 	m_arrRay[(UINT)RAY_TYPE::LEFT_DOWN]->SetRaycast(pos, Vector2(-1.f, 0), Vector2(0.f, +vOffset.y), vhdist.x);
 	m_arrRay[(UINT)RAY_TYPE::RIGHT_UP]->SetRaycast(pos, Vector2(+1.f, 0), Vector2(0.f, -vOffset.y), vhdist.x);
 	m_arrRay[(UINT)RAY_TYPE::RIGHT_DOWN]->SetRaycast(pos, Vector2(+1.f, 0), Vector2(0.f, +vOffset.y), vhdist.x);
@@ -28,7 +28,7 @@ void CRaycast::TranslateSetPos(Vector2 pos)
 
 	m_arrRay[(UINT)RAY_TYPE::DOWN_LEFT]->SetRaycast(pos, Vector2(0.f, +1.f), Vector2(-vOffset.x, 0.f), vhdist.y);
 	m_arrRay[(UINT)RAY_TYPE::DOWN_RIGHT]->SetRaycast(pos, Vector2(0.f, +1.f), Vector2(+vOffset.x, 0.f), vhdist.y);
-	m_arrRay[(UINT)RAY_TYPE::DOWN]->SetRaycast(pos, Vector2(0.f, +1.f), Vector2(0.f, 0.f), vhdist.y);
+	m_arrRay[(UINT)RAY_TYPE::DOWN]->SetRaycast(pos, Vector2(0.f, +1.f), Vector2(0.f, 0.f), vhdist.y);*/
 }
 
 CLineCollider* CRaycast::GetLineCol(RAY_TYPE rayType)

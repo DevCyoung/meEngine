@@ -4,6 +4,7 @@
 
 CRockmanMonster::CRockmanMonster()
 {
+	SetTag(LAYER::MONSTER);
 }
 
 CRockmanMonster::CRockmanMonster(const CRockmanMonster& _other)

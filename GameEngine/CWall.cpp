@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CWall.h"
 #include "CCollider.h"
+
 CWall::CWall()
 {
 	CreateCollider();
@@ -57,3 +58,22 @@ void CWall::OnTriggerExit(CCollider* _pOhter)
 {
 }
 
+void CWall::Save(FILE* pFile)
+{
+	Vector2 pos = GetPos();
+	Vector2 scale = GetCollider()->GetScale();
+
+	fwrite(&pos, sizeof(Vector2), 1, pFile);
+	fwrite(&scale, sizeof(Vector2), 1, pFile);
+}
+void CWall::Load(FILE* pFile)
+{
+	Vector2 pos   ;
+	Vector2 scale;
+
+	fread(&pos, sizeof(Vector2), 1, pFile);
+	fread(&scale, sizeof(Vector2), 1, pFile);
+
+	GetCollider()->SetScale(scale);
+	SetPos(pos);
+}

@@ -3,15 +3,20 @@
 
 class CRockmanObj;
 class CLevel;
+
+
+
+
 class CObjectEdit :
     public CGameObject
 {
 
 private:
 	//BoxCollide Mode
-	CCollider*		m_detectObj;
-	CRockmanObj*	m_curSelectObj;
-
+	Vector2				m_targetPos;
+	CCollider*			m_detectObj;
+	CRockmanObj*		m_curSelectObj;
+	MOUSE_MODE			m_mouseState;
 
 	
 public:
