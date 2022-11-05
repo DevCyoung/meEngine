@@ -32,6 +32,8 @@ private:
     void Falling();
 
     void WalkFinish();
+    void WallJumpReady();
+    void WallSlideReady();
 
     void Attack1();
     void Attack2();

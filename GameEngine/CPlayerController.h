@@ -44,7 +44,12 @@ public:
     
     float       m_curFallingMove;
 
+
+    //attackdelay
+
+    float       m_attackDelay;
     
+    float       m_jumpTrX;
 
     int         m_dir;
     Vector2     m_velocity;

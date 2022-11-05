@@ -22,10 +22,17 @@ CPlayerAnimEvent::CPlayerAnimEvent(CGameObject* obj)
 	m_animztor->LoadAnimation(L"animation\\zero\\fallingready.anim");
 	m_animztor->LoadAnimation(L"animation\\zero\\falling.anim");
 	m_animztor->LoadAnimation(L"animation\\zero\\landing.anim");
+
 	m_animztor->LoadAnimation(L"animation\\zero\\wallslide.anim");
 	m_animztor->LoadAnimation(L"animation\\zero\\walkready.anim");
 	m_animztor->LoadAnimation(L"animation\\zero\\walkfinish.anim");
+
+	m_animztor->LoadAnimation(L"animation\\zero\\walljumpready.anim");
+	m_animztor->LoadAnimation(L"animation\\zero\\wallslideready.anim");
+
+
 	m_animztor->LoadAnimation(L"animation\\zero\\fallinattack.anim");
+
 
 	m_animztor->LoadAnimation(L"animation\\zero\\attack1.anim");
 	m_animztor->LoadAnimation(L"animation\\zero\\attack2.anim");
@@ -51,10 +58,13 @@ CPlayerAnimEvent::CPlayerAnimEvent(CGameObject* obj)
 	m_animztor->FindAnimation(L"FALLINATTACK")->SetFrameEvent(8, this, (DELEGATE)&CPlayerAnimEvent::Falling);
 
 
-	m_animztor->FindAnimation(L"ATTACK1")->SetFrameEvent(4, this, (DELEGATE)&CPlayerAnimEvent::Attack1);
-	m_animztor->FindAnimation(L"ATTACK2")->SetFrameEvent(4, this, (DELEGATE)&CPlayerAnimEvent::Attack2);
-	m_animztor->FindAnimation(L"ATTACK3")->SetFrameEvent(4, this, (DELEGATE)&CPlayerAnimEvent::Attack3);
+	m_animztor->FindAnimation(L"ATTACK1")->SetFrameEvent(7, this, (DELEGATE)&CPlayerAnimEvent::Attack1);
+	m_animztor->FindAnimation(L"ATTACK2")->SetFrameEvent(7, this, (DELEGATE)&CPlayerAnimEvent::Attack2);
+	m_animztor->FindAnimation(L"ATTACK3")->SetFrameEvent(7, this, (DELEGATE)&CPlayerAnimEvent::Attack3);
 
+	m_animztor->FindAnimation(L"WALLJUMPREADY")->SetFrameEvent(3, this, (DELEGATE)&CPlayerAnimEvent::JumpReady);
+
+	m_animztor->FindAnimation(L"WALLSLIDEREADY")->SetFrameEvent(2, this, (DELEGATE)&CPlayerAnimEvent::WallSlideReady);
 }
 
 CPlayerAnimEvent::CPlayerAnimEvent(const CGameObject& _other)
@@ -100,6 +110,16 @@ void CPlayerAnimEvent::FallingReady()
 void CPlayerAnimEvent::WalkFinish()
 {
 
+}
+
+void CPlayerAnimEvent::WallJumpReady()
+{
+	m_animztor->Play(L"JUMP", true);
+}
+
+void CPlayerAnimEvent::WallSlideReady()
+{
+	m_animztor->Play(L"WALLSLIDE", true);
 }
 
 void CPlayerAnimEvent::Attack1()

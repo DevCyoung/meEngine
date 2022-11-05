@@ -7,6 +7,8 @@
 #include "CTimeManager.h"
 #include "CCamera.h"
 #include "CRigidbody.h"
+int check = 0;
+
 
 CPlayerController::CPlayerController(CGameObject* obj)
 	:CComponent(obj)
@@ -20,6 +22,8 @@ CPlayerController::CPlayerController(CGameObject* obj)
 	, m_velocity{}
 	, m_jumpScale(0.f)
 	, m_curdashScale(0.f)
+	, m_attackDelay(0.f)
+	, m_jumpTrX(0.f)
 {
 
 	m_zero = dynamic_cast<CZero*>(obj);
@@ -47,6 +51,8 @@ CPlayerController::CPlayerController(const CGameObject& _other)
 	, m_velocity{}
 	, m_jumpScale(0.f)
 	, m_curdashScale(0.f)
+	, m_attackDelay(0.f)
+	, m_jumpTrX(0.f)
 {
 }
 
@@ -62,11 +68,11 @@ void CPlayerController::tick()
 	Vector2 velo = m_zero->GetRigidbody()->GetVelocity();
 
 	velo.x = 0.f;
-	m_velocity.x = 0.f;
+	m_velocity.x = velo.x;
 	m_velocity.y = velo.y;
-
+	//check = 0;
 	//입력외의 변수들 설정
-	if (m_zero->DownColState() == false && m_state != PLAYER_STATE::FALLING && m_state != PLAYER_STATE::WALLSLIDE && m_state != PLAYER_STATE::JUMP)
+	if (m_zero->DownColState() == false && m_state != PLAYER_STATE::FALLING && m_state != PLAYER_STATE::WALLSLIDE && m_state != PLAYER_STATE::JUMP && m_state != PLAYER_STATE::FALLINGATTACK)
 	{
 		if (velo.y > 0.01f)
 		{			
@@ -109,9 +115,23 @@ void CPlayerController::tick()
 		m_curdashScale = 1.f;
 	}
 
+	if (PLAYER_STATE::JUMP == m_state && INPUT_END_TIME(KEY::X, 0.15f) <= 0.14f && IS_INPUT_PRESSED(KEY::X) && m_zero->DownColState() == false)
+	{
+		if (check != 0)
+		{
+			if (m_velocity.x > 0)
+			{
+				m_zero->SetFlipX(true);
+			}
+			else
+			{
+				m_zero->SetFlipX(false);
+			}
+			m_velocity.x = 250 * check;
+		}		
+	}	
 
-
-
+	//check = 0;
 	m_zero->SetPos(pos);
 	m_zero->GetRigidbody()->SetVelocity(m_velocity);
 	Vector2 camPos = GETINSTANCE(CCamera)->GetLook();
@@ -123,19 +143,32 @@ void CPlayerController::InputTick()
 {
 	if (IS_INPUT_TAB(KEY::Z))
 	{
-		m_animator->Play(L"FALLINATTACK", false);
+		if (m_zero->DownColState() == false () && m_state != PLAYER_STATE::WALLSLIDE && m_state != PLAYER_STATE::FALLINGATTACK)
+		{
+			m_animator->Play(L"FALLINATTACK", false);
+			m_state = PLAYER_STATE::FALLINGATTACK;
+		}
+
+		else if (m_zero->DownColState() == true && m_state != PLAYER_STATE::LANDATTACK1 && m_state != PLAYER_STATE::LANDATTACK2 && m_state != PLAYER_STATE::LANDATTACK3)
+		{			
+			//m_animator->Play(L"ATTACK1", false);
+			m_attackDelay = 0.f;
+			m_animator->TrigerPlay(L"ATTACK1", false);
+			m_state = PLAYER_STATE::LANDATTACK1;
+		}
 	}
 	if (IS_INPUT_TAB(KEY::X))												//점프도 땅에만붙어있으면 언제든지 상태가바뀜
 	{
 		if (m_zero->DownColState() && m_state != PLAYER_STATE::FALLING && m_state != PLAYER_STATE::JUMP)
 		{
+			check = 0;
 			m_animator->Play(L"JUMPREADY", true);
 			m_velocity.y = 0.f;
 			m_state = PLAYER_STATE::JUMP;
 		}
-		else if (m_zero->DownColState() == false && (m_zero->LeftColState() == true || m_zero->RightColState() == true))
+		else if ((IS_INPUT_PRESSED(KEY::LEFT) || IS_INPUT_PRESSED(KEY::RIGHT))  && m_state != PLAYER_STATE::JUMP && m_zero->DownColState() == false && (m_zero->LeftColState() == true || m_zero->RightColState() == true))
 		{
-			m_animator->Play(L"JUMPREADY", true);
+			m_animator->TrigerPlay(L"WALLJUMPREADY", false);
 			m_velocity.y = 0.f;
 			m_state = PLAYER_STATE::JUMP;
 		}
@@ -300,21 +333,29 @@ void CPlayerController::LANDDASH()
 	}*/
 }
 
+
 void CPlayerController::Jump()
-{/*
-	if (IS_INPUT_PRESSED(KEY::X) && INPUT_END_TIME(KEY::X, 0.25f) <= 0.24f)
+{
+
+
+
+
+	/*if (IS_INPUT_PRESSED(KEY::X) && INPUT_END_TIME(KEY::X, 0.25f) <= 0.24f)
 	{
 		m_velocity.y = m_jumpScale  * INPUT_ACELL(KEY::X, 2.f, 1.f);
 	}*/
 
-
 	float jscale = m_jumpScale;
 	
-
+	
 	if (m_zero->DownColState() == false && (m_zero->LeftColState() == true || m_zero->RightColState() == true))
 	{
-		jscale = m_jumpScale * 0.8f;
+		jscale = m_jumpScale * 0.75f;
+		//m_jumpTrX = m_jumpScale * 20.f;
 		//m_zero->GetRigidbody()->AddForce(Vector2(200000.f, 1.f));
+
+		
+		
 	}
 
 	
@@ -326,6 +367,8 @@ void CPlayerController::Jump()
 	{
 		if (IS_INPUT_RELEASE(KEY::X) || m_velocity.y > 0.01f)
 		{
+			//m_jumpTrX = 0.f;
+			check = 0;
 			m_velocity.y = 0.f;
 			m_animator->TrigerPlay(L"FALLINGREADY", false);
 			m_state = PLAYER_STATE::FALLING;
@@ -344,12 +387,12 @@ void CPlayerController::Falling()
 	}
 	else if (m_zero->LeftColState() == true && IS_INPUT_PRESSED(KEY::LEFT))
 	{
-		m_animator->TrigerPlay(L"WALLSLIDE", true);
+		m_animator->TrigerPlay(L"WALLSLIDEREADY", false);
 		m_state = PLAYER_STATE::WALLSLIDE;
 	}
 	else if (m_zero->RightColState() == true && IS_INPUT_PRESSED(KEY::RIGHT))
 	{
-		m_animator->TrigerPlay(L"WALLSLIDE", true);
+		m_animator->TrigerPlay(L"WALLSLIDEREADY", false);
 		m_state  = PLAYER_STATE::WALLSLIDE;
 	}
 	else 
@@ -360,40 +403,57 @@ void CPlayerController::Falling()
 
 void CPlayerController::LandAttack1()
 {
-	UINT cnt = m_zero->GetAttackState();
+	//UINT cnt = m_zero->GetAttackState();
+	m_attackDelay += DELTATIME;
 
-	if (IS_INPUT_TAB(KEY::Z) && cnt == 1)
+	if (IS_INPUT_TAB(KEY::Z) && m_attackDelay >= 0.15f)
 	{
 		m_animator->Play(L"ATTACK2", false);
 		m_state = PLAYER_STATE::LANDATTACK2;
+		m_attackDelay = 0.f;
+	}
+	else if (IS_INPUT_TAB(KEY::X) || IS_INPUT_TAB(KEY::C) || m_attackDelay >= 0.35f)
+	{
+		m_state = PLAYER_STATE::IDLE;
+		m_attackDelay = 0.f;
 	}
 }
 
 void CPlayerController::LandAttack2()
 {
-	UINT cnt = m_zero->GetAttackState();
-
-	if (IS_INPUT_TAB(KEY::Z) && cnt == 2)
+	m_attackDelay += DELTATIME;
+	if (IS_INPUT_TAB(KEY::Z) && m_attackDelay >= 0.15f)
 	{
 		m_animator->Play(L"ATTACK3", false);
 		m_state = PLAYER_STATE::LANDATTACK3;
+		m_attackDelay = 0.f;
+	}
+	else if (IS_INPUT_TAB(KEY::X) || IS_INPUT_TAB(KEY::C) || m_attackDelay >= 0.35f)
+	{
+		m_state = PLAYER_STATE::IDLE;
+		m_attackDelay = 0.f;
 	}
 }
 
 void CPlayerController::LandAttack3()
 {
-	UINT cnt = m_zero->GetAttackState();
-
-	if (IS_INPUT_TAB(KEY::Z) && cnt == 3)
+	m_attackDelay += DELTATIME;
+	if (m_attackDelay >= 0.55f)
 	{
-		cnt = 0;
-		m_animator->Play(L"ATTACK1", false);
-		m_state = PLAYER_STATE::LANDATTACK1;
+		//m_animator->Play(L"ATTACK3", false);
+		m_state = PLAYER_STATE::IDLE;
+		m_attackDelay = 0.f;
 	}
+	else if (IS_INPUT_TAB(KEY::X) || IS_INPUT_TAB(KEY::C))
+	{
+		m_state = PLAYER_STATE::IDLE;
+		m_attackDelay = 0.f;
+	}		
 }
 
 void CPlayerController::FallingAttack()
 {
+	m_state = PLAYER_STATE::FALLING;
 }
 
 void CPlayerController::WallSlide()
@@ -407,6 +467,20 @@ void CPlayerController::WallSlide()
 	//	m_animator->Play(L"FALLINGREADY", false);
 	//	m_state = PLAYER_STATE::FALLING;
 	//}
+	
+	if (m_zero->DownColState() == false && m_zero->LeftColState() == true)
+	{
+		check = 1;
+	}
+	else if ( m_zero->DownColState() == false && m_zero->RightColState() == true)
+	{
+		check = -1;
+	}
+	else
+	{
+		check = 0;
+	}
+
 	if (m_zero->DownColState() == true)
 	{
 		m_animator->Play(L"LANDING", false);
