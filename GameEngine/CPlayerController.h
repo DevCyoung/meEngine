@@ -1,10 +1,19 @@
 #pragma once
 #include "CComponent.h"
 
+#define DASH_FRAME_SIZE 12
 class CZero;
 class CAnimator;
 //STARTVIM
 //RETURVIM
+
+struct tDashFrame
+{
+    tAnimFrm    frame;
+    Vector2     pos;
+    float       duration;
+};
+
 enum class PLAYER_STATE
 {
     IDLE                        =0x00000000,
@@ -48,19 +57,29 @@ public:
     //attackdelay
 
     float       m_attackDelay;
+    float       m_fallingAttackDelay;
     
     float       m_jumpTrX;
 
     int         m_dir;
     Vector2     m_velocity;
 
+
+
+    vector<tDashFrame>  m_arrDashFrame;
+    UINT                m_dashFrameIdx;
+    float               m_dashFrameDelay;
+
     virtual void tick() override;
     virtual void final_tick() override;
+    
     virtual void render(HDC _dc) override;
 
     void InputTick();
     void StateTick();
 
+
+    void DashFrame();
     float    m_attackDealy;
 
 private:

@@ -96,21 +96,24 @@ void CZero::init()
 
 void CZero::tick()
 {
-	CRockmanObj::tick();
+	
 
+	CRockmanObj::tick();
 	if (nullptr != m_animEvent)
 		m_animEvent->tick();
 	if (nullptr != m_playerController)
 		m_playerController->tick();
+
 }
 
 
 
 void CZero::render(HDC _dc)
 {
-	CRockmanObj::render(_dc);
 	if (nullptr != m_playerController)
 		m_playerController->render(_dc);
 	if (nullptr != m_animEvent)
 		m_animEvent->render(_dc);
+	CRockmanObj::render(_dc);
+
 }

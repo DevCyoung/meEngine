@@ -7,6 +7,9 @@
 #include "CTimeManager.h"
 #include "CCamera.h"
 #include "CRigidbody.h"
+#include "CRenderHelper.h"
+#include "CTexture.h"
+#include "CCamera.h"
 int check = 0;
 
 
@@ -24,6 +27,10 @@ CPlayerController::CPlayerController(CGameObject* obj)
 	, m_curdashScale(0.f)
 	, m_attackDelay(0.f)
 	, m_jumpTrX(0.f)
+	,m_fallingAttackDelay(0.f)
+	, m_dashFrameDelay(0.f)
+	, m_dashFrameIdx(0)
+	
 {
 
 	m_zero = dynamic_cast<CZero*>(obj);
@@ -31,12 +38,12 @@ CPlayerController::CPlayerController(CGameObject* obj)
 	m_animator = m_zero->GetAnimator();
 	m_state = PLAYER_STATE::IDLE;
 
-	m_moveScale = 270.0f;
+	m_moveScale = 280.0f;
 	m_fallingMoveScale = 220.f;
 	m_dashMoveScale = 1.85f;
 	m_curdashScale = 1.f;
 	m_jumpScale = -720.f;
-	
+
 }
 
 CPlayerController::CPlayerController(const CGameObject& _other)
@@ -53,6 +60,10 @@ CPlayerController::CPlayerController(const CGameObject& _other)
 	, m_curdashScale(0.f)
 	, m_attackDelay(0.f)
 	, m_jumpTrX(0.f)
+	, m_fallingAttackDelay(0.f)
+	, m_dashFrameDelay(0.f)
+	, m_dashFrameIdx(0)
+	
 {
 }
 
@@ -85,6 +96,7 @@ void CPlayerController::tick()
 	InputTick();
 	StateTick();
 
+
 	//Move
 	if (m_state == PLAYER_STATE::WALK || m_state == PLAYER_STATE::JUMP)
 	{
@@ -92,28 +104,23 @@ void CPlayerController::tick()
 	}
 	else if (m_state == PLAYER_STATE::DASH)
 	{
+		//m_velocity.x = m_moveScale  * m_curdashScale;
 	}
 	else if (m_state == PLAYER_STATE::FALLING)
 	{
 		m_velocity.x = m_fallingMoveScale * m_dir * m_curdashScale;
 	}
 	else if (m_state == PLAYER_STATE::IDLE)
-	{
-		//m_animator->TrigerPlay(L"IDLE", false);
-
+	{		
 		m_velocity.x = 0.f;
 	}
 	else if (m_state == PLAYER_STATE::WALLSLIDE)
 	{
-		//m_zero->GetRigidbody()->SetGravity(false);
 		m_velocity.y = 0.f;
 		pos.y += 200.f * DELTATIME;
 	}
 
-	if (m_zero->LeftColState() || m_zero->RightColState())
-	{
-		m_curdashScale = 1.f;
-	}
+	
 
 	if (PLAYER_STATE::JUMP == m_state && INPUT_END_TIME(KEY::X, 0.15f) <= 0.14f && IS_INPUT_PRESSED(KEY::X) && m_zero->DownColState() == false)
 	{
@@ -127,26 +134,61 @@ void CPlayerController::tick()
 			{
 				m_zero->SetFlipX(false);
 			}
-			m_velocity.x = 250 * check;
+			m_velocity.x = 250 * check * (m_curdashScale * 1);
 		}		
-	}	
+	}
 
-	//check = 0;
+	if (INPUT_END_TIME(KEY::C, 0.35f) > 0.08f && PLAYER_STATE::DASH == m_state && INPUT_END_TIME(KEY::C, 0.69f) < 0.68f && IS_INPUT_PRESSED(KEY::C) && m_zero->LeftColState() == false && m_zero->RightColState() == false && m_zero->DownColState() == true)
+	{
+	
+		if (m_zero->GetFilpX() == true)
+		{
+			
+			m_velocity.x = 600;
+		}
+		else
+		{
+			m_velocity.x = -600;
+		}
+	}
+	else
+	{
+		
+		if (m_zero->DownColState() == true)
+		{
+			//m_curdashScale = 1;
+		}
+	}
+
+	DashFrame();
+
+	
 	m_zero->SetPos(pos);
 	m_zero->GetRigidbody()->SetVelocity(m_velocity);
 	Vector2 camPos = GETINSTANCE(CCamera)->GetLook();
 	camPos.x = pos.x;
+	camPos.y = pos.y;
 	GETINSTANCE(CCamera)->SetLook(camPos);
 }
 
 void CPlayerController::InputTick()
 {
+	if (IS_INPUT_TAB(KEY::A))
+	{
+		m_animator->Play(L"THUNDER", false);
+	}
+	m_fallingAttackDelay += DELTATIME;
 	if (IS_INPUT_TAB(KEY::Z))
 	{
 		if (m_zero->DownColState() == false () && m_state != PLAYER_STATE::WALLSLIDE && m_state != PLAYER_STATE::FALLINGATTACK)
 		{
-			m_animator->Play(L"FALLINATTACK", false);
-			m_state = PLAYER_STATE::FALLINGATTACK;
+			if (m_fallingAttackDelay  >= 0.55f)
+			{
+				m_fallingAttackDelay = 0.f;
+				m_animator->Play(L"FALLINATTACK", false);
+				m_state = PLAYER_STATE::FALLINGATTACK;
+				m_curdashScale = 1.f;
+			}
 		}
 
 		else if (m_zero->DownColState() == true && m_state != PLAYER_STATE::LANDATTACK1 && m_state != PLAYER_STATE::LANDATTACK2 && m_state != PLAYER_STATE::LANDATTACK3)
@@ -155,12 +197,14 @@ void CPlayerController::InputTick()
 			m_attackDelay = 0.f;
 			m_animator->TrigerPlay(L"ATTACK1", false);
 			m_state = PLAYER_STATE::LANDATTACK1;
+			m_curdashScale = 1.f;
 		}
 	}
 	if (IS_INPUT_TAB(KEY::X))												//점프도 땅에만붙어있으면 언제든지 상태가바뀜
 	{
 		if (m_zero->DownColState() && m_state != PLAYER_STATE::FALLING && m_state != PLAYER_STATE::JUMP)
 		{
+			
 			check = 0;
 			m_animator->Play(L"JUMPREADY", true);
 			m_velocity.y = 0.f;
@@ -174,13 +218,18 @@ void CPlayerController::InputTick()
 		}
 
 	}
-	if (IS_INPUT_PRESSED(KEY::C))
+	if (IS_INPUT_TAB(KEY::C))
 	{
-		if (m_zero->DownColState() && m_state != PLAYER_STATE::DASH)
+		if (m_state == PLAYER_STATE::WALLSLIDE)
 		{
-			m_animator->TrigerPlay(L"DASH", true);
-			m_curdashScale = m_dashMoveScale;
+			m_curdashScale = 2.f;
+		}
+		if (m_zero->DownColState() && m_state != PLAYER_STATE::DASH && m_zero->LeftColState() == false && m_zero->RightColState() == false)
+		{
+			m_animator->TrigerPlay(L"DASHREADY", false);
+			//m_curdashScale = m_dashMoveScale;
 			m_state = PLAYER_STATE::DASH;
+			m_attackDealy = 0.f;
 		}
 	}
 	if (IS_INPUT_PRESSED(KEY::LEFT))
@@ -276,9 +325,55 @@ void CPlayerController::StateTick()
 	}
 }
 
+void CPlayerController::DashFrame()
+{
+	//대쉬상태일떄
+	m_dashFrameDelay += DELTATIME;
+	if (m_curdashScale >= 1.9f)
+	{
+		if (m_dashFrameDelay > 0.06f)
+		{
+			m_dashFrameIdx = m_dashFrameIdx % DASH_FRAME_SIZE;
+			m_dashFrameDelay = 0.f;
+			tDashFrame frame;
+			frame.frame		= m_animator->GetCurAnimation()->GetCurFrame();
+			frame.pos		= m_zero->GetPos();
+			frame.duration	= 0.f;
+			m_arrDashFrame.push_back(frame);
+		}
+	}
+	for (size_t i = 0; i < m_arrDashFrame.size(); i++)
+	{
+		m_arrDashFrame[i].duration += DELTATIME;
+	}
+
+	for (int i = 0; i < m_arrDashFrame.size(); )
+	{
+		if (m_arrDashFrame[i].duration >= 0.23f)
+		{
+			m_arrDashFrame.erase(m_arrDashFrame.begin() + i);
+		}
+		else
+		{
+			i++;
+		}
+	}
+
+}
+
 void CPlayerController::final_tick()
 {
 
+}
+
+void CPlayerController::render(HDC _dc)
+{
+	CTexture* tex = m_zero->GetAnimator()->GetCurAnimation()->GetAtlas();
+	for (size_t i = 0; i < m_arrDashFrame.size(); i++)
+	{
+		Vector2 renPos = GETINSTANCE(CCamera)->GetRenderPos(m_arrDashFrame[i].pos);
+		CRenderHelper::StretchRender(tex->GetDC(), m_arrDashFrame[i].frame, _dc, renPos, m_zero->GetFilpX());
+	}
 }
 
 void CPlayerController::Walk()
@@ -299,9 +394,7 @@ void CPlayerController::Move()
 
 }
 
-void CPlayerController::render(HDC _dc)
-{
-}
+
 
 void CPlayerController::Idle()
 {
@@ -318,19 +411,52 @@ void CPlayerController::Idle()
 
 void CPlayerController::LANDDASH()
 {
-	/*if (INPUT_END_TIME(KEY::C, 0.15f) <= 0.14f)
+	float jscale = m_jumpScale;
+
+
+	//if (m_zero->DownColState() == false && (m_zero->LeftColState() == true || m_zero->RightColState() == true))
+	//{
+	//	jscale = m_jumpScale * 0.75f;
+	//	//m_jumpTrX = m_jumpScale * 20.f;
+	//	//m_zero->GetRigidbody()->AddForce(Vector2(200000.f, 1.f));
+
+
+
+		
+	//}
+	
+	
+
+	m_curdashScale = 2.f;
+	if (INPUT_END_TIME(KEY::C, 0.69f) >= 0.68f && IS_INPUT_PRESSED(KEY::C))
 	{
-		m_velocity.x = m_jumpScale;
+		m_animator->TrigerPlay(L"DASHFINISH", false);
+		m_state = PLAYER_STATE::IDLE;
+		m_curdashScale = 1.f;
+
 	}
-	if (m_zero->DownColState() == false)
+	else if (IS_INPUT_RELEASE(KEY::C))
 	{
-		if (IS_INPUT_RELEASE(KEY::X) || m_velocity.y > 0.01f)
-		{
-			m_velocity.y = 0.f;
-			m_animator->TrigerPlay(L"FALLINGREADY", false);
-			m_state = PLAYER_STATE::FALLING;
-		}
-	}*/
+		m_animator->TrigerPlay(L"DASHFINISH", false);
+		m_state = PLAYER_STATE::IDLE;
+		m_curdashScale = 1.f;
+	}
+	else if (IS_INPUT_PRESSED(KEY::C))
+	{
+		//m_dir = 1;
+	}
+
+	//else if (m_zero->DownColState() == false)
+	//{
+	//	if (IS_INPUT_RELEASE(KEY::X) || m_velocity.y > 0.01f)
+	//	{
+	//		//m_jumpTrX = 0.f;
+	//		check = 0;
+	//		m_velocity.y = 0.f;
+	//		m_animator->TrigerPlay(L"FALLINGREADY", false);
+	//		m_state = PLAYER_STATE::FALLING;
+	//	}
+	//}
 }
 
 
@@ -361,7 +487,7 @@ void CPlayerController::Jump()
 	
 	if (INPUT_END_TIME(KEY::X, 0.15f) <= 0.14f && IS_INPUT_PRESSED(KEY::X))
 	{
-		m_velocity.y = jscale;
+		m_velocity.y = jscale;		
 	}
 	else if (m_zero->DownColState() == false)
 	{
@@ -380,20 +506,25 @@ void CPlayerController::Falling()
 {
 	//m_animator->TrigerPlay(L"FALLING", true);
 	//바닥과 붙어있다면 -> IDLE
+	//m_attackDelay += DELTATIME;
+	m_fallingAttackDelay += DELTATIME;
 	if (m_zero->DownColState() == true)
 	{
 		m_animator->Play(L"LANDING", false);
 		m_state = PLAYER_STATE::IDLE;
+		m_curdashScale = 1.f;
 	}
 	else if (m_zero->LeftColState() == true && IS_INPUT_PRESSED(KEY::LEFT))
 	{
 		m_animator->TrigerPlay(L"WALLSLIDEREADY", false);
 		m_state = PLAYER_STATE::WALLSLIDE;
+		m_curdashScale = 1.f;
 	}
 	else if (m_zero->RightColState() == true && IS_INPUT_PRESSED(KEY::RIGHT))
 	{
 		m_animator->TrigerPlay(L"WALLSLIDEREADY", false);
 		m_state  = PLAYER_STATE::WALLSLIDE;
+		m_curdashScale = 1.f;
 	}
 	else 
 	{
@@ -453,6 +584,7 @@ void CPlayerController::LandAttack3()
 
 void CPlayerController::FallingAttack()
 {
+
 	m_state = PLAYER_STATE::FALLING;
 }
 

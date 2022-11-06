@@ -123,14 +123,14 @@ void CRockmanObj::tick()
 	// 공중에있는가?
 	// 중력!
 
-	/*if ( DownColState() == false && nullptr != GetRigidbody())
+	if ( DownColState() == false && nullptr != GetRigidbody())
 	{
 		GetRigidbody()->SetGravity(true);
 	}
 	else
 	{
 		GetRigidbody()->SetGravity(false);
-	}*/
+	}
 
 #pragma region FLIP
 	if (nullptr != GetRigidbody())

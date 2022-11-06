@@ -59,14 +59,6 @@ void CMonster::render(HDC _dc)
 
 	pos = GETINSTANCE(CCamera)->GetRenderPos(pos);
 
-	BLENDFUNCTION tBlend = {};
-
-	tBlend.AlphaFormat = 1;
-	tBlend.BlendFlags = 0;
-	tBlend.BlendOp = AC_SRC_OVER;
-	tBlend.SourceConstantAlpha = (int)(255.f);
-	tBlend.SourceConstantAlpha = 255;
-
 	
 
 	//m_pTexuture = GETINSTANCE(CResourceManager)->LoadTexture(L"Player", L"texture\\TILE.bmp");

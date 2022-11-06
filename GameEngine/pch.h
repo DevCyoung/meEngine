@@ -16,6 +16,7 @@
 #include <string>
 #include <assert.h>
 #include <commdlg.h>
+#include <queue>
 
 using std::vector;
 using std::list;
@@ -23,7 +24,7 @@ using std::map;
 using std::make_pair;
 using std::string;
 using std::wstring;
-
+using std::queue;
 #include "function.h"
 #include "define.h"
 #include "struct.h"

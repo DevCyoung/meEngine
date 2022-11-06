@@ -22,18 +22,19 @@ void CZero::DownHitEnter(CLineCollider* _pOhter)
 {
 	CRockmanObj::DownHitEnter(_pOhter);
 	m_isLineDownState = false;
-	/*m_LineDir |= (UINT)COL_STATE_DIR::DOWN;
+	GetRigidbody()->SetGravity(false);
 	m_dirMoveLine = _pOhter;
 	if (m_ColDir & (UINT)COL_STATE_DIR::DOWN)
 	{
-		m_dirMoveLine = _pOhter;
+		//m_dirMoveLine = _pOhter;
 	}
 	else
 	{
+		m_dirMoveLine = _pOhter;
 		Vector2 Pos = GetRigidbody()->GetVelocity();
 		this->GetRigidbody()->SetGravity(false);
 		this->GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
-	}*/
+	}
 }
 
 void CZero::DownHitStay(CLineCollider* _pOhter)
@@ -46,6 +47,12 @@ void CZero::DownHitStay(CLineCollider* _pOhter)
 void CZero::DownHitExit(CLineCollider* _pOhter)
 {
 	CRockmanObj::DownHitExit(_pOhter);
+	if ((m_ColDir & (UINT)COL_STATE_DIR::DOWN) == false)
+	{
+		Vector2 Pos = GetRigidbody()->GetVelocity();
+		this->GetRigidbody()->SetGravity(true);
+		this->GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
+	}
 	m_isLineDownState = true;
 	//m_LineDir &= ~(UINT)COL_STATE_DIR::DOWN;
 	//m_dirMoveLine = nullptr;

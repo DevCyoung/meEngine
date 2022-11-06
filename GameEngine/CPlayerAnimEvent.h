@@ -2,6 +2,8 @@
 #include "CComponent.h"
 
 class CAnimator;
+class CZero;
+
 
 class CPlayerAnimEvent :
     public CComponent
@@ -12,11 +14,11 @@ public:
     virtual void render(HDC _dc) override;
 
 private:
-    CAnimator* m_animztor;
-
+    CAnimator*  m_animztor;
+    CZero*      m_zero;
 
 public:
-    UINT        m_attackCount;
+    UINT                m_attackCount;
 
 
 
@@ -34,6 +36,7 @@ private:
     void WalkFinish();
     void WallJumpReady();
     void WallSlideReady();
+    void LandDashReady();
 
     void Attack1();
     void Attack2();

@@ -27,6 +27,7 @@ public:
     void        CreateAnimation(const wstring& _strName, CTexture* _pAtlas, Vector2 _vLeftTop, Vector2 _vSize, Vector2 _vOffset, int _iMaxFrmCount, float _fDuration);
     CAnimation* FindAnimation(const wstring& _strName);
     CAnimation* LoadAnimation(const wstring& _strRelativePath);
+    CAnimation* GetCurAnimation() { return m_pCurAnim; }
 
     //my
 public:

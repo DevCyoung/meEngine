@@ -93,6 +93,92 @@ void CRenderHelper::StretchRender(HDC HDCsource, int leftX, int leftY, int sizeX
 	DeleteDC(HDCbuffer);
 }
 
+void CRenderHelper::StretchRender(HDC HDCsource, tAnimFrm& frame, HDC HDCdest, Vector2 realPos, bool isFlip)
+{
+	//Vector2 pos = GETINSTANCE(CCamera)->GetRenderPos(realPos);
+	CRenderHelper::StretchRender(HDCsource, frame.vLeftTop.x, frame.vLeftTop.y, frame.vSize.x, frame.vSize.y, HDCdest, realPos.x, realPos.y, frame.vOffset.x, frame.vOffset.y, isFlip);
+}
+
+void CRenderHelper::StretchRender(HDC HDCsource, tAnimFrm& frame, HDC HDCdest, Vector2 pos, bool isFlip, float alpha)
+{
+
+	BLENDFUNCTION tBlend = {};
+
+	tBlend.AlphaFormat = 0;
+	tBlend.BlendFlags = 1;
+	tBlend.BlendOp = AC_SRC_OVER;
+	tBlend.SourceConstantAlpha = (int)(255.f * alpha);
+	
+
+	HDC		HDCbuffer		= CreateCompatibleDC(HDCdest);
+	HBITMAP HBITMAPbuffer	= CreateCompatibleBitmap(HDCdest, frame.vSize.x * WINDOWX_PER_X, frame.vSize.y * WINDOWX_PER_Y);
+	HBITMAP hPrebit = (HBITMAP)SelectObject(HDCbuffer, HBITMAPbuffer);
+
+	DeleteObject(hPrebit);
+
+
+	StretchBlit(HDCsource, frame, HDCbuffer, isFlip);
+
+	AlphaBlend
+	(
+		HDCdest,
+		int(pos.x - (int)(frame.vSize.x * WINDOWX_PER_X - frame.vOffset.x * WINDOWX_PER_X) / 2),
+		int(pos.y - (int)(frame.vSize.y * WINDOWX_PER_Y - frame.vOffset.y * WINDOWX_PER_Y) / 2),
+		int(frame.vSize.x * WINDOWX_PER_X),
+		int(frame.vSize.y * WINDOWX_PER_Y),
+		HDCbuffer,
+		0,
+		0,
+		int(frame.vSize.x * WINDOWX_PER_X),
+		int(frame.vSize.y * WINDOWX_PER_Y),
+		tBlend
+	);
+
+	DeleteObject(HBITMAPbuffer);
+	DeleteDC(HDCbuffer);
+}
+
+void CRenderHelper::StretchBlit(HDC HDCsource, tAnimFrm& frame, HDC HDCdest, bool isFlip)
+{
+
+	if (isFlip)
+	{
+		StretchBlt
+		(
+			  HDCdest
+			, frame.vSize.x * WINDOWX_PER_X - 1
+			, 0
+			, (int)(-frame.vSize.x * WINDOWX_PER_X)
+			, (int)( frame.vSize.y * WINDOWX_PER_Y)
+			, HDCsource
+			, (int)(frame.vLeftTop.x)
+			, (int)(frame.vLeftTop.y)
+			, (int)(frame.vSize.x)
+			, (int)(frame.vSize.y)
+			, SRCCOPY
+		);
+
+
+	}
+	else
+	{
+		StretchBlt
+		(
+			  HDCdest
+			, 0
+			, 0
+			, frame.vSize.x * WINDOWX_PER_X
+			, frame.vSize.y * WINDOWX_PER_Y
+			, HDCsource
+			, frame.vLeftTop.x
+			, frame.vLeftTop.y
+			, frame.vSize.x
+			, frame.vSize.y
+			, SRCCOPY
+		);
+	}
+}
+
 void CRenderHelper::StretchRender(HDC dest, CTexture* texture, Vector2 Pos)
 {
 	StretchBlt

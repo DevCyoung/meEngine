@@ -37,9 +37,11 @@ public:
     void Load(const wstring& _strRelativePath);
     void ColorSwap(vector<UNIONCOLOR32> sourceColors, vector<UNIONCOLOR32> destColors);
 
+
     tColInfo    GetColinfo(int idx) { return m_vecFrm[idx].colInfo; }
     CTexture*   GetAtlas() { return m_pAtlas; }
     tAnimFrm&   GetFrame(UINT idx) { return m_vecFrm[idx]; }
+    tAnimFrm& GetCurFrame() { return m_vecFrm[m_iCurFrm]; }
 public:
     CLONE(CAnimation);
 

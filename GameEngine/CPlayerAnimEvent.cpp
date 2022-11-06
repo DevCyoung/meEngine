@@ -3,20 +3,26 @@
 #include "CGameObject.h"
 #include "CAnimator.h"
 #include "CAnimation.h"
-
+#include "CRenderHelper.h"
+#include "CTexture.h"
+#include "CCamera.h"
+#include "CZero.h"
 
 CPlayerAnimEvent::CPlayerAnimEvent(CGameObject* obj)
 	:CComponent(obj)
 	, m_animztor(nullptr)
 	, m_attackCount(0)
+	, m_zero(nullptr)
 {
 	//GetAnimator()->LoadAnimation(L"animation\\zero\\thunder.anim");
+	m_zero = dynamic_cast<CZero*>(obj);
+
 	m_animztor = obj->GetAnimator();
 	assert(m_animztor);
 	m_animztor->LoadAnimation(L"animation\\zero\\IDLE.anim");
 	m_animztor->LoadAnimation(L"animation\\zero\\attack.anim");
 	m_animztor->LoadAnimation(L"animation\\zero\\walk.anim");
-	m_animztor->LoadAnimation(L"animation\\zero\\dash.anim");
+	
 	m_animztor->LoadAnimation(L"animation\\zero\\jumpready.anim");
 	m_animztor->LoadAnimation(L"animation\\zero\\jump.anim");
 	m_animztor->LoadAnimation(L"animation\\zero\\fallingready.anim");
@@ -37,9 +43,14 @@ CPlayerAnimEvent::CPlayerAnimEvent(CGameObject* obj)
 	m_animztor->LoadAnimation(L"animation\\zero\\attack1.anim");
 	m_animztor->LoadAnimation(L"animation\\zero\\attack2.anim");
 	m_animztor->LoadAnimation(L"animation\\zero\\attack3.anim");
+
+	m_animztor->LoadAnimation(L"animation\\zero\\thunder.anim");
 	
 	m_animztor->Play(L"IDLE", true);
 
+	m_animztor->LoadAnimation(L"animation\\zero\\dashready.anim");
+	m_animztor->LoadAnimation(L"animation\\zero\\dash.anim");
+	m_animztor->LoadAnimation(L"animation\\zero\\dashfinish.anim");
 
 
 	m_animztor->FindAnimation(L"JUMPREADY")->SetFrameEvent(1, this, (DELEGATE)&CPlayerAnimEvent::JumpReady);
@@ -63,14 +74,16 @@ CPlayerAnimEvent::CPlayerAnimEvent(CGameObject* obj)
 	m_animztor->FindAnimation(L"ATTACK3")->SetFrameEvent(7, this, (DELEGATE)&CPlayerAnimEvent::Attack3);
 
 	m_animztor->FindAnimation(L"WALLJUMPREADY")->SetFrameEvent(3, this, (DELEGATE)&CPlayerAnimEvent::JumpReady);
-
 	m_animztor->FindAnimation(L"WALLSLIDEREADY")->SetFrameEvent(2, this, (DELEGATE)&CPlayerAnimEvent::WallSlideReady);
+
+	m_animztor->FindAnimation(L"DASHREADY")->SetFrameEvent(2, this, (DELEGATE)&CPlayerAnimEvent::LandDashReady);
 }
 
 CPlayerAnimEvent::CPlayerAnimEvent(const CGameObject& _other)
 	:CComponent(nullptr)
 	, m_animztor(nullptr)
 	, m_attackCount(0)
+	, m_zero(nullptr)
 {
 }
 
@@ -89,7 +102,7 @@ void CPlayerAnimEvent::final_tick()
 }
 
 void CPlayerAnimEvent::render(HDC _dc)
-{
+{	
 }
 
 void CPlayerAnimEvent::WalkReady()
@@ -109,17 +122,22 @@ void CPlayerAnimEvent::FallingReady()
 
 void CPlayerAnimEvent::WalkFinish()
 {
-
+	
 }
 
 void CPlayerAnimEvent::WallJumpReady()
-{
+{ 
 	m_animztor->Play(L"JUMP", true);
 }
 
 void CPlayerAnimEvent::WallSlideReady()
 {
 	m_animztor->Play(L"WALLSLIDE", true);
+}
+
+void CPlayerAnimEvent::LandDashReady()
+{
+	m_animztor->Play(L"DASH", true);
 }
 
 void CPlayerAnimEvent::Attack1()
