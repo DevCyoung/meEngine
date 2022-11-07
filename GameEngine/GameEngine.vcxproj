@@ -184,6 +184,7 @@
     <ClInclude Include="CResource.h" />
     <ClInclude Include="CResourceManager.h" />
     <ClInclude Include="CRigidbody.h" />
+    <ClInclude Include="CRockmanLevel.h" />
     <ClInclude Include="CRockmanMonster.h" />
     <ClInclude Include="CRockmanObj.h" />
     <ClInclude Include="CSound.h" />
@@ -234,6 +235,7 @@
     <ClCompile Include="CPlayerAnimEvent.cpp" />
     <ClCompile Include="CPlayerController.cpp" />
     <ClCompile Include="CRaycast.cpp" />
+    <ClCompile Include="CRockmanLevel.cpp" />
     <ClCompile Include="CRockmanMonster.cpp" />
     <ClCompile Include="CSound.cpp" />
     <ClCompile Include="CSoundMgr.cpp" />

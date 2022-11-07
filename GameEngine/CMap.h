@@ -15,6 +15,8 @@ public:
     vector<Vector2>		        m_playerPos;
 
 
+
+
 public:
     void init();
 
@@ -26,6 +28,9 @@ public:
 
     CTexture* GetAtlas() { return m_mapAtlas; }
     void SetAtlas(CTexture* tex){ m_mapAtlas = tex; }
+
+
+
 
 
     CLONE(CMap)
