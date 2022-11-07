@@ -95,12 +95,17 @@ void CZero::init()
 
 void CZero::tick()
 {
+	
+
 	if (nullptr != m_animEvent)
 		m_animEvent->tick();
 	if (nullptr != m_playerController)
 		m_playerController->tick();
 
 	CRockmanObj::tick();
+
+	if (nullptr != m_playerController)
+		m_playerController->flip_tick();
 }
 
 

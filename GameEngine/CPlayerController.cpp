@@ -131,11 +131,11 @@ void CPlayerController::tick()
 		{
 			if (m_velocity.x > 0)
 			{
-				m_zero->SetFlipX(true);
+				m_zero->SetFlipX(false);
 			}
 			else
 			{
-				m_zero->SetFlipX(false);
+				m_zero->SetFlipX(true);
 			}
 			m_velocity.x = 250 * check * (m_curdashScale * 1);
 		}		
@@ -172,6 +172,26 @@ void CPlayerController::tick()
 	camPos.x = pos.x;
 	//camPos.y = pos.y;
 	GETINSTANCE(CCamera)->SetLook(camPos);
+}
+
+void CPlayerController::flip_tick()
+{
+
+	if (PLAYER_STATE::JUMP == m_state && INPUT_END_TIME(KEY::X, 0.15f) <= 0.14f && IS_INPUT_PRESSED(KEY::X) && m_zero->DownColState() == false)
+	{
+		if (check != 0)
+		{
+			if (m_velocity.x > 0)
+			{
+				m_zero->SetFlipX(false);
+			}
+			else
+			{
+				m_zero->SetFlipX(true);
+			}			
+		}
+	}
+
 }
 
 void CPlayerController::InputTick()

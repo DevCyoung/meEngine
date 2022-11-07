@@ -12,6 +12,7 @@ private:
 	UINT			m_iCallCount;
 	float			m_fDeltaTime;
 	float			m_fTime;
+	float			m_delay;
 
 public:
 	void init();
@@ -19,7 +20,8 @@ public:
 	void render();
 
 public:
-	float GetDeltaTime() { return m_fDeltaTime; }
-
+	void  SetDelayTime(float delay) { m_delay = delay; }
+	float GetDeltaTime() { return m_fDeltaTime * m_delay; }
+	float GEtRealDetaTime() { return m_fDeltaTime; }
 };
 

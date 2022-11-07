@@ -43,6 +43,7 @@ public:
 
 public:
 	virtual void tick() override;
+	
 	virtual void fixed_tick() override;
 	virtual void render(HDC _dc) override;
 	virtual void OnTriggerEnter(CCollider* _pOhter);

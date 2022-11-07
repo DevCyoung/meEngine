@@ -9,6 +9,7 @@ CTimeManager::CTimeManager()
 	, m_fTime(0.f)
 	, m_fDeltaTime(0.f)
 	, m_iCallCount(0)
+	, m_delay(1.f)
 {
 
 }

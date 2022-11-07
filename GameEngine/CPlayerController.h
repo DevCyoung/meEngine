@@ -71,6 +71,7 @@ public:
     float               m_dashFrameDelay;
 
     virtual void tick() override;
+    void flip_tick();
     virtual void final_tick() override;
     
     virtual void render(HDC _dc) override;
