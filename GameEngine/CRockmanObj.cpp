@@ -46,6 +46,7 @@ bool CRockmanObj::UpColState()
 
 CRockmanObj::CRockmanObj()
 	:m_ColDir(0)
+	, m_sponType(MONSETER_TYPE::NONE)
 	, m_LineDir(0)
 	, m_vellocity{}
 	, m_downRay(nullptr)
@@ -64,6 +65,7 @@ CRockmanObj::CRockmanObj()
 
 CRockmanObj::CRockmanObj(const CRockmanObj& _other)
 	: CGameObject(_other)
+	, m_sponType(MONSETER_TYPE::NONE)
 	, m_ColDir(0)
 	, m_LineDir(0)
 	, m_vellocity{}
@@ -98,6 +100,19 @@ CRockmanObj::~CRockmanObj()
 		delete m_downRay;
 	}
 }
+void CRockmanObj::CreateRockmanRrigidbody()
+{
+	CreateRigidbody();
+	GetRigidbody()->SetGravityAccel(1950.f);
+	GetRigidbody()->SetGravity(true);
+	GetRigidbody()->SetFrictionScale(12.f);
+
+	CreateLineCollider();
+	GetLineCollider()->SetEnterEvent((DELEGATECOL)&CRockmanObj::DownHitEnter, this);
+	GetLineCollider()->SetExitEvent((DELEGATECOL)&CRockmanObj::DownHitExit, this);
+	GetLineCollider()->SetRaycast(Vector2(-1000.f, -1000.f), Vector2(0.f, 1.f), Vector2(0.f, 0.f), GetCollider()->GetScale().y / 2.f);
+}
+
 void CRockmanObj::CreateLineCollider()
 {
 	if (m_downRay != nullptr)
@@ -109,32 +124,24 @@ void CRockmanObj::CreateLineCollider()
 
 void CRockmanObj::tick()
 {
+	CGameObject::tick();
 
 	if (nullptr != m_downRay)
 	{
 		m_downRay->GetLineCollider()->MoveRaycast(GetPos());
 	}
 
-	CGameObject::tick();
-
-	
-
-	// 아무런 충돌이없을때 중력이 발생한다.
-	// 공중에있는가?
-	// 중력!
-
-	if ( DownColState() == false && nullptr != GetRigidbody())
-	{
-		GetRigidbody()->SetGravity(true);
-	}
-	else
-	{
-		GetRigidbody()->SetGravity(false);
-	}
-
-#pragma region FLIP
 	if (nullptr != GetRigidbody())
 	{
+		if (DownColState() == false)
+		{
+			GetRigidbody()->SetGravity(true);
+		}
+		else
+		{
+			GetRigidbody()->SetGravity(false);
+		}
+
 		Vector2 velo = GetRigidbody()->GetVelocity();
 		if (abs(velo.x) > 0.001f)
 		{
@@ -146,11 +153,10 @@ void CRockmanObj::tick()
 			{
 				SetFlipX(true);
 			}
-
 		}
+		
 	}
-#pragma endregion
-#pragma region LINE_INTERPOLATE
+
 	if (nullptr != m_curLineLand)
 	{
 		Vector2 p1 = m_curLineLand->GetP1();
@@ -159,10 +165,6 @@ void CRockmanObj::tick()
 		pos.y = ((p2.y - p1.y) / (p2.x - p1.x)) * (pos.x - p1.x) + p1.y - GetLineCollider()->GetLineCollider()->m_distance + 1.f;
 		SetPos(pos);
 	}
-#pragma endregion
-
-	
-
 }
 
 void CRockmanObj::fixed_tick()
@@ -198,18 +200,19 @@ void CRockmanObj::OnTriggerExit(CCollider* _pOhter)
 void CRockmanObj::OnTriggerEnterUp(CCollider* _pOther)
 {
 	m_ColDir |= (UINT)COL_STATE_DIR::UP;
-	if (m_bColInterPolate ==false)
+	
+
+	if (nullptr == GetRigidbody())
 		return;
+
 	Vector2 scale = GetCollider()->GetScale();
 	Vector2 otherScale = _pOther->GetScale();
 
 	Vector2 pos = GetPos();
 
-	pos.y = _pOther->GetOwner()->GetPos().y + scale.y / 2 + otherScale.y / 2 + 3;
+	pos.y = _pOther->GetOwner()->GetPos().y + scale.y / 2 + otherScale.y / 2 + 12;
 	SetPos(pos);
 
-	if (nullptr == GetRigidbody())
-		return;
 	Vector2 velo = GetRigidbody()->GetVelocity();
 	velo.y = 0;
 	GetRigidbody()->SetVelocity(velo);
@@ -219,8 +222,11 @@ void CRockmanObj::OnTriggerEnterUp(CCollider* _pOther)
 void CRockmanObj::OnTriggerEnterDown(CCollider* _pOther)
 {
 	m_ColDir |= (UINT)COL_STATE_DIR::DOWN;
-	if (m_bColInterPolate == false)
+
+
+	if (nullptr == GetRigidbody())
 		return;
+
 	m_isDownExitState = false;
 	Vector2 scale = GetCollider()->GetScale();
 	Vector2 otherScale = _pOther->GetScale();
@@ -229,8 +235,6 @@ void CRockmanObj::OnTriggerEnterDown(CCollider* _pOther)
 	pos.y = _pOther->GetOwner()->GetPos().y - scale.y / 2 - otherScale.y / 2 + 1;
 	SetPos(pos);
 
-	if (nullptr == GetRigidbody())
-		return;
 	GetRigidbody()->SetGravity(false);
 	Vector2 velo = GetRigidbody()->GetVelocity();
 	velo.y = 0;
@@ -240,8 +244,10 @@ void CRockmanObj::OnTriggerEnterDown(CCollider* _pOther)
 void CRockmanObj::OnTriggerEnterLeft(CCollider* _pOther)
 {
 	m_ColDir |= (UINT)COL_STATE_DIR::LEFT;
-	if (m_bColInterPolate == false)
+
+	if (nullptr == GetRigidbody())
 		return;
+
 	Vector2 scale = GetCollider()->GetScale();
 	Vector2 otherScale = _pOther->GetScale();
 
@@ -249,8 +255,6 @@ void CRockmanObj::OnTriggerEnterLeft(CCollider* _pOther)
 	pos.x = _pOther->GetOwner()->GetPos().x + scale.x / 2 + otherScale.x / 2 - 1;
 	SetPos(pos);
 
-	if (nullptr == GetRigidbody())
-		return;
 	Vector2 velo = GetRigidbody()->GetVelocity();
 	velo.x = 0;
 	GetRigidbody()->SetVelocity(velo);
@@ -259,7 +263,8 @@ void CRockmanObj::OnTriggerEnterLeft(CCollider* _pOther)
 void CRockmanObj::OnTriggerEnterRight(CCollider* _pOther)
 {
 	m_ColDir |= (UINT)COL_STATE_DIR::RIGHT;
-	if (m_bColInterPolate == false)
+
+	if (nullptr == GetRigidbody())
 		return;
 
 	Vector2 scale = GetCollider()->GetScale();
@@ -269,8 +274,6 @@ void CRockmanObj::OnTriggerEnterRight(CCollider* _pOther)
 	pos.x = _pOther->GetOwner()->GetPos().x - scale.x / 2 - otherScale.x / 2 + 1;
 	SetPos(pos);
 
-	if (nullptr == GetRigidbody())
-		return;
 	Vector2 velo = GetRigidbody()->GetVelocity();
 	velo.x = 0;
 	GetRigidbody()->SetVelocity(velo);

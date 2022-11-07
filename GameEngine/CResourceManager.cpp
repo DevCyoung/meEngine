@@ -3,7 +3,7 @@
 #include "CPathManager.h"
 #include "CTexture.h"
 #include "CResource.h"
-
+#include "CSound.h"
 
 
 CResourceManager::CResourceManager()
@@ -69,4 +69,38 @@ CTexture* CResourceManager::CreateTexture(const wstring& _strKey, UINT _iWidth, 
     // Map 에 저장
     m_mapTex.insert(make_pair(_strKey, pTexture));
     return pTexture;
+}
+
+CSound* CResourceManager::FindSound(const wstring& _strKey)
+{
+    map<wstring, CSound*>::iterator iter = m_mapSounds.find(_strKey);
+    if (iter == m_mapSounds.end())
+    {
+        return nullptr;
+    }
+
+    return iter->second;
+}
+
+CSound* CResourceManager::LoadSound(const wstring& _strKey, const wstring& _strRelativePath)
+{
+    CResource* pSound = FindSound(_strKey);
+
+    if (nullptr != pSound)
+        return (CSound*)pSound;
+
+    // PathMgr 를 이용해서 최종 Texture의 경로를 만든다.
+    wstring strFilePath = GETINSTANCE(CPathManager)->GetContentPath();
+    strFilePath += _strRelativePath;
+
+    // 텍스쳐 생성 및 로딩
+    pSound = new CSound();
+    pSound->Load(strFilePath);
+    pSound->SetKey(_strKey);
+    pSound->SetRelativePath(_strRelativePath);
+
+    // Map 에 저장
+    m_mapSounds.insert(make_pair(_strKey, (CSound*)pSound));
+
+    return (CSound*)pSound;
 }

@@ -85,6 +85,7 @@ void CCollisionManager::CollisionBtwLayer(LAYER _left, LAYER _right)
 
 		for (; j < vecRight.size(); j++)
 		{
+
 			if (nullptr == vecRight[j]->GetCollider())
 			{
 				continue;

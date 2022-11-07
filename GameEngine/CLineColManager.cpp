@@ -243,16 +243,35 @@ void CLineColManager::RemoveLine(CLineCollider* line)
 	if (nullptr == line)
 		return;
 
-	for (size_t i = 0; i < m_veclineCol[(UINT)line->m_layer].size(); i++)
+	//for (size_t i = 0; i < m_veclineCol[(UINT)line->m_layer].size(); i++)
+	//{
+	//	if (m_veclineCol[(UINT)line->m_layer][i] == line)
+	//	{
+	//		CLineCollider* lineCol = m_veclineCol[(UINT)line->m_layer][i];
+	//		m_veclineCol[(UINT)line->m_layer].erase(m_veclineCol[(UINT)line->m_layer].begin() + i);
+	//		delete lineCol;
+	//		return;
+	//	}
+	//}
+
+	for (size_t i = 0; i < (UINT)LINELAYER::END ; i++)
 	{
-		if (m_veclineCol[(UINT)line->m_layer][i] == line)
+		for (int j= 0; j < m_veclineCol[i].size(); )
 		{
-			CLineCollider* lineCol = m_veclineCol[(UINT)line->m_layer][i];
-			m_veclineCol[(UINT)line->m_layer].erase(m_veclineCol[(UINT)line->m_layer].begin() + i);
-			delete lineCol;
-			return;
+			if (m_veclineCol[i][j] == line)
+			{
+				m_veclineCol[i].erase(m_veclineCol[i].begin() + j);
+				delete line;
+				return;
+			}
+			else
+			{
+				++j;
+			}
 		}
 	}
+
+	
 }
 
 void CLineColManager::DeletCollider()

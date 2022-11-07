@@ -160,6 +160,7 @@
     <ClInclude Include="CEntity.h" />
     <ClInclude Include="CEventManager.h" />
     <ClInclude Include="CGameObject.h" />
+    <ClInclude Include="CGosm.h" />
     <ClInclude Include="CKeyManager.h" />
     <ClInclude Include="CLevel.h" />
     <ClInclude Include="CLevelManager.h" />
@@ -185,12 +186,15 @@
     <ClInclude Include="CRigidbody.h" />
     <ClInclude Include="CRockmanMonster.h" />
     <ClInclude Include="CRockmanObj.h" />
+    <ClInclude Include="CSound.h" />
+    <ClInclude Include="CSoundMgr.h" />
     <ClInclude Include="CStartLevel.h" />
     <ClInclude Include="CTest.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CTile.h" />
     <ClInclude Include="CTimeManager.h" />
     <ClInclude Include="CTitleLevel.h" />
+    <ClInclude Include="CTry.h" />
     <ClInclude Include="CUI.h" />
     <ClInclude Include="CUIManager.h" />
     <ClInclude Include="CWall.h" />
@@ -220,6 +224,7 @@
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CEditorLevel.cpp" />
     <ClCompile Include="CEditorLevel_init.cpp" />
+    <ClCompile Include="CGosm.cpp" />
     <ClCompile Include="CLine.cpp" />
     <ClCompile Include="CMap.cpp" />
     <ClCompile Include="CMapManager.cpp" />
@@ -230,6 +235,9 @@
     <ClCompile Include="CPlayerController.cpp" />
     <ClCompile Include="CRaycast.cpp" />
     <ClCompile Include="CRockmanMonster.cpp" />
+    <ClCompile Include="CSound.cpp" />
+    <ClCompile Include="CSoundMgr.cpp" />
+    <ClCompile Include="CTry.cpp" />
     <ClCompile Include="CWall.cpp" />
     <ClCompile Include="Line_Func.cpp" />
     <ClCompile Include="Tile_Func.cpp" />

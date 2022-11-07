@@ -56,6 +56,10 @@ CEditorLevel::CEditorLevel()
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::PLAYER);
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::MONSTER);
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::OBJECT);
+
+
+	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MONSTER, LAYER::WALL);
+
 }
 
 
@@ -102,8 +106,8 @@ void CEditorLevel::Save()
 	assert(pFile);
 
 	m_atlasEditor->Save(pFile);
-
 	m_collideEditor->Save(pFile);
+	m_objectEditor->Save(pFile);
 
 	fclose(pFile);
 }
@@ -137,8 +141,8 @@ void CEditorLevel::Load()
 	assert(pFile);
 
 	m_atlasEditor->Load(pFile);
-
 	m_collideEditor->Load(pFile);
+	m_objectEditor->Load(pFile);
 
 	fclose(pFile);
 }
@@ -155,8 +159,9 @@ void CEditorLevel::Load(const wstring& relativePath)
 	assert(pFile);
 
 	m_atlasEditor->Load(pFile);
-
 	m_collideEditor->Load(pFile);
+	m_objectEditor->Load(pFile);
+
 
 	fclose(pFile);
 }

@@ -14,6 +14,7 @@
 #include "CButton.h"
 #include "CPanelUI.h"
 #include "CCollisionManager.h"
+#include "CLineColManager.h"
 #include "CCollider.h"
 #include "CEditorLevel.h"
 
@@ -26,19 +27,25 @@
 #include "CZero.h"
 #include "CMiru.h"
 #include "CRockmanObj.h"
+#include "CTry.h"
+#include "CGosm.h"
 
 //helper
 #include "CRenderHelper.h"
+
+#include "CLevelManager.h"
 
 CObjectEdit::CObjectEdit()
 	: m_curSelectObj(nullptr)
 	, m_detectObj(nullptr)
 	, m_mouseState(MOUSE_MODE::NONE)
 	, m_targetPos{}
+	, m_sponType{}
+	, m_monstreState{}
 {
 	CreateCollider();
 	GetCollider()->SetScale(Vector2(50.f, 50.f));
-
+	m_sponType = MONSETER_TYPE::NONE;
 }
 
 CObjectEdit::CObjectEdit(const CObjectEdit& _other)
@@ -46,6 +53,8 @@ CObjectEdit::CObjectEdit(const CObjectEdit& _other)
 	, m_detectObj(nullptr)
 	, m_mouseState(MOUSE_MODE::NONE)
 	, m_targetPos{}
+	, m_sponType{}
+	, m_monstreState{}
 {
 
 }
@@ -72,7 +81,41 @@ void CObjectEdit::render(HDC _dc)
 
 		CRenderHelper::StretchRender(anim->GetAtlas()->GetDC(), frm.vLeftTop.x, frm.vLeftTop.y, frm.vSize.x, frm.vSize.y,
 			_dc, m_targetPos.x, m_targetPos.y, frm.vOffset.x, frm.vOffset.y, false);
+
+
+
+
+
+		HPEN pen = GETINSTANCE(CEngine)->GetPen((PEN_TYPE)m_monstreState);
+		HBRUSH	hNullBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+		HPEN	hOriginPen = (HPEN)SelectObject(_dc, pen);
+		HBRUSH	hOriginBrush = (HBRUSH)SelectObject(_dc, hNullBrush);
+
+		switch (m_monstreState)
+		{
+		case MONSTER_STATE::TYPE1:
+			TextOut(_dc, 10, 10, L"Type1", 5);
+			break;
+		case MONSTER_STATE::TYPE2:
+			TextOut(_dc, 10, 10, L"Type2", 5);
+			break;
+		case MONSTER_STATE::TYPE3:
+			TextOut(_dc, 10, 10, L"Type3", 5);
+			break;
+		case MONSTER_STATE::TYPE4:
+			TextOut(_dc, 10, 10, L"Type4", 5);
+			break;		
+		}
+
+
+		SelectObject(_dc, hOriginPen);
+		SelectObject(_dc, hOriginBrush);
+		
 	}
+	
+	
+
+
 }
 
 void CObjectEdit::RegisterObject(CRockmanObj* obj)
@@ -102,12 +145,10 @@ void CObjectEdit::CreateUI(CLevel* level)
 
 		CButton* pSaveButton = new CButton();
 		{
-			pSaveButton->SetScale(Vector2(100.f, 50.f));
+			pSaveButton->SetScale(Vector2(50.f, 50.f));
 			pSaveButton->SetPos(Vector2(10.f, 20.f));
-			pSaveButton->SetDelegate(this, (DELEGATERockman)&CObjectEdit::SelectObject);
-			//pSaveButton->SetIdleTex(pButtonTex);
-			pSaveButton->SetRockman(new CZero());
-			pSaveButton->SetPressedTex(pButtonPressedTex);			
+			pSaveButton->SetDelegate(this, (DELEGATERockman)&CObjectEdit::SelectGameObject);			
+			pSaveButton->SetRockman(new CZero());			
 		}
 		pPanelUI->AddChildUI(pSaveButton);
 		//level->AddObject(pSaveButton, LAYER::UI);
@@ -115,11 +156,35 @@ void CObjectEdit::CreateUI(CLevel* level)
 
 		CButton* pLoadButton = pSaveButton->Clone();
 		{
-			pLoadButton->SetPos(Vector2(150.f, 20.f));
+
+			pLoadButton->SetPos(Vector2(10.f, 70.f));
 			pLoadButton->SetRockman(new CMiru());
-			pLoadButton->SetDelegate(this, (DELEGATERockman)&CObjectEdit::SelectObject);
+			pLoadButton->SetDelegate(this, (DELEGATERockman)&CObjectEdit::SelectGameObject);
 		}
 		pPanelUI->AddChildUI(pLoadButton);
+
+
+		//try
+		CButton* pLoadButton2 = pSaveButton->Clone();
+		{
+
+			pLoadButton2->SetPos(Vector2(120.f, 20.f));
+			pLoadButton2->SetRockman(new CGosm());
+			pLoadButton2->SetDelegate(this, (DELEGATERockman)&CObjectEdit::SelectGameObject);
+		}
+		pPanelUI->AddChildUI(pLoadButton2);
+
+		CButton* pLoadButton3 = pSaveButton->Clone();
+		{
+			pLoadButton3->SetPos(Vector2(10.f, 120.f));
+			pLoadButton3->SetRockman(new CTry());
+			pLoadButton3->SetDelegate(this, (DELEGATERockman)&CObjectEdit::SelectGameObject);
+		}
+		pPanelUI->AddChildUI(pLoadButton3);
+
+		
+
+
 		//level->AddObject(pLoadButton, LAYER::UI);
 	}
 	level->AddObject(pPanelUI, LAYER::UI);
@@ -134,7 +199,7 @@ void CObjectEdit::CreateUI(CLevel* level)
 	//}
 }
 
-void CObjectEdit::SelectObject(CRockmanObj* obj)
+void CObjectEdit::SelectGameObject(CRockmanObj* obj)
 {
 	m_curSelectObj = obj;
 	m_mouseState = MOUSE_MODE::ONEDOWN;
@@ -143,6 +208,11 @@ void CObjectEdit::SelectObject(CRockmanObj* obj)
 void CObjectEdit::Update()
 {
 	m_targetPos = GETINSTANCE(CKeyManager)->GetMousePos();
+
+	if (IS_INPUT_TAB(KEY::SPACE))
+	{
+		GETINSTANCE(CLevelManager)->GetCurLevel()->DeleteAllObject(LAYER::MONSTER);		
+	}
 	
 	if (nullptr != m_detectObj)
 	{
@@ -159,12 +229,42 @@ void CObjectEdit::Update()
 
 	if (nullptr != m_curSelectObj && m_mouseState == MOUSE_MODE::ONEDOWN)
 	{
+
+		if (IS_INPUT_TAB(KEY::TAB))
+		{
+			m_monstreState = MONSTER_STATE(((UINT)m_monstreState + 1) % (UINT)MONSTER_STATE::END);
+		}
+
 		if (IS_INPUT_TAB(KEY::LBTN))
 		{
-			CRockmanObj* newObj = m_curSelectObj->Clone();		
-			//m_targetPos = GETINSTANCE(CKeyManager)->GetMousePos();
+			CRockmanObj* newObj = m_curSelectObj;
+
+			
+
+			if (newObj->m_sponType == MONSETER_TYPE::GOSM)
+			{
+				newObj = new CGosm();
+				newObj->m_sponType = MONSETER_TYPE::GOSM;
+			}
+			else if (newObj->m_sponType == MONSETER_TYPE::TRY)
+			{
+				newObj = new CTry();
+				newObj->m_sponType = MONSETER_TYPE::TRY;
+			}
+			else if (newObj->m_sponType == MONSETER_TYPE::MIRU)
+			{
+				newObj = new CMiru();
+				newObj->m_sponType = MONSETER_TYPE::MIRU;
+			}
+			newObj->m_monsterState = m_monstreState;
+
+			m_targetPos = GETINSTANCE(CKeyManager)->GetMousePos();
 			m_targetPos = GETINSTANCE(CCamera)->GetRealPos(m_targetPos);
-			CGameObject::Instantiate(newObj, m_targetPos, newObj->GetLayer() );
+			CGameObject::Instantiate(newObj, m_targetPos, LAYER::MONSTER );
+
+
+
+
 			//m_mouseState = MOUSE_MODE::NONE;
 			//m_curSelectObj = nullptr;
 		}
@@ -200,3 +300,52 @@ void CObjectEdit::OnTriggerExit(CCollider* _pOhter)
 }
 #pragma endregion
 
+void CObjectEdit ::Save(FILE* pFile)
+{
+	CLevel* lv = GETINSTANCE(CLevelManager)->GetCurLevel();
+
+	//모든벽들
+	const vector<CGameObject*>& monsters = lv->GetLayer(LAYER::MONSTER);	
+
+	UINT size = monsters.size();
+	fwrite(&size, sizeof(UINT), 1, pFile);
+
+	for (size_t i = 0; i < size; i++)
+	{
+		CRockmanMonster* monster = dynamic_cast<CRockmanMonster*>(monsters[i]);
+		assert(monster);
+		MONSETER_TYPE sopneType = monster->m_sponType;
+		fwrite(&sopneType, sizeof(MONSETER_TYPE), 1, pFile);
+		monster->Save(pFile);
+	}
+}
+void CObjectEdit ::Load(FILE* pFile)
+{
+	UINT size;
+
+	fread(&size, sizeof(UINT), 1, pFile);
+	for (size_t i = 0; i < size; i++)
+	{
+		MONSETER_TYPE mtype;
+		fread(&mtype, sizeof(mtype), 1, pFile);
+		CRockmanMonster* monster = nullptr;
+		switch (mtype)
+		{
+		case MONSETER_TYPE::MIRU:
+			monster = new CMiru();
+			break;
+		case MONSETER_TYPE::TRY:
+			monster = new CTry();
+			break;
+		case MONSETER_TYPE::GOSM:
+			monster = new CGosm();
+			break;				
+		}		
+		assert(monster);		
+		
+		monster->m_sponType = mtype;
+		monster->Load(pFile);
+		
+		CGameObject::Instantiate(monster, monster->GetPos(), LAYER::MONSTER);
+	}
+}

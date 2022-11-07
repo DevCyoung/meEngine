@@ -70,7 +70,6 @@ CZero::CZero(const CZero& _other)
 
 	CreatePlayerController();
 	CreateAnimEvent();
-
 }
 
 CZero::~CZero()
@@ -96,14 +95,12 @@ void CZero::init()
 
 void CZero::tick()
 {
-	
-
-	CRockmanObj::tick();
 	if (nullptr != m_animEvent)
 		m_animEvent->tick();
 	if (nullptr != m_playerController)
 		m_playerController->tick();
 
+	CRockmanObj::tick();
 }
 
 

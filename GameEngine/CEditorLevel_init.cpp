@@ -39,6 +39,7 @@ void CEditorLevel::init()
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::WALL, LAYER::PLAYER);
 
 	Load(L"cyber\\test.map");
+	//Load();
 }
 
 //

@@ -5,6 +5,13 @@ class CRockmanObj;
 class CLevel;
 
 
+struct tMonster
+{
+	MONSETER_TYPE		m_sponType;
+	MONSTER_STATE		m_monstreState;
+
+};
+
 
 
 class CObjectEdit :
@@ -17,8 +24,9 @@ private:
 	CCollider*			m_detectObj;
 	CRockmanObj*		m_curSelectObj;
 	MOUSE_MODE			m_mouseState;
+	MONSETER_TYPE		m_sponType;
+	MONSTER_STATE		m_monstreState;
 
-	
 public:
 	void Update();
 
@@ -28,7 +36,7 @@ private:
 public:
 	void CreateUI(CLevel* level);
 	
-	void SelectObject(CRockmanObj* obj);
+	void SelectGameObject(CRockmanObj* obj);
 
 #pragma region VIRTUAL
 	virtual void tick()				override;
@@ -37,6 +45,10 @@ public:
 	virtual void OnTriggerEnter(CCollider* _pOhter);
 	virtual void OnTriggerStay(CCollider* _pOhter);
 	virtual void OnTriggerExit(CCollider* _pOhter);
+
+public:
+	void Save(FILE* pFile);
+	void Load(FILE* pFile);
 #pragma endregion
 
 	

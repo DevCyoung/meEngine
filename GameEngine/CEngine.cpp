@@ -18,6 +18,8 @@
 //그냥 윈도우가 시키는대로하는거임
 //DeleteDC(m_pTexBuffer->GetDC());
 //DeleteObject(m_pTexBuffer->Get);
+
+#include "CSoundMgr.h"
 CTexture* m_pTexuturedd;
 
 CEngine::CEngine()
@@ -60,6 +62,7 @@ void CEngine::Init(HWND _hwnd, UINT _iWidth, UINT _iHeight)
 	GETINSTANCE(CPathManager)->init();
 	GETINSTANCE(CTimeManager)->init();
 	GETINSTANCE(CKeyManager)->init();
+	GETINSTANCE(CSoundMgr)->init();
 	GETINSTANCE(CLevelManager)->init();
 
 

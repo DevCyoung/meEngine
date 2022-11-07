@@ -216,3 +216,20 @@ enum class RAY_FLAG
 	RIGHT_UP   = 0X00000040,
 	RIGHT_DOWN = 0X00000080,
 };
+
+enum class MONSTER_STATE
+{
+	TYPE1,
+	TYPE2,
+	TYPE3,
+	TYPE4,
+	END,
+};
+
+enum class MONSETER_TYPE
+{
+	MIRU,
+	TRY,
+	GOSM,
+	NONE,
+};

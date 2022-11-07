@@ -8,6 +8,9 @@
 #include "CCamera.h"
 #include "CZero.h"
 
+#include "CResourceManager.h"
+#include "CSound.h"
+
 CPlayerAnimEvent::CPlayerAnimEvent(CGameObject* obj)
 	:CComponent(obj)
 	, m_animztor(nullptr)
@@ -142,17 +145,19 @@ void CPlayerAnimEvent::LandDashReady()
 
 void CPlayerAnimEvent::Attack1()
 {
-	m_attackCount = 1;
+	m_attackCount = 1;	
 }
 
 void CPlayerAnimEvent::Attack2()
 {
 	m_attackCount = 2;
+
 }
 
 void CPlayerAnimEvent::Attack3()
 {
 	m_attackCount = 3;
+	
 }
 
 void CPlayerAnimEvent::Idle()

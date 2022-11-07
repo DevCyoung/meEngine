@@ -110,9 +110,9 @@ void CLevel::DeleteAllObject(LAYER _eLayer)
 {
 	for (size_t i = 0; i < m_arrLayer[(UINT)_eLayer].size(); i++)
 	{
-		delete m_arrLayer[(UINT)_eLayer][i];
+		m_arrLayer[(UINT)_eLayer][i]->Destroy();
 	}
-	m_arrLayer[(UINT)_eLayer].clear();
+	//m_arrLayer[(UINT)_eLayer].clear();
 }
 
 //타일새로만듬

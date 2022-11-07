@@ -91,7 +91,7 @@ void CCollider::OnTriggerEnter(CCollider* _pOther)
 		//나
 
 		//WALL이라면
-
+			
 		Vector2 lT1 = GetFinalPos() - GetScale() / 2;
 		Vector2 lT2 = _pOther->GetFinalPos() - _pOther->GetScale() / 2;
 
@@ -101,13 +101,13 @@ void CCollider::OnTriggerEnter(CCollider* _pOther)
 		LAYER tag1 = GetOwner()->GetLayer();
 		LAYER tag2 = _pOther->GetOwner()->GetLayer();
 
-		float left_up_x = max(lT1.x, lT2.x);
-		float left_up_y = max(lT1.y, lT2.y);
+		float left_up_x =    max(lT1.x, lT2.x);
+		float left_up_y =    max(lT1.y, lT2.y);
 		float right_down_x = min(rb1.x, rb2.x);
 		float right_down_y = min(rb1.y, rb2.y);
 
-		float width = right_down_x - left_up_x;
-		float height = right_down_y - left_up_y;
+		float width =  abs(right_down_x - left_up_x);
+		float height = abs(right_down_y - left_up_y);
 
 		UINT id = _pOther->GetOwner()->GetID();
 		map<UINT, COLLIDE_DIR>::iterator iter = m_mapColdir.find(id);
@@ -116,8 +116,11 @@ void CCollider::OnTriggerEnter(CCollider* _pOther)
 			m_mapColdir.insert(make_pair(id, COLLIDE_DIR::NONE));
 			iter = m_mapColdir.find(id);
 		}
+
+
 		CRockmanObj* obj = dynamic_cast<CRockmanObj*>(this->GetOwner());
 		CLineCollider* lineCol = nullptr;
+
 		if (nullptr != obj)
 		{
 			lineCol = obj->m_curLineLand;

@@ -6,6 +6,12 @@ class CLine;
 class CRockmanObj :
     public CGameObject
 {
+
+
+public:
+	MONSETER_TYPE	m_sponType;
+	MONSTER_STATE	m_monsterState;
+
 protected:
     UINT			m_ColDir;
     UINT			m_LineDir;
@@ -41,7 +47,9 @@ public:
 public:
 	CLine* GetLineCollider() { return m_downRay; }
 
+	void CreateRockmanRrigidbody();
 	void CreateLineCollider();
+
 	//box 
 	virtual void OnTriggerEnter(CCollider* _pOhter);
 	virtual void OnTriggerStay(CCollider* _pOhter);

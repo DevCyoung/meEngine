@@ -18,6 +18,8 @@
 void CZero::OnTriggerEnter(CCollider* _pOther)
 {
 	CRockmanObj::OnTriggerEnter(_pOther);
+
+
 }
 
 void CZero::OnTriggerStay(CCollider* _pOther)
@@ -52,6 +54,13 @@ void CZero::OnTriggerEnterUp(CCollider* _pOther)
 
 {
 	CRockmanObj::OnTriggerEnterUp(_pOther);
+
+	Vector2 scale = _pOther->GetScale();
+	Vector2 meScale = GetCollider()->GetScale();
+
+	float dis = scale.y / 2 + meScale.y / 2 - 20.f;
+
+	
 	//GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
 }
 

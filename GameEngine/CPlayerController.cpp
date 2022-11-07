@@ -10,6 +10,9 @@
 #include "CRenderHelper.h"
 #include "CTexture.h"
 #include "CCamera.h"
+
+#include "CResourceManager.h"
+#include "CSound.h"
 int check = 0;
 
 
@@ -38,7 +41,7 @@ CPlayerController::CPlayerController(CGameObject* obj)
 	m_animator = m_zero->GetAnimator();
 	m_state = PLAYER_STATE::IDLE;
 
-	m_moveScale = 280.0f;
+	m_moveScale = 310.0f;
 	m_fallingMoveScale = 220.f;
 	m_dashMoveScale = 1.85f;
 	m_curdashScale = 1.f;
@@ -167,7 +170,7 @@ void CPlayerController::tick()
 	m_zero->GetRigidbody()->SetVelocity(m_velocity);
 	Vector2 camPos = GETINSTANCE(CCamera)->GetLook();
 	camPos.x = pos.x;
-	camPos.y = pos.y;
+	//camPos.y = pos.y;
 	GETINSTANCE(CCamera)->SetLook(camPos);
 }
 
@@ -187,6 +190,9 @@ void CPlayerController::InputTick()
 				m_fallingAttackDelay = 0.f;
 				m_animator->Play(L"FALLINATTACK", false);
 				m_state = PLAYER_STATE::FALLINGATTACK;
+				GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->SetPosition(0);
+				GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->SetVolume(18.f);
+				GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->Play();
 				m_curdashScale = 1.f;
 			}
 		}
@@ -196,6 +202,9 @@ void CPlayerController::InputTick()
 			//m_animator->Play(L"ATTACK1", false);
 			m_attackDelay = 0.f;
 			m_animator->TrigerPlay(L"ATTACK1", false);
+			GETINSTANCE(CResourceManager)->LoadSound(L"ATTACK1", L"sound\\hu.wav")->Play();
+			GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->SetPosition(0);
+			GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->Play();
 			m_state = PLAYER_STATE::LANDATTACK1;
 			m_curdashScale = 1.f;
 		}
@@ -204,6 +213,11 @@ void CPlayerController::InputTick()
 	{
 		if (m_zero->DownColState() && m_state != PLAYER_STATE::FALLING && m_state != PLAYER_STATE::JUMP)
 		{
+			GETINSTANCE(CResourceManager)->LoadSound(L"jump", L"sound\\jump.wav")->SetPosition(0);
+			GETINSTANCE(CResourceManager)->LoadSound(L"jump", L"sound\\jump.wav")->SetVolume(18.f);
+			GETINSTANCE(CResourceManager)->LoadSound(L"jump", L"sound\\jump.wav")->Play();
+
+			
 			
 			check = 0;
 			m_animator->Play(L"JUMPREADY", true);
@@ -212,6 +226,9 @@ void CPlayerController::InputTick()
 		}
 		else if ((IS_INPUT_PRESSED(KEY::LEFT) || IS_INPUT_PRESSED(KEY::RIGHT))  && m_state != PLAYER_STATE::JUMP && m_zero->DownColState() == false && (m_zero->LeftColState() == true || m_zero->RightColState() == true))
 		{
+			GETINSTANCE(CResourceManager)->LoadSound(L"walljump", L"sound\\walljump.wav")->SetPosition(0);
+			GETINSTANCE(CResourceManager)->LoadSound(L"walljump", L"sound\\walljump.wav")->Play();
+			GETINSTANCE(CResourceManager)->LoadSound(L"walljump", L"sound\\walljump.wav")->SetVolume(10.f);
 			m_animator->TrigerPlay(L"WALLJUMPREADY", false);
 			m_velocity.y = 0.f;
 			m_state = PLAYER_STATE::JUMP;
@@ -222,10 +239,14 @@ void CPlayerController::InputTick()
 	{
 		if (m_state == PLAYER_STATE::WALLSLIDE)
 		{
+
 			m_curdashScale = 2.f;
 		}
 		if (m_zero->DownColState() && m_state != PLAYER_STATE::DASH && m_zero->LeftColState() == false && m_zero->RightColState() == false)
 		{
+			GETINSTANCE(CResourceManager)->LoadSound(L"DASH", L"sound\\dash1.wav")->SetPosition(0);
+			GETINSTANCE(CResourceManager)->LoadSound(L"DASH", L"sound\\dash1.wav")->Play();
+			GETINSTANCE(CResourceManager)->LoadSound(L"DASH", L"sound\\dash1.wav")->SetVolume(20.f);
 			m_animator->TrigerPlay(L"DASHREADY", false);
 			//m_curdashScale = m_dashMoveScale;
 			m_state = PLAYER_STATE::DASH;
@@ -342,6 +363,7 @@ void CPlayerController::DashFrame()
 			m_arrDashFrame.push_back(frame);
 		}
 	}
+
 	for (size_t i = 0; i < m_arrDashFrame.size(); i++)
 	{
 		m_arrDashFrame[i].duration += DELTATIME;
@@ -371,6 +393,9 @@ void CPlayerController::render(HDC _dc)
 	CTexture* tex = m_zero->GetAnimator()->GetCurAnimation()->GetAtlas();
 	for (size_t i = 0; i < m_arrDashFrame.size(); i++)
 	{
+		float dist = (m_arrDashFrame[i].pos - m_zero->GetPos()).Length();
+		if (dist <= 20.f)
+			continue;
 		Vector2 renPos = GETINSTANCE(CCamera)->GetRenderPos(m_arrDashFrame[i].pos);
 		CRenderHelper::StretchRender(tex->GetDC(), m_arrDashFrame[i].frame, _dc, renPos, m_zero->GetFilpX());
 	}
@@ -510,18 +535,27 @@ void CPlayerController::Falling()
 	m_fallingAttackDelay += DELTATIME;
 	if (m_zero->DownColState() == true)
 	{
+		GETINSTANCE(CResourceManager)->LoadSound(L"LANDING", L"sound\\landing.wav")->SetPosition(0);
+		GETINSTANCE(CResourceManager)->LoadSound(L"LANDING", L"sound\\landing.wav")->SetVolume(10.f);
+		GETINSTANCE(CResourceManager)->LoadSound(L"LANDING", L"sound\\landing.wav")->Play();
 		m_animator->Play(L"LANDING", false);
 		m_state = PLAYER_STATE::IDLE;
 		m_curdashScale = 1.f;
 	}
 	else if (m_zero->LeftColState() == true && IS_INPUT_PRESSED(KEY::LEFT))
 	{
+		GETINSTANCE(CResourceManager)->LoadSound(L"wallslidecatch", L"sound\\wallslidecatch.wav")->SetPosition(0);
+		GETINSTANCE(CResourceManager)->LoadSound(L"wallslidecatch", L"sound\\wallslidecatch.wav")->Play();
+		GETINSTANCE(CResourceManager)->LoadSound(L"wallslidecatch", L"sound\\wallslidecatch.wav")->SetVolume(4.5f);
 		m_animator->TrigerPlay(L"WALLSLIDEREADY", false);
 		m_state = PLAYER_STATE::WALLSLIDE;
 		m_curdashScale = 1.f;
 	}
 	else if (m_zero->RightColState() == true && IS_INPUT_PRESSED(KEY::RIGHT))
 	{
+		GETINSTANCE(CResourceManager)->LoadSound(L"wallslidecatch", L"sound\\wallslidecatch.wav")->SetPosition(0);
+		GETINSTANCE(CResourceManager)->LoadSound(L"wallslidecatch", L"sound\\wallslidecatch.wav")->Play();
+		GETINSTANCE(CResourceManager)->LoadSound(L"wallslidecatch", L"sound\\wallslidecatch.wav")->SetVolume(4.5f);
 		m_animator->TrigerPlay(L"WALLSLIDEREADY", false);
 		m_state  = PLAYER_STATE::WALLSLIDE;
 		m_curdashScale = 1.f;
@@ -540,6 +574,10 @@ void CPlayerController::LandAttack1()
 	if (IS_INPUT_TAB(KEY::Z) && m_attackDelay >= 0.15f)
 	{
 		m_animator->Play(L"ATTACK2", false);
+		GETINSTANCE(CResourceManager)->LoadSound(L"ATTACK2", L"sound\\ha.wav")->Play();
+		GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->SetPosition(0);
+		GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->SetVolume(18.f);
+		GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->Play();
 		m_state = PLAYER_STATE::LANDATTACK2;
 		m_attackDelay = 0.f;
 	}
@@ -555,6 +593,11 @@ void CPlayerController::LandAttack2()
 	m_attackDelay += DELTATIME;
 	if (IS_INPUT_TAB(KEY::Z) && m_attackDelay >= 0.15f)
 	{
+		
+		GETINSTANCE(CResourceManager)->LoadSound(L"ATTACK3", L"sound\\huo.wav")->Play();
+		GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->SetPosition(0);
+		GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->SetVolume(18.f);
+		GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->Play();
 		m_animator->Play(L"ATTACK3", false);
 		m_state = PLAYER_STATE::LANDATTACK3;
 		m_attackDelay = 0.f;
@@ -599,7 +642,9 @@ void CPlayerController::WallSlide()
 	//	m_animator->Play(L"FALLINGREADY", false);
 	//	m_state = PLAYER_STATE::FALLING;
 	//}
+		
 	
+
 	if (m_zero->DownColState() == false && m_zero->LeftColState() == true)
 	{
 		check = 1;

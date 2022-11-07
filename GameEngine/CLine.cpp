@@ -27,8 +27,8 @@ CLine::~CLine()
 {
 	if (nullptr != m_lineCollider)
 	{
-		/*GETINSTANCE(CLineColManager)->RemoveLine(m_lineCollider);
-		m_lineCollider = nullptr;*/
+		GETINSTANCE(CLineColManager)->RemoveLine(m_lineCollider);
+		m_lineCollider = nullptr;
 	}
 }
 
