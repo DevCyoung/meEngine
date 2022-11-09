@@ -33,13 +33,15 @@ CPlayerController::CPlayerController(CGameObject* obj)
 	,m_fallingAttackDelay(0.f)
 	, m_dashFrameDelay(0.f)
 	, m_dashFrameIdx(0)
+	, m_specialDelay(0.f)
+	, m_isActable(false)
 	
 {
 
 	m_zero = dynamic_cast<CZero*>(obj);
 	assert(m_zero);
 	m_animator = m_zero->GetAnimator();
-	m_state = PLAYER_STATE::IDLE;
+	//m_state = PLAYER_STATE::IDLE;
 
 	m_moveScale = 310.0f;
 	m_fallingMoveScale = 220.f;
@@ -47,6 +49,8 @@ CPlayerController::CPlayerController(CGameObject* obj)
 	m_curdashScale = 1.f;
 	m_jumpScale = -720.f;
 
+
+	//m_state = PLAYER_STATE::ENTER;
 }
 
 CPlayerController::CPlayerController(const CGameObject& _other)
@@ -66,7 +70,8 @@ CPlayerController::CPlayerController(const CGameObject& _other)
 	, m_fallingAttackDelay(0.f)
 	, m_dashFrameDelay(0.f)
 	, m_dashFrameIdx(0)
-	
+	, m_specialDelay(0.f)
+	, m_isActable(false)
 {
 }
 
@@ -77,21 +82,46 @@ CPlayerController::~CPlayerController()
 
 void CPlayerController::tick()
 {
-
 	Vector2 pos = m_zero->GetPos();
 	Vector2 velo = m_zero->GetRigidbody()->GetVelocity();
+
+	
+	if (m_state == PLAYER_STATE::ENTER)
+	{		
+		if (m_zero->DownColState() == true)
+		{
+			m_zero->GetAnimator()->TrigerPlay(L"ENTERZERO", false);
+		}
+		else
+		{
+			pos.y += 800 * DELTATIME;
+			m_zero->SetPos(pos);
+		}
+		//m_state = PLAYER_STATE::IDLE;
+	}
+
+	if (m_state == PLAYER_STATE::RETURN)
+	{
+		pos.y -= 800 * DELTATIME;
+		m_zero->SetPos(pos);
+	}
+
+	if (m_state == PLAYER_STATE::ENTER || m_state == PLAYER_STATE::RETURN)
+		return;
+
+	
 
 	velo.x = 0.f;
 	m_velocity.x = velo.x;
 	m_velocity.y = velo.y;
-	//check = 0;
-	//입력외의 변수들 설정
+	////check = 0;
+	////입력외의 변수들 설정
 	if (m_zero->DownColState() == false && m_state != PLAYER_STATE::FALLING && m_state != PLAYER_STATE::WALLSLIDE && m_state != PLAYER_STATE::JUMP && m_state != PLAYER_STATE::FALLINGATTACK)
 	{
 		if (velo.y > 0.01f)
 		{			
 			m_state = PLAYER_STATE::FALLING;
-			m_animator->TrigerPlay(L"FALLINGREADY", false);
+			m_animator->Play(L"FALLINGREADY", false);
 		}
 	}
 
@@ -100,8 +130,8 @@ void CPlayerController::tick()
 	StateTick();
 
 
-	//Move
-	if (m_state == PLAYER_STATE::WALK || m_state == PLAYER_STATE::JUMP)
+	////Move
+	if (m_state == PLAYER_STATE::WALK || m_state == PLAYER_STATE::JUMP )
 	{
 		m_velocity.x = m_moveScale * m_dir * m_curdashScale;
 	}
@@ -123,7 +153,7 @@ void CPlayerController::tick()
 		pos.y += 200.f * DELTATIME;
 	}
 
-	
+
 
 	if (PLAYER_STATE::JUMP == m_state && INPUT_END_TIME(KEY::X, 0.15f) <= 0.14f && IS_INPUT_PRESSED(KEY::X) && m_zero->DownColState() == false)
 	{
@@ -154,23 +184,14 @@ void CPlayerController::tick()
 			m_velocity.x = -600;
 		}
 	}
-	else
-	{
-		
-		if (m_zero->DownColState() == true)
-		{
-			//m_curdashScale = 1;
-		}
-	}
 
 	DashFrame();
 
-	
 	m_zero->SetPos(pos);
 	m_zero->GetRigidbody()->SetVelocity(m_velocity);
 	Vector2 camPos = GETINSTANCE(CCamera)->GetLook();
 	camPos.x = pos.x;
-	//camPos.y = pos.y;
+	camPos.y = pos.y;
 	GETINSTANCE(CCamera)->SetLook(camPos);
 }
 
@@ -198,7 +219,15 @@ void CPlayerController::InputTick()
 {
 	if (IS_INPUT_TAB(KEY::A))
 	{
-		m_animator->Play(L"THUNDER", false);
+		if (IS_INPUT_PRESSED(KEY::UP))
+		{
+		
+			m_state = PLAYER_STATE::SPECIALATTACK;
+			m_specialDelay = 0.f;
+			m_animator->Play(L"FIREREADY", false);
+		}
+		else
+			m_animator->Play(L"THUNDER", false);
 	}
 	m_fallingAttackDelay += DELTATIME;
 	if (IS_INPUT_TAB(KEY::Z))
@@ -236,16 +265,14 @@ void CPlayerController::InputTick()
 			GETINSTANCE(CResourceManager)->LoadSound(L"jump", L"sound\\jump.wav")->SetPosition(0);
 			GETINSTANCE(CResourceManager)->LoadSound(L"jump", L"sound\\jump.wav")->SetVolume(18.f);
 			GETINSTANCE(CResourceManager)->LoadSound(L"jump", L"sound\\jump.wav")->Play();
-
-			
-			
+	
 			check = 0;
 			m_animator->Play(L"JUMPREADY", true);
 			m_velocity.y = 0.f;
 			m_state = PLAYER_STATE::JUMP;
 		}
 		else if ((IS_INPUT_PRESSED(KEY::LEFT) || IS_INPUT_PRESSED(KEY::RIGHT))  && m_state != PLAYER_STATE::JUMP && m_zero->DownColState() == false && (m_zero->LeftColState() == true || m_zero->RightColState() == true))
-		{
+		{		
 			GETINSTANCE(CResourceManager)->LoadSound(L"walljump", L"sound\\walljump.wav")->SetPosition(0);
 			GETINSTANCE(CResourceManager)->LoadSound(L"walljump", L"sound\\walljump.wav")->Play();
 			GETINSTANCE(CResourceManager)->LoadSound(L"walljump", L"sound\\walljump.wav")->SetVolume(10.f);
@@ -259,7 +286,7 @@ void CPlayerController::InputTick()
 	{
 		if (m_state == PLAYER_STATE::WALLSLIDE)
 		{
-
+			//if (IS_INPUT_PRESSED(KEY::X))
 			m_curdashScale = 2.f;
 		}
 		if (m_zero->DownColState() && m_state != PLAYER_STATE::DASH && m_zero->LeftColState() == false && m_zero->RightColState() == false)

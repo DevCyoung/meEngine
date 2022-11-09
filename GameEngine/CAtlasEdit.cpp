@@ -202,7 +202,6 @@ void CAtlasEdit::Load(FILE* pFile)
 		fread(&playerPos, sizeof(Vector2), 1, pFile);
 		map->m_playerPos.push_back(playerPos);
 	}
-
 	GETINSTANCE(CMapManager)->AddMap(map);
 	GETINSTANCE(CMapManager)->MapCameraSet(0);
 	m_backGround = map;

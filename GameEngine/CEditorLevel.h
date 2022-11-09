@@ -105,6 +105,10 @@ public:
     void Load();
     void Load(const wstring& relativePath);
 
+
+    
+    
+
     //WALLDIR             m_wallDir;
     //Editing Collider
     //CLineCollider*  m_MouseX;

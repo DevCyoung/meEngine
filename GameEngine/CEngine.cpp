@@ -63,10 +63,11 @@ void CEngine::Init(HWND _hwnd, UINT _iWidth, UINT _iHeight)
 	GETINSTANCE(CTimeManager)->init();
 	GETINSTANCE(CKeyManager)->init();
 	GETINSTANCE(CSoundMgr)->init();
+
 	GETINSTANCE(CLevelManager)->init();
 
 
-	GETINSTANCE(CCamera)->SetLook(Vector2(m_ptWndScreenSize.x / 2.f, m_ptWndScreenSize.y / 2.f));
+	//GETINSTANCE(CCamera)->SetLook(Vector2(m_ptWndScreenSize.x / 2.f, m_ptWndScreenSize.y / 2.f));
 	m_pTexuturedd = GETINSTANCE(CResourceManager)->LoadTexture(L"Playerd", L"texture\\c.bmp");
 }
 
@@ -86,6 +87,7 @@ void CEngine::tick()
 {
 	GETINSTANCE(CTimeManager)->tick();
 	GETINSTANCE(CKeyManager)->tick();
+
 	GETINSTANCE(CCamera)->tick();
 
 	GETINSTANCE(CLevelManager)->tick();	
@@ -111,7 +113,12 @@ void CEngine::render()
 	//우리가 지금까지 그림을 그리는건 윈도우가 소유하고있는 비트맵에 그림을 그린거고 우리가 그것을 보고있던것이다.
 
 	Rectangle(m_pTexBuffer->GetDC(), -1, -1, m_pTexBuffer->Width() + 1, m_pTexBuffer->Height() + 1);
+
 	GETINSTANCE(CLevelManager)->render(m_pTexBuffer->GetDC());
+
+	// Camera Blind	
+	GETINSTANCE(CCamera)->render(m_pTexBuffer->GetDC());
+
 	BitBlt(m_hMainDC, 0, 0, m_ptWndScreenSize.x, m_ptWndScreenSize.y, m_pTexBuffer->GetDC(), 0, 0, SRCCOPY);
 
 	//if (LEVEL_MODE == LEVEL_EDITOR)
@@ -175,6 +182,7 @@ void CEngine::WindowReSize(UINT _iWidth, UINT _iHeight)
 	UINT sh = GetSystemMetrics(SM_CYSCREEN);
 	UINT ww = rt.right - rt.left;
 	UINT wh = rt.bottom - rt.top;
+
 	SetWindowPos(m_hMainWnd, nullptr, sw / 2 - ww / 2, sh / 2 - wh / 2, ww, wh, 0);
 
 

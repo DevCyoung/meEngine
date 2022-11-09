@@ -91,20 +91,24 @@ void CObjectEdit::render(HDC _dc)
 		HPEN	hOriginPen = (HPEN)SelectObject(_dc, pen);
 		HBRUSH	hOriginBrush = (HBRUSH)SelectObject(_dc, hNullBrush);
 
-		switch (m_monstreState)
+		CEditorLevel* lv = (CEditorLevel*)GETINSTANCE(CLevelManager)->GetEditorLevel();
+		if (lv->m_eMode == EDITOR_MODE::OBJECT)
 		{
-		case MONSTER_STATE::TYPE1:
-			TextOut(_dc, 10, 10, L"Type1", 5);
-			break;
-		case MONSTER_STATE::TYPE2:
-			TextOut(_dc, 10, 10, L"Type2", 5);
-			break;
-		case MONSTER_STATE::TYPE3:
-			TextOut(_dc, 10, 10, L"Type3", 5);
-			break;
-		case MONSTER_STATE::TYPE4:
-			TextOut(_dc, 10, 10, L"Type4", 5);
-			break;		
+			switch (m_monstreState)
+			{
+			case MONSTER_STATE::TYPE1:
+				TextOut(_dc, 10, 10, L"Type1", 5);
+				break;
+			case MONSTER_STATE::TYPE2:
+				TextOut(_dc, 10, 10, L"Type2", 5);
+				break;
+			case MONSTER_STATE::TYPE3:
+				TextOut(_dc, 10, 10, L"Type3", 5);
+				break;
+			case MONSTER_STATE::TYPE4:
+				TextOut(_dc, 10, 10, L"Type4", 5);
+				break;
+			}
 		}
 
 

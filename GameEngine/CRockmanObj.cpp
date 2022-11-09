@@ -153,8 +153,19 @@ void CRockmanObj::tick()
 			{
 				SetFlipX(true);
 			}
+
+
+
 		}
-		
+		float d = GetRigidbody()->GetGravityScale();
+		if (GetRigidbody()->GetGravityScale() > 1.f)
+		{
+			SetFilpY(false);
+		}
+		else if (GetRigidbody()->GetGravityScale() < 1.f)
+		{
+			SetFilpY(true);
+		}
 	}
 
 	if (nullptr != m_curLineLand)
@@ -293,6 +304,12 @@ void CRockmanObj::OnTriggerExitUp(CCollider* _pOther)
 
 void CRockmanObj::OnTriggerExitDown(CCollider* _pOther)
 {
+
+	if (GetCollider()->GetWallDirState(COLLIDE_DIR::DOWN) > 0)
+	{
+		return;
+	}
+
 	m_ColDir &= ~(UINT)COL_STATE_DIR::DOWN;
 
 	//m_isDownExitState = true;
@@ -307,6 +324,11 @@ void CRockmanObj::OnTriggerExitDown(CCollider* _pOther)
 
 void CRockmanObj::OnTriggerExitLeft(CCollider* _pOther)
 {
+	if (GetCollider()->GetWallDirState(COLLIDE_DIR::LEFT) > 0)
+	{
+		return;
+	}
+
 	m_ColDir &= ~(UINT)COL_STATE_DIR::LEFT;
 	if (nullptr == GetRigidbody())
 		return;
@@ -317,6 +339,10 @@ void CRockmanObj::OnTriggerExitLeft(CCollider* _pOther)
 
 void CRockmanObj::OnTriggerExitRight(CCollider* _pOther)
 {
+	if (GetCollider()->GetWallDirState(COLLIDE_DIR::RIGHT) > 0)
+	{
+		return;
+	}
 	m_ColDir &= ~(UINT)COL_STATE_DIR::RIGHT;
 	if (nullptr == GetRigidbody())
 		return;

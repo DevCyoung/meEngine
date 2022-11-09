@@ -2,6 +2,7 @@
 #include "CRockmanObj.h"
 #include "CRaycast.h"
 #include "CPlayerAnimEvent.h"
+#include "CPlayerController.h"
 
 enum class ZEROSTATE
 {
@@ -92,7 +93,8 @@ public:
 
 
 	UINT	GetAttackState() { return m_animEvent->m_attackCount; }
-
+	void			SetState(PLAYER_STATE state) { m_playerController->SetState(state); }
+	PLAYER_STATE	GetState() { m_playerController->GetState(); }
 public:
 	CLONE(CZero);
 

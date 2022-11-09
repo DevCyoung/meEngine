@@ -105,7 +105,6 @@ void CGameObject::render(HDC _dc)
 
 	if (nullptr != m_pRigidbody)
 		m_pRigidbody->render(_dc);
-
 }
 
 void CGameObject::CreateCollider()

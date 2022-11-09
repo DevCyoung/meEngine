@@ -5,6 +5,7 @@
 #include "CGameObject.h"
 #include "CLineCollider.h"
 #include "CRaycast.h"
+#include "CKeyManager.h"
 
 CLineColManager::CLineColManager()
 	:m_matrix{}
@@ -21,6 +22,7 @@ CLineColManager::~CLineColManager()
 
 void CLineColManager::tick()
 {
+
 	for (UINT iRow = 0; iRow < (UINT)LINELAYER::END; iRow++)
 	{
 		for (UINT iCol = iRow; iCol < (UINT)LINELAYER::END; iCol++)

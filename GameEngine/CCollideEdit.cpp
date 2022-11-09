@@ -13,9 +13,13 @@
 
 #include "CWall.h"
 #include "CLine.h"
+#include "CNextArea.h"
+#include "CDoor1.h"
+#include "CDoor2.h"
 
 #include "CLineCollider.h"
-
+#include "CLevel.h"
+#include "CEventBox.h"
 
 CCollideEdit::CCollideEdit()
 	: m_detectBox(nullptr)
@@ -25,9 +29,9 @@ CCollideEdit::CCollideEdit()
 	, m_rightbottom{}
 	, m_curMakeWall(nullptr)
 	, m_curColLine(nullptr)
-	, m_editMode(COLIDE_EIDT_MODE::BOX)
+	, m_editMode(COLIDE_EIDT_MODE::LINE)
 	, m_mouseX(nullptr)
-	, m_mouseY(nullptr)
+	, m_mouseY(nullptr)	
 {
 	CreateCollider();
 	GetCollider()->SetScale(Vector2(50.f, 50.f));
@@ -60,7 +64,7 @@ CCollideEdit::CCollideEdit(const CCollideEdit& _other)
 	, m_rightbottom{}
 	, m_curMakeWall(nullptr)
 	, m_curColLine(nullptr)
-	, m_editMode(COLIDE_EIDT_MODE::BOX)
+	, m_editMode(COLIDE_EIDT_MODE::WALL)
 {
 }
 
@@ -83,6 +87,15 @@ void CCollideEdit::tick()
 	Vector2 myPos1 = GETINSTANCE(CCamera)->GetRealMousePos() - Vector2(0.f, 30.f);
 	m_mouseX->GetLineCollider()->TranslateSetPos(mxPos1);
 	m_mouseY->GetLineCollider()->TranslateSetPos(myPos1);
+
+	if (IS_INPUT_TAB(KEY::TAB))
+	{
+		UINT a = (UINT)m_editMode;
+		++a;
+		a %= (UINT)COLIDE_EIDT_MODE::END;
+		m_editMode = (COLIDE_EIDT_MODE)a;
+	}
+
 }
 
 #pragma region render
@@ -104,7 +117,7 @@ void CCollideEdit::render(HDC _dc)
 	}
 	Vector2 lt = GETINSTANCE(CCamera)->GetRenderPos(m_leftTop);
 	Vector2 rb = GETINSTANCE(CCamera)->GetRenderPos(m_rightbottom);
-	if (m_mouseMode == MOUSE_MODE::ONEDOWN && m_editMode == COLIDE_EIDT_MODE::BOX)
+	if (m_mouseMode == MOUSE_MODE::ONEDOWN && (m_editMode == COLIDE_EIDT_MODE::WALL || m_editMode == COLIDE_EIDT_MODE::BOSSDOOR1BOX || m_editMode == COLIDE_EIDT_MODE::BOSSDOOR2BOX || m_editMode == COLIDE_EIDT_MODE::NEXTAREAEBOX))
 	{
 		
 		Rectangle
@@ -123,72 +136,31 @@ void CCollideEdit::render(HDC _dc)
 		LineTo(_dc, rb.x, rb.y);
 	}
 
-	//충돌체를 그린다.
-	// 
-	//Vector2 vPos = GetOwner()->GetPos();
+	//문자열
 
-	//Rectangle(_dc, (int)(vPos.x - m_vScale.x / 2)
-	//	, (int)(vPos.y - m_vScale.y / 2)
-	//	, (int)(vPos.x + m_vScale.x / 2)
-	//	, (int)(vPos.y + m_vScale.y / 2));
+	CEditorLevel* lv = (CEditorLevel*)GETINSTANCE(CLevelManager)->GetEditorLevel();
+	if (lv->m_eMode == EDITOR_MODE::COLLIDE)
+	{
+		switch (m_editMode)
+		{
+		case COLIDE_EIDT_MODE::WALL:
+			TextOut(_dc, 10, 10, L"WALL", 4);
+			break;
+		case COLIDE_EIDT_MODE::LINE:
+			TextOut(_dc, 10, 10, L"LINE", 4);
+			break;
+		case COLIDE_EIDT_MODE::NEXTAREAEBOX:
+			TextOut(_dc, 10, 10, L"NEXTAREAE", 9);
+			break;
+		case COLIDE_EIDT_MODE::BOSSDOOR1BOX:
+			TextOut(_dc, 10, 10, L"BOSSDOOR1", 9);
+			break;
+		case COLIDE_EIDT_MODE::BOSSDOOR2BOX:
+			TextOut(_dc, 10, 10, L"BOSSDOOR2", 9);
+			break;
+		}
+	}
 
-	//if (m_eMode == EDITOR_MODE::LINECOLLIDER)
-	//{
-	//	HPEN hPen = nullptr;
-	//	Vector2 mousePos = GETINSTANCE(CKeyManager)->GetMousePos();
-	//	//mousePos = GETINSTANCE(CCamera)->GetRealPos(mousePos);
-
-	//	Vector2 p1;
-	//	Vector2 p2;
-	//	switch (m_wallDir)
-	//	{
-	//	case WALLDIR::LEFT:
-	//	{
-	//		hPen = GETINSTANCE(CEngine)->GetPen(PEN_TYPE::BLACK);
-	//		p1.x = mousePos.x - 40.f;
-	//		p1.y = mousePos.y - 40.f;
-	//		p2.x = mousePos.x - 40.f;
-	//		p2.y = mousePos.y + 40.f;
-	//	}
-	//	break;
-	//	case WALLDIR::UP:
-	//	{
-	//		hPen = GETINSTANCE(CEngine)->GetPen(PEN_TYPE::BLUE);
-	//		p1.x = mousePos.x - 40.f;
-	//		p1.y = mousePos.y - 40.f;
-	//		p2.x = mousePos.x + 40.f;
-	//		p2.y = mousePos.y - 40.f;
-	//	}
-	//	break;
-	//	case WALLDIR::RIGHT:
-	//	{
-	//		hPen = GETINSTANCE(CEngine)->GetPen(PEN_TYPE::ORANGE);
-	//		p1.x = mousePos.x + 40.f;
-	//		p1.y = mousePos.y - 40.f;
-	//		p2.x = mousePos.x + 40.f;
-	//		p2.y = mousePos.y + 40.f;
-	//	}
-	//	break;
-	//	case WALLDIR::DOWN:
-	//	{
-	//		hPen = GETINSTANCE(CEngine)->GetPen(PEN_TYPE::GREEN);
-	//		p1.x = mousePos.x - 40.f;
-	//		p1.y = mousePos.y + 40.f;
-	//		p2.x = mousePos.x + 40.f;
-	//		p2.y = mousePos.y + 40.f;
-	//	}
-	//	break;
-	//	}
-	//
-	//	HPEN	hOriginPen = (HPEN)SelectObject(_dc, hPen);
-	//	
-	//	
-	//	MoveToEx(_dc, p1.x, p1.y, nullptr);
-	//	LineTo(_dc, p2.x, p2.y);
-
-	//	//원래대로 되돌려놓기
-	//	SelectObject(_dc, hOriginPen);
-	//}
 
 }
 #pragma endregion
@@ -246,7 +218,7 @@ void CCollideEdit::Update()
 
 	if (IS_INPUT_TAB(KEY::O))
 	{
-		m_editMode = COLIDE_EIDT_MODE::BOX;
+		m_editMode = COLIDE_EIDT_MODE::WALL;
 	}
 	else if (IS_INPUT_TAB(KEY::P))
 	{
@@ -282,13 +254,37 @@ void CCollideEdit::Update()
 			m_curColLine = nullptr;
 		}
 		break;
-		case COLIDE_EIDT_MODE::BOX:
+		case COLIDE_EIDT_MODE::WALL:
 		{
 			m_curMakeWall = new CWall();
 			CLevel* lv = GETINSTANCE(CLevelManager)->GetCurLevel();
 			lv->AddObject(m_curMakeWall, LAYER::WALL);
 			m_curMakeWall->ResizeCollider(m_leftTop, m_rightbottom);
 			m_curMakeWall = nullptr;
+		}	
+		break;
+		case COLIDE_EIDT_MODE::NEXTAREAEBOX:
+		{			
+			CLevel* lv = GETINSTANCE(CLevelManager)->GetCurLevel();
+			CNextArea* a = new CNextArea();
+			a->ResizeCollider(m_leftTop, m_rightbottom);
+			lv->AddObject(a, LAYER::EVENT);			
+		}
+		break;
+		case COLIDE_EIDT_MODE::BOSSDOOR1BOX:
+		{
+			CLevel* lv = GETINSTANCE(CLevelManager)->GetCurLevel();
+			CDoor1* a = new CDoor1();
+			a->ResizeCollider(m_leftTop, m_rightbottom);
+			lv->AddObject(a, LAYER::EVENT);
+		}
+		break;
+		case COLIDE_EIDT_MODE::BOSSDOOR2BOX:
+		{
+			CLevel* lv = GETINSTANCE(CLevelManager)->GetCurLevel();
+			CDoor2* a = new CDoor2();
+			a->ResizeCollider(m_leftTop, m_rightbottom);
+			lv->AddObject(a, LAYER::EVENT);
 		}
 		break;
 		}
@@ -377,8 +373,9 @@ void CCollideEdit::Save(FILE* pFile)
 	CLevel* lv = GETINSTANCE(CLevelManager)->GetCurLevel();
 
 	//모든벽들
-	const vector<CGameObject*>& lineOjs = lv->GetLayer(LAYER::LINE);
-	const vector<CGameObject*>& WallOjs = lv->GetLayer(LAYER::WALL);
+	const vector<CGameObject*>& lineOjs  = lv->GetLayer(LAYER::LINE);
+	const vector<CGameObject*>& WallOjs  = lv->GetLayer(LAYER::WALL);
+	const vector<CGameObject*>& eventOjs = lv->GetLayer(LAYER::EVENT);
 
 	UINT size = lineOjs.size();
 	fwrite(&size, sizeof(UINT), 1, pFile);
@@ -398,6 +395,18 @@ void CCollideEdit::Save(FILE* pFile)
 		CWall* wall = dynamic_cast<CWall*>(WallOjs[i]);
 		assert(wall);
 		wall->Save(pFile);
+	}
+
+	size = eventOjs.size();
+	fwrite(&size, sizeof(UINT), 1, pFile);
+
+	for (size_t i = 0; i < size; i++)
+	{
+		CEventBox* evt = dynamic_cast<CEventBox*>(eventOjs[i]);
+		assert(evt);
+		COLIDE_EIDT_MODE cem = evt->m_mode;
+		fwrite(&cem, sizeof(COLIDE_EIDT_MODE), 1, pFile);
+		evt->Save(pFile);
 	}
 }
 
@@ -422,6 +431,31 @@ void CCollideEdit::Load(FILE* pFile)
 		assert(wall);
 		wall->Load(pFile);
 		CGameObject::Instantiate(wall, wall->GetPos(), LAYER::WALL);
+	}
+
+	fread(&size, sizeof(UINT), 1, pFile);
+	for (size_t i = 0; i < size; i++)
+	{
+		COLIDE_EIDT_MODE cem;
+		fread(&cem, sizeof(COLIDE_EIDT_MODE), 1, pFile);
+		CEventBox* envBox = nullptr;
+		switch (cem)
+		{		
+		case COLIDE_EIDT_MODE::NEXTAREAEBOX:
+			envBox = new CNextArea();
+			break;
+		case COLIDE_EIDT_MODE::BOSSDOOR1BOX:
+			envBox = new CDoor1();
+			break;
+		case COLIDE_EIDT_MODE::BOSSDOOR2BOX:
+			envBox = new CDoor2();
+			break;		
+		default:
+			assert(envBox);
+			break;
+		}		
+		envBox->Load(pFile);
+		CGameObject::Instantiate(envBox, envBox->GetPos(), LAYER::EVENT);
 	}
 }
 

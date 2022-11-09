@@ -6,6 +6,8 @@
 #include "CStartLevel.h"
 #include "CEditorLevel.h"
 #include "CCollisionLevel.h"
+#include "CCyberspaceLevel.h"
+#include "CCyberspaceLevel2.h"
 
 CLevelManager::CLevelManager()
 	: m_pCurLevel(nullptr)
@@ -32,15 +34,12 @@ void CLevelManager::init()
 	m_arrLevel[(UINT)LEVEL_TYPE::START] = new CStartLevel;
 	m_arrLevel[(UINT)LEVEL_TYPE::EDITOR] = new CEditorLevel;
 	m_arrLevel[(UINT)LEVEL_TYPE::COLLISION] = new CCollisionLevel;
-	
 
-	//m_pCurLevel->init();
-	
-	/*if (LEVEL_MODE == LEVEL_EDITOR)
-		this->LoadLevelEvent(LEVEL_TYPE::EDITOR);
-	else if(LEVEL_MODE == LEVEL_GAME)
-		this->LoadLevelEvent(LEVEL_TYPE::TITLE);*/
-	this->LoadLevelEvent(LEVEL_TYPE::EDITOR);
+	m_arrLevel[(UINT)LEVEL_TYPE::CYBERSPACE] = new CCyberspaceLevel;
+	m_arrLevel[(UINT)LEVEL_TYPE::CYBERSPACE2] = new CCyberspaceLevel2;
+
+	this->LoadLevelEvent(LEVEL_TYPE::CYBERSPACE2);
+
 }
 
 void CLevelManager::tick()
@@ -79,3 +78,4 @@ void CLevelManager::LoadLevelEvent(LEVEL_TYPE type)
 	m_pCurLevel = m_arrLevel[(UINT)type];
 	m_pCurLevel->Enter();	
 }
+

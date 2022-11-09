@@ -4,6 +4,7 @@
 #include "CLevelManager.h"
 #include "CGameObject.h"
 #include "CCollider.h"
+#include "CKeyManager.h"
 
 CCollisionManager::CCollisionManager()
 	: m_matrix{}
@@ -17,6 +18,7 @@ CCollisionManager::~CCollisionManager()
 
 void CCollisionManager::tick()
 {
+	
 	//CLevel* pCurLevel = (CLevel*)GETINSTANCE(CLevelManager)->GetCurLevel();
 
 	for (UINT iRow = 0; iRow < (UINT)LAYER::END; iRow++)

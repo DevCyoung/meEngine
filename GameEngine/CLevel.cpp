@@ -3,6 +3,9 @@
 #include "CGameObject.h"
 #include "CTile.h"
 #include "CLineColManager.h"
+#include "CKeyManager.h"
+#include "CCollisionManager.h"
+#include "CLineColManager.h"
 
 CLevel::CLevel()
 {
@@ -31,6 +34,17 @@ void CLevel::tick()
 			m_arrLayer[i][j]->tick();
 		}
 	}
+
+	//여기서관리
+	if (IS_INPUT_TAB(KEY::N))
+	{
+		GETINSTANCE(CCollisionManager)->ChangeDrawCollide();
+	}
+	if (IS_INPUT_TAB(KEY::M))
+	{
+		GETINSTANCE(CLineColManager)->ChangeDrawCollide();
+	}
+
 }
 
 

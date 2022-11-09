@@ -119,6 +119,13 @@ struct tAnimEvent
 	CEntity*	instance;
 };
 
+struct tBoxEvent
+{
+	//내가추가함
+	DELEGATE        func;
+	CEntity* instance;
+};
+
 struct tFixedEvent
 {
 	DELEGATE        func;
@@ -161,4 +168,12 @@ union UNIONCOLOR32
 		UCHAR R;
 	};
 	DWORD COLOR;
+};
+struct tTexAnim
+{
+	Vector2 vLeftTop;
+	Vector2 vSize;
+	Vector2 vDestSize;
+	float   fDuration;
+	float	fDestDuration;
 };

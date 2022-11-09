@@ -30,6 +30,7 @@ public:
     void AddForce(Vector2 _vForce) { m_vForce += _vForce; }
     void SetVelocityLimit(float _fLimit) { m_fVelocityLimit = _fLimit; }
     void SetGravityVelocityLimit(float _fLimit) { m_fGravityVLimit = _fLimit; }
+    float GetGravityScale() { return m_fGravityAccel; }
 
     void SetVelocity(Vector2 _vVelocity) { m_vVelocity = _vVelocity; }
     Vector2 GetVelocity() { return m_vVelocity; }

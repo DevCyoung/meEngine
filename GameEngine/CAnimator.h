@@ -13,6 +13,7 @@ private:
     map<wstring, CAnimation*>       m_mapAnim;
     CAnimation*                     m_pCurAnim;
     bool                            m_bRepeat;
+    bool                            m_bReverse;
 
 public:
     virtual void tick() override;
@@ -32,7 +33,8 @@ public:
     //my
 public:
     void SetAnimFrameFunc(const wstring& _animName, int _iFrameNum, CGameObject* _obj, DELEGATE _delegate);
-    bool GetFinished();
+    void SetReverse(bool m_rev) { m_bReverse = m_rev; }
+    bool GetReverse() { return m_bReverse; }
 
 
 public:

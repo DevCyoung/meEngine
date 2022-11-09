@@ -28,6 +28,19 @@ void CEventManager::tick()
 	}
 	m_vecGarbage.clear();
 
+	//박스 이벤트 실행
+	for (size_t i = 0; i < m_vecBoxEvent.size(); i++)
+	{
+		tBoxEvent env = m_vecBoxEvent[i];
+
+		if (env.instance && env.func)
+		{
+			(env.instance->*env.func)();
+		}
+	}
+
+	
+
 	//애니메이션 이벤트 실행
 	for (size_t i = 0; i < m_vecAnimEvent.size(); i++)
 	{
@@ -92,4 +105,5 @@ void CEventManager::tick()
 
 	m_vecAnimEvent.clear();
 	m_vecEvent.clear();
+	m_vecBoxEvent.clear();
 }

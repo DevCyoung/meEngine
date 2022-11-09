@@ -17,7 +17,8 @@ class CCamera
 private:
 	Vector2				m_vLook;
 	Vector2				m_vDiff;
-	CTexture* m_pBlindTex;
+	CTexture*			m_pBlindTex;
+	
 
 	list<tCamEffect>	m_CamEffectList;
 	float				m_fRatio;

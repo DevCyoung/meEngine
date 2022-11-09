@@ -26,7 +26,8 @@ public:
 
 	bool					m_isDraw;
 public:
-	void SetDrawCollide(bool b) { m_isDraw= b; }
+	//void SetDrawCollide(bool b) { m_isDraw= b; }
+	void ChangeDrawCollide() { m_isDraw = !m_isDraw; }
 	bool GetDrawCollide() { return m_isDraw; }
 
 public:

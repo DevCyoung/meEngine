@@ -38,8 +38,7 @@ void CEditorLevel::init()
 	//CTexture* cyberMap = GETINSTANCE(CResourceManager)->LoadTexture(L"Panel", L"texture\\OakUI.bmp");
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::WALL, LAYER::PLAYER);
 
-	Load(L"cyber\\test.map");
-	//Load();
+
 }
 
 //

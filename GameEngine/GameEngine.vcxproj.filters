@@ -215,6 +215,24 @@
     <Filter Include="Game\Level\RockmanLevel\Cyberspace">
       <UniqueIdentifier>{dcd7a137-37cd-4b39-8ca8-58c004ecefb9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\TextureAnimation">
+      <UniqueIdentifier>{075542a3-c35e-4eea-9e07-b236efa274b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\RockMan\EventBox">
+      <UniqueIdentifier>{0a41175f-7f31-487c-858d-da89d40f2ba3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\RockMan\EventBox\EventBox">
+      <UniqueIdentifier>{a2c34763-12ed-4837-84b2-69cb552577c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\RockMan\EventBox\NextArea">
+      <UniqueIdentifier>{a05b1f9c-3146-4560-bd5d-185ba6ef0e72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\RockMan\EventBox\Door1">
+      <UniqueIdentifier>{6ff61d92-953b-4e41-9f89-05ff3310df64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\RockMan\EventBox\Dorr2">
+      <UniqueIdentifier>{b3b64581-bad3-424b-8fb5-1461069e2386}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -408,6 +426,27 @@
     </ClInclude>
     <ClInclude Include="CRockmanLevel.h">
       <Filter>Game\Level\RockmanLevel\Cyberspace</Filter>
+    </ClInclude>
+    <ClInclude Include="CTextureAnim.h">
+      <Filter>Game\TextureAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="CCyberspaceLevel.h">
+      <Filter>Game\Level\RockmanLevel\Cyberspace</Filter>
+    </ClInclude>
+    <ClInclude Include="CCyberspaceLevel2.h">
+      <Filter>Game\Level\RockmanLevel\Cyberspace</Filter>
+    </ClInclude>
+    <ClInclude Include="CEventBox.h">
+      <Filter>Game\RockMan\EventBox\EventBox</Filter>
+    </ClInclude>
+    <ClInclude Include="CNextArea.h">
+      <Filter>Game\RockMan\EventBox\NextArea</Filter>
+    </ClInclude>
+    <ClInclude Include="CDoor1.h">
+      <Filter>Game\RockMan\EventBox\Door1</Filter>
+    </ClInclude>
+    <ClInclude Include="CDoor2.h">
+      <Filter>Game\RockMan\EventBox\Dorr2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -634,6 +673,27 @@
     </ClCompile>
     <ClCompile Include="CRockmanLevel.cpp">
       <Filter>Game\Level\RockmanLevel\Cyberspace</Filter>
+    </ClCompile>
+    <ClCompile Include="CTextureAnim.cpp">
+      <Filter>Game\TextureAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="CCyberspaceLevel.cpp">
+      <Filter>Game\Level\RockmanLevel\Cyberspace</Filter>
+    </ClCompile>
+    <ClCompile Include="CCyberspaceLevel2.cpp">
+      <Filter>Game\Level\RockmanLevel\Cyberspace</Filter>
+    </ClCompile>
+    <ClCompile Include="CEventBox.cpp">
+      <Filter>Game\RockMan\EventBox\EventBox</Filter>
+    </ClCompile>
+    <ClCompile Include="CNextArea.cpp">
+      <Filter>Game\RockMan\EventBox\NextArea</Filter>
+    </ClCompile>
+    <ClCompile Include="CDoor1.cpp">
+      <Filter>Game\RockMan\EventBox\Door1</Filter>
+    </ClCompile>
+    <ClCompile Include="CDoor2.cpp">
+      <Filter>Game\RockMan\EventBox\Dorr2</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

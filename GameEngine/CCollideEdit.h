@@ -4,14 +4,9 @@
 class CCollider;
 class CWall;
 class CLine;
+class CNextArea;
 
-enum class COLIDE_EIDT_MODE
-{
-	NONE,
-	LINE,
-	BOX,
-	END,
-};
+
 
 class CCollideEdit :
 	public CGameObject
@@ -27,6 +22,7 @@ public:
 	//BoxCollide Mode
 	CCollider*			m_detectBox;
 	CWall*				m_curMakeWall;
+	
 
 	//LineCollide Mode
 	CLineCollider*		m_detectColLine;
@@ -35,6 +31,8 @@ public:
 	CLine*				m_mouseY;
 
 	COLIDE_EIDT_MODE	m_editMode;
+
+
 	virtual void tick() override;
 	//virtual void fixed_tick() override;
 	virtual void render(HDC _dc) override;

@@ -16,6 +16,7 @@
 
 #include "CEngine.h"
 #include "CRenderHelper.h"
+#include "CCollisionManager.h"
 
 CAnimation::CAnimation(CAnimator* _pAnimator)
 	: m_pAnimator(_pAnimator)
@@ -68,6 +69,11 @@ void CAnimation::tick()
 			GETINSTANCE(CEventManager)->AddEvent(env);
 		}
 
+		if (m_pAnimator->GetReverse() == true)
+		{
+
+		}
+
 		++m_iCurFrm;
 		m_fAccTime = 0.f;
 
@@ -118,10 +124,14 @@ void CAnimation::render(HDC _dc)
 		vPos.y,
 		frame.vOffset.x,
 		frame.vOffset.y,
-		pOwnerObj->GetFilpX()
+		pOwnerObj->GetFilpX(),
+		pOwnerObj->GetFilpY()
 	);
 
-	CRenderHelper::StretchRenderCollider(_dc, frame, vPos, pOwnerObj->GetFilpX());
+	if (GETINSTANCE(CCollisionManager)->GetDrawCollide() == true)
+	{
+		CRenderHelper::StretchRenderCollider(_dc, frame, vPos, pOwnerObj->GetFilpX());
+	}
 }
 
 

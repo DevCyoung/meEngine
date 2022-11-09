@@ -59,7 +59,7 @@ void CTitleLevel::init()
 	pColMgr->LayerRegister(LAYER::PLAYER_PROJECTILE, LAYER::MONSTER);
 	*/
 
-	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::PLAYER, LAYER::PLATFORM);
+	//GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::PLAYER, LAYER::PLATFORM);
 }
 
 void CTitleLevel::tick()

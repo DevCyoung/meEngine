@@ -7,6 +7,7 @@ CAnimator::CAnimator(CGameObject* _pOwner)
 	: CComponent(_pOwner)
 	, m_pCurAnim(nullptr)
 	, m_bRepeat(false)
+	, m_bReverse(false)
 {
 
 }
@@ -15,6 +16,7 @@ CAnimator::CAnimator(const CAnimator& _other)
 	: CComponent(_other)
 	, m_pCurAnim(_other.m_pCurAnim)
 	, m_bRepeat(_other.m_bRepeat)
+	, m_bReverse(false)
 {
 	map<wstring, CAnimation*>::const_iterator iter = _other.m_mapAnim.begin();
 	for (; iter != _other.m_mapAnim.end(); ++iter)

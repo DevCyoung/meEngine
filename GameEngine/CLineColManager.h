@@ -32,9 +32,9 @@ private:
 
 	bool					m_isDraw;
 public:
-	void SetDrawCollide(bool b) { m_isDraw = b; }
+	//void SetDrawCollide(bool b) { m_isDraw = b; }
 	bool GetDrawCollide() { return m_isDraw; }
-
+	void ChangeDrawCollide() { m_isDraw = !m_isDraw; }
 public:
 	void LayerRegister(LINELAYER _left, LINELAYER _right);
 	void Clear() { memset(m_matrix, sizeof(WORD), (UINT)LINELAYER::END); }

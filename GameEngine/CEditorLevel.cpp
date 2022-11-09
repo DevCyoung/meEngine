@@ -56,10 +56,13 @@ CEditorLevel::CEditorLevel()
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::PLAYER);
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::MONSTER);
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::OBJECT);
+	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::EVENT);
 
 
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MONSTER, LAYER::WALL);
-
+	Load(L"cyber\\addeventppap2.map");
+	//Load(L"cyber\\area2.map");
+	//Load();
 }
 
 
@@ -162,9 +165,9 @@ void CEditorLevel::Load(const wstring& relativePath)
 	m_collideEditor->Load(pFile);
 	m_objectEditor->Load(pFile);
 
-
 	fclose(pFile);
 }
+
 void CEditorLevel::tick()
 {
 	//직접구현했으면 틱돌게햐아함

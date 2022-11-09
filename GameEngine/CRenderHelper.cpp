@@ -23,6 +23,8 @@ void CRenderHelper::StretchRender(HDC HDCsource, int leftX, int leftY, int sizeX
 	HBITMAP hPrebit = (HBITMAP)SelectObject(HDCbuffer, HBITMAPbuffer);
 	DeleteObject(hPrebit);
 
+	
+
 
 	if (isFlip)
 	{
@@ -93,6 +95,87 @@ void CRenderHelper::StretchRender(HDC HDCsource, int leftX, int leftY, int sizeX
 	DeleteDC(HDCbuffer);
 }
 
+void CRenderHelper::StretchRender(HDC HDCsource, int leftX, int leftY, int sizeX, int sizeY, HDC HDCdest, int posX, int posY, int offsetX, int offsetY, bool isFlipX, bool isFlipY)
+{
+	HDC		HDCbuffer = CreateCompatibleDC(HDCdest);
+	HBITMAP HBITMAPbuffer = CreateCompatibleBitmap(HDCdest, sizeX * WINDOWX_PER_X, sizeY * WINDOWX_PER_Y);
+
+	HBITMAP hPrebit = (HBITMAP)SelectObject(HDCbuffer, HBITMAPbuffer);
+	DeleteObject(hPrebit);
+
+	Vector2 vStretchLeft = {};
+	Vector2 vStretchSize = {};
+
+	Vector2 vTransLeft = {};
+	
+			
+	if (isFlipX)
+	{
+		vStretchLeft.x = sizeX * WINDOWX_PER_X - 1;		
+		vStretchSize.x = -sizeX * WINDOWX_PER_X;
+
+		vTransLeft.x = posX - (int)(sizeX * WINDOWX_PER_X + offsetX * WINDOWX_PER_X) / 2;
+		
+	}
+	else
+	{
+		vStretchLeft.x = 0.f;
+		vStretchSize.x = sizeX * WINDOWX_PER_X;
+
+		vTransLeft.x = posX - (int)(sizeX * WINDOWX_PER_X - offsetX * WINDOWX_PER_X) / 2;
+		
+	}
+	//isFlipY = true;
+	if (isFlipY)
+	{
+		vStretchLeft.y =  sizeY * WINDOWX_PER_Y - 1;
+		vStretchSize.y = -sizeY * WINDOWX_PER_Y;
+
+		vTransLeft.y = posY - (int)(sizeY * WINDOWX_PER_Y - offsetY * WINDOWX_PER_Y) / 2;
+	}
+	else
+	{
+		vStretchLeft.y = 0.f;
+		vStretchSize.y = sizeY * WINDOWX_PER_Y;
+
+		vTransLeft.y = posY - (int)(sizeY * WINDOWX_PER_Y - offsetY * WINDOWX_PER_Y) / 2;
+	}
+
+	StretchBlt
+	(
+		HDCbuffer
+		, vStretchLeft.x
+		, vStretchLeft.y
+		, (int)vStretchSize.x
+		, (int)vStretchSize.y
+		, HDCsource
+		, (int)(leftX)
+		, (int)(leftY)
+		, (int)(sizeX)
+		, (int)(sizeY)
+		, SRCCOPY
+	);
+
+	TransparentBlt
+	(
+		HDCdest
+		, (int)vTransLeft.x
+		, (int)vTransLeft.y
+		, int(sizeX * WINDOWX_PER_X)
+		, int(sizeY * WINDOWX_PER_Y)
+		, HDCbuffer
+		, 0
+		, 0
+		, int(sizeX * WINDOWX_PER_X)
+		, int(sizeY * WINDOWX_PER_Y)
+		, RGB(255, 0, 255)
+	);
+
+
+	DeleteObject(HBITMAPbuffer);
+	DeleteDC(HDCbuffer);
+}
+
 void CRenderHelper::StretchRender(HDC HDCsource, tAnimFrm& frame, HDC HDCdest, Vector2 realPos, bool isFlip)
 {
 	//Vector2 pos = GETINSTANCE(CCamera)->GetRenderPos(realPos);
@@ -137,6 +220,8 @@ void CRenderHelper::StretchRender(HDC HDCsource, tAnimFrm& frame, HDC HDCdest, V
 	DeleteObject(HBITMAPbuffer);
 	DeleteDC(HDCbuffer);
 }
+
+
 
 void CRenderHelper::StretchBlit(HDC HDCsource, tAnimFrm& frame, HDC HDCdest, bool isFlip)
 {
@@ -195,8 +280,86 @@ void CRenderHelper::StretchRender(HDC dest, CTexture* texture, Vector2 Pos)
 		, texture->Height()
 		, SRCCOPY
 	);
+
 }
 
+void CRenderHelper::StretchRenderOnePer(HDC dest, CTexture* texture, Vector2 pos)
+{
+	TransparentBlt
+	(
+		dest,
+		pos.x - texture->Width() / 2 ,
+		pos.y - texture->Height() / 2,
+		texture->Width(),
+		texture->Height(),
+		texture->GetDC(),
+		0,
+		0,
+		texture->Width(),
+		texture->Height(),
+		RGB(255,0,255)
+	);
+}
+
+void CRenderHelper::StretchRenderOnePer(HDC dest, CTexture* texture, tTexAnim texAnim, Vector2 pos)
+{
+
+
+	TransparentBlt
+	(
+		dest,
+		pos.x - texture->Width()  / 2 + texAnim.vLeftTop.x ,
+		pos.y - texture->Height() / 2 + texAnim.vLeftTop.y,
+		texAnim.vSize.x,
+		texAnim.vSize.y,
+		texture->GetDC(),
+		texAnim.vLeftTop.x,
+		texAnim.vLeftTop.y,
+		texAnim.vSize.x,
+		texAnim.vSize.y,
+		RGB(255, 0, 255)
+	);
+}
+
+void CRenderHelper::StretchRender(HDC dest, CTexture* texture, Vector2 pos, bool isFlipY)
+{
+	
+	if (isFlipY == false)
+	{
+		StretchBlt
+		(
+			dest
+			, (int)pos.x
+			, (int)pos.y
+			, texture->Width() * WINDOWX_PER_X
+			, texture->Height() * WINDOWX_PER_Y
+			, texture->GetDC()
+			, 0
+			, 0
+			, texture->Width()
+			, texture->Height()
+			, SRCCOPY
+		);
+	}
+	else
+	{
+		StretchBlt
+		(
+			  dest
+			, (int)pos.x
+			, (int)pos.y
+			, texture->Width() * WINDOWX_PER_X
+			, -1 * texture->Height() * WINDOWX_PER_Y
+			, texture->GetDC()
+			, 0
+			, 0
+			, texture->Width() 
+			, texture->Height() 
+			, SRCCOPY
+		);
+	}
+
+}
 void CRenderHelper::StretchRenderCollider(HDC _dc, tAnimFrm& frame, Vector2 vPos, bool isflip)
 {
 	HPEN hPen = GETINSTANCE(CEngine)->GetPen(PEN_TYPE::BLUE);

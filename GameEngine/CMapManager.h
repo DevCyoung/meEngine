@@ -6,16 +6,18 @@ class CMapManager
 {
 	SINGLETON(CMapManager);
 
-	vector<CMap*>	m_vecMap;
+	
 	CMap*			m_curMap;
+	UINT			m_curPos;
 
 public:
 	void AddMap(CMap* map);
+	
 
 	//¿¹ºñ¿ë
 public:
 	void MapCameraSet(UINT camIdx);
-
+	Vector2 GetPlayerPos(UINT camIdx);
 
 public:
 	void Load();
