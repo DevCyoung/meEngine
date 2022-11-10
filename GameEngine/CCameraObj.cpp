@@ -56,54 +56,6 @@ void CCameraObj::OnTriggerEnter(CCollider* _pOhter)
 
 void CCameraObj::OnTriggerStay(CCollider* _pOhter)
 {	
-	//leftcol
-
-	//if (_pOhter->GetFinalPos().x < m_position.x)
-	//{
-	//	if ((m_ColDir & (UINT)COL_STATE_DIR::LEFT))
-	//	{	
-	//		Vector2 scale = GetCollider()->GetScale();
-	//		Vector2 otherScale = _pOhter->GetScale();
-	//	
-	//		m_position.x = _pOhter->GetOwner()->GetPos().x + scale.x / 2 + otherScale.x / 2 - 1;
-	//		return;
-	//	}
-	//}
-	//if (_pOhter->GetFinalPos().x > m_position.x)
-	//{
-	//	if ((m_ColDir & (UINT)COL_STATE_DIR::RIGHT))
-	//	{
-	//		Vector2 scale = GetCollider()->GetScale();
-	//		Vector2 otherScale = _pOhter->GetScale();
-	//		m_position.x = _pOhter->GetOwner()->GetPos().x - scale.x / 2 - otherScale.x / 2 + 1;
-	//		return;
-	//	}
-	//}
-
-	//if (_pOhter->GetFinalPos().y < m_position.y)
-	//{
-	//	if ((m_ColDir & (UINT)COL_STATE_DIR::UP))
-	//	{		
-	//		Vector2 scale = GetCollider()->GetScale();
-	//		Vector2 otherScale = _pOhter->GetScale();
-	//	
-	//		m_position.y = _pOhter->GetOwner()->GetPos().y + scale.y / 2 + otherScale.y / 2 + 1;
-	//		return;
-	//	}
-	//}
-	//if (_pOhter->GetFinalPos().y > m_position.y)
-	//{
-	//	if ((m_ColDir & (UINT)COL_STATE_DIR::DOWN))
-	//	{
-	//		Vector2 scale = GetCollider()->GetScale();
-	//		Vector2 otherScale = _pOhter->GetScale();
-	//		m_position.y = _pOhter->GetOwner()->GetPos().y - scale.y / 2 - otherScale.y / 2 - 1;
-	//		return;
-
-	//	}
-	//}
-	//SetPos(pos);
-
 }
 
 void CCameraObj::OnTriggerExit(CCollider* _pOhter)
@@ -113,26 +65,11 @@ void CCameraObj::OnTriggerExit(CCollider* _pOhter)
 void CCameraObj::OnTriggerEnterUp(CCollider* _pOther)
 {
 	m_ColDir |= (UINT)COL_STATE_DIR::UP;
-
-	//Vector2 scale = GetCollider()->GetScale();
-	//Vector2 otherScale = _pOther->GetScale();
-
-	//Vector2 pos = GetPos();
-
-	//pos.y = _pOther->GetOwner()->GetPos().y + scale.y / 2 + otherScale.y / 2 + 1;
-	//SetPos(pos);
 }
 
 void CCameraObj::OnTriggerEnterDown(CCollider* _pOther)
 {
 	m_ColDir |= (UINT)COL_STATE_DIR::DOWN;
-
-	//Vector2 scale = GetCollider()->GetScale();
-	//Vector2 otherScale = _pOther->GetScale();
-
-	//Vector2 pos = GetPos();
-	//pos.y = _pOther->GetOwner()->GetPos().y - scale.y / 2 - otherScale.y / 2 - 1;
-	//SetPos(pos);
 }
 
 
@@ -141,26 +78,12 @@ void CCameraObj::OnTriggerEnterDown(CCollider* _pOther)
 void CCameraObj::OnTriggerEnterLeft(CCollider* _pOther)
 {
 	m_ColDir |= (UINT)COL_STATE_DIR::LEFT;
-
-	//Vector2 scale = GetCollider()->GetScale();
-	//Vector2 otherScale = _pOther->GetScale();
-
-	//Vector2 pos = GetPos();
-	//pos.x = _pOther->GetOwner()->GetPos().x + scale.x / 2 + otherScale.x / 2 - 1;
-	//SetPos(pos);
-
 }
 
 void CCameraObj::OnTriggerEnterRight(CCollider* _pOther)
 {
 	m_ColDir |= (UINT)COL_STATE_DIR::RIGHT;
 
-	//Vector2 scale = GetCollider()->GetScale();
-	//Vector2 otherScale = _pOther->GetScale();
-
-	//Vector2 pos = GetPos();
-	//pos.x = _pOther->GetOwner()->GetPos().x - scale.x / 2 - otherScale.x / 2 + 1;
-	//SetPos(pos);
 }
 
 

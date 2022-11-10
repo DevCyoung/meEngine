@@ -428,6 +428,7 @@ void CCollideEdit::Save(FILE* pFile)
 	const vector<CGameObject*>& lineOjs  = lv->GetLayer(LAYER::LINE);
 	const vector<CGameObject*>& WallOjs  = lv->GetLayer(LAYER::WALL);
 	const vector<CGameObject*>& eventOjs = lv->GetLayer(LAYER::EVENT);
+	const vector<CGameObject*>& cnWalls = lv->GetLayer(LAYER::CAMERAWALL);
 
 	UINT size = lineOjs.size();
 	fwrite(&size, sizeof(UINT), 1, pFile);
@@ -460,6 +461,17 @@ void CCollideEdit::Save(FILE* pFile)
 		fwrite(&cem, sizeof(COLIDE_EIDT_MODE), 1, pFile);
 		evt->Save(pFile);
 	}
+
+	size = cnWalls.size();
+	fwrite(&size, sizeof(UINT), 1, pFile);
+
+	for (size_t i = 0; i < size; i++)
+	{
+		CCameraWall* cmwall = dynamic_cast<CCameraWall*>(cnWalls[i]);
+		assert(cmwall);		
+		cmwall->Save(pFile);
+	}
+
 }
 
 void CCollideEdit::Load(FILE* pFile)
@@ -501,7 +513,7 @@ void CCollideEdit::Load(FILE* pFile)
 			break;
 		case COLIDE_EIDT_MODE::BOSSDOOR2BOX:
 			envBox = new CDoor2();
-			break;				
+			break;		
 		default:
 			assert(envBox);
 			break;
@@ -509,6 +521,19 @@ void CCollideEdit::Load(FILE* pFile)
 		envBox->Load(pFile);
 		CGameObject::Instantiate(envBox, envBox->GetPos(), LAYER::EVENT);
 	}
+
+	//cameraWAll
+	fread(&size, sizeof(UINT), 1, pFile);
+
+	for (size_t i = 0; i < size; i++)
+	{
+		CCameraWall* cmwall = new CCameraWall();
+		assert(cmwall);			
+		cmwall->Load(pFile);
+		CGameObject::Instantiate(cmwall, cmwall->GetPos(), LAYER::CAMERAWALL);
+	}
+
+
 }
 
 void CCollideEdit::OnTriggerEnter(CCollider* _pOhter)

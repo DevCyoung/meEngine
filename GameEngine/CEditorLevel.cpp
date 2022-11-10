@@ -71,7 +71,7 @@ CEditorLevel::CEditorLevel()
 	
 
 
-	Load(L"cyber\\addeventppap2.map");
+	//Load(L"cyber\\addeventppap2.map");
 	//Load(L"cyber\\area2.map");
 	//Load();
 }

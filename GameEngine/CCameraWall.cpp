@@ -94,10 +94,15 @@ void CCameraWall::OnTriggerStay(CCollider* _pOther)
 
 void CCameraWall::Save(FILE* pFile)
 {
-
+	COLLIDE_DIR dir = m_dir;
+	fwrite(&dir, sizeof(COLLIDE_DIR), 1, pFile);
+	CWall::Save(pFile);
 }
 
 void CCameraWall::Load(FILE* pFile)
 {
-
+	COLLIDE_DIR dir;
+	fread(&dir, sizeof(COLLIDE_DIR), 1, pFile);
+	m_dir = dir;
+	CWall::Load(pFile);
 }

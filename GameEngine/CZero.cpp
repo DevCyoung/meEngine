@@ -29,6 +29,7 @@ CZero::CZero()
 	, m_dirMoveLine(nullptr)
 	, m_dirMoveBox(nullptr)
 	, m_animEvent(nullptr)
+	, m_camera(nullptr)
 {
 	SetTag(LAYER::PLAYER);
 	m_isGravity = true;
@@ -91,6 +92,11 @@ CZero::~CZero()
 	if (nullptr != m_animEvent)
 	{
 		delete m_animEvent;
+	}
+
+	if (nullptr != m_camera)
+	{
+		m_camera->Destroy();
 	}
 }
 

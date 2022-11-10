@@ -3,6 +3,7 @@
 #include "CRaycast.h"
 #include "CPlayerAnimEvent.h"
 #include "CPlayerController.h"
+#include "CCameraObj.h"
 
 enum class ZEROSTATE
 {
@@ -40,6 +41,9 @@ public:
 	//¼öÁ¤
 	CLineCollider* m_dirMoveLine;
 	CCollider* m_dirMoveBox;
+
+public:
+	CCameraObj* m_camera;
 
 public:
 	virtual void tick() override;
