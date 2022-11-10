@@ -1,5 +1,4 @@
 #pragma once
-#include "pch.h"
 #include "CGameObject.h"
 
 class CWall 
@@ -7,9 +6,9 @@ class CWall
 {
 
 public:
-	/*virtual void tick() override;
-	virtual void fixed_tick() override;
-	virtual void render(HDC _dc) override;*/
+	//virtual void tick() override;
+	//virtual void fixed_tick() override;
+	virtual void render(HDC _dc) override;
 
 	virtual void OnTriggerEnter(CCollider* _pOhter);
 	virtual void OnTriggerStay(CCollider* _pOhter);

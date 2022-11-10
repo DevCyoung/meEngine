@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CWall.h"
 #include "CCollider.h"
+#include "CCameraWall.h"
+#include "CCollisionManager.h"
 
 CWall::CWall()
 {
@@ -44,6 +46,13 @@ void CWall::ResizeCollider(Vector2 leftTop, Vector2 bottom)
 	SetPos(pos);
 }
 
+
+void CWall::render(HDC _dc)
+{
+	if (GETINSTANCE(CCollisionManager)->GetDrawCollide() == false)
+		return;
+	CGameObject::render(_dc);
+}
 
 void CWall::OnTriggerEnter(CCollider* _pOhter)
 {

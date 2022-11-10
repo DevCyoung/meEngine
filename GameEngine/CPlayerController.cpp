@@ -95,18 +95,35 @@ void CPlayerController::tick()
 		else
 		{
 			pos.y += 800 * DELTATIME;
-			m_zero->SetPos(pos);
-		}
-		//m_state = PLAYER_STATE::IDLE;
+			
+		}		
 	}
 
-	if (m_state == PLAYER_STATE::RETURN)
+	if (m_state == PLAYER_STATE::RETURNREADY)
+	{
+		if (m_zero->DownColState() == true)
+		{
+			m_zero->SetCollision(false);
+			velo.x = 0.f;
+			
+			m_zero->GetRigidbody()->SetGravity(false);
+			m_zero->GetAnimator()->TrigerPlay(L"RETURNREADY", false);
+			GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\returnvim.wav")->SetPosition(0);
+			GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\returnvim.wav")->SetVolume(18.f);
+			GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\returnvim.wav")->Play();
+			m_state = PLAYER_STATE::RETURN;
+			m_arrDashFrame.clear();
+			m_dashMoveScale = 1.f;
+		}		
+	}
+	else if (m_state == PLAYER_STATE::BLINK)
 	{
 		pos.y -= 800 * DELTATIME;
-		m_zero->SetPos(pos);
 	}
 
-	if (m_state == PLAYER_STATE::ENTER || m_state == PLAYER_STATE::RETURN)
+	m_zero->SetPos(pos);
+	m_zero->GetRigidbody()->SetVelocity(Vector2(velo));
+	if (m_state == PLAYER_STATE::ENTER || m_state == PLAYER_STATE::VICTORYRETURN || m_state == PLAYER_STATE::RETURNREADY || m_state == PLAYER_STATE::RETURN || m_state == PLAYER_STATE:: BLINK)
 		return;
 
 	
@@ -126,6 +143,8 @@ void CPlayerController::tick()
 	}
 
 	//입력에따른 변수를 설정
+	
+
 	InputTick();
 	StateTick();
 
@@ -184,15 +203,15 @@ void CPlayerController::tick()
 			m_velocity.x = -600;
 		}
 	}
-
 	DashFrame();
+
 
 	m_zero->SetPos(pos);
 	m_zero->GetRigidbody()->SetVelocity(m_velocity);
-	Vector2 camPos = GETINSTANCE(CCamera)->GetLook();
+	/*Vector2 camPos = GETINSTANCE(CCamera)->GetLook();
 	camPos.x = pos.x;
-	camPos.y = pos.y;
-	GETINSTANCE(CCamera)->SetLook(camPos);
+	camPos.y = pos.y;*/
+	//GETINSTANCE(CCamera)->SetLook(camPos);
 }
 
 void CPlayerController::flip_tick()
@@ -437,6 +456,8 @@ void CPlayerController::final_tick()
 
 void CPlayerController::render(HDC _dc)
 {
+	if (m_state == PLAYER_STATE::RETURN || m_state == PLAYER_STATE::RETURNREADY || m_state == PLAYER_STATE::ENTER)
+		return;
 	CTexture* tex = m_zero->GetAnimator()->GetCurAnimation()->GetAtlas();
 	for (size_t i = 0; i < m_arrDashFrame.size(); i++)
 	{

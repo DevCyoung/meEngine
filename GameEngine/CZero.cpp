@@ -16,7 +16,10 @@
 #include "CPlayerController.h"
 #include "CPlayerAnimEvent.h"
 
+#include "CCameraObj.h"
+
 CTexture* mm_pTexuture = nullptr;
+
 CZero::CZero()
 	: m_fVerticalRayDist(0.f)
 	, m_fHorizonRayDist(0.f)
@@ -48,6 +51,8 @@ CZero::CZero()
 	GetRigidbody()->SetGravity(true);
 	GetRigidbody()->SetFrictionScale(12.f);
 
+	//camera
+	GETINSTANCE(CCamera)->Settarget(this);
 }
 
 CZero::CZero(const CZero& _other)
@@ -70,6 +75,10 @@ CZero::CZero(const CZero& _other)
 
 	CreatePlayerController();
 	CreateAnimEvent();
+
+
+
+
 }
 
 CZero::~CZero()
@@ -118,4 +127,10 @@ void CZero::render(HDC _dc)
 		m_animEvent->render(_dc);
 	CRockmanObj::render(_dc);
 
+}
+
+
+void CZero::RetrunEvent()
+{
+	m_playerController->m_state = PLAYER_STATE::RETURNREADY;
 }

@@ -63,6 +63,8 @@ CPlayerAnimEvent::CPlayerAnimEvent(CGameObject* obj)
 	m_animztor->LoadAnimation(L"animation\\zero\\enterzero.anim");
 
 
+	m_animztor->LoadAnimation(L"animation\\zero\\returnready.anim");
+	m_animztor->LoadAnimation(L"animation\\zero\\returnblink.anim");
 
 	m_animztor->FindAnimation(L"JUMPREADY")->SetFrameEvent(1, this, (DELEGATE)&CPlayerAnimEvent::JumpReady);
 	m_animztor->FindAnimation(L"FALLINGREADY")->SetFrameEvent(4, this, (DELEGATE)&CPlayerAnimEvent::FallingReady);
@@ -87,6 +89,7 @@ CPlayerAnimEvent::CPlayerAnimEvent(CGameObject* obj)
 
 	m_animztor->FindAnimation(L"WALLJUMPREADY")->SetFrameEvent(3, this, (DELEGATE)&CPlayerAnimEvent::JumpReady);
 	m_animztor->FindAnimation(L"WALLSLIDEREADY")->SetFrameEvent(2, this, (DELEGATE)&CPlayerAnimEvent::WallSlideReady);
+	m_animztor->FindAnimation(L"RETURNREADY")->SetFrameEvent(8, this, (DELEGATE)&CPlayerAnimEvent::ReturnReady);
 
 	m_animztor->FindAnimation(L"DASHREADY")->SetFrameEvent(2, this, (DELEGATE)&CPlayerAnimEvent::LandDashReady);
 
@@ -165,6 +168,12 @@ void CPlayerAnimEvent::FireReady()
 void CPlayerAnimEvent::DashFinish()
 {
 	m_animztor->Play(L"IDLE", true);
+}
+
+void CPlayerAnimEvent::ReturnReady()
+{	
+	m_zero->SetState(PLAYER_STATE::BLINK);
+	m_animztor->Play(L"RETURNBLINK", true);
 }
 
 void CPlayerAnimEvent::Attack1()

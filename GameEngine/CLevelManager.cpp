@@ -38,7 +38,7 @@ void CLevelManager::init()
 	m_arrLevel[(UINT)LEVEL_TYPE::CYBERSPACE] = new CCyberspaceLevel;
 	m_arrLevel[(UINT)LEVEL_TYPE::CYBERSPACE2] = new CCyberspaceLevel2;
 
-	this->LoadLevelEvent(LEVEL_TYPE::CYBERSPACE2);
+	this->LoadLevelEvent(LEVEL_TYPE::EDITOR);
 
 }
 

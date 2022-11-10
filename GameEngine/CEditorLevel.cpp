@@ -31,6 +31,8 @@
 
 #include "CAtlasEdit.h"
 
+#include "CCameraObj.h"
+
 CTexture* mapText;
 
 CEditorLevel::CEditorLevel()
@@ -57,9 +59,18 @@ CEditorLevel::CEditorLevel()
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::MONSTER);
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::OBJECT);
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::EVENT);
+	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::CAMERAWALL);
 
 
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MONSTER, LAYER::WALL);
+	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MONSTER, LAYER::PLAYER);
+
+	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::CAMERA, LAYER::CAMERAWALL);
+
+	//CCameraObj
+	
+
+
 	Load(L"cyber\\addeventppap2.map");
 	//Load(L"cyber\\area2.map");
 	//Load();

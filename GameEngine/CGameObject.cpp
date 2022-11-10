@@ -19,6 +19,7 @@ CGameObject::CGameObject()
 	, m_pRigidbody(nullptr)
 	, m_preFramePos{}
 	, m_tag{}
+	, m_isCollision(true)
 {
 }
 
@@ -34,6 +35,7 @@ CGameObject::CGameObject(const CGameObject& _other)
 	, m_isFlipY(_other.m_isFlipY)
 	, m_preFramePos{}
 	, m_tag(_other.m_tag)
+	, m_isCollision(true)
 {
 	if (nullptr != _other.m_pCollider)
 	{

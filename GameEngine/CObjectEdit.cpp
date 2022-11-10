@@ -151,8 +151,8 @@ void CObjectEdit::CreateUI(CLevel* level)
 		{
 			pSaveButton->SetScale(Vector2(50.f, 50.f));
 			pSaveButton->SetPos(Vector2(10.f, 20.f));
-			pSaveButton->SetDelegate(this, (DELEGATERockman)&CObjectEdit::SelectGameObject);			
-			pSaveButton->SetRockman(new CZero());			
+			//pSaveButton->SetDelegate(this, (DELEGATERockman)&CObjectEdit::SelectGameObject);			
+			//pSaveButton->SetRockman(new CZero())
 		}
 		pPanelUI->AddChildUI(pSaveButton);
 		//level->AddObject(pSaveButton, LAYER::UI);

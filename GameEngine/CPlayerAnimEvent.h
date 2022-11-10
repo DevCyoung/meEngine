@@ -39,6 +39,7 @@ private:
     void LandDashReady();
     void FireReady();
     void DashFinish();
+    void ReturnReady();
 
     void Attack1();
     void Attack2();

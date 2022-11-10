@@ -15,14 +15,22 @@ CCamera::CCamera()
 	, m_fShakeSpeed(0.f)
 	, m_bCamShake(false)
 	, m_fShakeDir{}
+	, m_cam(nullptr)
 {
 	POINT ptResolution = GETINSTANCE(CEngine)->GetWndScreenSize();
 
 	m_pBlindTex = GETINSTANCE(CResourceManager)->CreateTexture(L"BlindTex", ptResolution.x, ptResolution.y);
+
+	m_cam = new CCameraObj();
+	CGameObject::Instantiate(m_cam, m_cam->GetPos(), LAYER::CAMERA);
 }
 CCamera::~CCamera()
 {
 
+}
+void CCamera::Settarget(CGameObject* obj)
+{
+	m_cam->SetTarget(obj);
 }
 
 void CCamera::tick()
@@ -59,6 +67,7 @@ void CCamera::CameraKeyMove(float _fSpeed)
 		m_vLook.x += _fSpeed * DELTATIME;
 	}
 }
+
 Vector2 CCamera::GetRealMousePos()
 {
 	Vector2 vPos = GETINSTANCE(CKeyManager)->GetMousePos();

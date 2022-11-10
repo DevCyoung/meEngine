@@ -151,6 +151,8 @@
     <ClInclude Include="CAtlasEdit.h" />
     <ClInclude Include="CButton.h" />
     <ClInclude Include="CCamera.h" />
+    <ClInclude Include="CCameraObj.h" />
+    <ClInclude Include="CCameraWall.h" />
     <ClInclude Include="CCollider.h" />
     <ClInclude Include="CCollisionLevel.h" />
     <ClInclude Include="CCollisionManager.h" />
@@ -226,6 +228,8 @@
     <ClCompile Include="CAtlasEdit.cpp" />
     <ClCompile Include="CButton.cpp" />
     <ClCompile Include="CCamera.cpp" />
+    <ClCompile Include="CCameraObj.cpp" />
+    <ClCompile Include="CCameraWall.cpp" />
     <ClCompile Include="CCollider.cpp" />
     <ClCompile Include="CCollisionLevel.cpp" />
     <ClCompile Include="CCollisionManager.cpp" />

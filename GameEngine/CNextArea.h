@@ -2,12 +2,16 @@
 
 #include "CEventBox.h"
 
+
 class CNextArea :
     public CEventBox
 {
 public:
 
-public:
+
+	
+
+
 	virtual void tick() override;
 	virtual void render(HDC _dc) override;
 

@@ -84,7 +84,7 @@ void CCollider::render(HDC _dc)
 void CCollider::OnTriggerEnter(CCollider* _pOther)
 {
 
-	if (LAYER::WALL == _pOther->GetOwner()->GetLayer())
+	if (LAYER::WALL == _pOther->GetOwner()->GetLayer() || LAYER::CAMERAWALL == _pOther->GetOwner()->GetLayer())
 	{
 		//충돌방향 셋팅
 		//충돌 width와 height 구하기
@@ -196,7 +196,7 @@ void CCollider::OnTriggerStay(CCollider* _pOhther)
 void CCollider::OnTriggerExit(CCollider* _pOther)
 {
 
-	if (LAYER::WALL == _pOther->GetOwner()->GetLayer())
+	if (LAYER::WALL == _pOther->GetOwner()->GetLayer() || LAYER::CAMERAWALL == _pOther->GetOwner()->GetLayer())
 	{
 		UINT id = _pOther->GetOwner()->GetID();
 		map<UINT, COLLIDE_DIR>::iterator iter = m_mapColdir.find(id);

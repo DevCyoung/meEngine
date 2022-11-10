@@ -39,6 +39,10 @@ void CRockmanLevel::init()
 
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MONSTER, LAYER::WALL);
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::PLAYER, LAYER::WALL);
+	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::PLAYER, LAYER::MONSTER);
+	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::PLAYER, LAYER::EVENT);
+
+	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::CAMERA, LAYER::CAMERAWALL);
 
 	m_textureAnim = new CTextureAnim();
 	Vector2 pos = GETINSTANCE(CCamera)->GetLook();

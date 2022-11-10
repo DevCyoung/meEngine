@@ -1,6 +1,7 @@
 #pragma once
 #include "CRockmanObj.h"
 
+class CZero;
 
 
 class CEventBox :
@@ -9,7 +10,9 @@ class CEventBox :
 
 public:
 	tBoxEvent			m_evt;
+	CZero*				m_zero;
 	COLIDE_EIDT_MODE	m_mode;
+	bool				m_bCollison;
 
 	virtual void tick() override;
 	virtual void render(HDC _dc) override;	

@@ -1,6 +1,8 @@
 #pragma once
+#include "CCameraObj.h"
 
 class CTexture;
+
 
 struct tCamEffect
 {
@@ -18,7 +20,7 @@ private:
 	Vector2				m_vLook;
 	Vector2				m_vDiff;
 	CTexture*			m_pBlindTex;
-	
+	CCameraObj*			 m_cam;
 
 	list<tCamEffect>	m_CamEffectList;
 	float				m_fRatio;
@@ -42,7 +44,7 @@ public:
 	void FadeIn(float _fTerm);
 	void CameraShake(float _fRange, float _fSpeed, float _fTerm);
 	void CameraKeyMove(float _fSpeed);
-
+	void Settarget(CGameObject* obj);
 public:
 	Vector2 GetRenderPos(Vector2 _vRealPos) { return _vRealPos - m_vDiff; }
 	Vector2 GetRealPos(Vector2 _vRenderPos) { return _vRenderPos + m_vDiff; }

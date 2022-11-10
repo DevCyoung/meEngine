@@ -448,6 +448,12 @@
     <ClInclude Include="CDoor2.h">
       <Filter>Game\RockMan\EventBox\Dorr2</Filter>
     </ClInclude>
+    <ClInclude Include="CCameraWall.h">
+      <Filter>Game\RockMan\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="CCameraObj.h">
+      <Filter>Game\RockMan\Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameEngine.rc">
@@ -694,6 +700,12 @@
     </ClCompile>
     <ClCompile Include="CDoor2.cpp">
       <Filter>Game\RockMan\EventBox\Dorr2</Filter>
+    </ClCompile>
+    <ClCompile Include="CCameraWall.cpp">
+      <Filter>Game\RockMan\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="CCameraObj.cpp">
+      <Filter>Game\RockMan\Map</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

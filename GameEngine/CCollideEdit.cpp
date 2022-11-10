@@ -20,6 +20,7 @@
 #include "CLineCollider.h"
 #include "CLevel.h"
 #include "CEventBox.h"
+#include "CCameraWall.h"
 
 CCollideEdit::CCollideEdit()
 	: m_detectBox(nullptr)
@@ -32,6 +33,7 @@ CCollideEdit::CCollideEdit()
 	, m_editMode(COLIDE_EIDT_MODE::LINE)
 	, m_mouseX(nullptr)
 	, m_mouseY(nullptr)	
+	, m_dir(COLLIDE_DIR::LEFT)
 {
 	CreateCollider();
 	GetCollider()->SetScale(Vector2(50.f, 50.f));
@@ -65,6 +67,7 @@ CCollideEdit::CCollideEdit(const CCollideEdit& _other)
 	, m_curMakeWall(nullptr)
 	, m_curColLine(nullptr)
 	, m_editMode(COLIDE_EIDT_MODE::WALL)
+	, m_dir(COLLIDE_DIR::LEFT)
 {
 }
 
@@ -96,6 +99,13 @@ void CCollideEdit::tick()
 		m_editMode = (COLIDE_EIDT_MODE)a;
 	}
 
+	if (IS_INPUT_TAB(KEY::LCTRL) && m_editMode == COLIDE_EIDT_MODE::CAMERAWALL)
+	{
+		UINT a = (UINT)m_dir;
+		++a;
+		a %= (UINT)COLLIDE_DIR::END;
+		m_dir = (COLLIDE_DIR)a;
+	}
 }
 
 #pragma region render
@@ -104,6 +114,12 @@ void CCollideEdit::render(HDC _dc)
 {
 	CGameObject::render(_dc);
 
+	
+
+	HBRUSH	hNullBrush = (HBRUSH)GetStockObject(NULL_BRUSH);	
+	HBRUSH	hOriginBrush = (HBRUSH)SelectObject(_dc, hNullBrush);	
+
+	
 	if (nullptr != m_detectBox || nullptr != m_detectColLine)
 	{
 		Rectangle
@@ -117,7 +133,7 @@ void CCollideEdit::render(HDC _dc)
 	}
 	Vector2 lt = GETINSTANCE(CCamera)->GetRenderPos(m_leftTop);
 	Vector2 rb = GETINSTANCE(CCamera)->GetRenderPos(m_rightbottom);
-	if (m_mouseMode == MOUSE_MODE::ONEDOWN && (m_editMode == COLIDE_EIDT_MODE::WALL || m_editMode == COLIDE_EIDT_MODE::BOSSDOOR1BOX || m_editMode == COLIDE_EIDT_MODE::BOSSDOOR2BOX || m_editMode == COLIDE_EIDT_MODE::NEXTAREAEBOX))
+	if (m_mouseMode == MOUSE_MODE::ONEDOWN && (m_editMode == COLIDE_EIDT_MODE::WALL || m_editMode == COLIDE_EIDT_MODE::BOSSDOOR1BOX || m_editMode == COLIDE_EIDT_MODE::BOSSDOOR2BOX || m_editMode == COLIDE_EIDT_MODE::NEXTAREAEBOX || m_editMode == COLIDE_EIDT_MODE::CAMERAWALL))
 	{
 		
 		Rectangle
@@ -158,9 +174,36 @@ void CCollideEdit::render(HDC _dc)
 		case COLIDE_EIDT_MODE::BOSSDOOR2BOX:
 			TextOut(_dc, 10, 10, L"BOSSDOOR2", 9);
 			break;
+		case COLIDE_EIDT_MODE::CAMERAWALL:
+			TextOut(_dc, 10, 10, L"CAMERAWALL", 10);
+			break;
 		}
+
+		if (m_editMode == COLIDE_EIDT_MODE::CAMERAWALL)
+		{
+			switch (m_dir)
+			{		
+			case COLLIDE_DIR::LEFT:
+				TextOut(_dc, 10, 30, L"LEFT", 4);
+				break;
+			case COLLIDE_DIR::UP:
+				TextOut(_dc, 10, 30, L"UP", 2);
+				break;
+			case COLLIDE_DIR::RIGHT:
+				TextOut(_dc, 10, 30, L"RIGHT", 5);
+				break;
+			case COLLIDE_DIR::DOWN:
+				TextOut(_dc, 10, 30, L"DOWN", 4);
+				break;				
+			}
+		}
+		
 	}
 
+	
+	
+
+	SelectObject(_dc, hOriginBrush);
 
 }
 #pragma endregion
@@ -232,7 +275,7 @@ void CCollideEdit::Update()
 		m_rightbottom = Vector2(0.f, 0.f);
 		m_leftTop = GETINSTANCE(CCamera)->GetRealMousePos();
 
-		if (nullptr != m_detectBox || nullptr != m_detectColLine)
+		if ((nullptr != m_detectBox || nullptr != m_detectColLine) && IS_INPUT_PRESSED(KEY::LSHIFT) == true)
 		{
 			m_leftTop = GETINSTANCE(CCamera)->GetRealPos(m_curGizmoPoint);
 		}
@@ -287,17 +330,26 @@ void CCollideEdit::Update()
 			lv->AddObject(a, LAYER::EVENT);
 		}
 		break;
+		case COLIDE_EIDT_MODE::CAMERAWALL:
+		{
+			CLevel* lv = GETINSTANCE(CLevelManager)->GetCurLevel();
+			CCameraWall* a = new CCameraWall();
+			a->m_dir = m_dir;
+			a->ResizeCollider(m_leftTop, m_rightbottom);
+			lv->AddObject(a, LAYER::CAMERAWALL);
+		}
+		break;
 		}
 	}
 
 	if (m_mouseMode == MOUSE_MODE::ONEDOWN)
 	{
 
-		if (nullptr != m_detectBox)
+		if (nullptr != m_detectBox && IS_INPUT_PRESSED(KEY::LSHIFT) == true)
 		{
 			m_rightbottom = GETINSTANCE(CCamera)->GetRealPos(m_curGizmoPoint);
 		}
-		else if(nullptr != m_detectColLine)
+		else if(nullptr != m_detectColLine && IS_INPUT_PRESSED(KEY::LSHIFT) == true)
 		{
 			m_rightbottom = GETINSTANCE(CCamera)->GetRealPos(m_curGizmoPoint);
 		}		
@@ -305,14 +357,14 @@ void CCollideEdit::Update()
 		{
 			m_rightbottom = GETINSTANCE(CCamera)->GetRealMousePos();
 		}
-		if (m_editMode == COLIDE_EIDT_MODE::LINE && IS_INPUT_PRESSED(KEY::LSHIFT))
+	/*	if (m_editMode == COLIDE_EIDT_MODE::LINE && IS_INPUT_PRESSED(KEY::LSHIFT))
 		{
 			m_rightbottom.y = m_leftTop.y;
 		}
 		if (m_editMode == COLIDE_EIDT_MODE::LINE && IS_INPUT_PRESSED(KEY::LCTRL))
 		{
 			m_rightbottom.x = m_leftTop.x;
-		}
+		}*/
 	}
 
 
@@ -449,7 +501,7 @@ void CCollideEdit::Load(FILE* pFile)
 			break;
 		case COLIDE_EIDT_MODE::BOSSDOOR2BOX:
 			envBox = new CDoor2();
-			break;		
+			break;				
 		default:
 			assert(envBox);
 			break;

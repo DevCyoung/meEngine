@@ -31,6 +31,7 @@ public:
 	CLine*				m_mouseY;
 
 	COLIDE_EIDT_MODE	m_editMode;
+	COLLIDE_DIR			m_dir;
 
 
 	virtual void tick() override;

@@ -23,7 +23,6 @@ private:
 	CPlayerAnimEvent*	m_animEvent;
 
 	//CLine*			m_downRay;
-
 	CLineCollider*		m_downLandCheck;
 	CLineCollider*		m_curLand;
 	Vector2				m_landDir;
@@ -92,12 +91,17 @@ public:
 	virtual void OnTriggerExitDown(CCollider* _pOther)		override;
 
 
-	UINT	GetAttackState() { return m_animEvent->m_attackCount; }
+	UINT			GetAttackState() { return m_animEvent->m_attackCount; }
 	void			SetState(PLAYER_STATE state) { m_playerController->SetState(state); }
-	PLAYER_STATE	GetState() { m_playerController->GetState(); }
+	PLAYER_STATE	GetState() { return m_playerController->GetState(); }
+
+
+
+	
+
 public:
 	CLONE(CZero);
-
+	void			RetrunEvent();
 
 
 public:

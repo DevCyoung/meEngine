@@ -39,6 +39,13 @@ public:
     virtual void fixed_tick();
     virtual void render(HDC _dc);
 
+    
+public:
+    bool    m_isCollision;
+    void    SetCollision(bool b) { m_isCollision = b; }
+    bool    GetCollision() { return m_isCollision; }
+
+
 public:
     void SetPos(Vector2 _vec2) { m_vPos = _vec2; }
     void SetScale(Vector2 _vec2) { m_vScale = _vec2; }

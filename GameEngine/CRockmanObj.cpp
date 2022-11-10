@@ -133,14 +133,19 @@ void CRockmanObj::tick()
 
 	if (nullptr != GetRigidbody())
 	{
-		if (DownColState() == false)
+		if (GetCollision() == true)
 		{
-			GetRigidbody()->SetGravity(true);
+			if (DownColState() == false)
+			{
+				GetRigidbody()->SetGravity(true);
+			}
+			else
+			{
+				GetRigidbody()->SetGravity(false);
+			}
 		}
-		else
-		{
-			GetRigidbody()->SetGravity(false);
-		}
+
+	
 
 		Vector2 velo = GetRigidbody()->GetVelocity();
 		if (abs(velo.x) > 0.001f)
@@ -210,8 +215,10 @@ void CRockmanObj::OnTriggerExit(CCollider* _pOhter)
 
 void CRockmanObj::OnTriggerEnterUp(CCollider* _pOther)
 {
+
 	m_ColDir |= (UINT)COL_STATE_DIR::UP;
-	
+	if (GetCollision() == false)
+		return;
 
 	if (nullptr == GetRigidbody())
 		return;
@@ -232,8 +239,10 @@ void CRockmanObj::OnTriggerEnterUp(CCollider* _pOther)
 
 void CRockmanObj::OnTriggerEnterDown(CCollider* _pOther)
 {
+	
 	m_ColDir |= (UINT)COL_STATE_DIR::DOWN;
-
+	if (GetCollision() == false)
+		return;
 
 	if (nullptr == GetRigidbody())
 		return;
@@ -254,8 +263,10 @@ void CRockmanObj::OnTriggerEnterDown(CCollider* _pOther)
 }
 void CRockmanObj::OnTriggerEnterLeft(CCollider* _pOther)
 {
-	m_ColDir |= (UINT)COL_STATE_DIR::LEFT;
 
+	m_ColDir |= (UINT)COL_STATE_DIR::LEFT;
+	if (GetCollision() == false)
+		return;
 	if (nullptr == GetRigidbody())
 		return;
 
@@ -273,8 +284,10 @@ void CRockmanObj::OnTriggerEnterLeft(CCollider* _pOther)
 
 void CRockmanObj::OnTriggerEnterRight(CCollider* _pOther)
 {
+	
 	m_ColDir |= (UINT)COL_STATE_DIR::RIGHT;
-
+	if (GetCollision() == false)
+		return;
 	if (nullptr == GetRigidbody())
 		return;
 
@@ -292,14 +305,19 @@ void CRockmanObj::OnTriggerEnterRight(CCollider* _pOther)
 
 void CRockmanObj::DownHitEnter(CLineCollider* _pOhter)
 {
+
 	m_LineDir |= (UINT)COL_STATE_DIR::DOWN;
+	if (GetCollision() == false)
+		return;
 	m_curLineLand = _pOhter;
+
 }
 
 
 void CRockmanObj::OnTriggerExitUp(CCollider* _pOther)
 {
 	m_ColDir &= ~(UINT)COL_STATE_DIR::UP;
+
 }
 
 void CRockmanObj::OnTriggerExitDown(CCollider* _pOther)
@@ -311,7 +329,8 @@ void CRockmanObj::OnTriggerExitDown(CCollider* _pOther)
 	}
 
 	m_ColDir &= ~(UINT)COL_STATE_DIR::DOWN;
-
+	if (GetCollision() == false)
+		return;
 	//m_isDownExitState = true;
 	if (nullptr == GetRigidbody())
 		return;
@@ -330,6 +349,8 @@ void CRockmanObj::OnTriggerExitLeft(CCollider* _pOther)
 	}
 
 	m_ColDir &= ~(UINT)COL_STATE_DIR::LEFT;
+	if (GetCollision() == false)
+		return;
 	if (nullptr == GetRigidbody())
 		return;
 
@@ -344,6 +365,8 @@ void CRockmanObj::OnTriggerExitRight(CCollider* _pOther)
 		return;
 	}
 	m_ColDir &= ~(UINT)COL_STATE_DIR::RIGHT;
+	if (GetCollision() == false)
+		return;
 	if (nullptr == GetRigidbody())
 		return;
 

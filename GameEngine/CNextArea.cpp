@@ -3,6 +3,11 @@
 #include "CCollider.h"
 #include "CCamera.h"
 #include "CCollisionManager.h"
+#include "CEventManager.h"
+#include "CZero.h"
+#include "CRigidbody.h"
+#include "CTimeManager.h"
+#include "CAnimator.h"
 
 CNextArea::CNextArea()
 {
@@ -39,6 +44,24 @@ void CNextArea::Load(FILE* pFile)
 void CNextArea::tick()
 {
 	CEventBox::tick();
+	if (nullptr == m_zero)
+		return;
+	//Vector2  velo = m_zero->GetPos();
+
+	//if (m_zero->GetState() == PLAYER_STATE::RETURN)
+	//{		
+	//	velo.y = -300.f;
+	//	m_zero->GetRigidbody()->SetVelocity(velo);
+	//}
+	//else if (m_zero->DownColState() == true)
+	//{			
+	//	if (m_zero->GetState() == PLAYER_STATE::RETURNREADY)
+	//	{
+	//		m_zero->GetRigidbody()->SetGravity(false);
+	//		m_zero->GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
+	//		m_zero->SetState(PLAYER_STATE::RETURN);
+	//	}	
+	//}
 }
 
 void CNextArea::render(HDC _dc)
@@ -55,8 +78,19 @@ void CNextArea::render(HDC _dc)
 
 void CNextArea::OnTriggerEnter(CCollider* _pOther)
 {
-	if (LAYER::PLAYER == _pOther->GetOwner()->GetLayer())
-	{
-		CEventBox::OnTriggerEnter(_pOther);
-	}	
+	if (_pOther->GetOwner()->GetLayer() != LAYER::PLAYER)
+		return;
+	CEventBox::OnTriggerEnter(_pOther);		
+	if (m_bCollison == true)
+		return;
+	m_zero->SetState(PLAYER_STATE::RETURNREADY);
+	
+	this->Destroy();
+	//if (m_zero != nullptr && m_zero->GetState() != PLAYER_STATE::RETURNREADY && m_zero->GetState() != PLAYER_STATE::RETURNREADY)
+	//{
+	//	m_bCollison = true;
+	//	
+	//	
+	//	//
+	//}
 }

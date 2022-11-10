@@ -2,10 +2,14 @@
 #include "CEventBox.h"
 #include "CEventManager.h"
 #include "CCollider.h"
+#include "CZero.h"
+#include "CCollisionManager.h"
 
 CEventBox::CEventBox()
 	: m_evt{}
 	, m_mode{}
+	, m_zero(nullptr)
+	, m_bCollison(false)
 {
 	CreateCollider();
 	GetCollider()->SetScale(Vector2(50.f, 50.f));
@@ -23,6 +27,8 @@ void CEventBox::tick()
 
 void CEventBox::render(HDC _dc)
 {
+	if (GETINSTANCE(CCollisionManager)->GetDrawCollide() == false)
+		return;
 	CRockmanObj::render(_dc);
 }
 
@@ -34,7 +40,10 @@ void CEventBox::SetCollisionEvent(CEntity* obj, DELEGATE func)
 
 void CEventBox::OnTriggerEnter(CCollider* _pOther)
 {
-	GETINSTANCE(CEventManager)->AddEvent(m_evt);
+	if (LAYER::PLAYER == _pOther->GetOwner()->GetLayer())
+	{
+		m_zero = dynamic_cast<CZero*>(_pOther->GetOwner());
+	}
 }
 
 void CEventBox::ResizeCollider(Vector2 leftTop, Vector2 bottom)
