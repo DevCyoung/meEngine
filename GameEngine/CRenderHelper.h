@@ -8,7 +8,6 @@ public:
     static void StretchRender(HDC HDCsource, int leftX, int leftY, int sizeX, int sizeY, HDC HDCdest, int posX, int posY, int offsetX, int offsetY, bool isFlipX);
     static void StretchRender(HDC HDCsource, int leftX, int leftY, int sizeX, int sizeY, HDC HDCdest, int posX, int posY, int offsetX, int offsetY, bool isFlipX, bool isFlipY);
     static void StretchRender(HDC HDCsource, tAnimFrm& frame, HDC HDCdest, Vector2 pos, bool isFlipX);
-
     static void StretchRender(HDC HDCsource, tAnimFrm& frame, HDC HDCdest, Vector2 pos, bool isFlip, float alpha);
 
     static void StretchRenderReplaceColor(HDC HDCsource, tAnimFrm& frame, HDC HDCdest, Vector2 pos, bool isFlip, float alpha, UINT oldColor, UINT newColor, bool isReverse);
@@ -18,6 +17,7 @@ public:
     static void StretchBlit(HDC HDCsource, tAnimFrm& frame, HDC HDCdest, bool isFlip);
     
     static void StretchRender(HDC dest, CTexture* texture, Vector2 Pos);
+    static void StretchRenderTextrue(HDC dest, CTexture* texture, Vector2 Pos);
 
     static void StretchRenderOnePer(HDC dest, CTexture* texture, Vector2 Pos);
     static void StretchRenderOnePer(HDC dest, CTexture* texture, tTexAnim texAnim ,Vector2 Pos);

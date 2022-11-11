@@ -79,7 +79,7 @@ void CMonster::render(HDC _dc)
 	//	SRCCOPY
 	//);
 
-	CRenderHelper::StretchRender(_dc, m_pTexuture, pos);
+	//CRenderHelper::StretchRender(_dc, m_pTexuture, pos);
 	//CRenderHelper::StretchRender
 	//(
 	//	m_pTexuture->GetDC(),

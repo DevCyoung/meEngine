@@ -388,6 +388,50 @@ void CRenderHelper::StretchRender(HDC dest, CTexture* texture, Vector2 Pos)
 
 }
 
+void CRenderHelper::StretchRenderTextrue(HDC HDCdest, CTexture* texture, Vector2 pos)
+{
+
+	HDC		HDCbuffer = CreateCompatibleDC(HDCdest);
+	HBITMAP HBITMAPbuffer = CreateCompatibleBitmap(HDCdest, texture->Width() * WINDOWX_PER_X, texture->Height() * WINDOWX_PER_Y);
+
+	HBITMAP hPrebit = (HBITMAP)SelectObject(HDCbuffer, HBITMAPbuffer);
+	DeleteObject(hPrebit);
+
+	StretchBlt
+	(
+		  HDCbuffer
+		, 0
+		, 0
+		, texture->Width() * WINDOWX_PER_X
+		, texture->Height() * WINDOWX_PER_Y
+		, texture->GetDC()
+		, 0
+		, 0
+		, texture->Width()
+		, texture->Height()
+		, SRCCOPY
+	);
+
+
+	TransparentBlt
+	(
+		  HDCdest
+		, int(pos.x - (int)(texture->Width()  * WINDOWX_PER_X - WINDOWX_PER_X) / 2)
+		, int(pos.y - (int)(texture->Height() * WINDOWX_PER_Y - WINDOWX_PER_Y) / 2)
+		, int(texture->Width() * WINDOWX_PER_X)
+		, int(texture->Height() * WINDOWX_PER_Y)
+		, HDCbuffer
+		, 0
+		, 0
+		, int(texture->Width() * WINDOWX_PER_X)
+		, int(texture->Height() * WINDOWX_PER_Y)
+		, RGB(255, 0, 255)
+	);
+
+	DeleteObject(HBITMAPbuffer);
+	DeleteDC(HDCbuffer);
+}
+
 void CRenderHelper::StretchRenderOnePer(HDC dest, CTexture* texture, Vector2 pos)
 {
 	TransparentBlt

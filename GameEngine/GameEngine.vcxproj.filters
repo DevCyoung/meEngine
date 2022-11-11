@@ -242,6 +242,15 @@
     <Filter Include="Game\RockMan\Hitbox">
       <UniqueIdentifier>{8509d6c5-a414-476c-9622-cdc827ed0c8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\02. Manager\Effect">
+      <UniqueIdentifier>{06a5e1a9-ec5d-46e2-a935-b64b6bdd72b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\RockMan\Effect">
+      <UniqueIdentifier>{f13b94dc-7e79-446a-8b9e-295c9eb1db47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\HPBar">
+      <UniqueIdentifier>{2e2b7dac-e748-4247-acac-8857ea3c939d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -477,6 +486,15 @@
     </ClInclude>
     <ClInclude Include="CHitBox.h">
       <Filter>Game\RockMan\Hitbox</Filter>
+    </ClInclude>
+    <ClInclude Include="CEffectManager.h">
+      <Filter>Engine\02. Manager\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="CEffect.h">
+      <Filter>Game\RockMan\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="CHPbar.h">
+      <Filter>Game\HPBar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -745,6 +763,15 @@
     </ClCompile>
     <ClCompile Include="CHitBox.cpp">
       <Filter>Game\RockMan\Hitbox</Filter>
+    </ClCompile>
+    <ClCompile Include="CEffectManager.cpp">
+      <Filter>Engine\02. Manager\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="CEffect.cpp">
+      <Filter>Game\RockMan\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="CHPbar.cpp">
+      <Filter>Game\HPBar</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

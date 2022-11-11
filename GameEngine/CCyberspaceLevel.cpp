@@ -14,6 +14,10 @@
 #include "CSoundMgr.h"
 #include "CSound.h"
 #include "CResourceManager.h"
+
+//»èÁ¦
+#include "CHPbar.h"
+
 CCyberspaceLevel::CCyberspaceLevel()
 {
 	
@@ -28,11 +32,20 @@ void CCyberspaceLevel::init()
 	CRockmanLevel::init();
 	m_nextLevel = LEVEL_TYPE::CYBERSPACE2;
 
+
+	//background play
 	CSound* sound = GETINSTANCE(CResourceManager)->LoadSound(L"cyberbackground1", L"sound\\cyberspacebackground.wav");
 	sound->SetVolume(20.f);
 	//GETINSTANCE(CSoundMgr)->RegisterToBGM(sound);
 	sound->PlayToBGM(true);
 	//sound->Play();
+
+
+	//test hpbar zerohpbar.bmp
+	CHPbar* bar = new CHPbar();
+
+	CGameObject::Instantiate(bar, bar->GetPos(), LAYER::DEFAUT);
+
 }
 void CCyberspaceLevel::tick()
 {

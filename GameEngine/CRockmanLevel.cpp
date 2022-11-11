@@ -76,6 +76,7 @@ void CRockmanLevel::Enter()
 
 void CRockmanLevel::Exit()
 {
+	DeleteAllObject();
 	//CLevel::Exit(); = 0
 
 	//GETINSTANCE(CCamera)->FadeOut(1.0f);
