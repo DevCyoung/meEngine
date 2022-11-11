@@ -8,6 +8,9 @@ class CRigidbody;
 class CGameObject :
     public CEntity
 {
+public:
+    float			m_damagedTime;
+
 private:
     Vector2     m_vPos;
     Vector2     m_vScale;
@@ -44,6 +47,8 @@ public:
     bool    m_isCollision;
     void    SetCollision(bool b) { m_isCollision = b; }
     bool    GetCollision() { return m_isCollision; }
+
+
 
 
 public:
@@ -84,7 +89,9 @@ public:
     virtual void OnTriggerExitUp(CCollider* _pOther);
     virtual void OnTriggerExitDown(CCollider* _pOther);
 
-    bool    IsDead() { return m_bDead; }
+    bool    IsDead()  {  return m_bDead; }
+    void    SetDead(bool b) { m_bDead =b; }
+
     void    Destroy();
     virtual CGameObject* Clone() = 0;
 

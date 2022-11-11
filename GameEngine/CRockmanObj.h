@@ -7,10 +7,14 @@ class CRockmanObj :
     public CGameObject
 {
 
+public:
+
 
 public:
 	MONSETER_TYPE	m_sponType;
 	MONSTER_STATE	m_monsterState;
+
+
 
 protected:
     UINT			m_ColDir;
@@ -19,6 +23,10 @@ protected:
     Vector2         m_vellocity;
 	bool			m_bColInterPolate;
 
+public:
+	DAMAGED_STATE	m_damagedState;
+	
+		
 	//RockmanComponent
 	//¹°¸®
 
@@ -82,7 +90,7 @@ public:
 	virtual void RightHitEnter(CLineCollider* _pOhter)	{};
 	virtual void RightHitStay(CLineCollider* _pOhter)	{};
 	virtual void RightHitExit(CLineCollider* _pOhter)	{};
-
+	
 public:
 
 	bool RightColState();
@@ -91,6 +99,7 @@ public:
 	bool UpColState();
 
 
+	virtual void AttackEvent(tAnimFrm frm, CCollider *_pOther) {}
 public:
 	CLONE(CRockmanObj);
 

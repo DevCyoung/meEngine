@@ -159,6 +159,9 @@
     <ClInclude Include="CComponent.h" />
     <ClInclude Include="CCyberspaceLevel.h" />
     <ClInclude Include="CCyberspaceLevel2.h" />
+    <ClInclude Include="CCyberspaceLevel3.h" />
+    <ClInclude Include="CCyberspaceLevel4.h" />
+    <ClInclude Include="CCyberspaceLevelBoss.h" />
     <ClInclude Include="CDoor1.h" />
     <ClInclude Include="CDoor2.h" />
     <ClInclude Include="CEditorLevel.h" />
@@ -168,6 +171,8 @@
     <ClInclude Include="CEventManager.h" />
     <ClInclude Include="CGameObject.h" />
     <ClInclude Include="CGosm.h" />
+    <ClInclude Include="CHitBox.h" />
+    <ClInclude Include="CHitManager.h" />
     <ClInclude Include="CKeyManager.h" />
     <ClInclude Include="CLevel.h" />
     <ClInclude Include="CLevelManager.h" />
@@ -236,12 +241,17 @@
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CCyberspaceLevel.cpp" />
     <ClCompile Include="CCyberspaceLevel2.cpp" />
+    <ClCompile Include="CCyberspaceLevel3.cpp" />
+    <ClCompile Include="CCyberspaceLevel4.cpp" />
+    <ClCompile Include="CCyberspaceLevelBoss.cpp" />
     <ClCompile Include="CDoor1.cpp" />
     <ClCompile Include="CDoor2.cpp" />
     <ClCompile Include="CEditorLevel.cpp" />
     <ClCompile Include="CEditorLevel_init.cpp" />
     <ClCompile Include="CEventBox.cpp" />
     <ClCompile Include="CGosm.cpp" />
+    <ClCompile Include="CHitBox.cpp" />
+    <ClCompile Include="CHitManager.cpp" />
     <ClCompile Include="CLine.cpp" />
     <ClCompile Include="CMap.cpp" />
     <ClCompile Include="CMapManager.cpp" />

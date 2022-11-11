@@ -11,8 +11,9 @@
 #include "CMapManager.h"
 #include "CAnimator.h"
 #include "CTextureAnim.h"
-
-
+#include "CSoundMgr.h"
+#include "CSound.h"
+#include "CResourceManager.h"
 CCyberspaceLevel::CCyberspaceLevel()
 {
 	
@@ -24,9 +25,15 @@ CCyberspaceLevel::~CCyberspaceLevel()
 
 void CCyberspaceLevel::init()
 {
-	CRockmanLevel::init();	
-}
+	CRockmanLevel::init();
+	m_nextLevel = LEVEL_TYPE::CYBERSPACE2;
 
+	CSound* sound = GETINSTANCE(CResourceManager)->LoadSound(L"cyberbackground1", L"sound\\cyberspacebackground.wav");
+	sound->SetVolume(20.f);
+	//GETINSTANCE(CSoundMgr)->RegisterToBGM(sound);
+	sound->PlayToBGM(true);
+	//sound->Play();
+}
 void CCyberspaceLevel::tick()
 {
 	CRockmanLevel::tick();
@@ -37,6 +44,13 @@ void CCyberspaceLevel::tick()
 		NextLevel(LEVEL_TYPE::CYBERSPACE2);
 		//GETINSTANCE(CLevelManager)->LoadLevel(LEVEL_TYPE::CYBERSPACE2);
 	}
+	if (m_levelState == eLEVELSTATE::FADEENTER)
+	{
+		
+		//GETINSTANCE(CResourceManager)->FindSound(L"cyberbackground1")->Play();
+		
+	}
+	//if (cyberspacebackground.wav)
 }
 
 void CCyberspaceLevel::Enter()
@@ -44,7 +58,7 @@ void CCyberspaceLevel::Enter()
 	
 	CRockmanLevel::Enter();	
 	init();
-	LoadMap(L"cyber\\test1.map");
+	LoadMap(L"cyber\\cyberspace_Level_1.map");
 	GETINSTANCE(CMapManager)->MapCameraSet(0);		
 }
 

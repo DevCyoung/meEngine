@@ -20,6 +20,7 @@ CGameObject::CGameObject()
 	, m_preFramePos{}
 	, m_tag{}
 	, m_isCollision(true)
+	, m_damagedTime(0.f)
 {
 }
 
@@ -36,6 +37,7 @@ CGameObject::CGameObject(const CGameObject& _other)
 	, m_preFramePos{}
 	, m_tag(_other.m_tag)
 	, m_isCollision(true)
+	, m_damagedTime(0.f)
 {
 	if (nullptr != _other.m_pCollider)
 	{

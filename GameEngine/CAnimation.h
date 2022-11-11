@@ -41,7 +41,8 @@ public:
     tColInfo    GetColinfo(int idx) { return m_vecFrm[idx].colInfo; }
     CTexture*   GetAtlas() { return m_pAtlas; }
     tAnimFrm&   GetFrame(UINT idx) { return m_vecFrm[idx]; }
-    tAnimFrm& GetCurFrame() { return m_vecFrm[m_iCurFrm]; }
+    tAnimFrm&   GetCurFrame() { return m_vecFrm[m_iCurFrm]; }
+    int         GetCurFrameIdx() { return m_iCurFrm; }
 public:
     CLONE(CAnimation);
 

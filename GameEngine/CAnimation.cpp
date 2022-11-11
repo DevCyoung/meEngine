@@ -104,34 +104,55 @@ void CAnimation::render(HDC _dc)
 	//	cambottom.x < vPos.x - frame.vSize.x || cambottom.y < vPos.y - frame.vSize.y )
 	//	return;
 
-	if (camleft.x   > rp.x + frame.vSize.x * WINDOWX_PER_X / 2 ||
-		camleft.y   > rp.y + frame.vSize.y * WINDOWX_PER_X / 2 ||
+	if (camleft.x > rp.x + frame.vSize.x * WINDOWX_PER_X / 2 ||
+		camleft.y > rp.y + frame.vSize.y * WINDOWX_PER_X / 2 ||
 		cambottom.x < rp.x - frame.vSize.x * WINDOWX_PER_X / 2 ||
 		cambottom.y < rp.y - frame.vSize.y * WINDOWX_PER_X / 2)
 		return;
 
+	if (pOwnerObj->m_damagedTime <= 0.01f)
+	{
+		CRenderHelper::StretchRender
+		(
+			m_pAtlas->GetDC(),
+			frame.vLeftTop.x,
+			frame.vLeftTop.y,
+			frame.vSize.x,
+			frame.vSize.y,
+			_dc,
+			vPos.x,
+			vPos.y,
+			frame.vOffset.x,
+			frame.vOffset.y,
+			pOwnerObj->GetFilpX(),
+			pOwnerObj->GetFilpY()
+		);
+	}
+	else
+	{
+		CRenderHelper::StretchRenderReplaceColor
+		(
+			m_pAtlas->GetDC(),
+			frame,
+			_dc,
+			vPos,
+			pOwnerObj->GetFilpX(),
+			0.8f, 
+			0x00ff00ff, 
+			0xffffffff, 
+			true
+		);
+	}
 
+	
 
-	CRenderHelper::StretchRender
-	(
-		m_pAtlas->GetDC(),
-		frame.vLeftTop.x,
-		frame.vLeftTop.y,
-		frame.vSize.x,
-		frame.vSize.y,
-		_dc,
-		vPos.x,
-		vPos.y,
-		frame.vOffset.x,
-		frame.vOffset.y,
-		pOwnerObj->GetFilpX(),
-		pOwnerObj->GetFilpY()
-	);
+	
 
-	if (GETINSTANCE(CCollisionManager)->GetDrawCollide() == true)
+	/*if (GETINSTANCE(CCollisionManager)->GetDrawCollide() == true)
 	{
 		CRenderHelper::StretchRenderCollider(_dc, frame, vPos, pOwnerObj->GetFilpX());
-	}
+	}*/
+
 }
 
 

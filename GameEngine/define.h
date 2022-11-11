@@ -81,6 +81,9 @@ enum class LEVEL_TYPE
 	EDITOR,
 	CYBERSPACE,
 	CYBERSPACE2,
+	CYBERSPACE3,
+	CYBERSPACE4,
+	CYBERSPACEBOSS,
 	END, //갯수지정용도
 };
 
@@ -94,6 +97,7 @@ enum class LAYER
 	OBJECT,
 	HITBOX,
 	PLAYER,						//플레이어
+	PLAYERATTACK,
 	CAMERAWALL,			//플레이어가 쏜 미사일
 	CAMERA,
 	EVENT,
@@ -280,4 +284,12 @@ enum class COLIDE_EIDT_MODE
 	BOSSDOOR2BOX,
 	CAMERAWALL,	
 	END,
+};
+
+enum class DAMAGED_STATE
+{
+	NONE,
+	IDLE,
+	DAMAGED,
+	ULTIMAGE,
 };

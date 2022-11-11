@@ -67,6 +67,9 @@ CEditorLevel::CEditorLevel()
 
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::CAMERA, LAYER::CAMERAWALL);
 
+
+	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::EVENT, LAYER::PLAYER);
+
 	//CCameraObj
 	
 

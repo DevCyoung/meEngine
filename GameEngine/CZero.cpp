@@ -18,6 +18,13 @@
 
 #include "CCameraObj.h"
 
+
+//text
+#include "CHitBox.h"
+#include "CResourceManager.h"
+#include "CSound.h"
+#include "CHitManager.h"
+
 CTexture* mm_pTexuture = nullptr;
 
 CZero::CZero()
@@ -53,7 +60,13 @@ CZero::CZero()
 	GetRigidbody()->SetFrictionScale(12.f);
 
 	//camera
-	GETINSTANCE(CCamera)->Settarget(this);
+	//TINSTANCE(CCamera)->Settarget(this);
+	//Å×½ºÆ®
+	CHitBox* hbox = new CHitBox();
+	hbox->SetOwner(this);
+	hbox->SetTartgetLayer(LAYER::MONSTER);
+	CGameObject::Instantiate(hbox, Vector2(0.f, 0.f), LAYER::PLAYERATTACK);
+
 }
 
 CZero::CZero(const CZero& _other)
@@ -76,9 +89,9 @@ CZero::CZero(const CZero& _other)
 
 	CreatePlayerController();
 	CreateAnimEvent();
+	
 
-
-
+	
 
 }
 
@@ -139,4 +152,39 @@ void CZero::render(HDC _dc)
 void CZero::RetrunEvent()
 {
 	m_playerController->m_state = PLAYER_STATE::RETURNREADY;
+}
+
+void CZero::AttackEvent(tAnimFrm frm,  CCollider* _pOther)
+{
+	/*GETINSTANCE(CResourceManager)->LoadSound(L"slice", L"sound\\slice.wav")->SetPosition(0);
+	GETINSTANCE(CResourceManager)->LoadSound(L"slice", L"sound\\slice.wav")->SetVolume(20.f);
+	GETINSTANCE(CResourceManager)->LoadSound(L"slice", L"sound\\slice.wav")->Play();*/
+
+	if (LAYER::MONSTER != _pOther->GetOwner()->GetLayer())
+		return;
+	CRockmanObj* rmObj = dynamic_cast<CRockmanObj*>(_pOther->GetOwner());
+	if (rmObj->m_damagedState == DAMAGED_STATE::ULTIMAGE)
+	{
+		GETINSTANCE(CResourceManager)->LoadSound(L"tin", L"sound\\tin.wav")->SetPosition(0);
+		GETINSTANCE(CResourceManager)->LoadSound(L"tin", L"sound\\tin.wav")->SetVolume(20.f);
+		GETINSTANCE(CResourceManager)->LoadSound(L"tin", L"sound\\tin.wav")->Play();
+	}
+	else
+	{
+		GETINSTANCE(CResourceManager)->LoadSound(L"slice", L"sound\\slice.wav")->SetPosition(0);
+		GETINSTANCE(CResourceManager)->LoadSound(L"slice", L"sound\\slice.wav")->SetVolume(20.f);
+		GETINSTANCE(CResourceManager)->LoadSound(L"slice", L"sound\\slice.wav")->Play();
+	}	
+
+	if (m_playerController->m_state == PLAYER_STATE::LANDATTACK1)
+	{
+
+	}
+	else if (m_playerController->m_state == PLAYER_STATE::LANDATTACK2)
+	{		
+	}
+	else
+	{
+		GETINSTANCE(CHitManager)->AddAtackDelay(frm);
+	}
 }

@@ -15,10 +15,14 @@
 #include "CTextureAnim.h"
 #include "CTimeManager.h"
 
+#include "CCameraObj.h"
+#include "CGameObject.h"
+
 CRockmanLevel::CRockmanLevel()
 	: m_editor(nullptr)
 	, m_zero(nullptr)
-	, m_textureAnim(nullptr)
+	, m_textureReadyAnim(nullptr)
+	, m_cam(nullptr)
 	, m_delay(0.f)
 	, m_levelState(eLEVELSTATE::NONE)
 	, m_isReady(true)
@@ -38,15 +42,22 @@ void CRockmanLevel::init()
 	//m_editor = (CEditorLevel*)GETINSTANCE(CLevelManager)->GetEditorLevel();
 
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MONSTER, LAYER::WALL);
+
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::PLAYER, LAYER::WALL);
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::PLAYER, LAYER::MONSTER);
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::PLAYER, LAYER::EVENT);
 
+	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MONSTER, LAYER::PLAYERATTACK);
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::CAMERA, LAYER::CAMERAWALL);
 
-	m_textureAnim = new CTextureAnim();
+
+	m_textureReadyAnim = new CTextureAnim();
 	Vector2 pos = GETINSTANCE(CCamera)->GetLook();
-	CGameObject::Instantiate(m_textureAnim, pos, LAYER::DEFAUT);
+	CGameObject::Instantiate(m_textureReadyAnim, pos, LAYER::DEFAUT);
+
+
+	GETINSTANCE(CResourceManager)->LoadSound(L"startvim", L"sound\\startvim.wav");
+	GETINSTANCE(CResourceManager)->LoadSound(L"startvim", L"sound\\startvim.wav")->SetVolume(18.f);
 }
 
 void CRockmanLevel::tick()
@@ -60,7 +71,7 @@ void CRockmanLevel::Enter()
 {
 	//CLevel::Enter(); = 0
 	init();
-	GETINSTANCE(CCamera)->FadeIn(0.5f);
+	GETINSTANCE(CCamera)->FadeIn(0.5f);	
 }
 
 void CRockmanLevel::Exit()
@@ -84,6 +95,10 @@ void CRockmanLevel::ZeroEnter(UINT idx)
 	m_zero->SetPos(pos);
 	m_zero->GetAnimator()->Play(L"VIMBLINK", true);
 	m_zero->SetState(PLAYER_STATE::ENTER);
+
+	m_cam = new CCameraObj();
+	m_cam->SetTarget(m_zero);
+	CGameObject::Instantiate(m_cam, m_cam->GetPos(), LAYER::CAMERA);
 }
 
 void CRockmanLevel::ZeroRetrun()
@@ -96,35 +111,36 @@ void CRockmanLevel::LevelDealy()
 {
 	m_delay += DELTATIME;
 	
-	if (m_delay >= 5.f && m_levelState == eLEVELSTATE::ZEROENTER)
-	{
-		GETINSTANCE(CResourceManager)->LoadSound(L"startvim", L"sound\\startvim.wav")->SetPosition(0);
-		GETINSTANCE(CResourceManager)->LoadSound(L"startvim", L"sound\\startvim.wav")->SetVolume(18.f);
-		GETINSTANCE(CResourceManager)->LoadSound(L"startvim", L"sound\\startvim.wav")->Play();
+	if (m_delay >= 4.f && m_levelState == eLEVELSTATE::ZEROENTER)
+	{		
+		GETINSTANCE(CResourceManager)->FindSound(L"startvim")->Play();
 		ZeroEnter(0);		
 		m_levelState = eLEVELSTATE::NONE;
 		
 	}
-	else if (m_delay >= 3.f && m_levelState == eLEVELSTATE::FADEENTER)
+	else if (m_delay >= 2.f && m_levelState == eLEVELSTATE::FADEENTER)
 	{
 		if (m_isReady == false)
 		{
 			m_levelState = eLEVELSTATE::ZEROENTER;
+			m_delay += 2.f;
+
 		}
 		else
 		{
 			m_levelState = eLEVELSTATE::READY;
+			m_textureReadyAnim->Enter();
 		}
-		m_textureAnim->Enter();
+		
 	}
 
 	if (m_isReady)
 	{
-		if (m_delay >= 4.f && m_levelState == eLEVELSTATE::READY)
+		if (m_delay >= 3.f && m_levelState == eLEVELSTATE::READY)	
 		{
 
 			m_levelState = eLEVELSTATE::ZEROENTER;
-			m_textureAnim->Remove();
+			m_textureReadyAnim->Remove();
 		}
 	}
 
@@ -132,7 +148,7 @@ void CRockmanLevel::LevelDealy()
 	{
 		m_exitDelay += DELTATIME;
 		
-		if (m_exitDelay >= 2.f)
+		if (m_exitDelay >= 1.0f)
 		{
 			GETINSTANCE(CLevelManager)->LoadLevel(m_nextLevel);
 		}
@@ -148,5 +164,12 @@ void CRockmanLevel::NextLevel(LEVEL_TYPE layer)
 {	
 	m_levelState = eLEVELSTATE::FADEEXIT;
 	m_nextLevel = layer;
-	GETINSTANCE(CCamera)->FadeOut(1.0f);
+	GETINSTANCE(CCamera)->FadeOut(1.f);
+}
+
+void CRockmanLevel::NextLevel()
+{
+	m_levelState = eLEVELSTATE::FADEEXIT;
+	m_exitDelay = 0.f;
+	GETINSTANCE(CCamera)->FadeOut(1.f);
 }

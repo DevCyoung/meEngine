@@ -8,6 +8,7 @@
 #include "CLevelManager.h"
 #include "CCollisionManager.h"
 #include "CResourceManager.h"
+#include "CHitManager.h"
 #include "CEventManager.h"
 #include "CCamera.h"
 #include "CAnimEnvManager.h"
@@ -92,10 +93,16 @@ void CEngine::tick()
 
 	GETINSTANCE(CLevelManager)->tick();	
 
+	GETINSTANCE(CHitManager)->tick();
+
 	GETINSTANCE(CCollisionManager)->tick();
 	GETINSTANCE(CLineColManager)->tick();
 
+
+
+
 	GETINSTANCE(CLevelManager)->fixed_tick();
+
 
 	GETINSTANCE(CUIManager)->tick();
 

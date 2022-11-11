@@ -9,6 +9,10 @@
 #include "CTimeManager.h"
 #include "CAnimator.h"
 
+#include "CLevelManager.h"
+#include "CLevel.h"
+#include "CRockmanLevel.h"
+
 CNextArea::CNextArea()
 {
 	m_mode = COLIDE_EIDT_MODE::NEXTAREAEBOX;
@@ -84,13 +88,10 @@ void CNextArea::OnTriggerEnter(CCollider* _pOther)
 	if (m_bCollison == true)
 		return;
 	m_zero->SetState(PLAYER_STATE::RETURNREADY);
-	
+
+	CLevel* level = GETINSTANCE(CLevelManager)->GetCurLevel();
+	CRockmanLevel* rmLevel = dynamic_cast<CRockmanLevel*>(level);
+	assert(rmLevel);
+	rmLevel->NextLevel();
 	this->Destroy();
-	//if (m_zero != nullptr && m_zero->GetState() != PLAYER_STATE::RETURNREADY && m_zero->GetState() != PLAYER_STATE::RETURNREADY)
-	//{
-	//	m_bCollison = true;
-	//	
-	//	
-	//	//
-	//}
 }

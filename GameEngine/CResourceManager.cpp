@@ -18,6 +18,14 @@ CResourceManager::~CResourceManager()
     {
         delete iter->second;
     }
+
+    map<wstring, CSound*>::iterator siter = m_mapSounds.begin();
+    for (; siter != m_mapSounds.end(); ++siter)
+    {
+        delete siter->second;
+    }
+
+
 }
 
 

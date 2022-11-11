@@ -233,6 +233,15 @@
     <Filter Include="Game\RockMan\EventBox\Dorr2">
       <UniqueIdentifier>{b3b64581-bad3-424b-8fb5-1461069e2386}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Level\RockmanLevel\Cyberspace\level">
+      <UniqueIdentifier>{93cf191d-6553-470b-b403-069887a0ed5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\02. Manager\12. Hit">
+      <UniqueIdentifier>{52123cd6-bff5-4175-9d0d-c92b39c222d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\RockMan\Hitbox">
+      <UniqueIdentifier>{8509d6c5-a414-476c-9622-cdc827ed0c8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -424,17 +433,8 @@
     <ClInclude Include="CSound.h">
       <Filter>Engine\06. Resource\Sound</Filter>
     </ClInclude>
-    <ClInclude Include="CRockmanLevel.h">
-      <Filter>Game\Level\RockmanLevel\Cyberspace</Filter>
-    </ClInclude>
     <ClInclude Include="CTextureAnim.h">
       <Filter>Game\TextureAnimation</Filter>
-    </ClInclude>
-    <ClInclude Include="CCyberspaceLevel.h">
-      <Filter>Game\Level\RockmanLevel\Cyberspace</Filter>
-    </ClInclude>
-    <ClInclude Include="CCyberspaceLevel2.h">
-      <Filter>Game\Level\RockmanLevel\Cyberspace</Filter>
     </ClInclude>
     <ClInclude Include="CEventBox.h">
       <Filter>Game\RockMan\EventBox\EventBox</Filter>
@@ -453,6 +453,30 @@
     </ClInclude>
     <ClInclude Include="CCameraObj.h">
       <Filter>Game\RockMan\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="CCyberspaceLevel.h">
+      <Filter>Game\Level\RockmanLevel\Cyberspace\level</Filter>
+    </ClInclude>
+    <ClInclude Include="CCyberspaceLevel2.h">
+      <Filter>Game\Level\RockmanLevel\Cyberspace\level</Filter>
+    </ClInclude>
+    <ClInclude Include="CRockmanLevel.h">
+      <Filter>Game\Level\RockmanLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="CCyberspaceLevel3.h">
+      <Filter>Game\Level\RockmanLevel\Cyberspace\level</Filter>
+    </ClInclude>
+    <ClInclude Include="CCyberspaceLevel4.h">
+      <Filter>Game\Level\RockmanLevel\Cyberspace\level</Filter>
+    </ClInclude>
+    <ClInclude Include="CCyberspaceLevelBoss.h">
+      <Filter>Game\Level\RockmanLevel\Cyberspace\level</Filter>
+    </ClInclude>
+    <ClInclude Include="CHitManager.h">
+      <Filter>Engine\02. Manager\12. Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="CHitBox.h">
+      <Filter>Game\RockMan\Hitbox</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -677,17 +701,8 @@
     <ClCompile Include="CSound.cpp">
       <Filter>Engine\06. Resource\Sound</Filter>
     </ClCompile>
-    <ClCompile Include="CRockmanLevel.cpp">
-      <Filter>Game\Level\RockmanLevel\Cyberspace</Filter>
-    </ClCompile>
     <ClCompile Include="CTextureAnim.cpp">
       <Filter>Game\TextureAnimation</Filter>
-    </ClCompile>
-    <ClCompile Include="CCyberspaceLevel.cpp">
-      <Filter>Game\Level\RockmanLevel\Cyberspace</Filter>
-    </ClCompile>
-    <ClCompile Include="CCyberspaceLevel2.cpp">
-      <Filter>Game\Level\RockmanLevel\Cyberspace</Filter>
     </ClCompile>
     <ClCompile Include="CEventBox.cpp">
       <Filter>Game\RockMan\EventBox\EventBox</Filter>
@@ -706,6 +721,30 @@
     </ClCompile>
     <ClCompile Include="CCameraObj.cpp">
       <Filter>Game\RockMan\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="CCyberspaceLevel.cpp">
+      <Filter>Game\Level\RockmanLevel\Cyberspace\level</Filter>
+    </ClCompile>
+    <ClCompile Include="CCyberspaceLevel2.cpp">
+      <Filter>Game\Level\RockmanLevel\Cyberspace\level</Filter>
+    </ClCompile>
+    <ClCompile Include="CRockmanLevel.cpp">
+      <Filter>Game\Level\RockmanLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="CCyberspaceLevel3.cpp">
+      <Filter>Game\Level\RockmanLevel\Cyberspace\level</Filter>
+    </ClCompile>
+    <ClCompile Include="CCyberspaceLevel4.cpp">
+      <Filter>Game\Level\RockmanLevel\Cyberspace\level</Filter>
+    </ClCompile>
+    <ClCompile Include="CCyberspaceLevelBoss.cpp">
+      <Filter>Game\Level\RockmanLevel\Cyberspace\level</Filter>
+    </ClCompile>
+    <ClCompile Include="CHitManager.cpp">
+      <Filter>Engine\02. Manager\12. Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="CHitBox.cpp">
+      <Filter>Game\RockMan\Hitbox</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

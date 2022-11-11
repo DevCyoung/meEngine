@@ -15,7 +15,10 @@ public:
 	virtual void fixed_tick() override;
 	virtual void render(HDC _dc) override;
 
-
+	//box 
+	virtual void OnTriggerEnter(CCollider* _pOhter) override;
+	virtual void OnTriggerStay(CCollider* _pOhter) override;
+	virtual void OnTriggerExit(CCollider* _pOhter) override;
 
 
 public:

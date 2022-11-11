@@ -21,6 +21,12 @@ public:
 	float		 m_time;
 	GOSM_STATE	m_state;
 
+	//box 
+	virtual void OnTriggerEnter(CCollider* _pOhter);
+	virtual void OnTriggerStay(CCollider* _pOhter);
+	virtual void OnTriggerExit(CCollider* _pOhter);
+
+
 	CLONE(CGosm);
 
 public:

@@ -107,6 +107,7 @@ public:
 	CLONE(CZero);
 	void			RetrunEvent();
 
+	virtual void AttackEvent(tAnimFrm frm,  CCollider* _pOther);
 
 public:
 	CZero();

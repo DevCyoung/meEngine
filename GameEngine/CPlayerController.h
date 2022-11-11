@@ -2,6 +2,8 @@
 #include "CComponent.h"
 
 #define DASH_FRAME_SIZE 12
+#define REDZEROCOLOR 0xffE90100
+#define BACKGROUNDCOLOR 0X00ff00ff    
 class CZero;
 class CAnimator;
 //STARTVIM

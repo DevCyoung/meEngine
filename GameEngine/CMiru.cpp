@@ -22,6 +22,7 @@ CMiru::CMiru()
 	//GetLineCollider()->SetRaycast(Vector2(-1000.f, -1000.f), Vector2(0.f, -1.f), Vector2(0.f, 0.f), 50.f);
 	//SetTag(LAYER::MONSTER);
 	m_sponType = MONSETER_TYPE::MIRU;
+	m_damagedState = DAMAGED_STATE::ULTIMAGE;
 }
 
 CMiru::CMiru(const CMiru& _other)
@@ -75,6 +76,9 @@ void CMiru::render(HDC _dc)
 
 void CMiru::OnTriggerEnter(CCollider* _pOhter)
 {
+	if (m_damagedState == DAMAGED_STATE::ULTIMAGE)
+		return;
+	CRockmanMonster::OnTriggerEnter(_pOhter);
 }
 
 void CMiru::OnTriggerStay(CCollider* _pOhter)

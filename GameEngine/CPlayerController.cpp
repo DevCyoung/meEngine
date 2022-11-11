@@ -13,6 +13,9 @@
 
 #include "CResourceManager.h"
 #include "CSound.h"
+
+#include "CCollider.h"
+
 int check = 0;
 
 
@@ -108,9 +111,9 @@ void CPlayerController::tick()
 			
 			m_zero->GetRigidbody()->SetGravity(false);
 			m_zero->GetAnimator()->TrigerPlay(L"RETURNREADY", false);
-			GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\returnvim.wav")->SetPosition(0);
-			GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\returnvim.wav")->SetVolume(18.f);
-			GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\returnvim.wav")->Play();
+			GETINSTANCE(CResourceManager)->LoadSound(L"returnvim", L"sound\\returnvim.wav")->SetPosition(0);
+			GETINSTANCE(CResourceManager)->LoadSound(L"returnvim", L"sound\\returnvim.wav")->SetVolume(18.f);
+			GETINSTANCE(CResourceManager)->LoadSound(L"returnvim", L"sound\\returnvim.wav")->Play();
 			m_state = PLAYER_STATE::RETURN;
 			m_arrDashFrame.clear();
 			m_dashMoveScale = 1.f;
@@ -131,6 +134,7 @@ void CPlayerController::tick()
 	velo.x = 0.f;
 	m_velocity.x = velo.x;
 	m_velocity.y = velo.y;
+
 	////check = 0;
 	////입력외의 변수들 설정
 	if (m_zero->DownColState() == false && m_state != PLAYER_STATE::FALLING && m_state != PLAYER_STATE::WALLSLIDE && m_state != PLAYER_STATE::JUMP && m_state != PLAYER_STATE::FALLINGATTACK)
@@ -202,6 +206,14 @@ void CPlayerController::tick()
 		{
 			m_velocity.x = -600;
 		}
+		
+		m_zero->GetCollider()->SetOffsetPos(Vector2(0.f, 25.f));
+		m_zero->GetCollider()->SetScale(Vector2(80.f, 70.f));
+	}
+	else
+	{
+		m_zero->GetCollider()->SetOffsetPos(Vector2(0.f, 0.f));
+		m_zero->GetCollider()->SetScale(Vector2(80.f, 120.f));
 	}
 	DashFrame();
 
@@ -465,7 +477,8 @@ void CPlayerController::render(HDC _dc)
 		if (dist <= 20.f)
 			continue;
 		Vector2 renPos = GETINSTANCE(CCamera)->GetRenderPos(m_arrDashFrame[i].pos);
-		CRenderHelper::StretchRender(tex->GetDC(), m_arrDashFrame[i].frame, _dc, renPos, m_zero->GetFilpX());
+		//CRenderHelper::StretchRender(tex->GetDC(), m_arrDashFrame[i].frame, _dc, renPos, m_zero->GetFilpX(), 0.50f);
+		CRenderHelper::StretchRenderReplaceColor(tex->GetDC(), m_arrDashFrame[i].frame, _dc, renPos, m_zero->GetFilpX(), 0.5f, BACKGROUNDCOLOR, REDZEROCOLOR, true);
 	}
 }
 

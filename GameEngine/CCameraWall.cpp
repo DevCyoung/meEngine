@@ -5,6 +5,8 @@
 #include "CCameraObj.h"
 #include "CCollider.h"
 
+#include "CCollisionManager.h"
+
 CCameraWall::CCameraWall()
 	:m_dir{ COLLIDE_DIR::NONE}
 {
@@ -24,6 +26,10 @@ CCameraWall::~CCameraWall()
 void CCameraWall::render(HDC _dc)
 {
 	CGameObject::render(_dc);
+
+	if (GETINSTANCE(CCollisionManager)->GetDrawCollide() == false)
+		return;
+
 	Vector2 pos = GETINSTANCE(CCamera)->GetRenderPos(GetPos());
 	
 	TextOut(_dc, pos.x, pos.y,     L"CAMERAWALL", 10);

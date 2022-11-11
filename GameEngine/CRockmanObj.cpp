@@ -58,6 +58,8 @@ CRockmanObj::CRockmanObj()
 	, m_isGravity(false)
 	, m_gravityAceel(0.f)
 	, m_curGravity(0.f)
+	, m_damagedState(DAMAGED_STATE::NONE)
+
 	
 {
 	m_gravityAceel = 1.95f;
@@ -77,7 +79,7 @@ CRockmanObj::CRockmanObj(const CRockmanObj& _other)
 	, m_isBoxCollideDownState(false)
 	, m_isGravity(false)
 	, m_gravityAceel(_other.m_gravityAceel)
-	, m_curGravity(0.f)
+	, m_curGravity(0.f)	
 
 {
 	if (_other.m_downRay != nullptr)
@@ -181,6 +183,9 @@ void CRockmanObj::tick()
 		pos.y = ((p2.y - p1.y) / (p2.x - p1.x)) * (pos.x - p1.x) + p1.y - GetLineCollider()->GetLineCollider()->m_distance + 1.f;
 		SetPos(pos);
 	}
+
+
+
 }
 
 void CRockmanObj::fixed_tick()

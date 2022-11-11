@@ -21,8 +21,7 @@ CCamera::CCamera()
 
 	m_pBlindTex = GETINSTANCE(CResourceManager)->CreateTexture(L"BlindTex", ptResolution.x, ptResolution.y);
 
-	m_cam = new CCameraObj();
-	CGameObject::Instantiate(m_cam, m_cam->GetPos(), LAYER::CAMERA);
+	
 }
 CCamera::~CCamera()
 {
