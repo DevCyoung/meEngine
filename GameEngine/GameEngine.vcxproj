@@ -162,6 +162,7 @@
     <ClInclude Include="CCyberspaceLevel3.h" />
     <ClInclude Include="CCyberspaceLevel4.h" />
     <ClInclude Include="CCyberspaceLevelBoss.h" />
+    <ClInclude Include="CDashPowerEffect.h" />
     <ClInclude Include="CDoor1.h" />
     <ClInclude Include="CDoor2.h" />
     <ClInclude Include="CEditorLevel.h" />
@@ -177,6 +178,7 @@
     <ClInclude Include="CHitManager.h" />
     <ClInclude Include="CHPbar.h" />
     <ClInclude Include="CKeyManager.h" />
+    <ClInclude Include="CLandDash.h" />
     <ClInclude Include="CLevel.h" />
     <ClInclude Include="CLevelManager.h" />
     <ClInclude Include="CLine.h" />
@@ -196,6 +198,7 @@
     <ClInclude Include="CPlayerAnimEvent.h" />
     <ClInclude Include="CPlayerController.h" />
     <ClInclude Include="CRaycast.h" />
+    <ClInclude Include="CRedBoomEffect.h" />
     <ClInclude Include="CRenderHelper.h" />
     <ClInclude Include="CResource.h" />
     <ClInclude Include="CResourceManager.h" />
@@ -203,6 +206,8 @@
     <ClInclude Include="CRockmanLevel.h" />
     <ClInclude Include="CRockmanMonster.h" />
     <ClInclude Include="CRockmanObj.h" />
+    <ClInclude Include="CSliceEffect.h" />
+    <ClInclude Include="CSlideDustEffect.h" />
     <ClInclude Include="CSound.h" />
     <ClInclude Include="CSoundMgr.h" />
     <ClInclude Include="CStartLevel.h" />
@@ -211,11 +216,13 @@
     <ClInclude Include="CTextureAnim.h" />
     <ClInclude Include="CTile.h" />
     <ClInclude Include="CTimeManager.h" />
+    <ClInclude Include="CTinEffect.h" />
     <ClInclude Include="CTitleLevel.h" />
     <ClInclude Include="CTry.h" />
     <ClInclude Include="CUI.h" />
     <ClInclude Include="CUIManager.h" />
     <ClInclude Include="CWall.h" />
+    <ClInclude Include="CWallHitEffect.h" />
     <ClInclude Include="CZero.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="framework.h" />
@@ -247,6 +254,7 @@
     <ClCompile Include="CCyberspaceLevel3.cpp" />
     <ClCompile Include="CCyberspaceLevel4.cpp" />
     <ClCompile Include="CCyberspaceLevelBoss.cpp" />
+    <ClCompile Include="CDashPowerEffect.cpp" />
     <ClCompile Include="CDoor1.cpp" />
     <ClCompile Include="CDoor2.cpp" />
     <ClCompile Include="CEditorLevel.cpp" />
@@ -258,6 +266,7 @@
     <ClCompile Include="CHitBox.cpp" />
     <ClCompile Include="CHitManager.cpp" />
     <ClCompile Include="CHPbar.cpp" />
+    <ClCompile Include="CLandDash.cpp" />
     <ClCompile Include="CLine.cpp" />
     <ClCompile Include="CMap.cpp" />
     <ClCompile Include="CMapManager.cpp" />
@@ -268,13 +277,18 @@
     <ClCompile Include="CPlayerAnimEvent.cpp" />
     <ClCompile Include="CPlayerController.cpp" />
     <ClCompile Include="CRaycast.cpp" />
+    <ClCompile Include="CRedBoomEffect.cpp" />
     <ClCompile Include="CRockmanLevel.cpp" />
     <ClCompile Include="CRockmanMonster.cpp" />
+    <ClCompile Include="CSliceEffect.cpp" />
+    <ClCompile Include="CSlideDustEffect.cpp" />
     <ClCompile Include="CSound.cpp" />
     <ClCompile Include="CSoundMgr.cpp" />
     <ClCompile Include="CTextureAnim.cpp" />
+    <ClCompile Include="CTinEffect.cpp" />
     <ClCompile Include="CTry.cpp" />
     <ClCompile Include="CWall.cpp" />
+    <ClCompile Include="CWallHitEffect.cpp" />
     <ClCompile Include="Line_Func.cpp" />
     <ClCompile Include="Tile_Func.cpp" />
     <ClCompile Include="Tile_SaveLoad.cpp" />

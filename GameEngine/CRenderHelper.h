@@ -6,11 +6,11 @@ class CRenderHelper
 {
 public:
     static void StretchRender(HDC HDCsource, int leftX, int leftY, int sizeX, int sizeY, HDC HDCdest, int posX, int posY, int offsetX, int offsetY, bool isFlipX);
-    static void StretchRender(HDC HDCsource, int leftX, int leftY, int sizeX, int sizeY, HDC HDCdest, int posX, int posY, int offsetX, int offsetY, bool isFlipX, bool isFlipY);
+    static void StretchRender(HDC HDCsource, int leftX, int leftY, int sizeX, int sizeY, HDC HDCdest, int posX, int posY, int offsetX, int offsetY, bool isFlipX, bool isFlipY, float renderPer);
     static void StretchRender(HDC HDCsource, tAnimFrm& frame, HDC HDCdest, Vector2 pos, bool isFlipX);
     static void StretchRender(HDC HDCsource, tAnimFrm& frame, HDC HDCdest, Vector2 pos, bool isFlip, float alpha);
 
-    static void StretchRenderReplaceColor(HDC HDCsource, tAnimFrm& frame, HDC HDCdest, Vector2 pos, bool isFlip, float alpha, UINT oldColor, UINT newColor, bool isReverse);
+    static void StretchRenderReplaceColor(HDC HDCsource, tAnimFrm& frame, HDC HDCdest, Vector2 pos, bool isFlip, float alpha, UINT oldColor, UINT newColor, bool isReverse, float renderPer);
 
     static void StretchRender(HDC dest, CTexture* texture, Vector2 Pos, bool isFlipY);
 

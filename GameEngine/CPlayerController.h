@@ -2,7 +2,10 @@
 #include "CComponent.h"
 
 #define DASH_FRAME_SIZE 12
-#define REDZEROCOLOR 0xffE90100
+
+#define REDZEROCOLOR   0xffE90100
+#define BLACKZEROCOLOR 0xff5000A0
+
 #define BACKGROUNDCOLOR 0X00ff00ff    
 class CZero;
 class CAnimator;
@@ -51,6 +54,10 @@ public:
     vector<tDashFrame>  m_arrDashFrame;
     UINT                m_dashFrameIdx;
     float               m_dashFrameDelay;
+
+    //Hit
+    Vector2             m_hitDir;
+    float               m_hitDelay;
 
     virtual void tick() override;
     void flip_tick();

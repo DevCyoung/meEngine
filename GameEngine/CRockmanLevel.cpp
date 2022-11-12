@@ -18,6 +18,8 @@
 #include "CCameraObj.h"
 #include "CGameObject.h"
 
+#include "CEffectManager.h"
+
 CRockmanLevel::CRockmanLevel()
 	: m_editor(nullptr)
 	, m_zero(nullptr)
@@ -58,6 +60,10 @@ void CRockmanLevel::init()
 
 	GETINSTANCE(CResourceManager)->LoadSound(L"startvim", L"sound\\startvim.wav");
 	GETINSTANCE(CResourceManager)->LoadSound(L"startvim", L"sound\\startvim.wav")->SetVolume(18.f);
+
+	//efect
+
+
 }
 
 void CRockmanLevel::tick()
@@ -71,6 +77,7 @@ void CRockmanLevel::Enter()
 {
 	//CLevel::Enter(); = 0
 	init();
+	GETINSTANCE(CEffectManager)->LoadAllEffect();
 	GETINSTANCE(CCamera)->FadeIn(0.5f);	
 }
 

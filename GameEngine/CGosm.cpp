@@ -58,9 +58,10 @@ void CGosm::tick()
 		//GetAnimator()->TrigerPlay(L"IDLE", true);
 		if (m_time >= 1.5f)
 		{
-			SetFlipX(!GetFilpX());
+			SetFlipX(!GetFlipX());
 			GetAnimator()->TrigerPlay(L"ATTACKREADY", false);
 			m_state = GOSM_STATE::ATTACKREADY;
+
 
 			
 
@@ -84,7 +85,7 @@ void CGosm::tick()
 		{
 			if (m_time <= 3.8f)
 			{			
-				if (GetFilpX() == false)
+				if (GetFlipX() == false)
 				{
 				
 					if (LeftColState() == false)
@@ -146,8 +147,7 @@ void CGosm::render(HDC _dc)
 
 void CGosm::OnTriggerEnter(CCollider* _pOhter)
 {
-	if (m_damagedState == DAMAGED_STATE::ULTIMAGE)
-		return;
+
 	CRockmanMonster::OnTriggerEnter(_pOhter);
 }
 

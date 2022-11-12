@@ -32,6 +32,9 @@ protected:
     void CreateRigidbody();
 
 public:
+    float    m_renderPer;
+
+public:
     CCollider* GetCollider() { return m_pCollider; }
     CAnimator* GetAnimator() { return m_pAnimator; }
     CRigidbody* GetRigidbody() { return m_pRigidbody; }
@@ -60,7 +63,7 @@ public:
 
     Vector2 GetPos()        { return m_vPos; } 
     Vector2 GetScale()      { return m_vScale; } 
-    bool GetFilpX() const   { return m_isFlipX; }
+    bool GetFlipX() const   { return m_isFlipX; }
     bool GetFilpY() const   { return m_isFlipY; }
     LAYER GetLayer() { return m_tag; }
 

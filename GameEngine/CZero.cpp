@@ -25,6 +25,10 @@
 #include "CSound.h"
 #include "CHitManager.h"
 
+#include "CEffectManager.h"
+
+#include "CHPbar.h"
+
 CTexture* mm_pTexuture = nullptr;
 
 CZero::CZero()
@@ -42,6 +46,9 @@ CZero::CZero()
 	m_isGravity = true;
 
 	CreateAnimator();
+	GETINSTANCE(CEffectManager)->SetPlayerTarget(this);
+	GETINSTANCE(CResourceManager)->LoadTexture(L"ZERO", L"texture\\charactor\\atlas_zero.bmp");
+
 
 	CreateCollider();
 	GetCollider()->SetScale(Vector2(80.f, 120.f));
@@ -62,10 +69,21 @@ CZero::CZero()
 	//camera
 	//TINSTANCE(CCamera)->Settarget(this);
 	//Å×½ºÆ®
+
+	
+
 	CHitBox* hbox = new CHitBox();
 	hbox->SetOwner(this);
 	hbox->SetTartgetLayer(LAYER::MONSTER);
+	
 	CGameObject::Instantiate(hbox, Vector2(0.f, 0.f), LAYER::PLAYERATTACK);
+	
+	m_hp = 10;
+	CHPbar* bar = new CHPbar();
+	bar->m_Maxhp = m_hp;
+	bar->m_target = this;
+	bar->m_prevHp = m_hp;
+	CGameObject::Instantiate(bar, bar->GetPos(), LAYER::EDITOR);
 
 }
 
@@ -82,6 +100,7 @@ CZero::CZero(const CZero& _other)
 {
 	SetTag(LAYER::PLAYER);
 
+
 	CreateLineCollider();
 	GetLineCollider()->SetRaycast(Vector2(-1000.f, -1000.f), Vector2(0.f, 1.f), Vector2(0.f, 0.f), GetCollider()->GetScale().y / 2.f);
 	GetLineCollider()->SetEnterEvent((DELEGATECOL)&CZero::DownHitEnter, this);
@@ -91,7 +110,7 @@ CZero::CZero(const CZero& _other)
 	CreateAnimEvent();
 	
 
-	
+
 
 }
 
@@ -156,25 +175,12 @@ void CZero::RetrunEvent()
 
 void CZero::AttackEvent(tAnimFrm frm,  CCollider* _pOther)
 {
-	/*GETINSTANCE(CResourceManager)->LoadSound(L"slice", L"sound\\slice.wav")->SetPosition(0);
-	GETINSTANCE(CResourceManager)->LoadSound(L"slice", L"sound\\slice.wav")->SetVolume(20.f);
-	GETINSTANCE(CResourceManager)->LoadSound(L"slice", L"sound\\slice.wav")->Play();*/
-
 	if (LAYER::MONSTER != _pOther->GetOwner()->GetLayer())
 		return;
 	CRockmanObj* rmObj = dynamic_cast<CRockmanObj*>(_pOther->GetOwner());
-	if (rmObj->m_damagedState == DAMAGED_STATE::ULTIMAGE)
-	{
-		GETINSTANCE(CResourceManager)->LoadSound(L"tin", L"sound\\tin.wav")->SetPosition(0);
-		GETINSTANCE(CResourceManager)->LoadSound(L"tin", L"sound\\tin.wav")->SetVolume(20.f);
-		GETINSTANCE(CResourceManager)->LoadSound(L"tin", L"sound\\tin.wav")->Play();
-	}
-	else
-	{
-		GETINSTANCE(CResourceManager)->LoadSound(L"slice", L"sound\\slice.wav")->SetPosition(0);
-		GETINSTANCE(CResourceManager)->LoadSound(L"slice", L"sound\\slice.wav")->SetVolume(20.f);
-		GETINSTANCE(CResourceManager)->LoadSound(L"slice", L"sound\\slice.wav")->Play();
-	}	
+	assert(rmObj);
+
+	bool flipX = rmObj->GetPos().x > GetPos().x;
 
 	if (m_playerController->m_state == PLAYER_STATE::LANDATTACK1)
 	{
@@ -183,7 +189,7 @@ void CZero::AttackEvent(tAnimFrm frm,  CCollider* _pOther)
 	else if (m_playerController->m_state == PLAYER_STATE::LANDATTACK2)
 	{		
 	}
-	else
+	else if (rmObj->m_hp > 0)
 	{
 		GETINSTANCE(CHitManager)->AddAtackDelay(frm);
 	}

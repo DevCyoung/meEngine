@@ -11,6 +11,8 @@
 #include "CResourceManager.h"
 #include "CSound.h"
 
+#include "CEffectManager.h"
+
 CPlayerAnimEvent::CPlayerAnimEvent(CGameObject* obj)
 	:CComponent(obj)
 	, m_animztor(nullptr)
@@ -66,6 +68,11 @@ CPlayerAnimEvent::CPlayerAnimEvent(CGameObject* obj)
 	m_animztor->LoadAnimation(L"animation\\zero\\returnready.anim");
 	m_animztor->LoadAnimation(L"animation\\zero\\returnblink.anim");
 
+	//damaged
+	m_animztor->LoadAnimation(L"animation\\zero\\damaged.anim");
+	m_animztor->LoadAnimation(L"animation\\zero\\damagedready.anim");
+
+
 	m_animztor->FindAnimation(L"JUMPREADY")->SetFrameEvent(1, this, (DELEGATE)&CPlayerAnimEvent::JumpReady);
 	m_animztor->FindAnimation(L"FALLINGREADY")->SetFrameEvent(4, this, (DELEGATE)&CPlayerAnimEvent::FallingReady);
 	m_animztor->FindAnimation(L"FIREREADY")->SetFrameEvent(4, this, (DELEGATE)&CPlayerAnimEvent::FireReady);
@@ -83,16 +90,34 @@ CPlayerAnimEvent::CPlayerAnimEvent(CGameObject* obj)
 	m_animztor->FindAnimation(L"FALLINATTACK")->SetFrameEvent(8, this, (DELEGATE)&CPlayerAnimEvent::Falling);
 
 
-	m_animztor->FindAnimation(L"ATTACK1")->SetFrameEvent(7, this, (DELEGATE)&CPlayerAnimEvent::Attack1);
-	m_animztor->FindAnimation(L"ATTACK2")->SetFrameEvent(7, this, (DELEGATE)&CPlayerAnimEvent::Attack2);
-	m_animztor->FindAnimation(L"ATTACK3")->SetFrameEvent(7, this, (DELEGATE)&CPlayerAnimEvent::Attack3);
+	m_animztor->FindAnimation(L"ATTACK1")->SetFrameEvent(5, this, (DELEGATE)&CPlayerAnimEvent::Attack1);
+	m_animztor->FindAnimation(L"ATTACK2")->SetFrameEvent(5, this, (DELEGATE)&CPlayerAnimEvent::Attack2);
+	m_animztor->FindAnimation(L"ATTACK3")->SetFrameEvent(6, this, (DELEGATE)&CPlayerAnimEvent::Attack3);
+
+	m_animztor->FindAnimation(L"ATTACK1")->SetFrameEvent(0, this, (DELEGATE)&CPlayerAnimEvent::Attack1Reday);
+	m_animztor->FindAnimation(L"ATTACK2")->SetFrameEvent(0, this, (DELEGATE)&CPlayerAnimEvent::Attack2Reday);
+	m_animztor->FindAnimation(L"ATTACK3")->SetFrameEvent(0, this, (DELEGATE)&CPlayerAnimEvent::Attack3Reday);
+
+
+
 
 	m_animztor->FindAnimation(L"WALLJUMPREADY")->SetFrameEvent(3, this, (DELEGATE)&CPlayerAnimEvent::JumpReady);
+	m_animztor->FindAnimation(L"WALLJUMPREADY")->SetFrameEvent(0, this, (DELEGATE)&CPlayerAnimEvent::JumpReadyEffect);
+
 	m_animztor->FindAnimation(L"WALLSLIDEREADY")->SetFrameEvent(2, this, (DELEGATE)&CPlayerAnimEvent::WallSlideReady);
 	m_animztor->FindAnimation(L"RETURNREADY")->SetFrameEvent(8, this, (DELEGATE)&CPlayerAnimEvent::ReturnReady);
 
-	m_animztor->FindAnimation(L"DASHREADY")->SetFrameEvent(2, this, (DELEGATE)&CPlayerAnimEvent::LandDashReady);
 
+
+	m_animztor->FindAnimation(L"DASHREADY")->SetFrameEvent(2, this, (DELEGATE)&CPlayerAnimEvent::LandDashReady);
+	m_animztor->FindAnimation(L"DASHREADY")->SetFrameEvent(0, this, (DELEGATE)&CPlayerAnimEvent::LandDashReadyEffect);
+
+	m_animztor->FindAnimation(L"WALLSLIDE")->SetFrameEvent(0, this, (DELEGATE)&CPlayerAnimEvent::WallSlideEffect);
+	//m_animztor->FindAnimation(L"WALLSLIDE")->SetFrameEvent(1, this, (DELEGATE)&CPlayerAnimEvent::WallSlideEffect);
+	m_animztor->FindAnimation(L"WALLSLIDE")->SetFrameEvent(2, this, (DELEGATE)&CPlayerAnimEvent::WallSlideEffect);
+
+
+	m_animztor->FindAnimation(L"DAMAGEDREADY")->SetFrameEvent(3, this, (DELEGATE)&CPlayerAnimEvent::DamagedReady);
 
 	m_animztor->Play(L"IDLE", true);
 
@@ -133,6 +158,7 @@ void CPlayerAnimEvent::WalkReady()
 void CPlayerAnimEvent::JumpReady()
 {
 	m_animztor->Play(L"JUMP", true);
+
 }
 
 void CPlayerAnimEvent::FallingReady()
@@ -158,6 +184,8 @@ void CPlayerAnimEvent::WallSlideReady()
 void CPlayerAnimEvent::LandDashReady()
 {
 	m_animztor->Play(L"DASH", true);
+
+	GETINSTANCE(CEffectManager)->OnShootPlay(EFFECT_TYPE::LANDDASHPOWER, m_zero->GetPos(), !m_zero->GetFlipX());
 }
 
 void CPlayerAnimEvent::FireReady()
@@ -193,6 +221,38 @@ void CPlayerAnimEvent::Attack3()
 	
 }
 
+void CPlayerAnimEvent::Attack1Reday()
+{	
+	GETINSTANCE(CResourceManager)->LoadSound(L"ATTACK1", L"sound\\hu.wav")->Play();
+	GETINSTANCE(CResourceManager)->LoadSound(L"saver",   L"sound\\saver.wav")->SetPosition(0);
+	GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->SetVolume(18.f);
+	GETINSTANCE(CResourceManager)->LoadSound(L"saver",   L"sound\\saver.wav")->Play();
+}
+
+void CPlayerAnimEvent::Attack2Reday()
+{
+	GETINSTANCE(CResourceManager)->LoadSound(L"ATTACK2", L"sound\\ha.wav")->Play();
+	GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->SetPosition(0);
+	GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->SetVolume(18.f);
+	GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->Play();
+}
+
+void CPlayerAnimEvent::Attack3Reday()
+{
+	GETINSTANCE(CResourceManager)->LoadSound(L"ATTACK3", L"sound\\huo.wav")->Play();
+	GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->SetPosition(0);
+	GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->SetVolume(18.f);
+	GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->Play();
+}
+
+void CPlayerAnimEvent::DamagedReady()
+{
+	m_animztor->Play(L"DAMAGED", true);
+	GETINSTANCE(CResourceManager)->LoadSound(L"zeroHit", L"sound\\zeroHit.wav")->SetPosition(0);
+	GETINSTANCE(CResourceManager)->LoadSound(L"zeroHit", L"sound\\zeroHit.wav")->SetVolume(18.f);
+	GETINSTANCE(CResourceManager)->LoadSound(L"zeroHit", L"sound\\zeroHit.wav")->Play();
+}
+
 void CPlayerAnimEvent::Idle()
 {
 	m_animztor->Play(L"IDLE", true);
@@ -203,6 +263,46 @@ void CPlayerAnimEvent::Enter()
 {
 	m_animztor->Play(L"IDLE", true);
 	m_zero->SetState(PLAYER_STATE::IDLE);
+}
+
+void CPlayerAnimEvent::WallSlideEffect()
+{
+	Vector2 pos = m_zero->GetPos();
+	pos.y += 80.f;
+
+	if (m_zero->GetFlipX())
+	{
+		pos.x += 45.f;
+	}
+	else
+	{
+		pos.x -= 45.f;
+	}
+
+	GETINSTANCE(CEffectManager)->OnShootPlay(EFFECT_TYPE::WALLSLIDEDUST, pos, !m_zero->GetFlipX());
+}
+
+void CPlayerAnimEvent::JumpReadyEffect()
+{
+	GETINSTANCE(CEffectManager)->OnShootPlay(EFFECT_TYPE::WALLHIT, m_zero->GetPos(), !m_zero->GetFlipX());
+}
+
+void CPlayerAnimEvent::LandDashReadyEffect()
+{
+	Vector2 pos = m_zero->GetPos();
+	pos.y += 20.f;
+
+	if (m_zero->GetFlipX())
+	{
+		pos.x -= 90.f;
+	}
+	else
+	{
+		pos.x += 90.f;
+	}
+
+	GETINSTANCE(CEffectManager)->OnShootPlay(EFFECT_TYPE::LANDDASH, pos, !m_zero->GetFlipX());
+
 }
 
 void CPlayerAnimEvent::Falling()

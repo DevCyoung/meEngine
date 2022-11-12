@@ -45,7 +45,7 @@ void CHitBox::tick()
 
 
 
-		if (_pOwner->GetFilpX() == false)
+		if (_pOwner->GetFlipX() == false)
 		{
 			vLPos.x = vPos.x - (colInfo.vScale.x / 2 + colInfo.vOffset.x) * WINDOWX_PER_X;
 			vLPos.y = vPos.y - (colInfo.vScale.y / 2 + colInfo.vOffset.y) * WINDOWX_PER_Y;

@@ -496,6 +496,27 @@
     <ClInclude Include="CHPbar.h">
       <Filter>Game\HPBar</Filter>
     </ClInclude>
+    <ClInclude Include="CTinEffect.h">
+      <Filter>Game\RockMan\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="CSliceEffect.h">
+      <Filter>Game\RockMan\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="CLandDash.h">
+      <Filter>Game\RockMan\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="CSlideDustEffect.h">
+      <Filter>Game\RockMan\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="CDashPowerEffect.h">
+      <Filter>Game\RockMan\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="CWallHitEffect.h">
+      <Filter>Game\RockMan\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="CRedBoomEffect.h">
+      <Filter>Game\RockMan\Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameEngine.rc">
@@ -772,6 +793,27 @@
     </ClCompile>
     <ClCompile Include="CHPbar.cpp">
       <Filter>Game\HPBar</Filter>
+    </ClCompile>
+    <ClCompile Include="CTinEffect.cpp">
+      <Filter>Game\RockMan\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="CSliceEffect.cpp">
+      <Filter>Game\RockMan\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="CLandDash.cpp">
+      <Filter>Game\RockMan\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="CSlideDustEffect.cpp">
+      <Filter>Game\RockMan\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="CDashPowerEffect.cpp">
+      <Filter>Game\RockMan\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="CWallHitEffect.cpp">
+      <Filter>Game\RockMan\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="CRedBoomEffect.cpp">
+      <Filter>Game\RockMan\Effect</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

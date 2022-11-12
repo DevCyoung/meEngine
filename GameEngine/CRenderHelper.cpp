@@ -95,10 +95,13 @@ void CRenderHelper::StretchRender(HDC HDCsource, int leftX, int leftY, int sizeX
 	DeleteDC(HDCbuffer);
 }
 
-void CRenderHelper::StretchRender(HDC HDCsource, int leftX, int leftY, int sizeX, int sizeY, HDC HDCdest, int posX, int posY, int offsetX, int offsetY, bool isFlipX, bool isFlipY)
+void CRenderHelper::StretchRender(HDC HDCsource, int leftX, int leftY, int sizeX, int sizeY, HDC HDCdest, int posX, int posY, int offsetX, int offsetY, bool isFlipX, bool isFlipY, float renderPer)
 {
+
+	//int renderPer = 3;
+
 	HDC		HDCbuffer = CreateCompatibleDC(HDCdest);
-	HBITMAP HBITMAPbuffer = CreateCompatibleBitmap(HDCdest, sizeX * WINDOWX_PER_X, sizeY * WINDOWX_PER_Y);
+	HBITMAP HBITMAPbuffer = CreateCompatibleBitmap(HDCdest, sizeX * renderPer, sizeY * renderPer);
 
 	HBITMAP hPrebit = (HBITMAP)SelectObject(HDCbuffer, HBITMAPbuffer);
 	DeleteObject(hPrebit);
@@ -111,34 +114,34 @@ void CRenderHelper::StretchRender(HDC HDCsource, int leftX, int leftY, int sizeX
 	
 	if (isFlipX)
 	{
-		vStretchLeft.x = sizeX * WINDOWX_PER_X - 1;		
-		vStretchSize.x = -sizeX * WINDOWX_PER_X;
+		vStretchLeft.x = sizeX * renderPer - 1;
+		vStretchSize.x = -sizeX * renderPer;
 
-		vTransLeft.x = posX - (int)(sizeX * WINDOWX_PER_X + offsetX * WINDOWX_PER_X) / 2;
+		vTransLeft.x = posX - (int)(sizeX * renderPer + offsetX * renderPer) / 2;
 		
 	}
 	else
 	{
 		vStretchLeft.x = 0.f;
-		vStretchSize.x = sizeX * WINDOWX_PER_X;
+		vStretchSize.x = sizeX * renderPer;
 
-		vTransLeft.x = posX - (int)(sizeX * WINDOWX_PER_X - offsetX * WINDOWX_PER_X) / 2;
+		vTransLeft.x = posX - (int)(sizeX * renderPer - offsetX * renderPer) / 2;
 		
 	}
 	//isFlipY = true;
 	if (isFlipY)
 	{
-		vStretchLeft.y =  sizeY * WINDOWX_PER_Y - 1;
-		vStretchSize.y = -sizeY * WINDOWX_PER_Y;
+		vStretchLeft.y =  sizeY * renderPer - 1;
+		vStretchSize.y = -sizeY * renderPer;
 
-		vTransLeft.y = posY - (int)(sizeY * WINDOWX_PER_Y - offsetY * WINDOWX_PER_Y) / 2;
+		vTransLeft.y = posY - (int)(sizeY * renderPer - offsetY * renderPer) / 2;
 	}
 	else
 	{
 		vStretchLeft.y = 0.f;
-		vStretchSize.y = sizeY * WINDOWX_PER_Y;
+		vStretchSize.y = sizeY * renderPer;
 
-		vTransLeft.y = posY - (int)(sizeY * WINDOWX_PER_Y - offsetY * WINDOWX_PER_Y) / 2;
+		vTransLeft.y = posY - (int)(sizeY * renderPer - offsetY * renderPer) / 2;
 	}
 
 
@@ -167,13 +170,13 @@ void CRenderHelper::StretchRender(HDC HDCsource, int leftX, int leftY, int sizeX
 		  HDCdest
 		, (int)vTransLeft.x
 		, (int)vTransLeft.y
-		, int(sizeX * WINDOWX_PER_X)
-		, int(sizeY * WINDOWX_PER_Y)
+		, int(sizeX * renderPer)
+		, int(sizeY * renderPer)
 		, HDCbuffer
 		, 0
 		, 0
-		, int(sizeX * WINDOWX_PER_X)
-		, int(sizeY * WINDOWX_PER_Y)
+		, int(sizeX * renderPer)
+		, int(sizeY * renderPer)
 		, 0Xff00ff
 	);
 
@@ -260,7 +263,7 @@ void CRenderHelper::StretchRender(HDC HDCsource, tAnimFrm& frame, HDC HDCdest, V
 	//DeleteObject(b);
 }
 
-void CRenderHelper::StretchRenderReplaceColor(HDC HDCsource, tAnimFrm& frame, HDC HDCdest, Vector2 pos, bool isFlip, float alpha,  UINT oldColor, UINT newColor, bool isReverse)
+void CRenderHelper::StretchRenderReplaceColor(HDC HDCsource, tAnimFrm& frame, HDC HDCdest, Vector2 pos, bool isFlip, float alpha,  UINT oldColor, UINT newColor, bool isReverse, float renderPer)
 {
 	BLENDFUNCTION tBlend = {};
 
@@ -269,9 +272,11 @@ void CRenderHelper::StretchRenderReplaceColor(HDC HDCsource, tAnimFrm& frame, HD
 	tBlend.BlendOp = 0;
 	tBlend.SourceConstantAlpha = (int)(255.f * alpha);
 
+	
+
 
 	HDC		HDCbuffer = CreateCompatibleDC(HDCdest);
-	HBITMAP HBITMAPbuffer = CreateCompatibleBitmap(HDCdest, frame.vSize.x * WINDOWX_PER_X, frame.vSize.y * WINDOWX_PER_Y);
+	HBITMAP HBITMAPbuffer = CreateCompatibleBitmap(HDCdest, frame.vSize.x * renderPer, frame.vSize.y * renderPer);
 	HBITMAP hPrebit = (HBITMAP)SelectObject(HDCbuffer, HBITMAPbuffer);
 
 	DeleteObject(hPrebit);
@@ -289,15 +294,15 @@ void CRenderHelper::StretchRenderReplaceColor(HDC HDCsource, tAnimFrm& frame, HD
 		AlphaBlend
 		(
 			HDCdest,
-			int(pos.x - (int)(frame.vSize.x * WINDOWX_PER_X + frame.vOffset.x * WINDOWX_PER_X) / 2),
-			int(pos.y - (int)(frame.vSize.y * WINDOWX_PER_Y - frame.vOffset.y * WINDOWX_PER_Y) / 2),
-			int(frame.vSize.x * WINDOWX_PER_X),
-			int(frame.vSize.y * WINDOWX_PER_Y),
+			int(pos.x - (int)(frame.vSize.x * renderPer + frame.vOffset.x * renderPer) / 2),
+			int(pos.y - (int)(frame.vSize.y * renderPer - frame.vOffset.y * renderPer) / 2),
+			int(frame.vSize.x * renderPer),
+			int(frame.vSize.y * renderPer),
 			HDCbuffer,
 			0,
 			0,
-			int(frame.vSize.x * WINDOWX_PER_X),
-			int(frame.vSize.y * WINDOWX_PER_Y),
+			int(frame.vSize.x * renderPer),
+			int(frame.vSize.y * renderPer),
 			tBlend
 		);
 	}
@@ -306,15 +311,15 @@ void CRenderHelper::StretchRenderReplaceColor(HDC HDCsource, tAnimFrm& frame, HD
 		AlphaBlend
 		(
 			HDCdest,
-			int(pos.x - (int)(frame.vSize.x * WINDOWX_PER_X - frame.vOffset.x * WINDOWX_PER_X) / 2),
-			int(pos.y - (int)(frame.vSize.y * WINDOWX_PER_Y - frame.vOffset.y * WINDOWX_PER_Y) / 2),
-			int(frame.vSize.x * WINDOWX_PER_X),
-			int(frame.vSize.y * WINDOWX_PER_Y),
+			int(pos.x - (int)(frame.vSize.x * renderPer - frame.vOffset.x * renderPer) / 2),
+			int(pos.y - (int)(frame.vSize.y * renderPer - frame.vOffset.y * renderPer) / 2),
+			int(frame.vSize.x * renderPer),
+			int(frame.vSize.y * renderPer),
 			HDCbuffer,
 			0,
 			0,
-			int(frame.vSize.x * WINDOWX_PER_X),
-			int(frame.vSize.y * WINDOWX_PER_Y),
+			int(frame.vSize.x * renderPer),
+			int(frame.vSize.y * renderPer),
 			tBlend
 		);
 	}

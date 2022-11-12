@@ -14,17 +14,39 @@
 #include "CRigidbody.h"
 #include "CPlayerController.h"
 #include "CPlayerAnimEvent.h"
+#include "CLevelManager.h"
 
 void CZero::OnTriggerEnter(CCollider* _pOther)
 {
 	CRockmanObj::OnTriggerEnter(_pOther);
 
-
+	
+	
 }
 
 void CZero::OnTriggerStay(CCollider* _pOther)
 {
-	CRockmanObj::OnTriggerStay(_pOther);
+
+	if (_pOther->GetOwner()->GetLayer() == LAYER::MONSTER && m_damagedState != DAMAGED_STATE::ULTIMAGE)
+	{
+		SetState(PLAYER_STATE::DAMAGED);
+		m_damagedState = DAMAGED_STATE::ULTIMAGE;
+		GetAnimator()->Play(L"DAMAGEDREADY", false);
+		m_playerController->m_arrDashFrame.clear();
+		m_playerController->m_dashMoveScale = 1.f;
+		Vector2 dir = _pOther->GetOwner()->GetPos() - GetPos();
+		dir.Normalize();
+		m_playerController->m_hitDir = dir;
+		GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
+		
+		m_hp -= 2.f;
+
+		if (m_hp <= 0)
+		{
+			//GETINSTANCE(CLevelManager)->LoadLevel(LEVEL_TYPE::CYBERSPACE2);
+		}
+	}
+
 }
 
 void CZero::OnTriggerExit(CCollider* _pOther)

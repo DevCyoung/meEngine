@@ -15,6 +15,8 @@ public:
 	MONSTER_STATE	m_monsterState;
 
 
+public:
+	int				m_hp;
 
 protected:
     UINT			m_ColDir;

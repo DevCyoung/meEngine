@@ -124,8 +124,9 @@ void CAnimation::render(HDC _dc)
 			vPos.y,
 			frame.vOffset.x,
 			frame.vOffset.y,
-			pOwnerObj->GetFilpX(),
-			pOwnerObj->GetFilpY()
+			pOwnerObj->GetFlipX(),
+			pOwnerObj->GetFilpY(),
+			pOwnerObj->m_renderPer
 		);
 	}
 	else
@@ -136,11 +137,12 @@ void CAnimation::render(HDC _dc)
 			frame,
 			_dc,
 			vPos,
-			pOwnerObj->GetFilpX(),
+			pOwnerObj->GetFlipX(),
 			0.8f, 
 			0x00ff00ff, 
 			0xffffffff, 
-			true
+			true,
+			pOwnerObj->m_renderPer
 		);
 	}
 

@@ -38,6 +38,8 @@ CPlayerController::CPlayerController(CGameObject* obj)
 	, m_dashFrameIdx(0)
 	, m_specialDelay(0.f)
 	, m_isActable(false)
+	, m_hitDir{}
+	, m_hitDelay(0.f)
 	
 {
 
@@ -75,6 +77,8 @@ CPlayerController::CPlayerController(const CGameObject& _other)
 	, m_dashFrameIdx(0)
 	, m_specialDelay(0.f)
 	, m_isActable(false)
+	, m_hitDir{}
+	, m_hitDelay(0.f)
 {
 }
 
@@ -124,9 +128,66 @@ void CPlayerController::tick()
 		pos.y -= 800 * DELTATIME;
 	}
 
+	if (m_zero->m_damagedState == DAMAGED_STATE::ULTIMAGE)
+	{
+		m_hitDelay += DELTATIME;
+		if (m_hitDelay >= 2.f)
+		{
+			m_zero->m_damagedState = DAMAGED_STATE::IDLE;
+			m_zero->m_damagedTime = 0.f;
+			m_hitDelay = 0.f;
+			m_zero->GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
+			//m_zero->SetFlipX(!m_zero->GetFlipX());
+			
+		}
+		else if (m_state != PLAYER_STATE::DAMAGED)
+		{
+			int t = (int)(m_hitDelay * 150) % 2;
+			if (t % 2 == 0)
+			{
+				m_zero->m_damagedTime = 1.f;
+			}
+			else
+			{
+				m_zero->m_damagedTime = 0.f;
+			}
+		}
+	}
+	
+
+	if (m_state == PLAYER_STATE::DAMAGED)
+	{		
+		if (m_hitDelay >= 1.f)
+		{
+			m_animator->Play(L"IDLE", true);
+			//m_zero->SetFlipX(!m_zero->GetFlipX());
+			m_state = PLAYER_STATE::IDLE;
+			m_curdashScale = 1.f;
+		}
+
+		if (m_hitDelay <= 0.3f)
+		{
+			velo = -m_hitDir * 300.f;
+			if (m_zero->LeftColState() == true || m_zero->RightColState() == true)
+			{
+				velo.x = 0;
+			}
+			
+			if (m_zero->UpColState() == true || m_zero->DownColState() == true)
+			{
+				velo.y = 0;
+			}
+		
+		}		
+	}
+	else
+	{
+		
+	}
+
 	m_zero->SetPos(pos);
 	m_zero->GetRigidbody()->SetVelocity(Vector2(velo));
-	if (m_state == PLAYER_STATE::ENTER || m_state == PLAYER_STATE::VICTORYRETURN || m_state == PLAYER_STATE::RETURNREADY || m_state == PLAYER_STATE::RETURN || m_state == PLAYER_STATE:: BLINK)
+	if (m_state == PLAYER_STATE::ENTER || m_state == PLAYER_STATE::VICTORYRETURN || m_state == PLAYER_STATE::RETURNREADY || m_state == PLAYER_STATE::RETURN || m_state == PLAYER_STATE:: BLINK || m_state == PLAYER_STATE::DAMAGED)
 		return;
 
 	
@@ -197,7 +258,7 @@ void CPlayerController::tick()
 	if (INPUT_END_TIME(KEY::C, 0.35f) > 0.08f && PLAYER_STATE::DASH == m_state && INPUT_END_TIME(KEY::C, 0.69f) < 0.68f && IS_INPUT_PRESSED(KEY::C) && m_zero->LeftColState() == false && m_zero->RightColState() == false && m_zero->DownColState() == true)
 	{
 	
-		if (m_zero->GetFilpX() == true)
+		if (m_zero->GetFlipX() == true)
 		{
 			
 			m_velocity.x = 600;
@@ -281,10 +342,7 @@ void CPlayerController::InputTick()
 		{			
 			//m_animator->Play(L"ATTACK1", false);
 			m_attackDelay = 0.f;
-			m_animator->TrigerPlay(L"ATTACK1", false);
-			GETINSTANCE(CResourceManager)->LoadSound(L"ATTACK1", L"sound\\hu.wav")->Play();
-			GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->SetPosition(0);
-			GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->Play();
+			m_animator->TrigerPlay(L"ATTACK1", false);		
 			m_state = PLAYER_STATE::LANDATTACK1;
 			m_curdashScale = 1.f;
 		}
@@ -468,7 +526,7 @@ void CPlayerController::final_tick()
 
 void CPlayerController::render(HDC _dc)
 {
-	if (m_state == PLAYER_STATE::RETURN || m_state == PLAYER_STATE::RETURNREADY || m_state == PLAYER_STATE::ENTER)
+	if (m_state == PLAYER_STATE::RETURN || m_state == PLAYER_STATE::RETURNREADY || m_state == PLAYER_STATE::ENTER || m_state == PLAYER_STATE::DAMAGED)
 		return;
 	CTexture* tex = m_zero->GetAnimator()->GetCurAnimation()->GetAtlas();
 	for (size_t i = 0; i < m_arrDashFrame.size(); i++)
@@ -478,7 +536,7 @@ void CPlayerController::render(HDC _dc)
 			continue;
 		Vector2 renPos = GETINSTANCE(CCamera)->GetRenderPos(m_arrDashFrame[i].pos);
 		//CRenderHelper::StretchRender(tex->GetDC(), m_arrDashFrame[i].frame, _dc, renPos, m_zero->GetFilpX(), 0.50f);
-		CRenderHelper::StretchRenderReplaceColor(tex->GetDC(), m_arrDashFrame[i].frame, _dc, renPos, m_zero->GetFilpX(), 0.5f, BACKGROUNDCOLOR, REDZEROCOLOR, true);
+		CRenderHelper::StretchRenderReplaceColor(tex->GetDC(), m_arrDashFrame[i].frame, _dc, renPos, m_zero->GetFlipX(), 0.5f, BACKGROUNDCOLOR, REDZEROCOLOR	, true, m_zero->m_renderPer);
 	}
 }
 
@@ -655,10 +713,7 @@ void CPlayerController::LandAttack1()
 	if (IS_INPUT_TAB(KEY::Z) && m_attackDelay >= 0.15f)
 	{
 		m_animator->Play(L"ATTACK2", false);
-		GETINSTANCE(CResourceManager)->LoadSound(L"ATTACK2", L"sound\\ha.wav")->Play();
-		GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->SetPosition(0);
-		GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->SetVolume(18.f);
-		GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->Play();
+	
 		m_state = PLAYER_STATE::LANDATTACK2;
 		m_attackDelay = 0.f;
 	}
@@ -675,10 +730,7 @@ void CPlayerController::LandAttack2()
 	if (IS_INPUT_TAB(KEY::Z) && m_attackDelay >= 0.15f)
 	{
 		
-		GETINSTANCE(CResourceManager)->LoadSound(L"ATTACK3", L"sound\\huo.wav")->Play();
-		GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->SetPosition(0);
-		GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->SetVolume(18.f);
-		GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->Play();
+		
 		m_animator->Play(L"ATTACK3", false);
 		m_state = PLAYER_STATE::LANDATTACK3;
 		m_attackDelay = 0.f;

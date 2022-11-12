@@ -76,8 +76,7 @@ void CMiru::render(HDC _dc)
 
 void CMiru::OnTriggerEnter(CCollider* _pOhter)
 {
-	if (m_damagedState == DAMAGED_STATE::ULTIMAGE)
-		return;
+
 	CRockmanMonster::OnTriggerEnter(_pOhter);
 }
 

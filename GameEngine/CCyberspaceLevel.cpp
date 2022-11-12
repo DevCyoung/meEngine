@@ -35,16 +35,14 @@ void CCyberspaceLevel::init()
 
 	//background play
 	CSound* sound = GETINSTANCE(CResourceManager)->LoadSound(L"cyberbackground1", L"sound\\cyberspacebackground.wav");
-	sound->SetVolume(20.f);
+	sound->SetVolume(16.f);
 	//GETINSTANCE(CSoundMgr)->RegisterToBGM(sound);
 	sound->PlayToBGM(true);
 	//sound->Play();
 
 
 	//test hpbar zerohpbar.bmp
-	CHPbar* bar = new CHPbar();
-
-	CGameObject::Instantiate(bar, bar->GetPos(), LAYER::DEFAUT);
+	
 
 }
 void CCyberspaceLevel::tick()

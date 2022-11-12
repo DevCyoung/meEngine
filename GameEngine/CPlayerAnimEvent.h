@@ -44,9 +44,20 @@ private:
     void Attack1();
     void Attack2();
     void Attack3();
+
+    void Attack1Reday();
+    void Attack2Reday();
+    void Attack3Reday();
+
+    void DamagedReady();
+
     void Idle();
 
     void Enter();
+
+    void WallSlideEffect();
+    void JumpReadyEffect();
+    void LandDashReadyEffect();
 
 public:
     CPlayerAnimEvent(CGameObject* obj); //기본생성자 안만듬

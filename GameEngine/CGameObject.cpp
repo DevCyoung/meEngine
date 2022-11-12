@@ -21,6 +21,7 @@ CGameObject::CGameObject()
 	, m_tag{}
 	, m_isCollision(true)
 	, m_damagedTime(0.f)
+	, m_renderPer(3)
 {
 }
 
@@ -38,6 +39,7 @@ CGameObject::CGameObject(const CGameObject& _other)
 	, m_tag(_other.m_tag)
 	, m_isCollision(true)
 	, m_damagedTime(0.f)
+	, m_renderPer(3)
 {
 	if (nullptr != _other.m_pCollider)
 	{
