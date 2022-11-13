@@ -87,6 +87,7 @@ CPlayerAnimEvent::CPlayerAnimEvent(CGameObject* obj)
 	m_animztor->FindAnimation(L"ATTACK1")->SetFrameEvent(18, this, (DELEGATE)&CPlayerAnimEvent::Idle);
 	m_animztor->FindAnimation(L"ATTACK2")->SetFrameEvent(16, this, (DELEGATE)&CPlayerAnimEvent::Idle);
 	m_animztor->FindAnimation(L"ATTACK3")->SetFrameEvent(19, this, (DELEGATE)&CPlayerAnimEvent::Idle);
+
 	m_animztor->FindAnimation(L"FALLINATTACK")->SetFrameEvent(8, this, (DELEGATE)&CPlayerAnimEvent::Falling);
 
 

@@ -261,11 +261,11 @@ void CPlayerController::tick()
 		if (m_zero->GetFlipX() == true)
 		{
 			
-			m_velocity.x = 700;
+			m_velocity.x = 650;
 		}
 		else
 		{
-			m_velocity.x = -700;
+			m_velocity.x = -650;
 		}
 		
 		m_zero->GetCollider()->SetOffsetPos(Vector2(0.f, 25.f));
@@ -794,6 +794,7 @@ void CPlayerController::WallSlide()
 	if (m_zero->DownColState() == true)
 	{
 		m_animator->Play(L"LANDING", false);
+		m_curdashScale = 1.f;
 		m_state = PLAYER_STATE::IDLE;
 	}
 
