@@ -261,11 +261,11 @@ void CPlayerController::tick()
 		if (m_zero->GetFlipX() == true)
 		{
 			
-			m_velocity.x = 600;
+			m_velocity.x = 700;
 		}
 		else
 		{
-			m_velocity.x = -600;
+			m_velocity.x = -700;
 		}
 		
 		m_zero->GetCollider()->SetOffsetPos(Vector2(0.f, 25.f));
@@ -710,14 +710,14 @@ void CPlayerController::LandAttack1()
 	//UINT cnt = m_zero->GetAttackState();
 	m_attackDelay += DELTATIME;
 
-	if (IS_INPUT_TAB(KEY::Z) && m_attackDelay >= 0.15f)
+	if (IS_INPUT_TAB(KEY::Z) && m_attackDelay >= 0.1f)
 	{
 		m_animator->Play(L"ATTACK2", false);
 	
 		m_state = PLAYER_STATE::LANDATTACK2;
 		m_attackDelay = 0.f;
 	}
-	else if (IS_INPUT_TAB(KEY::X) || IS_INPUT_TAB(KEY::C) || m_attackDelay >= 0.35f)
+	else if (IS_INPUT_TAB(KEY::X) || IS_INPUT_TAB(KEY::C) || m_attackDelay >= 0.3f)
 	{
 		m_state = PLAYER_STATE::IDLE;
 		m_attackDelay = 0.f;
@@ -727,7 +727,7 @@ void CPlayerController::LandAttack1()
 void CPlayerController::LandAttack2()
 {
 	m_attackDelay += DELTATIME;
-	if (IS_INPUT_TAB(KEY::Z) && m_attackDelay >= 0.15f)
+	if (IS_INPUT_TAB(KEY::Z) && m_attackDelay >= 0.1f)
 	{
 		
 		
@@ -735,7 +735,7 @@ void CPlayerController::LandAttack2()
 		m_state = PLAYER_STATE::LANDATTACK3;
 		m_attackDelay = 0.f;
 	}
-	else if (IS_INPUT_TAB(KEY::X) || IS_INPUT_TAB(KEY::C) || m_attackDelay >= 0.35f)
+	else if (IS_INPUT_TAB(KEY::X) || IS_INPUT_TAB(KEY::C) || m_attackDelay >= 0.3f)
 	{
 		m_state = PLAYER_STATE::IDLE;
 		m_attackDelay = 0.f;
@@ -745,7 +745,7 @@ void CPlayerController::LandAttack2()
 void CPlayerController::LandAttack3()
 {
 	m_attackDelay += DELTATIME;
-	if (m_attackDelay >= 0.55f)
+	if (m_attackDelay >= 0.5f)
 	{
 		//m_animator->Play(L"ATTACK3", false);
 		m_state = PLAYER_STATE::IDLE;

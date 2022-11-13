@@ -90,9 +90,9 @@ CPlayerAnimEvent::CPlayerAnimEvent(CGameObject* obj)
 	m_animztor->FindAnimation(L"FALLINATTACK")->SetFrameEvent(8, this, (DELEGATE)&CPlayerAnimEvent::Falling);
 
 
-	m_animztor->FindAnimation(L"ATTACK1")->SetFrameEvent(5, this, (DELEGATE)&CPlayerAnimEvent::Attack1);
-	m_animztor->FindAnimation(L"ATTACK2")->SetFrameEvent(5, this, (DELEGATE)&CPlayerAnimEvent::Attack2);
-	m_animztor->FindAnimation(L"ATTACK3")->SetFrameEvent(6, this, (DELEGATE)&CPlayerAnimEvent::Attack3);
+	m_animztor->FindAnimation(L"ATTACK1")->SetFrameEvent(4, this, (DELEGATE)&CPlayerAnimEvent::Attack1);
+	m_animztor->FindAnimation(L"ATTACK2")->SetFrameEvent(4, this, (DELEGATE)&CPlayerAnimEvent::Attack2);
+	m_animztor->FindAnimation(L"ATTACK3")->SetFrameEvent(4, this, (DELEGATE)&CPlayerAnimEvent::Attack3);
 
 	m_animztor->FindAnimation(L"ATTACK1")->SetFrameEvent(0, this, (DELEGATE)&CPlayerAnimEvent::Attack1Reday);
 	m_animztor->FindAnimation(L"ATTACK2")->SetFrameEvent(0, this, (DELEGATE)&CPlayerAnimEvent::Attack2Reday);
