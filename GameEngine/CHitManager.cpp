@@ -22,7 +22,7 @@ void CHitManager::tick()
 
 		GETINSTANCE(CTimeManager)->SetDelayTime(0.4f);
 
-		if (0.5f <= m_hitTimedselay )
+		if (0.42f <= m_hitTimedselay )
 		{
 			GETINSTANCE(CTimeManager)->SetDelayTime(1.f);
 			m_hitTimedselay = 0.f;			

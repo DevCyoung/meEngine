@@ -431,6 +431,6 @@ void CCyberKujacer::Attack3EventMissile()
 	//GETINSTANCE(CEffectManager)->OnShootPlay(EFFECT_TYPE::CYBERTARGET, effectPos, true, this);
 
 	CCyberMissile* missile = new CCyberMissile();
-	CGameObject::Instantiate(missile, effectPos, LAYER::MONSTER);
+	CGameObject::Instantiate(missile, effectPos, LAYER::MONSTERATTACK);
 }
 

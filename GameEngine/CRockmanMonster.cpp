@@ -9,16 +9,34 @@
 
 #include "CCamera.h"
 #include "CMonsterHitBox.h"
+#include "CZero.h"
+#include "CCameraObj.h"
+
+#include "CLevelManager.h"
+
 CRockmanMonster::CRockmanMonster()
 	:m_hitBox(nullptr)
+	, m_zero(nullptr)
+	, m_startLen(0.f)
+	, m_CurstartLen(0.f)
+	, m_isStart(false)
+	, m_vecLen{}
+	, m_vecDir{}
 {
 	SetTag(LAYER::MONSTER);
 	m_hp = 10;
+	m_startLen = 1000.f;
 }
 
 CRockmanMonster::CRockmanMonster(const CRockmanMonster& _other)
 	:CRockmanObj(_other)
 	, m_hitBox(nullptr)
+	, m_zero(nullptr)
+	, m_startLen(0.f)
+	, m_CurstartLen(0.f)
+	, m_isStart(false)
+	, m_vecLen{}
+	, m_vecDir{}
 {
 }
 
@@ -27,6 +45,31 @@ CRockmanMonster::~CRockmanMonster()
 }
 void CRockmanMonster::tick()
 {
+	
+
+	if (nullptr == m_zero)
+	{
+		m_zero = GETINSTANCE(CLevelManager)->GetPlayerObject();
+		return;
+	}
+
+	m_vecLen = m_zero->GetPos() - GetPos();
+
+	m_vecDir = m_vecLen;
+	m_vecDir.Normalize();
+
+	m_vecLen.x = abs(m_vecLen.x);
+	m_vecLen.y = abs(m_vecLen.y);
+
+	m_CurstartLen = (m_zero->GetPos() - GetPos()).Length();
+
+	
+
+	if (m_CurstartLen <= m_startLen)
+	{
+		m_isStart = true;
+	}
+
 	CRockmanObj::tick();
 
 	//test
@@ -58,7 +101,6 @@ void CRockmanMonster::render(HDC _dc)
 
 void CRockmanMonster::OnTriggerEnter(CCollider* _pOhter)
 {
-	
 
 	if (LAYER::PLAYERATTACK == _pOhter->GetOwner()->GetLayer())
 	{

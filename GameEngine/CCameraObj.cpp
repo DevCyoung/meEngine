@@ -3,6 +3,8 @@
 #include "CCamera.h"
 #include "CCollider.h"
 #include "CEngine.h"
+#include "CZero.h"
+
 CCameraObj::CCameraObj()
 	: m_target(nullptr)
 	, m_ColDir(0)
@@ -10,7 +12,7 @@ CCameraObj::CCameraObj()
 	
 {
 	CreateCollider();
-
+	SetTag(LAYER::CAMERA);
 	GetCollider()->SetScale(GETINSTANCE(CEngine)->GetWndScreenSize());
 }
 

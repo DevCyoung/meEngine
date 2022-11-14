@@ -239,6 +239,7 @@ enum class MONSETER_TYPE
 	TRY,
 	GOSM,
 	BOSS,
+	CONG,
 	NONE,
 };
 

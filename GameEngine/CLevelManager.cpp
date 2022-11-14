@@ -53,7 +53,7 @@ void CLevelManager::init()
 
 
 
-	this->LoadLevelEvent(LEVEL_TYPE::CYBERSPACEBOSS);
+	this->LoadLevelEvent(LEVEL_TYPE::CYBERSPACE);
 
 }
 
@@ -84,7 +84,8 @@ void CLevelManager::LoadLevel(LEVEL_TYPE _eNextLevel)
 CZero* CLevelManager::GetPlayerObject()
 {
 	CRockmanLevel* _lv = dynamic_cast<CRockmanLevel*>(GETINSTANCE(CLevelManager)->GetCurLevel());
-	assert(_lv);
+	if (nullptr == _lv)
+		return nullptr;
 	return _lv->m_zero;
 }
 

@@ -146,8 +146,11 @@ void CZero::tick()
 
 	if (nullptr != m_animEvent)
 		m_animEvent->tick();
+
+
 	if (nullptr != m_playerController)
 		m_playerController->tick();
+
 
 	CRockmanObj::tick();
 

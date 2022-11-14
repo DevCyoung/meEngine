@@ -260,6 +260,9 @@
     <Filter Include="Game\RockMan\Effect\Player">
       <UniqueIdentifier>{3af43e0f-fa33-4b73-9e83-1125cbddaa3a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\RockMan\Monster\CyberStage\Cong">
+      <UniqueIdentifier>{04262694-25cb-4e9d-a9f5-8f9086672adf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -537,6 +540,12 @@
     </ClInclude>
     <ClInclude Include="CCyberMissile.h">
       <Filter>Game\RockMan\Monster\CyberStage\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="CCong.h">
+      <Filter>Game\RockMan\Monster\CyberStage\Cong</Filter>
+    </ClInclude>
+    <ClInclude Include="CCongBullet.h">
+      <Filter>Game\RockMan\Monster\CyberStage\Cong</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -847,6 +856,12 @@
     </ClCompile>
     <ClCompile Include="CCyberMissile.cpp">
       <Filter>Game\RockMan\Monster\CyberStage\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="CCong.cpp">
+      <Filter>Game\RockMan\Monster\CyberStage\Cong</Filter>
+    </ClCompile>
+    <ClCompile Include="CCongBullet.cpp">
+      <Filter>Game\RockMan\Monster\CyberStage\Cong</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

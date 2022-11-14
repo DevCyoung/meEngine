@@ -77,7 +77,7 @@ void CCyberMissile::tick()
 
 	Vector2 pos = GetPos() + dir * 300.f * DELTATIME;
 
-	pos.x = GetPos().x + dir.x * 560.f * DELTATIME;
+	pos.x = GetPos().x + dir.x * 520.f * DELTATIME;
 	pos.y = GetPos().y + dir.y * 400.f * DELTATIME;
 
 	float len = (GetPos() - m_zero->GetPos()).Length();

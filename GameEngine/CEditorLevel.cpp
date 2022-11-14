@@ -72,7 +72,7 @@ CEditorLevel::CEditorLevel()
 
 	//CCameraObj
 
-	//Load(L"cyber\\cyberspace_Level_1.map");
+	//Load(L"cyber\\cyberspace_Level_4.map");
 	//Load(L"cyber\\area2.map");
 	//Load();
 }

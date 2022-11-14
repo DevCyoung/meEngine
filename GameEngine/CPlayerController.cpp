@@ -40,6 +40,7 @@ CPlayerController::CPlayerController(CGameObject* obj)
 	, m_isActable(false)
 	, m_hitDir{}
 	, m_hitDelay(0.f)
+	, m_dashDIr{}
 	
 {
 
@@ -79,6 +80,7 @@ CPlayerController::CPlayerController(const CGameObject& _other)
 	, m_isActable(false)
 	, m_hitDir{}
 	, m_hitDelay(0.f)
+	, m_dashDIr{}
 {
 }
 
@@ -257,15 +259,13 @@ void CPlayerController::tick()
 
 	if (INPUT_END_TIME(KEY::C, 0.35f) > 0.08f && PLAYER_STATE::DASH == m_state && INPUT_END_TIME(KEY::C, 0.69f) < 0.68f && IS_INPUT_PRESSED(KEY::C) && m_zero->LeftColState() == false && m_zero->RightColState() == false && m_zero->DownColState() == true)
 	{
-	
 		if (m_zero->GetFlipX() == true)
-		{
-			
-			m_velocity.x = 650;
+		{			
+			m_velocity.x = 640;
 		}
 		else
 		{
-			m_velocity.x = -650;
+			m_velocity.x = -640;
 		}
 		
 		m_zero->GetCollider()->SetOffsetPos(Vector2(0.f, 25.f));
@@ -281,10 +281,6 @@ void CPlayerController::tick()
 
 	m_zero->SetPos(pos);
 	m_zero->GetRigidbody()->SetVelocity(m_velocity);
-	/*Vector2 camPos = GETINSTANCE(CCamera)->GetLook();
-	camPos.x = pos.x;
-	camPos.y = pos.y;*/
-	//GETINSTANCE(CCamera)->SetLook(camPos);
 }
 
 void CPlayerController::flip_tick()
@@ -380,6 +376,16 @@ void CPlayerController::InputTick()
 		}
 		if (m_zero->DownColState() && m_state != PLAYER_STATE::DASH && m_zero->LeftColState() == false && m_zero->RightColState() == false)
 		{
+
+			if (IS_INPUT_PRESSED(KEY::LEFT))
+			{
+				m_zero->SetFlipX(false);
+			}
+			if (IS_INPUT_PRESSED(KEY::RIGHT))
+			{
+				m_zero->SetFlipX(true);
+			}
+
 			GETINSTANCE(CResourceManager)->LoadSound(L"DASH", L"sound\\dash1.wav")->SetPosition(0);
 			GETINSTANCE(CResourceManager)->LoadSound(L"DASH", L"sound\\dash1.wav")->Play();
 			GETINSTANCE(CResourceManager)->LoadSound(L"DASH", L"sound\\dash1.wav")->SetVolume(20.f);
@@ -588,7 +594,6 @@ void CPlayerController::LANDDASH()
 
 		
 	//}
-	
 	
 
 	m_curdashScale = 2.f;

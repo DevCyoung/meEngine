@@ -183,7 +183,7 @@ void CRockmanObj::tick()
 		Vector2 p1 = m_curLineLand->GetP1();
 		Vector2 p2 = m_curLineLand->GetP2();
 		Vector2 pos = GetPos();
-		pos.y = ((p2.y - p1.y) / (p2.x - p1.x)) * (pos.x - p1.x) + p1.y - GetLineCollider()->GetLineCollider()->m_distance + 1.f;
+		pos.y = ((p2.y - p1.y) / (p2.x - p1.x)) * (pos.x - p1.x) + p1.y - GetLineCollider()->GetLineCollider()->m_distance + 2.f;
 		SetPos(pos);
 	}
 

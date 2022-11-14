@@ -27,7 +27,7 @@ CCamera::~CCamera()
 {
 
 }
-void CCamera::Settarget(CGameObject* obj)
+void CCamera::Settarget(CZero* obj)
 {
 	m_cam->SetTarget(obj);
 }

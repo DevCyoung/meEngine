@@ -93,7 +93,7 @@ void CEngine::tick()
 
 	GETINSTANCE(CLevelManager)->tick();	
 
-	GETINSTANCE(CHitManager)->tick();
+	
 
 	GETINSTANCE(CCollisionManager)->tick();
 	GETINSTANCE(CLineColManager)->tick();
@@ -106,7 +106,7 @@ void CEngine::tick()
 
 	GETINSTANCE(CUIManager)->tick();
 
-
+	GETINSTANCE(CHitManager)->tick();
 }
 
 Vector2 test = {};

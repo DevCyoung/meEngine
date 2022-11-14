@@ -23,6 +23,7 @@ class CPlayerController :
     public CComponent
 {
 public:
+    Vector2         m_dashDIr;
 
     CZero*           m_zero;
     CAnimator*       m_animator;

@@ -2,6 +2,7 @@
 #include "CRockmanObj.h"
 
 class CMonsterHitBox;
+class CZero;
 
 class CRockmanMonster :
     public CRockmanObj
@@ -9,6 +10,12 @@ class CRockmanMonster :
 
 public:
 	CMonsterHitBox* m_hitBox;
+	CZero*			m_zero;
+	float			m_startLen;
+	float			m_CurstartLen;
+	Vector2			m_vecLen;
+	Vector2			m_vecDir;
+	bool			m_isStart;
 
 public:
 	virtual void tick() override;
@@ -22,8 +29,8 @@ public:
 
 
 public:
-	void Save(FILE *pFile);
-	void Load(FILE* pFile);
+	virtual void Save(FILE *pFile);
+	virtual void Load(FILE* pFile);
 	CLONE(CRockmanObj);
 
 public:

@@ -35,6 +35,8 @@
 
 #include "CLevelManager.h"
 
+#include "CCong.h"
+
 CObjectEdit::CObjectEdit()
 	: m_curSelectObj(nullptr)
 	, m_detectObj(nullptr)
@@ -186,6 +188,14 @@ void CObjectEdit::CreateUI(CLevel* level)
 		}
 		pPanelUI->AddChildUI(pLoadButton3);
 
+
+		CButton* pLoadButton4 = pSaveButton->Clone();
+		{
+			pLoadButton4->SetPos(Vector2(50.f, 120.f));
+			pLoadButton4->SetRockman(new CCong());
+			pLoadButton4->SetDelegate(this, (DELEGATERockman)&CObjectEdit::SelectGameObject);
+		}
+		pPanelUI->AddChildUI(pLoadButton4);
 		
 
 
@@ -243,8 +253,6 @@ void CObjectEdit::Update()
 		{
 			CRockmanObj* newObj = m_curSelectObj;
 
-			
-
 			if (newObj->m_sponType == MONSETER_TYPE::GOSM)
 			{
 				newObj = new CGosm();
@@ -260,6 +268,12 @@ void CObjectEdit::Update()
 				newObj = new CMiru();
 				newObj->m_sponType = MONSETER_TYPE::MIRU;
 			}
+			else if (newObj->m_sponType == MONSETER_TYPE::CONG)
+			{
+				newObj = new CCong();
+				newObj->m_sponType = MONSETER_TYPE::CONG;
+			}
+
 			newObj->m_monsterState = m_monstreState;
 
 			m_targetPos = GETINSTANCE(CKeyManager)->GetMousePos();
@@ -344,6 +358,9 @@ void CObjectEdit ::Load(FILE* pFile)
 		case MONSETER_TYPE::GOSM:
 			monster = new CGosm();
 			break;				
+		case MONSETER_TYPE::CONG:
+			monster = new CCong();
+			break;
 		}		
 		assert(monster);		
 		

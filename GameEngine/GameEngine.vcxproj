@@ -157,6 +157,8 @@
     <ClInclude Include="CCollisionLevel.h" />
     <ClInclude Include="CCollisionManager.h" />
     <ClInclude Include="CComponent.h" />
+    <ClInclude Include="CCong.h" />
+    <ClInclude Include="CCongBullet.h" />
     <ClInclude Include="CCyberKujacer.h" />
     <ClInclude Include="CCyberMissile.h" />
     <ClInclude Include="CCyberspaceLevel.h" />
@@ -253,6 +255,8 @@
     <ClCompile Include="CCollisionLevel.cpp" />
     <ClCompile Include="CCollisionManager.cpp" />
     <ClCompile Include="CComponent.cpp" />
+    <ClCompile Include="CCong.cpp" />
+    <ClCompile Include="CCongBullet.cpp" />
     <ClCompile Include="CCyberKujacer.cpp" />
     <ClCompile Include="CCyberMissile.cpp" />
     <ClCompile Include="CCyberspaceLevel.cpp" />

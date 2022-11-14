@@ -1,16 +1,19 @@
 #pragma once
 #include "CGameObject.h"
+
+class CZero;
+
 class CCameraObj :
     public CGameObject
 {
 
 private:
-	CGameObject*    m_target;
+	CZero*    m_target;
 	UINT			m_ColDir;
 public:
 	Vector2			m_position;
 public:
-	void	SetTarget(CGameObject* target) { m_target = target; }
+	void	SetTarget(CZero* target) { m_target = target; }
 	virtual void tick() override;
 	virtual void fixed_tick() override;
 	//virtual void fixed_tick() override;
