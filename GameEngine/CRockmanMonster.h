@@ -1,14 +1,14 @@
 #pragma once
 #include "CRockmanObj.h"
 
-
+class CMonsterHitBox;
 
 class CRockmanMonster :
     public CRockmanObj
 {
 
 public:
-
+	CMonsterHitBox* m_hitBox;
 
 public:
 	virtual void tick() override;

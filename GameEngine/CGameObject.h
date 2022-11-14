@@ -35,6 +35,10 @@ public:
     float    m_renderPer;
 
 public:
+
+    bool			m_isAttackable;
+
+public:
     CCollider* GetCollider() { return m_pCollider; }
     CAnimator* GetAnimator() { return m_pAnimator; }
     CRigidbody* GetRigidbody() { return m_pRigidbody; }

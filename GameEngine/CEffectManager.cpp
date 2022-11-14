@@ -10,6 +10,7 @@
 #include "CWallHitEffect.h"
 #include "CRedBoomEffect.h"
 
+#include "CCyberTargetEffect.h"
 #include "CZero.h"
 
 CEffectManager::CEffectManager()
@@ -36,11 +37,23 @@ void CEffectManager::OnShootPlay(EFFECT_TYPE type, Vector2 pos, bool isFlipX)
 		m_vecEffect[(UINT)EFFECT_TYPE::LANDDASHPOWER][0]->OnShootPlay(pos, isFlipX);
 		return;
 	}
+
+	if (type == EFFECT_TYPE::CYBERTARGET)
+	{
+		m_vecEffect[(UINT)EFFECT_TYPE::CYBERTARGET][0]->OnShootPlay(pos, isFlipX);
+		return;
+	}
 	UINT idx = m_curiDX[(UINT)type];
 
 	m_vecEffect[(UINT)type][idx]->OnShootPlay(pos, isFlipX);
 	++m_curiDX[(UINT)type];
 	m_curiDX[(UINT)type] %= EFFECTPULLSIZE;
+}
+
+void CEffectManager::OnShootPlay(EFFECT_TYPE type, Vector2 pos, bool isFlipX, CRockmanObj* owner)
+{	
+	m_vecEffect[(UINT)type][0]->m_owner = owner;
+	OnShootPlay(type, pos, isFlipX);
 }
 
 void CEffectManager::SetPlayerTarget(CZero* target)
@@ -114,6 +127,12 @@ void CEffectManager::LoadAllEffect()
 	{
 		CEffect* effect = new CRedBoomEffect();
 		m_vecEffect[(UINT)EFFECT_TYPE::BOOMRED].push_back(effect);
+		CGameObject::Instantiate(effect, effect->GetPos(), LAYER::EDITOR);
+	}
+
+	{
+		CEffect* effect = new CCyberTargetEffect();
+		m_vecEffect[(UINT)EFFECT_TYPE::CYBERTARGET].push_back(effect);
 		CGameObject::Instantiate(effect, effect->GetPos(), LAYER::EDITOR);
 	}
 }

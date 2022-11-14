@@ -95,7 +95,7 @@ enum class LAYER
 	MONSTER,
 	DEFAUT,
 	OBJECT,
-	HITBOX,
+	MONSTERATTACK,
 	PLAYER,						//플레이어
 	PLAYERATTACK,
 	CAMERAWALL,			//플레이어가 쏜 미사일
@@ -238,6 +238,7 @@ enum class MONSETER_TYPE
 	MIRU,
 	TRY,
 	GOSM,
+	BOSS,
 	NONE,
 };
 
@@ -306,5 +307,6 @@ enum class EFFECT_TYPE
 	WALLHIT,
 	BOOMRED,
 	BOOMWHITE,
+	CYBERTARGET,
 	END,
 };

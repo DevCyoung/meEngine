@@ -3,6 +3,7 @@
 #define EFFECTPULLSIZE	15
 class CEffect;
 class CZero;
+class CRockmanObj;
 
 class CEffectManager
 {
@@ -15,6 +16,7 @@ public:
 	void tick();
 	void LoadAllEffect();
 	void OnShootPlay(EFFECT_TYPE type, Vector2 pos, bool isFlipX);
+	void OnShootPlay(EFFECT_TYPE type, Vector2 pos, bool isFlipX, CRockmanObj* owner);
 
 	void SetPlayerTarget(CZero* target);
 };

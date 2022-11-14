@@ -22,6 +22,7 @@ CGameObject::CGameObject()
 	, m_isCollision(true)
 	, m_damagedTime(0.f)
 	, m_renderPer(3)
+	, m_isAttackable(true)
 {
 }
 
@@ -40,6 +41,7 @@ CGameObject::CGameObject(const CGameObject& _other)
 	, m_isCollision(true)
 	, m_damagedTime(0.f)
 	, m_renderPer(3)
+	, m_isAttackable(true)
 {
 	if (nullptr != _other.m_pCollider)
 	{

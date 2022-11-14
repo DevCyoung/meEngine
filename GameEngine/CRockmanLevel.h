@@ -23,8 +23,9 @@ class CRockmanLevel :
 private:
     CEditorLevel*   m_editor;
 protected:
-    CZero* m_zero;
     CCameraObj* m_cam;
+public:
+    CZero* m_zero;
 
     CTextureAnim* m_textureReadyAnim;
     eLEVELSTATE     m_levelState;

@@ -9,6 +9,7 @@ CEffect::CEffect()
 	, m_position{}
 	, m_isUsing(false)
 	, m_playType(EFFECTPLAY_TYPE::NONE)
+	, m_owner(nullptr)
 {
 	CreateAnimator();
 	m_playType = EFFECTPLAY_TYPE::ONESHOOT;
@@ -21,6 +22,7 @@ CEffect::CEffect(const CEffect& _other)
 	, m_position{}
 	, m_isUsing(false)
 	, m_playType(EFFECTPLAY_TYPE::NONE)
+	, m_owner(nullptr)
 {
 
 }

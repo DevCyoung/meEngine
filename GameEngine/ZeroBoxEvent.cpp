@@ -27,20 +27,24 @@ void CZero::OnTriggerEnter(CCollider* _pOther)
 void CZero::OnTriggerStay(CCollider* _pOther)
 {
 
-	if (_pOther->GetOwner()->GetLayer() == LAYER::MONSTER && m_damagedState != DAMAGED_STATE::ULTIMAGE)
+	if ((_pOther->GetOwner()->GetLayer() == LAYER::MONSTERATTACK || _pOther->GetOwner()->GetLayer() == LAYER::MONSTER) && m_damagedState != DAMAGED_STATE::ULTIMAGE)
 	{
+
+		if (_pOther->GetOwner()->m_isAttackable == false)
+			return;
+
 		SetState(PLAYER_STATE::DAMAGED);
 		m_damagedState = DAMAGED_STATE::ULTIMAGE;
 		GetAnimator()->Play(L"DAMAGEDREADY", false);
 		m_playerController->m_arrDashFrame.clear();
 		m_playerController->m_dashMoveScale = 1.f;
+
 		Vector2 dir = _pOther->GetOwner()->GetPos() - GetPos();
 		dir.Normalize();
 		m_playerController->m_hitDir = dir;
 		GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
 		
 		m_hp -= 2.f;
-
 		if (m_hp <= 0)
 		{
 			//GETINSTANCE(CLevelManager)->LoadLevel(LEVEL_TYPE::CYBERSPACE2);

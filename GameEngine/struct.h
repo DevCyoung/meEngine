@@ -50,8 +50,24 @@ public:
 	void Normalize() //¡§±‘»≠
 	{
 		float fDist = sqrtf(x * x + y * y);
-		x /= fDist;
-		y /= fDist;
+		if (abs(x) <= 0.0000001f)
+		{
+			x = 0;
+		}
+		else
+		{
+			x /= fDist;
+		}
+		if (abs(y) <= 0.0000001f)
+		{
+			y = 0;
+		}
+		else
+		{
+			y /= fDist;
+		}
+		
+		
 	}
 
 	Vector2 operator + (Vector2 _vOther)

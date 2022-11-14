@@ -49,6 +49,7 @@ public:
 	float			m_gravityAceel;
 	float			m_curGravity;
 
+
 	virtual void tick() override;
 	virtual void fixed_tick() override;
 	virtual void render(HDC _dc) override;

@@ -7,7 +7,10 @@
 #include "CSound.h"
 #include "CResourceManager.h"
 
+#include "CCamera.h"
+#include "CMonsterHitBox.h"
 CRockmanMonster::CRockmanMonster()
+	:m_hitBox(nullptr)
 {
 	SetTag(LAYER::MONSTER);
 	m_hp = 10;
@@ -15,7 +18,8 @@ CRockmanMonster::CRockmanMonster()
 
 CRockmanMonster::CRockmanMonster(const CRockmanMonster& _other)
 	:CRockmanObj(_other)
-	{
+	, m_hitBox(nullptr)
+{
 }
 
 CRockmanMonster::~CRockmanMonster()
@@ -64,7 +68,7 @@ void CRockmanMonster::OnTriggerEnter(CCollider* _pOhter)
 			m_damagedTime = 0.f;
 		}
 		
-
+		//player attack, monster deffenc
 		if (m_damagedState != DAMAGED_STATE::ULTIMAGE)
 		{
 			--m_hp;
@@ -78,6 +82,13 @@ void CRockmanMonster::OnTriggerEnter(CCollider* _pOhter)
 			GETINSTANCE(CResourceManager)->LoadSound(L"zeroboom", L"sound\\zeroboom.wav")->SetPosition(0);
 			GETINSTANCE(CResourceManager)->LoadSound(L"zeroboom", L"sound\\zeroboom.wav")->SetVolume(20.f);
 			GETINSTANCE(CResourceManager)->LoadSound(L"zeroboom", L"sound\\zeroboom.wav")->Play();
+			GETINSTANCE(CCamera)->CameraShake(10.f, 20.f, 10.f);
+			if (nullptr != m_hitBox)
+			{
+				m_hitBox->_pOwnerAnim = nullptr;
+				m_hitBox->Destroy();
+			}
+			
 			this->Destroy();
 		}
 

@@ -17,7 +17,7 @@
 #include <assert.h>
 #include <commdlg.h>
 #include <queue>
-
+#include <time.h>
 using std::vector;
 using std::list;
 using std::map;

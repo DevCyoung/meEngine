@@ -47,7 +47,9 @@ void CRockmanLevel::init()
 
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::PLAYER, LAYER::WALL);
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::PLAYER, LAYER::MONSTER);
+	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::PLAYER, LAYER::MONSTERATTACK);
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::PLAYER, LAYER::EVENT);
+	
 
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MONSTER, LAYER::PLAYERATTACK);
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::CAMERA, LAYER::CAMERAWALL);
@@ -86,7 +88,8 @@ void CRockmanLevel::Exit()
 	DeleteAllObject();
 	//CLevel::Exit(); = 0
 
-	//GETINSTANCE(CCamera)->FadeOut(1.0f);
+	GETINSTANCE(CCamera)->FadeOut(1.0f);
+	m_zero = nullptr;
 }
 
 void CRockmanLevel::LoadMap(const wstring& str)

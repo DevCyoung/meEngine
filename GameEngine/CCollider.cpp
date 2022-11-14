@@ -8,6 +8,8 @@
 #include "CLineCollider.h"
 #include"CLineColManager.h"
 #include "CCollisionManager.h"
+#include "CAnimator.h"
+#include "CAnimation.h"
 
 CCollider::CCollider(CGameObject* obj)
 	: CComponent(obj)
@@ -231,6 +233,47 @@ void CCollider::OnTriggerExit(CCollider* _pOther)
 	}
 	--m_iOverlapCount;
 	this->GetOwner()->OnTriggerExit(_pOther);
+}
+
+void CCollider::SetFrmScale(tColInfo colInfo)
+{	
+	if (colInfo.vScale.x > 3.f && colInfo.vScale.y > 3.f)
+	{
+		this->GetScale();
+
+		Vector2 vLPos;
+		Vector2 vPos = GetOwner()->GetPos();
+
+		vLPos.x = vPos.x - ((colInfo.vOffset.x * WINDOWX_PER_X - colInfo.vScale.x * WINDOWX_PER_X)) / 2;
+		vLPos.y = vPos.y - ((colInfo.vOffset.y * WINDOWX_PER_Y - colInfo.vScale.y * WINDOWX_PER_Y)) / 2;
+
+
+
+		if (GetOwner()->GetFlipX() == false)
+		{
+			vLPos.x = vPos.x - (colInfo.vScale.x / 2 + colInfo.vOffset.x) * WINDOWX_PER_X;
+			vLPos.y = vPos.y - (colInfo.vScale.y / 2 + colInfo.vOffset.y) * WINDOWX_PER_Y;
+		}
+		else
+		{
+			vLPos.x = vPos.x + (colInfo.vOffset.x - colInfo.vScale.x / 2) * WINDOWX_PER_X;
+			vLPos.y = vPos.y - (colInfo.vOffset.y + colInfo.vScale.y / 2) * WINDOWX_PER_Y;
+		}
+
+
+		Vector2 pos = {};
+		pos.x = vLPos.x + colInfo.vScale.x * WINDOWX_PER_X / 2;
+		pos.y = vLPos.y + colInfo.vScale.y * WINDOWX_PER_X / 2;
+
+		GetOwner()->SetPos(pos);
+		SetScale(colInfo.vScale * WINDOWX_PER_X);
+	}
+}
+
+void CCollider::SetCurFrmScale(CAnimator* anim)
+{
+	tColInfo colInfo = anim->GetCurAnimation()->GetCurFrame().colInfo;
+	SetFrmScale(colInfo);
 }
 
 

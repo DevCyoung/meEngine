@@ -17,6 +17,7 @@
 
 //ªË¡¶
 #include "CHPbar.h"
+#include "CCyberKujacer.h"
 
 CCyberspaceLevel::CCyberspaceLevel()
 {
@@ -48,6 +49,8 @@ void CCyberspaceLevel::init()
 void CCyberspaceLevel::tick()
 {
 	CRockmanLevel::tick();
+
+
 
 	if (IS_INPUT_TAB(KEY::ENTER))
 	{

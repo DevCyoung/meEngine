@@ -14,12 +14,16 @@ class CEffect :
 
 protected:
 	CRockmanObj*			m_target;
+	
 	Vector2					m_offset;
 	Vector2					m_position;
 	bool					m_isUsing;
 
 	EFFECTPLAY_TYPE			m_playType;
 
+
+public:
+	CRockmanObj* m_owner;
 
 public:
 	virtual void tick() override;	

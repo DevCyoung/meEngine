@@ -163,16 +163,16 @@ void CPlayerController::tick()
 			//m_zero->SetFlipX(!m_zero->GetFlipX());
 			m_state = PLAYER_STATE::IDLE;
 			m_curdashScale = 1.f;
+			m_hitDelay = 0.f;
 		}
 
 		if (m_hitDelay <= 0.3f)
 		{
-			velo = -m_hitDir * 300.f;
+			velo = -m_hitDir * 200.f;
 			if (m_zero->LeftColState() == true || m_zero->RightColState() == true)
 			{
 				velo.x = 0;
 			}
-			
 			if (m_zero->UpColState() == true || m_zero->DownColState() == true)
 			{
 				velo.y = 0;
@@ -186,7 +186,7 @@ void CPlayerController::tick()
 	}
 
 	m_zero->SetPos(pos);
-	m_zero->GetRigidbody()->SetVelocity(Vector2(velo));
+	m_zero->GetRigidbody()->SetVelocity(velo);
 	if (m_state == PLAYER_STATE::ENTER || m_state == PLAYER_STATE::VICTORYRETURN || m_state == PLAYER_STATE::RETURNREADY || m_state == PLAYER_STATE::RETURN || m_state == PLAYER_STATE:: BLINK || m_state == PLAYER_STATE::DAMAGED)
 		return;
 
@@ -710,7 +710,7 @@ void CPlayerController::LandAttack1()
 	//UINT cnt = m_zero->GetAttackState();
 	m_attackDelay += DELTATIME;
 
-	if (IS_INPUT_TAB(KEY::Z) && m_attackDelay >= 0.1f)
+	if (IS_INPUT_TAB(KEY::Z) && m_attackDelay >= 0.12f)
 	{
 		m_animator->Play(L"ATTACK2", false);
 	
@@ -727,7 +727,7 @@ void CPlayerController::LandAttack1()
 void CPlayerController::LandAttack2()
 {
 	m_attackDelay += DELTATIME;
-	if (IS_INPUT_TAB(KEY::Z) && m_attackDelay >= 0.1f)
+	if (IS_INPUT_TAB(KEY::Z) && m_attackDelay >= 0.12f)
 	{
 		
 		

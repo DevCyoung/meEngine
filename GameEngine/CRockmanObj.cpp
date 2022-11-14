@@ -60,6 +60,7 @@ CRockmanObj::CRockmanObj()
 	, m_curGravity(0.f)
 	, m_damagedState(DAMAGED_STATE::NONE)
 	, m_hp(0)
+
 	
 {
 	m_gravityAceel = 1.95f;
@@ -81,6 +82,7 @@ CRockmanObj::CRockmanObj(const CRockmanObj& _other)
 	, m_gravityAceel(_other.m_gravityAceel)
 	, m_curGravity(0.f)	
 	, m_hp(0)
+
 
 {
 	if (_other.m_downRay != nullptr)

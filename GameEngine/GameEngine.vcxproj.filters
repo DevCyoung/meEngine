@@ -251,6 +251,15 @@
     <Filter Include="Game\HPBar">
       <UniqueIdentifier>{2e2b7dac-e748-4247-acac-8857ea3c939d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\RockMan\Monster\CyberStage\Boss">
+      <UniqueIdentifier>{e44dc9b1-df60-432c-b872-42bb5d945b75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\RockMan\Effect\BossEffect">
+      <UniqueIdentifier>{2e0ebb9f-57bd-4622-b795-22f6d777644d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\RockMan\Effect\Player">
+      <UniqueIdentifier>{3af43e0f-fa33-4b73-9e83-1125cbddaa3a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -490,32 +499,44 @@
     <ClInclude Include="CEffectManager.h">
       <Filter>Engine\02. Manager\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="CEffect.h">
-      <Filter>Game\RockMan\Effect</Filter>
-    </ClInclude>
     <ClInclude Include="CHPbar.h">
       <Filter>Game\HPBar</Filter>
     </ClInclude>
-    <ClInclude Include="CTinEffect.h">
-      <Filter>Game\RockMan\Effect</Filter>
+    <ClInclude Include="CCyberKujacer.h">
+      <Filter>Game\RockMan\Monster\CyberStage\Boss</Filter>
     </ClInclude>
-    <ClInclude Include="CSliceEffect.h">
-      <Filter>Game\RockMan\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="CLandDash.h">
-      <Filter>Game\RockMan\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="CSlideDustEffect.h">
-      <Filter>Game\RockMan\Effect</Filter>
+    <ClInclude Include="CMonsterHitBox.h">
+      <Filter>Game\RockMan\Hitbox</Filter>
     </ClInclude>
     <ClInclude Include="CDashPowerEffect.h">
-      <Filter>Game\RockMan\Effect</Filter>
+      <Filter>Game\RockMan\Effect\Player</Filter>
     </ClInclude>
-    <ClInclude Include="CWallHitEffect.h">
-      <Filter>Game\RockMan\Effect</Filter>
+    <ClInclude Include="CEffect.h">
+      <Filter>Game\RockMan\Effect\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CLandDash.h">
+      <Filter>Game\RockMan\Effect\Player</Filter>
     </ClInclude>
     <ClInclude Include="CRedBoomEffect.h">
-      <Filter>Game\RockMan\Effect</Filter>
+      <Filter>Game\RockMan\Effect\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CSliceEffect.h">
+      <Filter>Game\RockMan\Effect\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CSlideDustEffect.h">
+      <Filter>Game\RockMan\Effect\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CTinEffect.h">
+      <Filter>Game\RockMan\Effect\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CWallHitEffect.h">
+      <Filter>Game\RockMan\Effect\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CCyberTargetEffect.h">
+      <Filter>Game\RockMan\Effect\BossEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="CCyberMissile.h">
+      <Filter>Game\RockMan\Monster\CyberStage\Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -788,32 +809,44 @@
     <ClCompile Include="CEffectManager.cpp">
       <Filter>Engine\02. Manager\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="CEffect.cpp">
-      <Filter>Game\RockMan\Effect</Filter>
-    </ClCompile>
     <ClCompile Include="CHPbar.cpp">
       <Filter>Game\HPBar</Filter>
     </ClCompile>
-    <ClCompile Include="CTinEffect.cpp">
-      <Filter>Game\RockMan\Effect</Filter>
+    <ClCompile Include="CCyberKujacer.cpp">
+      <Filter>Game\RockMan\Monster\CyberStage\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="CSliceEffect.cpp">
-      <Filter>Game\RockMan\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="CLandDash.cpp">
-      <Filter>Game\RockMan\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="CSlideDustEffect.cpp">
-      <Filter>Game\RockMan\Effect</Filter>
+    <ClCompile Include="CMonsterHitBox.cpp">
+      <Filter>Game\RockMan\Hitbox</Filter>
     </ClCompile>
     <ClCompile Include="CDashPowerEffect.cpp">
-      <Filter>Game\RockMan\Effect</Filter>
+      <Filter>Game\RockMan\Effect\Player</Filter>
     </ClCompile>
-    <ClCompile Include="CWallHitEffect.cpp">
-      <Filter>Game\RockMan\Effect</Filter>
+    <ClCompile Include="CEffect.cpp">
+      <Filter>Game\RockMan\Effect\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CLandDash.cpp">
+      <Filter>Game\RockMan\Effect\Player</Filter>
     </ClCompile>
     <ClCompile Include="CRedBoomEffect.cpp">
-      <Filter>Game\RockMan\Effect</Filter>
+      <Filter>Game\RockMan\Effect\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CSliceEffect.cpp">
+      <Filter>Game\RockMan\Effect\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CSlideDustEffect.cpp">
+      <Filter>Game\RockMan\Effect\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CTinEffect.cpp">
+      <Filter>Game\RockMan\Effect\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CWallHitEffect.cpp">
+      <Filter>Game\RockMan\Effect\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CCyberTargetEffect.cpp">
+      <Filter>Game\RockMan\Effect\BossEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="CCyberMissile.cpp">
+      <Filter>Game\RockMan\Monster\CyberStage\Boss</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

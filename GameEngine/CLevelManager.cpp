@@ -13,6 +13,9 @@
 #include "CCyberspaceLevel4.h"
 #include "CCyberspaceLevelBoss.h"
 
+#include "CZero.h"
+#include "CRockmanLevel.h"
+
 CLevelManager::CLevelManager()
 	: m_pCurLevel(nullptr)
 	, m_arrLevel{}
@@ -50,7 +53,7 @@ void CLevelManager::init()
 
 
 
-	this->LoadLevelEvent(LEVEL_TYPE::CYBERSPACE);
+	this->LoadLevelEvent(LEVEL_TYPE::CYBERSPACEBOSS);
 
 }
 
@@ -76,6 +79,13 @@ void CLevelManager::LoadLevel(LEVEL_TYPE _eNextLevel)
 	_evn.eType = EVENT_TYPE::LEVEL_CHANGE;
 	_evn.wParam = (DWORD_PTR)_eNextLevel;
 	GETINSTANCE(CEventManager)->AddEvent(_evn);
+}
+
+CZero* CLevelManager::GetPlayerObject()
+{
+	CRockmanLevel* _lv = dynamic_cast<CRockmanLevel*>(GETINSTANCE(CLevelManager)->GetCurLevel());
+	assert(_lv);
+	return _lv->m_zero;
 }
 
 void CLevelManager::LoadLevelEvent(LEVEL_TYPE type)

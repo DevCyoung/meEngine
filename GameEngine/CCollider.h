@@ -2,6 +2,7 @@
 #include "CComponent.h"
 
 class CGameObject;
+class CAnimator;
 
 class CCollider :
     public CComponent
@@ -39,6 +40,8 @@ public:
 
     UINT            GetWallDirState(COLLIDE_DIR dir) { return m_curWallDir[(UINT)dir]; }
     
+    void            SetFrmScale(tColInfo colInfo);
+    void            SetCurFrmScale(CAnimator* anim);
 
 public:
     int GetCollideCnt() { return m_iOverlapCount; }

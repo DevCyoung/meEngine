@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "CCyberspaceLevelBoss.h"
 #include "CMapManager.h"
+#include "CCyberKujacer.h"
+#include "CKeyManager.h"
+#include "CZero.h"
 
 CCyberspaceLevelBoss::CCyberspaceLevelBoss()
 {
@@ -19,7 +22,15 @@ void CCyberspaceLevelBoss::init()
 
 void CCyberspaceLevelBoss::tick()
 {
+	if (IS_INPUT_TAB(KEY::ENTER))
+	{
+		CCyberKujacer* kujan = new CCyberKujacer();
+		CGameObject::Instantiate(kujan, m_zero->GetPos(), LAYER::MONSTER);
+	}
+
 	CRockmanLevel::tick();
+
+
 
 }
 
