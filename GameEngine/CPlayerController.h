@@ -5,6 +5,7 @@
 
 #define REDZEROCOLOR   0xffE90100
 #define BLACKZEROCOLOR 0xff5000A0
+#define VIRUSZEROCOLOR 0xff4880c0
 
 #define BACKGROUNDCOLOR 0X00ff00ff    
 class CZero;

@@ -10,6 +10,14 @@ enum class ZEROSTATE
 
 };
 
+enum class ZEROMODE
+{
+	REDZERO,
+	BLACKZERO,
+	VIRUSZERO,
+	END,
+};
+
 class CLineCollider;
 class CRaycast;
 class CLine;
@@ -43,7 +51,7 @@ public:
 	//¼öÁ¤
 	CLineCollider* m_dirMoveLine;
 	CCollider* m_dirMoveBox;
-	bool	m_isCheatMode;
+	ZEROMODE	m_zeroMode;
 public:
 	CCameraObj* m_camera;
 

@@ -41,7 +41,7 @@ CZero::CZero()
 	, m_dirMoveBox(nullptr)
 	, m_animEvent(nullptr)
 	, m_camera(nullptr)
-	, m_isCheatMode(false)
+	, m_zeroMode(ZEROMODE::REDZERO)
 {
 	SetTag(LAYER::PLAYER);
 	m_isGravity = true;
@@ -50,6 +50,7 @@ CZero::CZero()
 	GETINSTANCE(CEffectManager)->SetPlayerTarget(this);
 	GETINSTANCE(CResourceManager)->LoadTexture(L"ZERO", L"texture\\charactor\\atlas_zero.bmp");
 	GETINSTANCE(CResourceManager)->LoadTexture(L"BLACKZERO", L"texture\\charactor\\atlas_zero_black.bmp");
+	GETINSTANCE(CResourceManager)->LoadTexture(L"VIRUSZERO", L"texture\\charactor\\atlas_zero_virus.bmp");
 
 	CreateCollider();
 	GetCollider()->SetScale(Vector2(80.f, 120.f));
@@ -98,7 +99,7 @@ CZero::CZero(const CZero& _other)
 	, m_dirMoveLine(nullptr)
 	, m_dirMoveBox(nullptr)
 	, m_animEvent(nullptr)
-	, m_isCheatMode(false)
+	, m_zeroMode(ZEROMODE::REDZERO)
 {
 	SetTag(LAYER::PLAYER);
 
@@ -167,16 +168,35 @@ void CZero::tick()
 		GETINSTANCE(CResourceManager)->LoadSound(L"changemode", L"sound\\changemode.wav")->SetVolume(18.f);
 		GETINSTANCE(CResourceManager)->LoadSound(L"changemode", L"sound\\changemode.wav")->Play();
 
-		if (m_isCheatMode == false)
+		int idx = (UINT)m_zeroMode;
+
+
+		++idx;
+		idx %= (UINT)ZEROMODE::END;
+		m_zeroMode = (ZEROMODE)idx;
+		switch (m_zeroMode)
 		{
+		case ZEROMODE::REDZERO:
+			GetAnimator()->SetAllAtlas(GETINSTANCE(CResourceManager)->FindTexture(L"ZERO"));
+			break;
+		case ZEROMODE::BLACKZERO:
 			GetAnimator()->SetAllAtlas(GETINSTANCE(CResourceManager)->FindTexture(L"BLACKZERO"));
+			break;
+		case ZEROMODE::VIRUSZERO:
+			GetAnimator()->SetAllAtlas(GETINSTANCE(CResourceManager)->FindTexture(L"VIRUSZERO"));
+			break;		
+		}
+	/*	if (m_isCheatMode == false)
+		{
+			
 			m_isCheatMode = true;
 		}
 		else
 		{
 			GetAnimator()->SetAllAtlas(GETINSTANCE(CResourceManager)->FindTexture(L"ZERO"));
 			m_isCheatMode = false;
-		}				
+		}		*/
+
 	}
 }
 

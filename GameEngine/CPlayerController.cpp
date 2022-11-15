@@ -140,7 +140,9 @@ void CPlayerController::tick()
 			m_zero->m_damagedState = DAMAGED_STATE::IDLE;
 			m_zero->m_damagedTime = 0.f;
 			m_hitDelay = 0.f;
-			m_zero->GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
+
+			//¼öÁ¤?
+			//m_zero->GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
 			//m_zero->SetFlipX(!m_zero->GetFlipX());
 			
 		}
@@ -282,11 +284,11 @@ void CPlayerController::tick()
 	{
 		if (m_zero->GetFlipX() == true)
 		{			
-			m_velocity.x = 640;
+			m_velocity.x = 615;
 		}
 		else
 		{
-			m_velocity.x = -640;
+			m_velocity.x = -615;
 		}
 		
 		m_zero->GetCollider()->SetOffsetPos(Vector2(0.f, 25.f));
@@ -326,7 +328,7 @@ void CPlayerController::flip_tick()
 
 void CPlayerController::InputTick()
 {
-	if (IS_INPUT_TAB(KEY::A))
+	if (IS_INPUT_TAB(KEY::A) && m_state != PLAYER_STATE::SPECIALATTACK)
 	{
 		if (IS_INPUT_PRESSED(KEY::UP))
 		{
@@ -576,16 +578,27 @@ void CPlayerController::render(HDC _dc)
 			continue;
 		Vector2 renPos = GETINSTANCE(CCamera)->GetRenderPos(m_arrDashFrame[i].pos);
 		//CRenderHelper::StretchRender(tex->GetDC(), m_arrDashFrame[i].frame, _dc, renPos, m_zero->GetFilpX(), 0.50f);
-		UINT color;
-		if (m_zero->m_isCheatMode == false)
+		UINT color = 0;
+		
+		switch (m_zero->m_zeroMode)
+		{
+		case ZEROMODE::REDZERO:
 		{
 			color = REDZEROCOLOR;
 		}
-		else
+			break;
+		case ZEROMODE::BLACKZERO:
 		{
 			color = BLACKZEROCOLOR;
 		}
-		
+			break;
+		case ZEROMODE::VIRUSZERO:
+		{
+			color = VIRUSZEROCOLOR;
+		}
+			break;		
+		}
+
 		CRenderHelper::StretchRenderReplaceColor(tex->GetDC(), m_arrDashFrame[i].frame, _dc, renPos, m_zero->GetFlipX(), 0.5f, BACKGROUNDCOLOR, color, true, m_zero->m_renderPer);
 	}
 }

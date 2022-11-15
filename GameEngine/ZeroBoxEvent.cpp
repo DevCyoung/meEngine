@@ -46,7 +46,7 @@ void CZero::OnTriggerStay(CCollider* _pOther)
 		
 
 		//여기서 데미지를 처리합니다.
-		if (m_isCheatMode == false)
+		if (m_zeroMode == ZEROMODE::REDZERO)
 		{
 			m_hp -= 2.f;
 		}
