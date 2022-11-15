@@ -44,7 +44,18 @@ void CZero::OnTriggerStay(CCollider* _pOther)
 		m_playerController->m_hitDir = dir;
 		GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
 		
-		m_hp -= 2.f;
+
+		//여기서 데미지를 처리합니다.
+		if (m_isCheatMode == false)
+		{
+			m_hp -= 2.f;
+		}
+		else
+		{
+
+		}
+		
+		//여기서 죽습니다.
 		if (m_hp <= 0)
 		{
 			//GETINSTANCE(CLevelManager)->LoadLevel(LEVEL_TYPE::CYBERSPACE2);

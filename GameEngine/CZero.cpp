@@ -161,15 +161,22 @@ void CZero::tick()
 
 
 	//치트모드
-	if (IS_INPUT_TAB(KEY::_9) && m_isCheatMode == false)
+	if (IS_INPUT_TAB(KEY::_9))
 	{
-		GetAnimator()->SetAllAtlas(GETINSTANCE(CResourceManager)->FindTexture(L"BLACKZERO"));
-		m_isCheatMode = true;
-	}
-	else if (IS_INPUT_TAB(KEY::_9) && m_isCheatMode == true)
-	{
-		GetAnimator()->SetAllAtlas(GETINSTANCE(CResourceManager)->FindTexture(L"ZERO"));
-		m_isCheatMode = false;
+		GETINSTANCE(CResourceManager)->LoadSound(L"changemode", L"sound\\changemode.wav")->SetPosition(0);
+		GETINSTANCE(CResourceManager)->LoadSound(L"changemode", L"sound\\changemode.wav")->SetVolume(18.f);
+		GETINSTANCE(CResourceManager)->LoadSound(L"changemode", L"sound\\changemode.wav")->Play();
+
+		if (m_isCheatMode == false)
+		{
+			GetAnimator()->SetAllAtlas(GETINSTANCE(CResourceManager)->FindTexture(L"BLACKZERO"));
+			m_isCheatMode = true;
+		}
+		else
+		{
+			GetAnimator()->SetAllAtlas(GETINSTANCE(CResourceManager)->FindTexture(L"ZERO"));
+			m_isCheatMode = false;
+		}				
 	}
 }
 
