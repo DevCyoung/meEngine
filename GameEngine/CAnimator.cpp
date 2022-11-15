@@ -40,7 +40,7 @@ CAnimator::~CAnimator()
 {
 	map<wstring, CAnimation*>::iterator iter = m_mapAnim.begin();
 	for (; iter != m_mapAnim.end(); ++iter)
-	{
+	{		
 		delete iter->second;
 	}
 }
@@ -138,4 +138,13 @@ void CAnimator::SetAnimFrameFunc(const wstring& _animName, int _iFrameNum,  CGam
 	CAnimation* anim = this->FindAnimation(_animName);
 	assert(anim);
 	anim->SetFrameEvent(_iFrameNum, _obj, _delegate);
+}
+
+void CAnimator::SetAllAtlas(CTexture* atlas)
+{
+	map<wstring, CAnimation*>::iterator iter = m_mapAnim.begin();
+	for (; iter != m_mapAnim.end(); ++iter)
+	{
+		iter->second->m_pAtlas = atlas;		
+	}
 }

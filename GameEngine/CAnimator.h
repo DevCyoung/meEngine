@@ -35,7 +35,7 @@ public:
     void SetAnimFrameFunc(const wstring& _animName, int _iFrameNum, CGameObject* _obj, DELEGATE _delegate);
     void SetReverse(bool m_rev) { m_bReverse = m_rev; }
     bool GetReverse() { return m_bReverse; }
-
+    void SetAllAtlas(CTexture* atlas);
 
 public:
     CLONE(CAnimator);

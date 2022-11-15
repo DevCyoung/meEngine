@@ -53,7 +53,7 @@ void CLevelManager::init()
 
 
 
-	this->LoadLevelEvent(LEVEL_TYPE::CYBERSPACE);
+	this->LoadLevelEvent(LEVEL_TYPE::CYBERSPACE4);
 
 }
 

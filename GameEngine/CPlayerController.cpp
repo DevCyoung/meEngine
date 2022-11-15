@@ -95,6 +95,8 @@ void CPlayerController::tick()
 	Vector2 velo = m_zero->GetRigidbody()->GetVelocity();
 
 	
+
+	
 	if (m_state == PLAYER_STATE::ENTER)
 	{		
 		if (m_zero->DownColState() == true)
@@ -161,7 +163,7 @@ void CPlayerController::tick()
 	{		
 		if (m_hitDelay >= 1.f)
 		{
-			m_animator->Play(L"IDLE", true);
+			m_animator->TrigerPlay(L"IDLE", true);
 			//m_zero->SetFlipX(!m_zero->GetFlipX());
 			m_state = PLAYER_STATE::IDLE;
 			m_curdashScale = 1.f;
@@ -189,7 +191,8 @@ void CPlayerController::tick()
 
 	m_zero->SetPos(pos);
 	m_zero->GetRigidbody()->SetVelocity(velo);
-	if (m_state == PLAYER_STATE::ENTER || m_state == PLAYER_STATE::VICTORYRETURN || m_state == PLAYER_STATE::RETURNREADY || m_state == PLAYER_STATE::RETURN || m_state == PLAYER_STATE:: BLINK || m_state == PLAYER_STATE::DAMAGED)
+	if (m_state == PLAYER_STATE::ENTER  || m_state == PLAYER_STATE::VICTORYRETURN || m_state == PLAYER_STATE::RETURNREADY || 
+		m_state == PLAYER_STATE::RETURN || m_state == PLAYER_STATE:: BLINK	      || m_state == PLAYER_STATE::DAMAGED)
 		return;
 
 	
@@ -197,6 +200,12 @@ void CPlayerController::tick()
 	velo.x = 0.f;
 	m_velocity.x = velo.x;
 	m_velocity.y = velo.y;
+
+	/*if (IS_INPUT_PRESSED(KEY::LEFT) && IS_INPUT_PRESSED(KEY::RIGHT))
+	{
+		m_state = PLAYER_STATE::IDLE;
+		m_zero->GetAnimator()->TrigerPlay(L"IDLE", false);
+	}*/
 
 	////check = 0;
 	////입력외의 변수들 설정
@@ -219,7 +228,19 @@ void CPlayerController::tick()
 	////Move
 	if (m_state == PLAYER_STATE::WALK || m_state == PLAYER_STATE::JUMP )
 	{
-		m_velocity.x = m_moveScale * m_dir * m_curdashScale;
+		if (m_state == PLAYER_STATE::WALK)
+		{
+			m_velocity.x = m_moveScale * m_dir * m_curdashScale;
+			/*if (INPUT_END_TIME(KEY::LEFT, 0.1f) >= 0.08f || INPUT_END_TIME(KEY::RIGHT, 0.1f) >= 0.08f)
+			{
+				
+			}*/
+		}
+		else if (m_state == PLAYER_STATE::JUMP)
+		{
+			m_velocity.x = m_moveScale * m_dir * m_curdashScale;
+		}
+		
 	}
 	else if (m_state == PLAYER_STATE::DASH)
 	{
@@ -310,12 +331,16 @@ void CPlayerController::InputTick()
 		if (IS_INPUT_PRESSED(KEY::UP))
 		{
 		
-			m_state = PLAYER_STATE::SPECIALATTACK;
-			m_specialDelay = 0.f;
-			m_animator->Play(L"FIREREADY", false);
+			//m_state = PLAYER_STATE::SPECIALATTACK;
+			//m_specialDelay = 0.f;
+			//m_animator->Play(L"FIREREADY", false);
 		}
 		else
+		{
+			m_state = PLAYER_STATE::SPECIALATTACK;
 			m_animator->Play(L"THUNDER", false);
+		}
+			
 	}
 	m_fallingAttackDelay += DELTATIME;
 	if (IS_INPUT_TAB(KEY::Z))
@@ -395,7 +420,7 @@ void CPlayerController::InputTick()
 			m_attackDealy = 0.f;
 		}
 	}
-	if (IS_INPUT_PRESSED(KEY::LEFT))
+	if (IS_INPUT_PRESSED(KEY::LEFT) && IS_INPUT_PRESSED(KEY::RIGHT) == false)
 	{
 		if (m_zero->LeftColState() == false)
 		{
@@ -411,7 +436,7 @@ void CPlayerController::InputTick()
 			m_dir = 0;
 		}		
 	}
-	if (IS_INPUT_PRESSED(KEY::RIGHT) )
+	else if (IS_INPUT_PRESSED(KEY::RIGHT) && IS_INPUT_PRESSED(KEY::LEFT) == false)
 	{
 		if (m_zero->RightColState() == false)
 		{
@@ -485,6 +510,15 @@ void CPlayerController::StateTick()
 	case PLAYER_STATE::WALLSLIDE:
 		WallSlide();
 		break;
+	case PLAYER_STATE::SPECIALATTACK:
+	{
+		if (m_zero->GetAnimator()->GetCurAnimation()->GetCurFrameIdx() >= 34)
+		{
+			m_state = PLAYER_STATE::IDLE;
+			m_zero->GetAnimator()->TrigerPlay(L"IDLE", true);
+		}
+	}
+		break;
 	}
 }
 
@@ -542,13 +576,28 @@ void CPlayerController::render(HDC _dc)
 			continue;
 		Vector2 renPos = GETINSTANCE(CCamera)->GetRenderPos(m_arrDashFrame[i].pos);
 		//CRenderHelper::StretchRender(tex->GetDC(), m_arrDashFrame[i].frame, _dc, renPos, m_zero->GetFilpX(), 0.50f);
-		CRenderHelper::StretchRenderReplaceColor(tex->GetDC(), m_arrDashFrame[i].frame, _dc, renPos, m_zero->GetFlipX(), 0.5f, BACKGROUNDCOLOR, REDZEROCOLOR	, true, m_zero->m_renderPer);
+		UINT color;
+		if (m_zero->m_isCheatMode == false)
+		{
+			color = REDZEROCOLOR;
+		}
+		else
+		{
+			color = BLACKZEROCOLOR;
+		}
+		
+		CRenderHelper::StretchRenderReplaceColor(tex->GetDC(), m_arrDashFrame[i].frame, _dc, renPos, m_zero->GetFlipX(), 0.5f, BACKGROUNDCOLOR, color, true, m_zero->m_renderPer);
 	}
 }
 
 void CPlayerController::Walk()
 {		
-	m_velocity.x = m_moveScale * m_dir;
+
+	if (INPUT_END_TIME(KEY::LEFT, 0.1f) >= 0.08f || INPUT_END_TIME(KEY::RIGHT, 0.1f) >= 0.08f)
+	{
+		//m_velocity.x = m_moveScale * m_dir;
+	}
+	
 
 	if (IS_INPUT_RELEASE(KEY::LEFT) || IS_INPUT_RELEASE(KEY::RIGHT) || m_dir == 0)
 	{
@@ -686,7 +735,7 @@ void CPlayerController::Falling()
 		m_state = PLAYER_STATE::IDLE;
 		m_curdashScale = 1.f;
 	}
-	else if (m_zero->LeftColState() == true && IS_INPUT_PRESSED(KEY::LEFT))
+	else if (m_zero->LeftColState() == true && IS_INPUT_PRESSED(KEY::LEFT) && IS_INPUT_PRESSED(KEY::RIGHT) == false)
 	{
 		GETINSTANCE(CResourceManager)->LoadSound(L"wallslidecatch", L"sound\\wallslidecatch.wav")->SetPosition(0);
 		GETINSTANCE(CResourceManager)->LoadSound(L"wallslidecatch", L"sound\\wallslidecatch.wav")->Play();
@@ -695,7 +744,7 @@ void CPlayerController::Falling()
 		m_state = PLAYER_STATE::WALLSLIDE;
 		m_curdashScale = 1.f;
 	}
-	else if (m_zero->RightColState() == true && IS_INPUT_PRESSED(KEY::RIGHT))
+	else if (m_zero->RightColState() == true && IS_INPUT_PRESSED(KEY::RIGHT) && IS_INPUT_PRESSED(KEY::LEFT) == false)
 	{
 		GETINSTANCE(CResourceManager)->LoadSound(L"wallslidecatch", L"sound\\wallslidecatch.wav")->SetPosition(0);
 		GETINSTANCE(CResourceManager)->LoadSound(L"wallslidecatch", L"sound\\wallslidecatch.wav")->Play();
@@ -805,10 +854,15 @@ void CPlayerController::WallSlide()
 
 	if (m_zero->LeftColState() == true)
 	{
-		if (IS_INPUT_RELEASE(KEY::LEFT) || IS_INPUT_TAB(KEY::RIGHT))
+		if (IS_INPUT_TAB(KEY::RIGHT))
 		{
 			m_state = PLAYER_STATE::IDLE;
 		}
+		else if (IS_INPUT_RELEASE(KEY::LEFT))
+		{
+			m_state = PLAYER_STATE::IDLE;
+		}
+		
 	}
 	if (m_zero->RightColState() == true)
 	{

@@ -37,11 +37,13 @@ private:
 	bool	m_bisLand;
 
 
+	
+
 public:
 	//¼öÁ¤
 	CLineCollider* m_dirMoveLine;
 	CCollider* m_dirMoveBox;
-
+	bool	m_isCheatMode;
 public:
 	CCameraObj* m_camera;
 

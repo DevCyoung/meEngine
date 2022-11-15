@@ -41,6 +41,7 @@ CZero::CZero()
 	, m_dirMoveBox(nullptr)
 	, m_animEvent(nullptr)
 	, m_camera(nullptr)
+	, m_isCheatMode(false)
 {
 	SetTag(LAYER::PLAYER);
 	m_isGravity = true;
@@ -48,7 +49,7 @@ CZero::CZero()
 	CreateAnimator();
 	GETINSTANCE(CEffectManager)->SetPlayerTarget(this);
 	GETINSTANCE(CResourceManager)->LoadTexture(L"ZERO", L"texture\\charactor\\atlas_zero.bmp");
-
+	GETINSTANCE(CResourceManager)->LoadTexture(L"BLACKZERO", L"texture\\charactor\\atlas_zero_black.bmp");
 
 	CreateCollider();
 	GetCollider()->SetScale(Vector2(80.f, 120.f));
@@ -97,6 +98,7 @@ CZero::CZero(const CZero& _other)
 	, m_dirMoveLine(nullptr)
 	, m_dirMoveBox(nullptr)
 	, m_animEvent(nullptr)
+	, m_isCheatMode(false)
 {
 	SetTag(LAYER::PLAYER);
 
@@ -156,6 +158,19 @@ void CZero::tick()
 
 	if (nullptr != m_playerController)
 		m_playerController->flip_tick();
+
+
+	//치트모드
+	if (IS_INPUT_TAB(KEY::_9) && m_isCheatMode == false)
+	{
+		GetAnimator()->SetAllAtlas(GETINSTANCE(CResourceManager)->FindTexture(L"BLACKZERO"));
+		m_isCheatMode = true;
+	}
+	else if (IS_INPUT_TAB(KEY::_9) && m_isCheatMode == true)
+	{
+		GetAnimator()->SetAllAtlas(GETINSTANCE(CResourceManager)->FindTexture(L"ZERO"));
+		m_isCheatMode = false;
+	}
 }
 
 

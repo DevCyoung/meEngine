@@ -88,6 +88,7 @@ void CAnimation::tick()
 void CAnimation::render(HDC _dc)
 {
 	CGameObject* pOwnerObj = m_pAnimator->GetOwner();
+
 	Vector2 vPos = GETINSTANCE(CCamera)->GetRenderPos(pOwnerObj->GetPos());
 
 	tAnimFrm frame = m_vecFrm[m_iCurFrm];
