@@ -31,6 +31,8 @@ CCyberMissile::CCyberMissile()
 
 	GetAnimator()->Play(L"MISSILELEFT", true);
 
+	m_isCollision = false;
+
 	m_zero = GETINSTANCE(CLevelManager)->GetPlayerObject();
 }
 

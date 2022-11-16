@@ -8,6 +8,7 @@ CAnimator::CAnimator(CGameObject* _pOwner)
 	, m_pCurAnim(nullptr)
 	, m_bRepeat(false)
 	, m_bReverse(false)
+	, m_bisPlay(true)
 {
 
 }
@@ -17,6 +18,7 @@ CAnimator::CAnimator(const CAnimator& _other)
 	, m_pCurAnim(_other.m_pCurAnim)
 	, m_bRepeat(_other.m_bRepeat)
 	, m_bReverse(false)
+	, m_bisPlay(true)
 {
 	map<wstring, CAnimation*>::const_iterator iter = _other.m_mapAnim.begin();
 	for (; iter != _other.m_mapAnim.end(); ++iter)
@@ -54,10 +56,15 @@ void CAnimator::final_tick()
 	if (nullptr == m_pCurAnim)
 		return;
 
+	if (m_bisPlay == false)
+		return;
+
 	if (m_pCurAnim->IsFinish() && m_bRepeat)
 	{
 		m_pCurAnim->Reset();
 	}
+
+	
 
 	m_pCurAnim->tick();
 }

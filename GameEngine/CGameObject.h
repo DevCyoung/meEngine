@@ -26,6 +26,9 @@ private:
 
     bool        m_bDead;
 
+
+    
+
 protected:
     void CreateCollider();
     void CreateAnimator();

@@ -24,8 +24,11 @@ void CCyberspaceLevelBoss::tick()
 {
 	if (IS_INPUT_TAB(KEY::ENTER))
 	{
-		CCyberKujacer* kujan = new CCyberKujacer();
-		CGameObject::Instantiate(kujan, m_zero->GetPos(), LAYER::MONSTER);
+
+		/*CCyberKujacer* kujan = new CCyberKujacer();
+		CGameObject::Instantiate(kujan, m_zero->GetPos(), LAYER::MONSTER);*/
+		m_cam->m_isFollow = !m_cam->m_isFollow;
+
 	}
 
 	CRockmanLevel::tick();

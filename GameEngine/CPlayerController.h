@@ -3,22 +3,15 @@
 
 #define DASH_FRAME_SIZE 12
 
-#define REDZEROCOLOR   0xffE90100
-#define BLACKZEROCOLOR 0xff5000A0
-#define VIRUSZEROCOLOR 0xff4880c0
 
-#define BACKGROUNDCOLOR 0X00ff00ff    
+
+//#define BACKGROUNDCOLOR 0X00ff00ff    
 class CZero;
 class CAnimator;
 //STARTVIM
 //RETURVIM
 
-struct tDashFrame
-{
-    tAnimFrm    frame;
-    Vector2     pos;
-    float       duration;
-};
+
 
 class CPlayerController :
     public CComponent

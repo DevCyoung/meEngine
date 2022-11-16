@@ -40,6 +40,14 @@ Vector2 CMapManager::GetPlayerPos(UINT playIdx)
 	return pos;
 }
 
+Vector2 CMapManager::GetCameraPos(UINT camIdx)
+{
+	assert(camIdx < m_curMap->m_cameraPos.size());
+
+	Vector2 pos = m_curMap->m_cameraPos[camIdx];
+	return pos;
+}
+
 void CMapManager::Load()
 {
 

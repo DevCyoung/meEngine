@@ -428,7 +428,7 @@ void CCollideEdit::Save(FILE* pFile)
 	const vector<CGameObject*>& lineOjs  = lv->GetLayer(LAYER::LINE);
 	const vector<CGameObject*>& WallOjs  = lv->GetLayer(LAYER::WALL);
 	const vector<CGameObject*>& eventOjs = lv->GetLayer(LAYER::EVENT);
-	const vector<CGameObject*>& cnWalls = lv->GetLayer(LAYER::CAMERAWALL);
+	const vector<CGameObject*>& cnWalls  = lv->GetLayer(LAYER::CAMERAWALL);
 
 	UINT size = lineOjs.size();
 	fwrite(&size, sizeof(UINT), 1, pFile);

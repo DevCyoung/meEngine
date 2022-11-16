@@ -23,11 +23,11 @@ void CCyberspaceLevel3::tick()
 {
 	CRockmanLevel::tick();
 
-	if (IS_INPUT_TAB(KEY::ENTER))
-	{
-		//exit
-		NextLevel(LEVEL_TYPE::CYBERSPACE4);
-	}
+	//if (IS_INPUT_TAB(KEY::ENTER))
+	//{
+	//	//exit
+	//	NextLevel(LEVEL_TYPE::CYBERSPACE4);
+	//}
 }
 
 void CCyberspaceLevel3::Enter()
@@ -36,7 +36,7 @@ void CCyberspaceLevel3::Enter()
 	CRockmanLevel::Enter();
 	init();
 	LoadMap(L"cyber\\cyberspace_Level_3.map");
-	GETINSTANCE(CMapManager)->MapCameraSet(0);
+	//GETINSTANCE(CMapManager)->MapCameraSet(0);
 
 
 }

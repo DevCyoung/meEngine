@@ -14,6 +14,7 @@ private:
     CAnimation*                     m_pCurAnim;
     bool                            m_bRepeat;
     bool                            m_bReverse;
+    bool                            m_bisPlay;
 
 public:
     virtual void tick() override;
@@ -36,6 +37,9 @@ public:
     void SetReverse(bool m_rev) { m_bReverse = m_rev; }
     bool GetReverse() { return m_bReverse; }
     void SetAllAtlas(CTexture* atlas);
+
+    void SetPlayable(bool b) { m_bisPlay = b; }
+    bool GetPlayabe() { return m_bisPlay; }
 
 public:
     CLONE(CAnimator);

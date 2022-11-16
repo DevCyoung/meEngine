@@ -54,6 +54,8 @@ void CRockmanLevel::init()
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MONSTER, LAYER::PLAYERATTACK);
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::CAMERA, LAYER::CAMERAWALL);
 
+	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::WALL, LAYER::MONSTERATTACK);
+
 
 	m_textureReadyAnim = new CTextureAnim();
 	Vector2 pos = GETINSTANCE(CCamera)->GetLook();
@@ -80,7 +82,7 @@ void CRockmanLevel::Enter()
 	//CLevel::Enter(); = 0
 	init();
 	GETINSTANCE(CEffectManager)->LoadAllEffect();
-	GETINSTANCE(CCamera)->FadeIn(0.5f);	
+	GETINSTANCE(CCamera)->FadeIn(1.0f);	
 }
 
 void CRockmanLevel::Exit()
@@ -88,7 +90,7 @@ void CRockmanLevel::Exit()
 	DeleteAllObject();
 	//CLevel::Exit(); = 0
 
-	GETINSTANCE(CCamera)->FadeOut(1.0f);
+	//GETINSTANCE(CCamera)->FadeOut(1.0f);
 	m_zero = nullptr;
 }
 
@@ -108,7 +110,7 @@ void CRockmanLevel::ZeroEnter(UINT idx)
 	m_zero->SetState(PLAYER_STATE::ENTER);
 
 	m_cam = new CCameraObj();
-	m_cam->SetTarget(m_zero);
+	m_cam->SetTarget(m_zero);	
 	CGameObject::Instantiate(m_cam, m_cam->GetPos(), LAYER::CAMERA);
 }
 
@@ -121,6 +123,8 @@ void CRockmanLevel::ZeroRetrun()
 void CRockmanLevel::LevelDealy()
 {
 	m_delay += DELTATIME;
+
+
 	
 	if (m_delay >= 4.f && m_levelState == eLEVELSTATE::ZEROENTER)
 	{		
@@ -155,13 +159,17 @@ void CRockmanLevel::LevelDealy()
 		}
 	}
 
+	if (m_levelState == eLEVELSTATE::FADEFIX)
+		return;
+
 	if(m_levelState == eLEVELSTATE::FADEEXIT)
 	{
 		m_exitDelay += DELTATIME;
 		
 		if (m_exitDelay >= 1.0f)
-		{
-			GETINSTANCE(CLevelManager)->LoadLevel(m_nextLevel);
+		{			
+			GETINSTANCE(CLevelManager)->LoadLevel(m_nextLevel);			
+			m_levelState = eLEVELSTATE::FADEFIX;
 		}
 	}
 }
@@ -175,6 +183,7 @@ void CRockmanLevel::NextLevel(LEVEL_TYPE layer)
 {	
 	m_levelState = eLEVELSTATE::FADEEXIT;
 	m_nextLevel = layer;
+	m_exitDelay = 0.f;
 	GETINSTANCE(CCamera)->FadeOut(1.f);
 }
 

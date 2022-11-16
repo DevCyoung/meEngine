@@ -33,6 +33,12 @@ void CZero::OnTriggerStay(CCollider* _pOther)
 		if (_pOther->GetOwner()->m_isAttackable == false)
 			return;
 
+		if (m_playerController->m_state == PLAYER_STATE::RETURNREADY || m_playerController->m_state == PLAYER_STATE::BLINK)
+		{
+			return;
+		}
+			
+
 		SetState(PLAYER_STATE::DAMAGED);
 		m_damagedState = DAMAGED_STATE::ULTIMAGE;
 		GetAnimator()->Play(L"DAMAGEDREADY", false);
@@ -42,13 +48,15 @@ void CZero::OnTriggerStay(CCollider* _pOther)
 		Vector2 dir = _pOther->GetOwner()->GetPos() - GetPos();
 		dir.Normalize();
 		m_playerController->m_hitDir = dir;
-		GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
+		//GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
 		
+
+
 
 		//여기서 데미지를 처리합니다.
 		if (m_zeroMode == ZEROMODE::REDZERO)
 		{
-			m_hp -= 2.f;
+			m_hp -= 1.f;
 		}
 		else
 		{

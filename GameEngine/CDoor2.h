@@ -1,8 +1,10 @@
 #pragma once
 #include "CEventBox.h"
 
+#include "CDoor1.h"
+
 class CDoor2 :
-    public CEventBox
+    public CDoor1
 {
 
 public:
@@ -15,9 +17,5 @@ public:
 public:
 	CDoor2();
 	~CDoor2();
-
-	// CEventBox을(를) 통해 상속됨
-	virtual void Save(FILE* pFile) override;
-	virtual void Load(FILE* pFile) override;
 };
 

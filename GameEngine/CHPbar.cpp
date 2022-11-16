@@ -6,6 +6,7 @@
 #include "CTexture.h"
 #include "CRockmanObj.h"
 #include "CTimeManager.h"
+#include "CZero.h"
 
 CHPbar::CHPbar()
 	:m_hpTexture(nullptr)
@@ -70,6 +71,17 @@ void CHPbar::tick()
 
 void CHPbar::render(HDC _dc)
 {
+
+	if (nullptr != m_target)
+	{
+
+		if (m_target->GetState() == PLAYER_STATE::ENTER || m_target->GetState() == PLAYER_STATE::RETURN || m_target->GetState() == PLAYER_STATE::RETURNREADY || m_target->GetState() == PLAYER_STATE::BLINK)
+		{
+			return;
+		}
+
+	}
+
 	Vector2 pos = GetPos();
 
 	//충돌체를 그린다.

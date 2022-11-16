@@ -5,7 +5,7 @@
 
 CCyberspaceLevel4::CCyberspaceLevel4()
 {
-	m_isReady = true;
+	m_isReady = false;
 }
 
 CCyberspaceLevel4::~CCyberspaceLevel4()
@@ -23,11 +23,7 @@ void CCyberspaceLevel4::tick()
 {
 	CRockmanLevel::tick();
 
-	if (IS_INPUT_TAB(KEY::ENTER))
-	{
-		//exit
-		NextLevel(LEVEL_TYPE::CYBERSPACEBOSS);
-	}
+
 }
 
 void CCyberspaceLevel4::Enter()

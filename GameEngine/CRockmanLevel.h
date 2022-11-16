@@ -6,6 +6,7 @@ enum class eLEVELSTATE
     NONE,
     FADEENTER,
     FADEEXIT,
+    FADEFIX,
     READY,
     ZEROENTER,
 };
@@ -22,7 +23,7 @@ class CRockmanLevel :
 
 private:
     CEditorLevel*   m_editor;
-protected:
+public:
     CCameraObj* m_cam;
 public:
     CZero* m_zero;

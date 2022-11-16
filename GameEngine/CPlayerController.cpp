@@ -94,14 +94,20 @@ void CPlayerController::tick()
 	Vector2 pos = m_zero->GetPos();
 	Vector2 velo = m_zero->GetRigidbody()->GetVelocity();
 
-	
+	if (m_state == PLAYER_STATE::EVENT)
+	{
+		m_zero->GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
+		//m_curdashScale = 1.f;
+		m_arrDashFrame.clear();
+		return;
+	}
 
 	
 	if (m_state == PLAYER_STATE::ENTER)
 	{		
 		if (m_zero->DownColState() == true)
 		{
-			m_zero->GetAnimator()->TrigerPlay(L"ENTERZERO", false);
+			m_zero->GetAnimator()->TrigerPlay(L"ENTERZERO", false);			
 		}
 		else
 		{
@@ -165,9 +171,18 @@ void CPlayerController::tick()
 	{		
 		if (m_hitDelay >= 1.f)
 		{
-			m_animator->TrigerPlay(L"IDLE", true);
-			//m_zero->SetFlipX(!m_zero->GetFlipX());
-			m_state = PLAYER_STATE::IDLE;
+			if (m_zero->DownColState() == true)
+			{
+				m_animator->TrigerPlay(L"IDLE", true);
+				//m_zero->SetFlipX(!m_zero->GetFlipX());
+				m_state = PLAYER_STATE::IDLE;
+			}
+			else
+			{
+				m_state = PLAYER_STATE::FALLING;
+				m_animator->TrigerPlay(L"FALLINGREADY", true);
+			}
+			
 			m_curdashScale = 1.f;
 			m_hitDelay = 0.f;
 		}
@@ -284,11 +299,11 @@ void CPlayerController::tick()
 	{
 		if (m_zero->GetFlipX() == true)
 		{			
-			m_velocity.x = 615;
+			m_velocity.x = 640;
 		}
 		else
 		{
-			m_velocity.x = -615;
+			m_velocity.x = -640;
 		}
 		
 		m_zero->GetCollider()->SetOffsetPos(Vector2(0.f, 25.f));

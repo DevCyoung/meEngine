@@ -193,3 +193,11 @@ struct tTexAnim
 	float   fDuration;
 	float	fDestDuration;
 };
+
+
+struct tDashFrame
+{
+	tAnimFrm    frame;
+	Vector2     pos;
+	float       duration;
+};

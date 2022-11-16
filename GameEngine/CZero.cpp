@@ -216,6 +216,7 @@ void CZero::render(HDC _dc)
 void CZero::RetrunEvent()
 {
 	m_playerController->m_state = PLAYER_STATE::RETURNREADY;
+	m_damagedState = DAMAGED_STATE::ULTIMAGE;
 }
 
 void CZero::AttackEvent(tAnimFrm frm,  CCollider* _pOther)

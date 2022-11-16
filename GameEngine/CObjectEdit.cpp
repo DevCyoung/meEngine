@@ -35,7 +35,14 @@
 
 #include "CLevelManager.h"
 
+
 #include "CCong.h"
+#include "CFlyCong.h"
+
+#include "CDoor1.h"
+#include "CDoor2.h"
+
+#include "CEventBox.h"
 
 CObjectEdit::CObjectEdit()
 	: m_curSelectObj(nullptr)
@@ -196,7 +203,33 @@ void CObjectEdit::CreateUI(CLevel* level)
 			pLoadButton4->SetDelegate(this, (DELEGATERockman)&CObjectEdit::SelectGameObject);
 		}
 		pPanelUI->AddChildUI(pLoadButton4);
+
+
+		CButton* pLoadButton5 = pSaveButton->Clone();
+		{
+			pLoadButton5->SetPos(Vector2(80.f, 120.f));
+			pLoadButton5->SetRockman(new CFlyCong());
+			pLoadButton5->SetDelegate(this, (DELEGATERockman)&CObjectEdit::SelectGameObject);
+		}
+		pPanelUI->AddChildUI(pLoadButton5);
+
+
+		CButton* pLoadButton6 = pSaveButton->Clone();
+		{
+			pLoadButton6->SetPos(Vector2(130.f, 120.f));
+			pLoadButton6->SetRockman(new CDoor1());
+			pLoadButton6->SetDelegate(this, (DELEGATERockman)&CObjectEdit::SelectGameObject);
+		}
+		pPanelUI->AddChildUI(pLoadButton6);
 		
+
+		CButton* pLoadButton7 = pSaveButton->Clone();
+		{
+			pLoadButton7->SetPos(Vector2(160.f, 120.f));
+			pLoadButton7->SetRockman(new CDoor2());
+			pLoadButton7->SetDelegate(this, (DELEGATERockman)&CObjectEdit::SelectGameObject);
+		}
+		pPanelUI->AddChildUI(pLoadButton7);
 
 
 		//level->AddObject(pLoadButton, LAYER::UI);
@@ -249,6 +282,8 @@ void CObjectEdit::Update()
 			m_monstreState = MONSTER_STATE(((UINT)m_monstreState + 1) % (UINT)MONSTER_STATE::END);
 		}
 
+		LAYER layer = LAYER::MONSTER;
+
 		if (IS_INPUT_TAB(KEY::LBTN))
 		{
 			CRockmanObj* newObj = m_curSelectObj;
@@ -273,12 +308,39 @@ void CObjectEdit::Update()
 				newObj = new CCong();
 				newObj->m_sponType = MONSETER_TYPE::CONG;
 			}
+			else if (newObj->m_sponType == MONSETER_TYPE::FLYCONG)
+			{
+				newObj = new CFlyCong();
+				newObj->m_sponType = MONSETER_TYPE::FLYCONG;
+			}
+			else if (newObj->m_sponType == MONSETER_TYPE::DOOR1)
+			{
+				CDoor1* door = new CDoor1();
+				door->m_sponType = MONSETER_TYPE::DOOR1;
+				door->m_mode = COLIDE_EIDT_MODE::BOSSDOOR1BOX;
+				layer = LAYER::EVENT;
+				m_targetPos = GETINSTANCE(CKeyManager)->GetMousePos();
+				m_targetPos = GETINSTANCE(CCamera)->GetRealPos(m_targetPos);
+				CGameObject::Instantiate(door, m_targetPos, layer);
+				return;
+			}
+			else if (newObj->m_sponType == MONSETER_TYPE::DOOR2)
+			{
+				CDoor2* door = new CDoor2();
+				door->m_sponType = MONSETER_TYPE::DOOR2;
+				door->m_mode = COLIDE_EIDT_MODE::BOSSDOOR2BOX;
+				layer = LAYER::EVENT;
+				m_targetPos = GETINSTANCE(CKeyManager)->GetMousePos();
+				m_targetPos = GETINSTANCE(CCamera)->GetRealPos(m_targetPos);
+				CGameObject::Instantiate(door, m_targetPos, layer);
+				return;
+			}
+			
 
 			newObj->m_monsterState = m_monstreState;
-
 			m_targetPos = GETINSTANCE(CKeyManager)->GetMousePos();
 			m_targetPos = GETINSTANCE(CCamera)->GetRealPos(m_targetPos);
-			CGameObject::Instantiate(newObj, m_targetPos, LAYER::MONSTER );
+			CGameObject::Instantiate(newObj, m_targetPos, layer);
 
 
 
@@ -323,7 +385,7 @@ void CObjectEdit ::Save(FILE* pFile)
 	CLevel* lv = GETINSTANCE(CLevelManager)->GetCurLevel();
 
 	//모든벽들
-	const vector<CGameObject*>& monsters = lv->GetLayer(LAYER::MONSTER);	
+	const vector<CGameObject*>& monsters = lv->GetLayer(LAYER::MONSTER);
 
 	UINT size = monsters.size();
 	fwrite(&size, sizeof(UINT), 1, pFile);
@@ -335,7 +397,8 @@ void CObjectEdit ::Save(FILE* pFile)
 		MONSETER_TYPE sopneType = monster->m_sponType;
 		fwrite(&sopneType, sizeof(MONSETER_TYPE), 1, pFile);
 		monster->Save(pFile);
-	}
+	}	
+
 }
 void CObjectEdit ::Load(FILE* pFile)
 {
@@ -361,12 +424,14 @@ void CObjectEdit ::Load(FILE* pFile)
 		case MONSETER_TYPE::CONG:
 			monster = new CCong();
 			break;
+		case MONSETER_TYPE::FLYCONG:
+			monster = new CFlyCong();
+			break;
 		}		
 		assert(monster);		
 		
 		monster->m_sponType = mtype;
-		monster->Load(pFile);
-		
+		monster->Load(pFile);		
 		CGameObject::Instantiate(monster, monster->GetPos(), LAYER::MONSTER);
 	}
 }

@@ -28,7 +28,7 @@ class CZero :
     public CRockmanObj
 {
 private:
-	CPlayerController*  m_playerController;
+	
 	CPlayerAnimEvent*	m_animEvent;
 
 	//CLine*			m_downRay;
@@ -37,7 +37,8 @@ private:
 	Vector2				m_landDir;
 	
 	
-
+public:
+	CPlayerController* m_playerController;
 
 
 	float	m_fVerticalRayDist;

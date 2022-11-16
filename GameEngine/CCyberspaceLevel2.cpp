@@ -23,11 +23,11 @@ void CCyberspaceLevel2::tick()
 {
 	CRockmanLevel::tick();
 
-	if (IS_INPUT_TAB(KEY::ENTER))
-	{
-		//exit
-		NextLevel(LEVEL_TYPE::CYBERSPACE3);		
-	}
+	//if (IS_INPUT_TAB(KEY::ENTER))
+	//{
+	//	//exit
+	//	NextLevel(LEVEL_TYPE::CYBERSPACE3);		
+	//}
 }
 
 void CCyberspaceLevel2::Enter()

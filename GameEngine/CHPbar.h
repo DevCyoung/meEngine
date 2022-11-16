@@ -2,7 +2,7 @@
 #include "CGameObject.h"
 
 class CTexture;
-class CRockmanObj;
+class CZero;
 
 class CHPbar :
     public CGameObject
@@ -14,7 +14,7 @@ public:
     bool                  m_redHp;
     float                 m_HPoffset;
     float                 m_HPRedOffset;
-    CRockmanObj*         m_target;
+    CZero*              m_target;
 
     CTexture* m_hpTexture;
 

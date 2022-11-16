@@ -4,12 +4,15 @@
 #include "CCollider.h"
 #include "CEngine.h"
 #include "CZero.h"
+#include "CTimeManager.h"
 
 CCameraObj::CCameraObj()
 	: m_target(nullptr)
 	, m_ColDir(0)
 	, m_position{}
-	
+	, m_isFollow(true)
+	, m_delay(1.f)
+	, m_diff{}
 {
 	CreateCollider();
 	SetTag(LAYER::CAMERA);
@@ -20,6 +23,9 @@ CCameraObj::CCameraObj(const CCameraObj& _other)
 	: m_target(nullptr)
 	, m_ColDir(0)
 	, m_position{}
+	, m_isFollow(true)
+	, m_delay(1.f)
+	, m_diff{}
 {
 }
 
@@ -35,10 +41,20 @@ void CCameraObj::tick()
 		return;
 	}
 
+	if (m_target->GetState() == PLAYER_STATE::RETURN || m_target->GetState() == PLAYER_STATE::ENTER || m_target->GetState() == PLAYER_STATE::RETURNREADY)
+	{
+		return;
+	}
+	if (m_isFollow == false)
+	{
+		return;
+	}
+
 	Vector2 pos = m_target->GetPos();
-	
 	SetPos(pos);
-	m_position = GetPos();
+	m_diff = m_target->GetPos() - GetPos();
+	m_position = GetPos();	
+
 }
 
 void CCameraObj::fixed_tick()
@@ -47,9 +63,30 @@ void CCameraObj::fixed_tick()
 	{
 		return;
 	}
-	
 
+	if (m_target->GetState() == PLAYER_STATE::RETURN || m_target->GetState() == PLAYER_STATE::ENTER || m_target->GetState() == PLAYER_STATE::RETURNREADY)
+	{
+		return;
+	}
+
+	if (m_isFollow == false)
+	{
+		//m_position.x += 100.f * DELTATIME;
+		//return;
+	}
 	GETINSTANCE(CCamera)->SetLook(m_position);
+
+	//if (m_delay >= 0.9f)
+	//{
+	//	GETINSTANCE(CCamera)->SetLook(m_position);
+	//}
+	//else
+	//{
+	//	Vector2 pos = m_target->GetPos() + m_diff * DELTATIME;
+	//	GETINSTANCE(CCamera)->SetLook(pos);
+	//}
+
+	
 }
 
 void CCameraObj::OnTriggerEnter(CCollider* _pOhter)

@@ -159,6 +159,8 @@
     <ClInclude Include="CComponent.h" />
     <ClInclude Include="CCong.h" />
     <ClInclude Include="CCongBullet.h" />
+    <ClInclude Include="CCyberCongBoost.h" />
+    <ClInclude Include="CCyberCongBullet.h" />
     <ClInclude Include="CCyberKujacer.h" />
     <ClInclude Include="CCyberMissile.h" />
     <ClInclude Include="CCyberspaceLevel.h" />
@@ -177,6 +179,7 @@
     <ClInclude Include="CEntity.h" />
     <ClInclude Include="CEventBox.h" />
     <ClInclude Include="CEventManager.h" />
+    <ClInclude Include="CFlyCong.h" />
     <ClInclude Include="CGameObject.h" />
     <ClInclude Include="CGosm.h" />
     <ClInclude Include="CHitBox.h" />
@@ -257,6 +260,8 @@
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CCong.cpp" />
     <ClCompile Include="CCongBullet.cpp" />
+    <ClCompile Include="CCyberCongBoost.cpp" />
+    <ClCompile Include="CCyberCongBullet.cpp" />
     <ClCompile Include="CCyberKujacer.cpp" />
     <ClCompile Include="CCyberMissile.cpp" />
     <ClCompile Include="CCyberspaceLevel.cpp" />
@@ -273,6 +278,7 @@
     <ClCompile Include="CEffect.cpp" />
     <ClCompile Include="CEffectManager.cpp" />
     <ClCompile Include="CEventBox.cpp" />
+    <ClCompile Include="CFlyCong.cpp" />
     <ClCompile Include="CGosm.cpp" />
     <ClCompile Include="CHitBox.cpp" />
     <ClCompile Include="CHitManager.cpp" />

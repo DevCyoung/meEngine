@@ -51,9 +51,7 @@ void CLevelManager::init()
 	m_arrLevel[(UINT)LEVEL_TYPE::CYBERSPACE4] = new CCyberspaceLevel4;
 	m_arrLevel[(UINT)LEVEL_TYPE::CYBERSPACEBOSS] = new CCyberspaceLevelBoss;
 
-
-
-	this->LoadLevelEvent(LEVEL_TYPE::CYBERSPACE4);
+	this->LoadLevelEvent(LEVEL_TYPE::CYBERSPACEBOSS);
 
 }
 
@@ -101,4 +99,3 @@ void CLevelManager::LoadLevelEvent(LEVEL_TYPE type)
 	m_pCurLevel = m_arrLevel[(UINT)type];
 	m_pCurLevel->Enter();	
 }
-

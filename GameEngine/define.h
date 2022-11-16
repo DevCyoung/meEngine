@@ -26,6 +26,11 @@
 #define TILE_SIZE 64
 #define RAD	0.0174532925
 
+#define BACKGROUNDCOLOR   0x00ff00ff
+#define REDZEROCOLOR      0xffE90100
+#define BLACKZEROCOLOR    0xff5000A0
+#define VIRUSZEROCOLOR    0xff4880c0
+
 
 //#define windowSizeX 720
 //#define windowSizeY 460
@@ -91,7 +96,8 @@ enum class LEVEL_TYPE
 enum class LAYER
 {
 	BACKGROUND,	//배경
-	TILE,\
+	EVENT,
+	TILE,
 	MONSTER,
 	DEFAUT,
 	OBJECT,
@@ -100,7 +106,7 @@ enum class LAYER
 	PLAYERATTACK,
 	CAMERAWALL,			//플레이어가 쏜 미사일
 	CAMERA,
-	EVENT,
+	
 	WALL,						//Camera
 	LINE,
 	MOUSE,
@@ -240,6 +246,9 @@ enum class MONSETER_TYPE
 	GOSM,
 	BOSS,
 	CONG,
+	FLYCONG,
+	DOOR1,
+	DOOR2,
 	NONE,
 };
 
@@ -273,7 +282,8 @@ enum class PLAYER_STATE
 	VICTORYRETURN = 0x00200000,
 	RETURNREADY = 0x00400000,
 	BLINK = 0x00800000,
-	NONE = 0x01000000,
+	EVENT = 0x01000000,
+	NONE  = 0x02000000,
 };
 
 

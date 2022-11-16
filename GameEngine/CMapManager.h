@@ -17,7 +17,9 @@ public:
 	//¿¹ºñ¿ë
 public:
 	void MapCameraSet(UINT camIdx);
+	
 	Vector2 GetPlayerPos(UINT camIdx);
+	Vector2 GetCameraPos(UINT camIdx);
 
 public:
 	void Load();

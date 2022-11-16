@@ -6,6 +6,11 @@ class CMiru :
 	
 
 public:
+
+	float	m_defaultSpeed;
+	float	m_leftSpeed;
+	float	m_rightSpeed;
+
 	virtual void tick() override;
 	virtual void fixed_tick() override;
 	virtual void render(HDC _dc) override;

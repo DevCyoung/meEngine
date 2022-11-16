@@ -64,15 +64,6 @@
     <Filter Include="Engine\05. Component\Rigidbody">
       <UniqueIdentifier>{cefb061e-cffc-420f-817a-6fa706f0d82d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Level">
-      <UniqueIdentifier>{52daad95-d54c-4e43-b21a-fe3eca36769e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Level\TitleLevel">
-      <UniqueIdentifier>{661f5a0e-e660-482f-bfb9-1ccbcca0d697}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Level\StartLevel">
-      <UniqueIdentifier>{4cb1821e-72a2-4323-b9fd-5174f71f01ac}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\05. Component\Component">
       <UniqueIdentifier>{cbc2b625-76fe-4c8e-9e3d-bb0fb1f4229e}</UniqueIdentifier>
     </Filter>
@@ -121,9 +112,6 @@
     </Filter>
     <Filter Include="Engine\04. Level\Level">
       <UniqueIdentifier>{39c21d8b-7ef4-4208-8a3b-45f5085d6c2e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Level\CollisionLevel">
-      <UniqueIdentifier>{44336f9f-0264-4494-959a-577a0df7ca95}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\RockMan">
       <UniqueIdentifier>{e86fd8e2-0b68-4813-b2b0-64f91a2a165f}</UniqueIdentifier>
@@ -209,12 +197,6 @@
     <Filter Include="Engine\06. Resource\Sound">
       <UniqueIdentifier>{425e4a44-ae5c-412b-bc67-0a71cde529be}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Level\RockmanLevel">
-      <UniqueIdentifier>{9f1d4e02-b875-4de6-841c-0cddc21d8568}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Level\RockmanLevel\Cyberspace">
-      <UniqueIdentifier>{dcd7a137-37cd-4b39-8ca8-58c004ecefb9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\TextureAnimation">
       <UniqueIdentifier>{075542a3-c35e-4eea-9e07-b236efa274b6}</UniqueIdentifier>
     </Filter>
@@ -232,9 +214,6 @@
     </Filter>
     <Filter Include="Game\RockMan\EventBox\Dorr2">
       <UniqueIdentifier>{b3b64581-bad3-424b-8fb5-1461069e2386}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Level\RockmanLevel\Cyberspace\level">
-      <UniqueIdentifier>{93cf191d-6553-470b-b403-069887a0ed5d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\02. Manager\12. Hit">
       <UniqueIdentifier>{52123cd6-bff5-4175-9d0d-c92b39c222d7}</UniqueIdentifier>
@@ -262,6 +241,33 @@
     </Filter>
     <Filter Include="Game\RockMan\Monster\CyberStage\Cong">
       <UniqueIdentifier>{04262694-25cb-4e9d-a9f5-8f9086672adf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\RockMan\Monster\CyberStage\FlyCong">
+      <UniqueIdentifier>{a6fdb524-3eb9-438c-bc3e-38a6735fcb32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\HPBar\Level">
+      <UniqueIdentifier>{52daad95-d54c-4e43-b21a-fe3eca36769e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\HPBar\Level\TitleLevel">
+      <UniqueIdentifier>{661f5a0e-e660-482f-bfb9-1ccbcca0d697}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\HPBar\Level\StartLevel">
+      <UniqueIdentifier>{4cb1821e-72a2-4323-b9fd-5174f71f01ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\HPBar\Level\CollisionLevel">
+      <UniqueIdentifier>{44336f9f-0264-4494-959a-577a0df7ca95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\HPBar\Level\RockmanLevel">
+      <UniqueIdentifier>{9f1d4e02-b875-4de6-841c-0cddc21d8568}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\HPBar\Level\RockmanLevel\Cyberspace">
+      <UniqueIdentifier>{dcd7a137-37cd-4b39-8ca8-58c004ecefb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\HPBar\Level\RockmanLevel\Cyberspace\level">
+      <UniqueIdentifier>{93cf191d-6553-470b-b403-069887a0ed5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameObject\Event">
+      <UniqueIdentifier>{272f3f72-7655-43a5-a8de-634da17984f1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -308,7 +314,7 @@
       <Filter>Engine\03. GameObject</Filter>
     </ClInclude>
     <ClInclude Include="CTitleLevel.h">
-      <Filter>Game\Level\TitleLevel</Filter>
+      <Filter>Game\HPBar\Level\TitleLevel</Filter>
     </ClInclude>
     <ClInclude Include="CPlayer.h">
       <Filter>Game\GameObject\Player</Filter>
@@ -347,7 +353,7 @@
       <Filter>Game\GameObject\Platform</Filter>
     </ClInclude>
     <ClInclude Include="CStartLevel.h">
-      <Filter>Game\Level\StartLevel</Filter>
+      <Filter>Game\HPBar\Level\StartLevel</Filter>
     </ClInclude>
     <ClInclude Include="CAnimation.h">
       <Filter>Engine\05. Component\Animator\Animation</Filter>
@@ -380,7 +386,7 @@
       <Filter>Engine\04. Level\Level</Filter>
     </ClInclude>
     <ClInclude Include="CCollisionLevel.h">
-      <Filter>Game\Level\CollisionLevel</Filter>
+      <Filter>Game\HPBar\Level\CollisionLevel</Filter>
     </ClInclude>
     <ClInclude Include="CRenderHelper.h">
       <Filter>Engine\07. Helper</Filter>
@@ -476,22 +482,22 @@
       <Filter>Game\RockMan\Map</Filter>
     </ClInclude>
     <ClInclude Include="CCyberspaceLevel.h">
-      <Filter>Game\Level\RockmanLevel\Cyberspace\level</Filter>
+      <Filter>Game\HPBar\Level\RockmanLevel\Cyberspace\level</Filter>
     </ClInclude>
     <ClInclude Include="CCyberspaceLevel2.h">
-      <Filter>Game\Level\RockmanLevel\Cyberspace\level</Filter>
+      <Filter>Game\HPBar\Level\RockmanLevel\Cyberspace\level</Filter>
     </ClInclude>
     <ClInclude Include="CRockmanLevel.h">
-      <Filter>Game\Level\RockmanLevel</Filter>
+      <Filter>Game\HPBar\Level\RockmanLevel</Filter>
     </ClInclude>
     <ClInclude Include="CCyberspaceLevel3.h">
-      <Filter>Game\Level\RockmanLevel\Cyberspace\level</Filter>
+      <Filter>Game\HPBar\Level\RockmanLevel\Cyberspace\level</Filter>
     </ClInclude>
     <ClInclude Include="CCyberspaceLevel4.h">
-      <Filter>Game\Level\RockmanLevel\Cyberspace\level</Filter>
+      <Filter>Game\HPBar\Level\RockmanLevel\Cyberspace\level</Filter>
     </ClInclude>
     <ClInclude Include="CCyberspaceLevelBoss.h">
-      <Filter>Game\Level\RockmanLevel\Cyberspace\level</Filter>
+      <Filter>Game\HPBar\Level\RockmanLevel\Cyberspace\level</Filter>
     </ClInclude>
     <ClInclude Include="CHitManager.h">
       <Filter>Engine\02. Manager\12. Hit</Filter>
@@ -547,6 +553,15 @@
     <ClInclude Include="CCongBullet.h">
       <Filter>Game\RockMan\Monster\CyberStage\Cong</Filter>
     </ClInclude>
+    <ClInclude Include="CFlyCong.h">
+      <Filter>Game\RockMan\Monster\CyberStage\FlyCong</Filter>
+    </ClInclude>
+    <ClInclude Include="CCyberCongBoost.h">
+      <Filter>Game\RockMan\Monster\CyberStage\FlyCong</Filter>
+    </ClInclude>
+    <ClInclude Include="CCyberCongBullet.h">
+      <Filter>Game\RockMan\Monster\CyberStage\FlyCong</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameEngine.rc">
@@ -585,7 +600,7 @@
       <Filter>Engine\03. GameObject</Filter>
     </ClCompile>
     <ClCompile Include="CTitleLevel.cpp">
-      <Filter>Game\Level\TitleLevel</Filter>
+      <Filter>Game\HPBar\Level\TitleLevel</Filter>
     </ClCompile>
     <ClCompile Include="CPlayer.cpp">
       <Filter>Game\GameObject\Player</Filter>
@@ -624,7 +639,7 @@
       <Filter>Game\GameObject\Platform</Filter>
     </ClCompile>
     <ClCompile Include="CStartLevel.cpp">
-      <Filter>Game\Level\StartLevel</Filter>
+      <Filter>Game\HPBar\Level\StartLevel</Filter>
     </ClCompile>
     <ClCompile Include="CAnimation.cpp">
       <Filter>Engine\05. Component\Animator\Animation</Filter>
@@ -663,7 +678,7 @@
       <Filter>Engine\04. Level\Level</Filter>
     </ClCompile>
     <ClCompile Include="CCollisionLevel.cpp">
-      <Filter>Game\Level\CollisionLevel</Filter>
+      <Filter>Game\HPBar\Level\CollisionLevel</Filter>
     </ClCompile>
     <ClCompile Include="CRenderHelper.cpp">
       <Filter>Engine\07. Helper</Filter>
@@ -792,22 +807,22 @@
       <Filter>Game\RockMan\Map</Filter>
     </ClCompile>
     <ClCompile Include="CCyberspaceLevel.cpp">
-      <Filter>Game\Level\RockmanLevel\Cyberspace\level</Filter>
+      <Filter>Game\HPBar\Level\RockmanLevel\Cyberspace\level</Filter>
     </ClCompile>
     <ClCompile Include="CCyberspaceLevel2.cpp">
-      <Filter>Game\Level\RockmanLevel\Cyberspace\level</Filter>
+      <Filter>Game\HPBar\Level\RockmanLevel\Cyberspace\level</Filter>
     </ClCompile>
     <ClCompile Include="CRockmanLevel.cpp">
-      <Filter>Game\Level\RockmanLevel</Filter>
+      <Filter>Game\HPBar\Level\RockmanLevel</Filter>
     </ClCompile>
     <ClCompile Include="CCyberspaceLevel3.cpp">
-      <Filter>Game\Level\RockmanLevel\Cyberspace\level</Filter>
+      <Filter>Game\HPBar\Level\RockmanLevel\Cyberspace\level</Filter>
     </ClCompile>
     <ClCompile Include="CCyberspaceLevel4.cpp">
-      <Filter>Game\Level\RockmanLevel\Cyberspace\level</Filter>
+      <Filter>Game\HPBar\Level\RockmanLevel\Cyberspace\level</Filter>
     </ClCompile>
     <ClCompile Include="CCyberspaceLevelBoss.cpp">
-      <Filter>Game\Level\RockmanLevel\Cyberspace\level</Filter>
+      <Filter>Game\HPBar\Level\RockmanLevel\Cyberspace\level</Filter>
     </ClCompile>
     <ClCompile Include="CHitManager.cpp">
       <Filter>Engine\02. Manager\12. Hit</Filter>
@@ -862,6 +877,15 @@
     </ClCompile>
     <ClCompile Include="CCongBullet.cpp">
       <Filter>Game\RockMan\Monster\CyberStage\Cong</Filter>
+    </ClCompile>
+    <ClCompile Include="CFlyCong.cpp">
+      <Filter>Game\RockMan\Monster\CyberStage\FlyCong</Filter>
+    </ClCompile>
+    <ClCompile Include="CCyberCongBoost.cpp">
+      <Filter>Game\RockMan\Monster\CyberStage\FlyCong</Filter>
+    </ClCompile>
+    <ClCompile Include="CCyberCongBullet.cpp">
+      <Filter>Game\RockMan\Monster\CyberStage\FlyCong</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -8,10 +8,18 @@ class CCameraObj :
 {
 
 private:
-	CZero*    m_target;
+	CZero*			m_target;
 	UINT			m_ColDir;
 public:
+	float			m_delay;
+	Vector2			m_diff;
+public:
 	Vector2			m_position;
+
+
+public:
+	bool			m_isFollow;
+
 public:
 	void	SetTarget(CZero* target) { m_target = target; }
 	virtual void tick() override;

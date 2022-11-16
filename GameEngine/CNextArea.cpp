@@ -92,6 +92,10 @@ void CNextArea::OnTriggerEnter(CCollider* _pOther)
 	CLevel* level = GETINSTANCE(CLevelManager)->GetCurLevel();
 	CRockmanLevel* rmLevel = dynamic_cast<CRockmanLevel*>(level);
 	assert(rmLevel);
+	if (rmLevel->m_levelState == eLEVELSTATE::FADEFIX || rmLevel->m_levelState == eLEVELSTATE::FADEEXIT)
+	{
+		return;
+	}
 	rmLevel->NextLevel();
 	this->Destroy();
 }

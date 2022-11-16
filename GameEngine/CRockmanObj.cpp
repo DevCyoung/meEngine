@@ -129,7 +129,7 @@ void CRockmanObj::CreateLineCollider()
 
 void CRockmanObj::tick()
 {
-	CGameObject::tick();
+	
 
 	if (nullptr != m_downRay)
 	{
@@ -187,8 +187,7 @@ void CRockmanObj::tick()
 		SetPos(pos);
 	}
 
-
-
+	CGameObject::tick();
 }
 
 void CRockmanObj::fixed_tick()

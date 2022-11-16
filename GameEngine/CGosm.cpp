@@ -29,6 +29,7 @@ CGosm::CGosm()
 	m_time = 0.f;
 
 	m_sponType = MONSETER_TYPE::GOSM;
+	m_hp = 5;
 }
 
 CGosm::CGosm(const CGosm& _other)
@@ -46,8 +47,14 @@ CGosm::~CGosm()
 
 void CGosm::tick()
 {
+	CRockmanMonster::tick();
 
-	
+
+	if (m_isStart == false)
+	{
+		return;
+	}
+
 
 	Vector2 velo = GetRigidbody()->GetVelocity();
 	velo.x = 0.f;
@@ -89,20 +96,20 @@ void CGosm::tick()
 				{
 				
 					if (LeftColState() == false)
-						velo.x = -500.f;
+						velo.x = -300.f;
 					else
 					{
-						velo.y = -300.f;
+						velo.y = -150.f;
 					}
 				
 				}				
 				else
 				{
 					if (RightColState() == false)
-						velo.x = +500.f;
+						velo.x = +300.f;
 					else
 					{
-						velo.y = -300.f;
+						velo.y = -150.f;
 					}
 				}
 				
@@ -130,9 +137,7 @@ void CGosm::tick()
 	{
 
 	}
-	CRockmanMonster::tick();
 
-	
 }
 
 void CGosm::fixed_tick()
@@ -147,7 +152,6 @@ void CGosm::render(HDC _dc)
 
 void CGosm::OnTriggerEnter(CCollider* _pOhter)
 {
-
 	CRockmanMonster::OnTriggerEnter(_pOhter);
 }
 
