@@ -44,35 +44,17 @@ CEditorLevel::CEditorLevel()
 	//CMonster* monster = new CMonster();
 	//this->AddObject(monster, LAYER::MONSTER);
 	//m_wallDir = WALLDIR::LEFT;
+
 	m_collideEditor = new CCollideEdit();
-	AddObject(m_collideEditor, LAYER::MOUSE);
-
-	m_objectEditor = new CObjectEdit();
-	m_objectEditor->CreateUI(this);
-	AddObject(m_objectEditor, LAYER::MOUSE);
-
+	m_objectEditor = new CObjectEdit();	
 	m_atlasEditor = new CAtlasEdit();
-	AddObject(m_atlasEditor, LAYER::MOUSE);
+	
+	
 
-	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::WALL);
-	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::PLAYER);
-	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::MONSTER);
-	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::OBJECT);
-	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::EVENT);
-	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::CAMERAWALL);
-
-
-	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MONSTER, LAYER::WALL);
-	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MONSTER, LAYER::PLAYER);
-
-	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::CAMERA, LAYER::CAMERAWALL);
-
-
-	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::EVENT, LAYER::PLAYER);
 
 	//CCameraObj
 
-	Load(L"cyber\\cyberspace_Level_5.map");
+	//Load(L"cyber\\cyberspace_Level_5.map");
 	//Load(L"cyber\\area2.map");
 	//Load();
 }
@@ -281,6 +263,28 @@ void CEditorLevel::SaveGame()
 
 void CEditorLevel::Enter()
 {
+	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::WALL);
+	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::PLAYER);
+	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::MONSTER);
+	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::OBJECT);
+	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::EVENT);
+	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::CAMERAWALL);
+
+
+	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MONSTER, LAYER::WALL);
+	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MONSTER, LAYER::PLAYER);
+
+	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::CAMERA, LAYER::CAMERAWALL);
+
+
+	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::EVENT, LAYER::PLAYER);
+
+
+	AddObject(m_collideEditor, LAYER::MOUSE);
+	m_objectEditor->CreateUI(this);
+	AddObject(m_objectEditor, LAYER::MOUSE);
+	AddObject(m_atlasEditor, LAYER::MOUSE);
+
 	//메뉴바생성
 	if (nullptr == m_hMenu)
 	{

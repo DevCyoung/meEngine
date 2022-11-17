@@ -4,6 +4,7 @@
 enum class CYBERBOSS_STATE
 {
 	IDLE,
+	SPON,
 	ENTER,
 	ATTACK1,
 	ATTACK2,
@@ -23,14 +24,14 @@ class CCyberKujacer :
     public CRockmanMonster
 {
 public:
-	CZero* m_zero;
+	CZero*		m_zero;
 	float		m_ultimateTime;
 	float		m_curUltimateTime;
 	int			m_reciveAttackCnt;
 	Vector2		m_targetPos;
 
 	CYBERBOSS_STATE	m_bossState;
-	float		m_stateDelay;
+	float			m_stateDelay;
 
 	int			m_randomAttack;
 
@@ -50,8 +51,10 @@ public:
 	void LandAttack1Event();
 	void Attack2Event();
 	void Attack3Event();
-
 	void Attack3EventMissile();
+
+	void EnterEvent();
+	void TingEvent();
 
 	CLONE(CCyberKujacer);
 

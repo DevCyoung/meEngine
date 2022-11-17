@@ -103,6 +103,7 @@ public:
 public:
     void Save();
     void Load();
+
     void Load(const wstring& relativePath);
 
 

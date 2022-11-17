@@ -45,6 +45,7 @@ void CCameraObj::tick()
 	{
 		return;
 	}
+
 	if (m_isFollow == false)
 	{
 		return;

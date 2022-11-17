@@ -5,6 +5,11 @@
 #include "CKeyManager.h"
 #include "CZero.h"
 
+#include "CTextureAnim.h"
+
+
+
+
 CCyberspaceLevelBoss::CCyberspaceLevelBoss()
 {
 	m_isReady = false;
@@ -18,22 +23,13 @@ CCyberspaceLevelBoss::~CCyberspaceLevelBoss()
 void CCyberspaceLevelBoss::init()
 {
 	CRockmanLevel::init();
+	m_textureReadyAnim->SetWarning();
+	m_textureReadyAnim->SetfrmDuration(0.030f);
 }
 
 void CCyberspaceLevelBoss::tick()
 {
-	if (IS_INPUT_TAB(KEY::ENTER))
-	{
-
-		/*CCyberKujacer* kujan = new CCyberKujacer();
-		CGameObject::Instantiate(kujan, m_zero->GetPos(), LAYER::MONSTER);*/
-		m_cam->m_isFollow = !m_cam->m_isFollow;
-
-	}
-
 	CRockmanLevel::tick();
-
-
 
 }
 

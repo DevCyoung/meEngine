@@ -13,8 +13,13 @@ enum class DOORSTATE
 	OPEN,
 	CLOSE,
 	NONE,
-	SPONMONSTER,
-	EMD,
+	WARNING,
+	WARNINGEXIT,
+	MONSTERSPON,
+	MONSTERENTER,
+	MONSTERSTART,
+	DOORFINISH,
+	END,
 };
 
 class CDoor1 :
@@ -25,8 +30,11 @@ public:
 	CWall*			m_wall;
 	CCameraWall*	m_cameraWall;
 	DOORSTATE		m_state;
+	PLAYER_STATE	m_closeTo;
 	float			m_destPos;
 	float			m_zeroPos;
+
+	
 	virtual void tick() override;
 	virtual void render(HDC _dc) override;
 

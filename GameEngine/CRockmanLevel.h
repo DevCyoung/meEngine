@@ -24,11 +24,12 @@ class CRockmanLevel :
 private:
     CEditorLevel*   m_editor;
 public:
-    CCameraObj* m_cam;
+    CCameraObj*     m_cam;
 public:
     CZero* m_zero;
 
-    CTextureAnim* m_textureReadyAnim;
+    CTextureAnim*   m_textureReadyAnim;
+
     eLEVELSTATE     m_levelState;
 private:
     float               m_delay;

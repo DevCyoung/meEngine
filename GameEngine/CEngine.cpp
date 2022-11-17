@@ -70,6 +70,11 @@ void CEngine::Init(HWND _hwnd, UINT _iWidth, UINT _iHeight)
 
 	//GETINSTANCE(CCamera)->SetLook(Vector2(m_ptWndScreenSize.x / 2.f, m_ptWndScreenSize.y / 2.f));
 	m_pTexuturedd = GETINSTANCE(CResourceManager)->LoadTexture(L"Playerd", L"texture\\c.bmp");
+
+	wchar_t szBuff[256] = {};
+	swprintf_s(szBuff, L"RockmanX4");
+	//커널오브젝트에 접근하는것은 매우느리다. 프로그램이 엄청느려진다.
+	SetWindowText(GETINSTANCE(CEngine)->GetMainWnd(), szBuff);
 }
 
 void CEngine::progress()
@@ -130,35 +135,7 @@ void CEngine::render()
 
 	BitBlt(m_hMainDC, 0, 0, m_ptWndScreenSize.x, m_ptWndScreenSize.y, m_pTexBuffer->GetDC(), 0, 0, SRCCOPY);
 
-	//if (LEVEL_MODE == LEVEL_EDITOR)
-	//{
-	//	Rectangle(m_pTexBuffer->GetDC(), -1, -1, m_pTexBuffer->Width() + 1, m_pTexBuffer->Height() + 1);
-	//	GETINSTANCE(CLevelManager)->render(m_pTexBuffer->GetDC());
-
-	//	////내가짬
-	//	////GETINSTANCE(CLineColManager)->render(m_pTexBuffer->GetDC());
-
-	//	//// 더블버퍼링
-
-	//	BitBlt(m_hMainDC, 0, 0, m_ptWndScreenSize.x, m_ptWndScreenSize.y, m_pTexBuffer->GetDC(), 0, 0, SRCCOPY);
-
-	//}
-	//else
-	//{
-	//	Rectangle(m_pRealBuffer->GetDC(), -1, -1, m_pRealBuffer->Width() + 1, m_pRealBuffer->Height() + 1);
-
-	//	GETINSTANCE(CLevelManager)->render(m_pRealBuffer->GetDC());
-
-	//	//내가짬
-	//	//GETINSTANCE(CLineColManager)->render(m_pRealBuffer->GetDC());
-
-	//	StretchBlt
-	//	(
-	//		m_hMainDC, 0, 0, m_ptWndScreenSize.x, m_ptWndScreenSize.y, m_pRealBuffer->GetDC(), 0, 0, m_pRealBuffer->Width(), m_pRealBuffer->Height(), SRCCOPY
-	//	);
-	//}
-
-	GETINSTANCE(CTimeManager)->render();
+	//GETINSTANCE(CTimeManager)->render();
 
 }
 

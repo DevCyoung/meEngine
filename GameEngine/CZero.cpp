@@ -186,17 +186,6 @@ void CZero::tick()
 			GetAnimator()->SetAllAtlas(GETINSTANCE(CResourceManager)->FindTexture(L"VIRUSZERO"));
 			break;		
 		}
-	/*	if (m_isCheatMode == false)
-		{
-			
-			m_isCheatMode = true;
-		}
-		else
-		{
-			GetAnimator()->SetAllAtlas(GETINSTANCE(CResourceManager)->FindTexture(L"ZERO"));
-			m_isCheatMode = false;
-		}		*/
-
 	}
 }
 

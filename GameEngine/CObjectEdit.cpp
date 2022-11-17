@@ -258,7 +258,8 @@ void CObjectEdit::Update()
 
 	if (IS_INPUT_TAB(KEY::SPACE))
 	{
-		GETINSTANCE(CLevelManager)->GetCurLevel()->DeleteAllObject(LAYER::MONSTER);		
+		GETINSTANCE(CLevelManager)->GetCurLevel()->DeleteAllObject(LAYER::MONSTER);	
+		GETINSTANCE(CLevelManager)->GetCurLevel()->DeleteAllObject(LAYER::EVENT);
 	}
 	
 	if (nullptr != m_detectObj)

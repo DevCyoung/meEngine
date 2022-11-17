@@ -27,13 +27,15 @@
 #include "CKeyManager.h"
 
 
+#include "CTextureAnim.h"
 
 CDoor1::CDoor1()
 	: m_wall(nullptr)
 	, m_cameraWall(nullptr)
 	, m_state(DOORSTATE::IDLE)
+	, m_closeTo(PLAYER_STATE::IDLE)
 	, m_destPos(0.f)
-	, m_zeroPos(0.f)
+	, m_zeroPos(0.f)	
 {
 	m_mode = COLIDE_EIDT_MODE::BOSSDOOR1BOX;
 
@@ -59,6 +61,7 @@ CDoor1::CDoor1()
 	
 	GETINSTANCE(CResourceManager)->LoadSound(L"opendoor", L"sound\\openbossroom.wav")->SetVolume(18.f);
 	GETINSTANCE(CResourceManager)->LoadSound(L"closedoor", L"sound\\closedoor.wav")->SetVolume(18.f);
+
 
 	
 
@@ -97,19 +100,25 @@ void CDoor1::tick()
 
 			//GETINSTANCE(CCamera)->SetLook(m_zero->GetPos());
 
-			rmLevel->m_cam->m_position.x += 200.f * DELTATIME;
+			rmLevel->m_cam->m_position.x += 200.f * DELTATIME * 2;
 			
 			m_zero->GetAnimator()->SetPlayable(true);
 			Vector2 pos = m_zero->GetPos();
-			pos.x += m_zeroPos * DELTATIME;
+			pos.x += m_zeroPos * DELTATIME  * 2;
 			m_zero->SetPos(pos);
-
+			rmLevel->m_cam->SetPos(pos);
 			if (rmLevel->m_cam->m_position.x >= m_destPos)
 			{
 				m_state = DOORSTATE::CLOSE;
 				m_zero->GetAnimator()->TrigerPlay(L"IDLE", true);
 				//m_destPos = 2500.f;
-				GetAnimator()->Play(L"CLOSE", false);				
+				GetAnimator()->Play(L"CLOSE", false);		
+
+				if (m_closeTo == PLAYER_STATE::EVENT)
+				{
+					rmLevel->m_textureReadyAnim->Enter();
+				}
+
 			}
 		}
 	}
@@ -118,11 +127,9 @@ void CDoor1::tick()
 	{
 		if (GetAnimator()->GetCurAnimation()->IsFinish())
 		{
-			m_zero->SetState(PLAYER_STATE::IDLE);
-			
+			m_zero->SetState(m_closeTo);
 			m_zero->m_playerController->m_curdashScale = 1.f;
-			m_state = DOORSTATE::NONE;
-			
+			m_state = DOORSTATE::NONE;			
 			m_wall = new CWall();
 			m_wall->GetCollider()->SetScale(Vector2(110.f, 4000.f));
 			CGameObject::Instantiate(m_wall, GetPos(), LAYER::WALL);

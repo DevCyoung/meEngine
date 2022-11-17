@@ -9,12 +9,25 @@
 #include "CSound.h"
 
 CTextureAnim::CTextureAnim()
-	:m_texture(nullptr)
+	:m_Curtexture(nullptr)
 	, m_state(eTextAnimState::START)
 	, m_removeDuration(0.f)
+	, m_warning(nullptr)
+	, m_ready(nullptr)
+	, m_frmDuration(0.f)
+	, m_isStop(true)
+	, m_curVolum(0.f)
 {
-	m_texture = GETINSTANCE(CResourceManager)->LoadTexture(L"READY", L"ui\\ready.bmp");
+	m_ready = GETINSTANCE(CResourceManager)->LoadTexture(L"READY", L"ui\\ready.bmp");
+	m_warning = GETINSTANCE(CResourceManager)->LoadTexture(L"WARNING", L"ui\\warning.bmp");
 
+	GETINSTANCE(CResourceManager)->LoadSound(L"ready", L"sound\\ready.wav") -> SetVolume(20.f);
+	GETINSTANCE(CResourceManager)->LoadSound(L"warning", L"sound\\warning.wav")->SetVolume(20.f);
+
+	m_Curtexture = m_ready;
+	m_frmDuration = 0.0055;
+	m_curVolum = 20.f;
+	
 }
 
 CTextureAnim::~CTextureAnim()
@@ -34,17 +47,18 @@ void CTextureAnim::tick()
 	//하나삭제
 	if (m_state == eTextAnimState::REMOVE)
 	{
+		m_curVolum -= 10.f * DELTATIME;
+		if (m_curVolum <= 0)
+		{
+			m_curVolum = 0.f;			
+		}
+		GETINSTANCE(CResourceManager)->FindSound(L"ready")->SetVolume(m_curVolum);
+		GETINSTANCE(CResourceManager)->FindSound(L"warning")->SetVolume(m_curVolum);
 
 		m_removeDuration += DELTATIME;
 		if (m_vecTexAnim.size() == 0)
 			return;
 		m_vecTexAnim.erase(m_vecTexAnim.end() - 1);
-	/*	if (m_removeDuration >= 0.00000012f)
-		{
-		
-			m_removeDuration = 0.f;
-		}*/
-
 	}
 }
 
@@ -58,18 +72,24 @@ void CTextureAnim::render(HDC _dc)
 
 		if (m_vecTexAnim[i].fDestDuration <= m_vecTexAnim[i].fDuration)
 		{
-			CRenderHelper::StretchRenderOnePer(_dc, m_texture, m_vecTexAnim[i], pos);
+			tAnimFrm frm = {};
+			frm.vLeftTop = m_vecTexAnim[i].vLeftTop;
+			frm.vSize = m_vecTexAnim[i].vSize;
+			
+			CRenderHelper::StretchRenderOnePer(_dc, m_Curtexture, m_vecTexAnim[i], pos);
+			//CRenderHelper::StretchRenderReplaceColor(m_Curtexture->GetDC(), frm, pos, ,false, 0.5f, BACKGROUNDCOLOR, 0xff000000, true, 1.f);
 		}
 	}
 }
+
 #include <algorithm>
 #include <random>
 void CTextureAnim::AutoSplitRandom(UINT size)
 {
 	float dutarion = 0.f;
 
-	UINT width = m_texture->Width();
-	UINT height = m_texture->Height();
+	UINT width = m_Curtexture->Width();
+	UINT height = m_Curtexture->Height();
 	tTexAnim texAnim = {};
 
 
@@ -85,7 +105,7 @@ void CTextureAnim::AutoSplitRandom(UINT size)
 			texAnim.vSize.x = size;
 			texAnim.vSize.y = size;
 			texAnim.fDestDuration = dutarion;
-			dutarion += 0.0055f;
+			dutarion += m_frmDuration;
 			m_vecTexAnim.push_back(texAnim);
 
 
@@ -100,13 +120,39 @@ void CTextureAnim::Enter()
 {
 	m_state = eTextAnimState::START;
 	m_vecTexAnim.clear();
-	GETINSTANCE(CResourceManager)->LoadSound(L"ready", L"sound\\ready.wav")->Play();
-	AutoSplitRandom(15);
+
+	if (m_Curtexture == m_ready)
+	{
+		GETINSTANCE(CResourceManager)->FindSound(L"ready")->Play();
+		AutoSplitRandom(15);
+	}
+	else if (m_Curtexture == m_warning)
+	{
+		CSound* warningSound = GETINSTANCE(CResourceManager)->FindSound(L"warning");
+		warningSound->SetPosition(0.f);
+		warningSound->SetVolume(20.f);
+		warningSound->PlayToBGM(true);
+		AutoSplitRandom(13);
+	}
+	
+	
 }
 
 void CTextureAnim::Remove()
 {
 	m_removeDuration = 0.f;
 	m_state = eTextAnimState::REMOVE;
+
+
+	
+	if (m_Curtexture == m_ready)
+	{
+		//GETINSTANCE(CResourceManager)->FindSound(L"ready")->Stop();
+		
+	}
+	else if (m_Curtexture == m_warning)
+	{
+		//GETINSTANCE(CResourceManager)->FindSound(L"warning")->Stop();
+	}
 }
 

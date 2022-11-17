@@ -49,6 +49,8 @@ CCyberKujacer::CCyberKujacer()
 	GetAnimator()->LoadAnimation(L"animation\\monster\\cyberboss\\attack3shoot.anim");
 
 	GetAnimator()->LoadAnimation(L"animation\\monster\\cyberboss\\enter.anim");	
+	GetAnimator()->LoadAnimation(L"animation\\monster\\cyberboss\\ting.anim");
+
 	GetAnimator()->LoadAnimation(L"animation\\monster\\cyberboss\\move.anim");
 
 	//cyberbossmove.wav
@@ -65,6 +67,15 @@ CCyberKujacer::CCyberKujacer()
 	GETINSTANCE(CResourceManager)->LoadSound(L"tartgetfollow", L"sound\\tartgetfollow.wav")->SetPosition(0.f);
 	GETINSTANCE(CResourceManager)->LoadSound(L"tartgetfollow", L"sound\\tartgetfollow.wav")->SetVolume(25.f);
 	
+
+	GETINSTANCE(CResourceManager)->LoadSound(L"bossenter", L"sound\\bossenter.wav")->SetPosition(0.f);
+	GETINSTANCE(CResourceManager)->LoadSound(L"bossenter", L"sound\\bossenter.wav")->SetVolume(25.f);
+
+	
+	GetAnimator()->FindAnimation(L"ENTER")->SetFrameEvent(19, this, (DELEGATE)&CCyberKujacer::EnterEvent);
+
+
+	//bossenter.wav
 	
 	GetAnimator()->FindAnimation(L"MOVE")->SetFrameEvent(0, this, (DELEGATE)&CCyberKujacer::MoveEvent);
 
@@ -75,6 +86,8 @@ CCyberKujacer::CCyberKujacer()
 	GetAnimator()->FindAnimation(L"ATTACK3")->SetFrameEvent(13, this, (DELEGATE)&CCyberKujacer::Attack3Event);
 
 	GetAnimator()->FindAnimation(L"ATTACK3SHOOT")->SetFrameEvent(3, this, (DELEGATE)&CCyberKujacer::Attack3EventMissile);
+
+	GetAnimator()->FindAnimation(L"TING")->SetFrameEvent(4, this, (DELEGATE)&CCyberKujacer::LandAttack1Event);
 	
 
 	m_sponType = MONSETER_TYPE::BOSS;
@@ -121,14 +134,15 @@ CCyberKujacer::~CCyberKujacer()
 void CCyberKujacer::tick()
 {
 	CRockmanMonster::tick();
+
 	Vector2 pos = m_zero->GetPos();
-	if (IS_INPUT_TAB(KEY::SPACE))
-	{
-		GetAnimator()->Play(L"MOVE", false);
-	}
 
 	Vector2 offset = {};
 
+	if (m_bossState == CYBERBOSS_STATE::SPON)
+	{
+		return;
+	}
 	//Ultimate
 	if (m_damagedState != DAMAGED_STATE::ULTIMAGE && m_reciveAttackCnt >= 1)
 	{
@@ -166,6 +180,8 @@ void CCyberKujacer::tick()
 	int random = rand() % 3;
 	//move Logic
 	m_stateDelay += DELTATIME;
+
+
 	if (m_bossState == CYBERBOSS_STATE::ENTER)
 	{
 		if (GetAnimator()->GetCurAnimation()->IsFinish() == true)
@@ -432,5 +448,15 @@ void CCyberKujacer::Attack3EventMissile()
 
 	CCyberMissile* missile = new CCyberMissile();
 	CGameObject::Instantiate(missile, effectPos, LAYER::MONSTERATTACK);
+}
+
+void CCyberKujacer::EnterEvent()
+{
+	GETINSTANCE(CResourceManager)->FindSound(L"bossenter")->Play();
+}
+
+void CCyberKujacer::TingEvent()
+{
+	GETINSTANCE(CResourceManager)->FindSound(L"bossting")->Play();
 }
 
