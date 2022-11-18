@@ -17,6 +17,7 @@ void CCyberspaceLevel2::init()
 {
 	CRockmanLevel::init();
 	m_nextLevel = LEVEL_TYPE::CYBERSPACE3;
+	m_curLevel = LEVEL_TYPE::CYBERSPACE2;
 }
 
 void CCyberspaceLevel2::tick()

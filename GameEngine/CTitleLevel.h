@@ -1,11 +1,15 @@
 #pragma once
-#include "CLevel.h"
+#include "CRockmanLevel.h"
 
+class CTexture;
 
 class CTitleLevel :
-    public CLevel
+    public CRockmanLevel
 {
 public:
+    //
+    //CTexture*
+    //titlebackground.bmp
     // CLevel을(를) 통해 상속됨
     virtual void init() override;
     virtual void tick() override;

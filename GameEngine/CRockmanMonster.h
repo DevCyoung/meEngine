@@ -26,7 +26,7 @@ public:
 	virtual void OnTriggerEnter(CCollider* _pOhter) override;
 	virtual void OnTriggerStay(CCollider* _pOhter) override;
 	virtual void OnTriggerExit(CCollider* _pOhter) override;
-
+	virtual void Die() { this->Destroy(); }
 
 public:
 	virtual void Save(FILE *pFile);

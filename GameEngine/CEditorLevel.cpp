@@ -40,23 +40,10 @@ CEditorLevel::CEditorLevel()
 	, m_eMode(EDITOR_MODE::NONE)
 	, m_collideEditor(nullptr)
 {
-	//mapText = GETINSTANCE(CResourceManager)->LoadTexture(L"CYBER", L"texture\\cyberspace.bmp");
-	//CMonster* monster = new CMonster();
-	//this->AddObject(monster, LAYER::MONSTER);
-	//m_wallDir = WALLDIR::LEFT;
-
 	m_collideEditor = new CCollideEdit();
 	m_objectEditor = new CObjectEdit();	
 	m_atlasEditor = new CAtlasEdit();
-	
-	
 
-
-	//CCameraObj
-
-	//Load(L"cyber\\cyberspace_Level_5.map");
-	//Load(L"cyber\\area2.map");
-	//Load();
 }
 
 
@@ -66,6 +53,24 @@ CEditorLevel::~CEditorLevel()
 	//DestroyMenu 메뉴단위가 없어져야할때
 	if (nullptr != m_hMenu)
 		DestroyMenu(m_hMenu);
+	//this->DeleteAllObject();
+
+	if (nullptr != m_collideEditor)
+	{
+		delete m_collideEditor;
+	}
+
+	if (nullptr != m_objectEditor)
+	{
+		delete m_objectEditor;
+	}
+
+	if (nullptr != m_atlasEditor)
+	{
+		delete m_atlasEditor;
+	}
+	
+
 
 }
 
@@ -269,16 +274,10 @@ void CEditorLevel::Enter()
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::OBJECT);
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::EVENT);
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::CAMERAWALL);
-
-
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MONSTER, LAYER::WALL);
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MONSTER, LAYER::PLAYER);
-
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::CAMERA, LAYER::CAMERAWALL);
-
-
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::EVENT, LAYER::PLAYER);
-
 
 	AddObject(m_collideEditor, LAYER::MOUSE);
 	m_objectEditor->CreateUI(this);
@@ -309,7 +308,11 @@ void CEditorLevel::Exit()
 
 	POINT ptWndScreenSize = GETINSTANCE(CEngine)->GetWndScreenSize();
 	GETINSTANCE(CEngine)->WindowReSize(ptWndScreenSize.x, ptWndScreenSize.y);
+
 	this->DeleteAllObject();
+	m_collideEditor = new CCollideEdit();
+	m_objectEditor = new CObjectEdit();
+	m_atlasEditor = new CAtlasEdit();
 }
 
 #pragma endregion

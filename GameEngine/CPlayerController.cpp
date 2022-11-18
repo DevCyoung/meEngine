@@ -16,6 +16,7 @@
 
 #include "CCollider.h"
 
+#include "CRockmanManager.h"
 int check = 0;
 
 
@@ -41,7 +42,7 @@ CPlayerController::CPlayerController(CGameObject* obj)
 	, m_hitDir{}
 	, m_hitDelay(0.f)
 	, m_dashDIr{}
-	
+	, m_isKeyinput(true)
 {
 
 	m_zero = dynamic_cast<CZero*>(obj);
@@ -102,18 +103,18 @@ void CPlayerController::tick()
 		return;
 	}
 
-	
+
 	if (m_state == PLAYER_STATE::ENTER)
-	{		
+	{
 		if (m_zero->DownColState() == true)
 		{
-			m_zero->GetAnimator()->TrigerPlay(L"ENTERZERO", false);			
+			m_zero->GetAnimator()->TrigerPlay(L"ENTERZERO", false);
 		}
 		else
 		{
 			pos.y += 800 * DELTATIME;
-			
-		}		
+
+		}
 	}
 
 	if (m_state == PLAYER_STATE::RETURNREADY)
@@ -122,16 +123,33 @@ void CPlayerController::tick()
 		{
 			m_zero->SetCollision(false);
 			velo.x = 0.f;
-			
+
 			m_zero->GetRigidbody()->SetGravity(false);
-			m_zero->GetAnimator()->TrigerPlay(L"RETURNREADY", false);
+
+
+
+			if (GETINSTANCE(CRockmanManager)->GetTarget() == ROCKEVENT::RETURNHONE || GETINSTANCE(CRockmanManager)->GetTarget() == ROCKEVENT::ZERORETURN || GETINSTANCE(CRockmanManager)->GetTarget() == ROCKEVENT::FADEEXIT)
+			{
+				m_zero->GetAnimator()->TrigerPlay(L"GOODRETURN", false);
+			}
+			else
+			{
+				m_zero->GetAnimator()->TrigerPlay(L"RETURNREADY", false);
+			}
+			
+
+
+
 			GETINSTANCE(CResourceManager)->LoadSound(L"returnvim", L"sound\\returnvim.wav")->SetPosition(0);
 			GETINSTANCE(CResourceManager)->LoadSound(L"returnvim", L"sound\\returnvim.wav")->SetVolume(18.f);
 			GETINSTANCE(CResourceManager)->LoadSound(L"returnvim", L"sound\\returnvim.wav")->Play();
+
+
+
 			m_state = PLAYER_STATE::RETURN;
 			m_arrDashFrame.clear();
 			m_dashMoveScale = 1.f;
-		}		
+		}
 	}
 	else if (m_state == PLAYER_STATE::BLINK)
 	{
@@ -150,7 +168,7 @@ void CPlayerController::tick()
 			//수정?
 			//m_zero->GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
 			//m_zero->SetFlipX(!m_zero->GetFlipX());
-			
+
 		}
 		else if (m_state != PLAYER_STATE::DAMAGED)
 		{
@@ -165,10 +183,10 @@ void CPlayerController::tick()
 			}
 		}
 	}
-	
+
 
 	if (m_state == PLAYER_STATE::DAMAGED)
-	{		
+	{
 		if (m_hitDelay >= 1.f)
 		{
 			if (m_zero->DownColState() == true)
@@ -182,7 +200,7 @@ void CPlayerController::tick()
 				m_state = PLAYER_STATE::FALLING;
 				m_animator->TrigerPlay(L"FALLINGREADY", true);
 			}
-			
+
 			m_curdashScale = 1.f;
 			m_hitDelay = 0.f;
 		}
@@ -198,21 +216,21 @@ void CPlayerController::tick()
 			{
 				velo.y = 0;
 			}
-		
-		}		
+
+		}
 	}
 	else
 	{
-		
+
 	}
 
 	m_zero->SetPos(pos);
 	m_zero->GetRigidbody()->SetVelocity(velo);
-	if (m_state == PLAYER_STATE::ENTER  || m_state == PLAYER_STATE::VICTORYRETURN || m_state == PLAYER_STATE::RETURNREADY || 
-		m_state == PLAYER_STATE::RETURN || m_state == PLAYER_STATE:: BLINK	      || m_state == PLAYER_STATE::DAMAGED)
+	if (m_state == PLAYER_STATE::ENTER || m_state == PLAYER_STATE::VICTORYRETURN || m_state == PLAYER_STATE::RETURNREADY ||
+		m_state == PLAYER_STATE::RETURN || m_state == PLAYER_STATE::BLINK || m_state == PLAYER_STATE::DAMAGED)
 		return;
 
-	
+
 
 	velo.x = 0.f;
 	m_velocity.x = velo.x;
@@ -229,16 +247,25 @@ void CPlayerController::tick()
 	if (m_zero->DownColState() == false && m_state != PLAYER_STATE::FALLING && m_state != PLAYER_STATE::WALLSLIDE && m_state != PLAYER_STATE::JUMP && m_state != PLAYER_STATE::FALLINGATTACK)
 	{
 		if (velo.y > 0.01f)
-		{			
+		{
 			m_state = PLAYER_STATE::FALLING;
 			m_animator->Play(L"FALLINGREADY", false);
 		}
 	}
 
-	//입력에따른 변수를 설정
-	
+	if (m_state == PLAYER_STATE::EVENT)
+	{
 
-	InputTick();
+	}
+
+	//입력에따른 변수를 설정
+
+
+	if (m_isKeyinput == true)
+	{
+		InputTick();
+	}
+	
 	StateTick();
 
 

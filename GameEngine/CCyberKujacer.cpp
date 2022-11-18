@@ -28,6 +28,10 @@
 
 #include "CCyberMissile.h"
 
+#include "CMonsterHpbar.h"
+
+#include "CRockmanManager.h"
+
 CCyberKujacer::CCyberKujacer()
 	:m_ultimateTime(0.f)
 	, m_curUltimateTime(0.f)
@@ -36,6 +40,9 @@ CCyberKujacer::CCyberKujacer()
 	, m_stateDelay(0.f)
 	, m_targetPos{}
 	, m_randomAttack(0)
+	, m_destTime(0.f)
+	, m_destCount(0)
+	, m_hpBar(nullptr)
 {
 	CreateCollider();
 	GetCollider()->SetScale(Vector2(150.f, 200.f));
@@ -52,6 +59,8 @@ CCyberKujacer::CCyberKujacer()
 	GetAnimator()->LoadAnimation(L"animation\\monster\\cyberboss\\ting.anim");
 
 	GetAnimator()->LoadAnimation(L"animation\\monster\\cyberboss\\move.anim");
+
+	GetAnimator()->LoadAnimation(L"animation\\monster\\cyberboss\\die.anim");
 
 	//cyberbossmove.wav
 	GETINSTANCE(CResourceManager)->LoadSound(L"cyberbossmove", L"sound\\cyberbossmove.wav")->SetPosition(0.f);
@@ -70,7 +79,7 @@ CCyberKujacer::CCyberKujacer()
 
 	GETINSTANCE(CResourceManager)->LoadSound(L"bossenter", L"sound\\bossenter.wav")->SetPosition(0.f);
 	GETINSTANCE(CResourceManager)->LoadSound(L"bossenter", L"sound\\bossenter.wav")->SetVolume(25.f);
-
+	
 	
 	GetAnimator()->FindAnimation(L"ENTER")->SetFrameEvent(19, this, (DELEGATE)&CCyberKujacer::EnterEvent);
 
@@ -93,7 +102,7 @@ CCyberKujacer::CCyberKujacer()
 	m_sponType = MONSETER_TYPE::BOSS;
 	m_damagedState = DAMAGED_STATE::IDLE;
 	m_ultimateTime = 2.f;
-	m_hp = 10;
+
 	m_reciveAttackCnt = 0;
 	m_bossState = CYBERBOSS_STATE::ENTER;
 	GetAnimator()->Play(L"ENTER", false);
@@ -111,6 +120,19 @@ CCyberKujacer::CCyberKujacer()
 
 
 	//GETINSTANCE(CEffectManager)->SetPlayerTarget(m_zero);
+
+
+
+
+	m_hp = 15;
+
+	CMonsterHpbar* mhbar = new CMonsterHpbar();
+	mhbar->m_Maxhp = m_hp;
+	mhbar->m_target = this;
+	mhbar->m_prevHp = m_hp;
+	m_hpBar = mhbar;
+	CGameObject::Instantiate(mhbar, mhbar->GetPos(), LAYER::EDITOR);
+	m_destTime = 0.5f;
 }
 
 CCyberKujacer::CCyberKujacer(const CCyberKujacer& _other)
@@ -122,12 +144,17 @@ CCyberKujacer::CCyberKujacer(const CCyberKujacer& _other)
 	, m_stateDelay(0.f)
 	, m_targetPos{}
 	, m_randomAttack(0)
+	, m_hpBar(nullptr)
 {
 }
 
 CCyberKujacer::~CCyberKujacer()
 {
-
+	if (nullptr != m_hpBar)
+	{
+		m_hpBar->m_target = nullptr;
+		m_hpBar->Destroy();
+	}
 }
 
 
@@ -143,6 +170,70 @@ void CCyberKujacer::tick()
 	{
 		return;
 	}
+
+	if (m_bossState == CYBERBOSS_STATE::HPZERO)
+	{
+		m_stateDelay += DELTATIME;
+		
+		if (m_stateDelay >= m_destTime)
+		{
+			m_damagedState = DAMAGED_STATE::DAMAGED;
+			m_stateDelay += DELTATIME;			
+			m_stateDelay = 0.f;
+			m_destTime -= DELTATIME * 5.f;
+			++m_destCount;
+			if (m_destTime <= 0.25f)
+			{
+				m_destTime = 0.25f;
+			}
+		}
+
+		if (m_destCount == 6 && GETINSTANCE(CRockmanManager)->GetTarget() != ROCKEVENT::BOSSDIE)
+		{
+			//m_bossState = CYBERBOSS_STATE::BOOMSHOOTS;
+			//m_stateDelay = 0.f;
+			GETINSTANCE(CRockmanManager)->SetTarget(GetPos());
+			GETINSTANCE(CRockmanManager)->SetEvent(ROCKEVENT::BOSSDIE);
+		}
+
+		if (GETINSTANCE(CRockmanManager)->GetTarget() == ROCKEVENT::WIN)
+		{
+			this->Destroy();
+		}
+
+		return;
+	}
+
+	//if (m_bossState == CYBERBOSS_STATE::BOOMSHOOTS)
+	//{
+	//	m_stateDelay += DELTATIME;
+
+	//	if (m_stateDelay > 0.09f)
+	//	{
+	//		Vector2 pos = GetPos();
+
+	//		Vector2 offset = {};
+
+	//		offset.x = (int)(rand() % 350);
+	//		offset.y = (int)(rand() % 350);
+
+	//		if (rand() % 2 == 0)
+	//		{
+	//			offset.x *= -1;				
+	//		}
+	//		if (rand() % 2 == 1)
+	//		{
+	//			offset.y *= -1;
+	//		}
+
+	//		pos += offset;
+	//		GETINSTANCE(CEffectManager)->OnShootPlay(EFFECT_TYPE::BOOMRED, pos, false);
+	//		m_stateDelay = 0.f;
+	//	}
+	//}
+
+
+
 	//Ultimate
 	if (m_damagedState != DAMAGED_STATE::ULTIMAGE && m_reciveAttackCnt >= 1)
 	{
@@ -199,15 +290,15 @@ void CCyberKujacer::tick()
 		
 			if (m_stateDelay >= 1.0f)
 			{
-				m_isAttackable = false;			
+				m_isAttackable = false;
 				m_bossState = CYBERBOSS_STATE::MOVEVISIBLE;
-				
-				GetAnimator()->Play(L"MOVE", false);
-	
-				m_stateDelay = 0.f;
-				m_randomAttack = rand() % 3;
 
-				if (m_randomAttack <= 1)
+				GetAnimator()->Play(L"MOVE", false);
+
+				m_stateDelay = 0.f;
+				m_randomAttack = rand() % 4;
+
+				if (m_randomAttack >= 1)
 				{
 					pos.y = 780.f;
 					if (rand() % 2)
@@ -219,11 +310,20 @@ void CCyberKujacer::tick()
 						pos.x -= 175;
 					}
 
-					
+					if (pos.x >= 3116)
+					{
+						pos.x = 3116;
+					}
+
+					if (pos.x <= 2400)
+					{
+						pos.x = 2400;
+					}
+
 				}
 				else
 				{
-					
+
 					if (rand() % 2)
 					{
 						pos.x = 3116;
@@ -246,6 +346,19 @@ void CCyberKujacer::tick()
 					SetFlipX(true);
 				}
 
+				if (m_randomAttack  == 0)
+				{
+					if (pos.x >= 3115)
+					{
+						SetFlipX(false);
+					}
+					else if (pos.x <= 2401)
+					{
+						SetFlipX(true);
+					}
+
+				}
+
 			}
 
 
@@ -261,7 +374,7 @@ void CCyberKujacer::tick()
 			
 			
 			
-			if (m_randomAttack <= 1)
+			if (m_randomAttack >= 1)
 			{
 				if (rand() % 2 == 0)
 				{
@@ -335,10 +448,6 @@ void CCyberKujacer::tick()
 		}
 		Vector2 pos = GetPos();
 		pos.y -= 800 * GETINSTANCE(CTimeManager)->GEtRealDetaTime() + pos.y * DELTATIME * 0.1f;
-
-
-		
-
 		SetPos(pos);
 	}
 	else if (m_bossState == CYBERBOSS_STATE::ATTACK3)
@@ -460,3 +569,23 @@ void CCyberKujacer::TingEvent()
 	GETINSTANCE(CResourceManager)->FindSound(L"bossting")->Play();
 }
 
+void CCyberKujacer::Die()
+{
+	//CRockmanMonster::Die();
+	m_bossState = CYBERBOSS_STATE::HPZERO;
+
+	m_zero->SetState(PLAYER_STATE::NOTINPUT);
+	m_zero->m_playerController->m_isKeyinput = false;
+	CSound* sound = GETINSTANCE(CResourceManager)->FindSound(L"bossbackground");
+	sound->Stop(true);
+	m_bossState = CYBERBOSS_STATE::HPZERO;
+	GetAnimator()->Play(L"DIE", false);
+
+	m_damagedTime = 0.f;
+	m_damagedState = DAMAGED_STATE::IDLE;
+	m_stateDelay = 0.f;
+
+	m_zero->m_damagedState = DAMAGED_STATE::ULTIMAGE;
+
+	GETINSTANCE(CCamera)->SetTextureType(eFADECOLOR::WHITE);
+}

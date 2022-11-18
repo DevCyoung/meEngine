@@ -117,7 +117,14 @@ void CDoor1::tick()
 				if (m_closeTo == PLAYER_STATE::EVENT)
 				{
 					rmLevel->m_textureReadyAnim->Enter();
+					GETINSTANCE(CCamera)->SetTextureType(eFADECOLOR::WARNING);
+					for (size_t i = 0; i < 6; i++)
+					{
+						GETINSTANCE(CCamera)->FadeOut(0.45f, 0.6f);
+						GETINSTANCE(CCamera)->FadeIn(0.45f, 0.6f);
+					}								
 				}
+
 
 			}
 		}

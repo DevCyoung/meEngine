@@ -16,6 +16,7 @@ CHPbar::CHPbar()
 	, m_prevHp(0)
 	, m_redHp(false)
 	, m_HPRedOffset(0)
+	, m_distance(0.f)
 {
 	m_hpTexture = GETINSTANCE(CResourceManager)->LoadTexture(L"HPBAR", L"ui\\zerohpbar.bmp");
 	Vector2 pos = GETINSTANCE(CEngine)->GetWndScreenSize();
@@ -31,7 +32,7 @@ CHPbar::CHPbar()
 	offset.y = -8.f;
 
 	pos += offset;
-
+	m_distance = 224;
 	SetPos(pos);
 }
 
@@ -44,11 +45,11 @@ CHPbar::~CHPbar()
 void CHPbar::tick()
 {
 	//ºñÀ² 224;
-	m_HPoffset = 224 - (224 / (float)m_Maxhp) * (float)m_target->m_hp;
-
-	if (m_HPoffset >= 224)
+	m_HPoffset = m_distance - (m_distance / (float)m_Maxhp) * (float)m_target->m_hp;
+		
+	if (m_HPoffset >= m_distance)
 	{
-		m_HPoffset = 224;
+		m_HPoffset = m_distance;
 	}
 
 	if (m_prevHp > m_target->m_hp)
@@ -66,7 +67,7 @@ void CHPbar::tick()
 		m_prevHp = m_target->m_hp;
 	}
 
-	m_HPRedOffset = (224 / (float)(m_Maxhp)) * (float)(m_prevHp - m_target->m_hp);
+	m_HPRedOffset = (m_distance / (float)(m_Maxhp)) * (float)(m_prevHp - m_target->m_hp);
 }
 
 void CHPbar::render(HDC _dc)
@@ -104,6 +105,7 @@ void CHPbar::render(HDC _dc)
 			pos.x + m_hpTexture->Width() / 2 - 20,
 			pos.y + m_hpTexture->Width() / 2 - 100 +  m_HPoffset
 		);
+
 	if (m_prevHp > m_target->m_hp)
 	{
 	}
@@ -113,7 +115,7 @@ void CHPbar::render(HDC _dc)
 	SetDCBrushColor(_dc, RGB(8, 207, 63));
 	//128 34 28
 	//8, 207, 63
-	Rectangle
+	Rectangle	
 	(
 		_dc,
 		pos.x - m_hpTexture->Width() / 2 - 10,

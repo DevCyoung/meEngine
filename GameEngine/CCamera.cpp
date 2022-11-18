@@ -8,6 +8,9 @@
 
 CCamera::CCamera()
 	: m_pBlindTex(nullptr)
+	, m_pWhiteTex(nullptr)
+	, m_pRedTex(nullptr)
+	, m_pCurTex(nullptr)
 	, m_fRatio(0.f)
 	, m_fAccTime(0.f)
 	, m_fMaxTime(0.f)
@@ -19,9 +22,12 @@ CCamera::CCamera()
 {
 	POINT ptResolution = GETINSTANCE(CEngine)->GetWndScreenSize();
 
-	m_pBlindTex = GETINSTANCE(CResourceManager)->CreateTexture(L"BlindTex", ptResolution.x, ptResolution.y);
-
 	
+
+	m_pBlindTex = GETINSTANCE(CResourceManager)->CreateTexture(L"BlindTex", ptResolution.x, ptResolution.y);
+	m_pRedTex = GETINSTANCE(CResourceManager)->CreateTexture(L"RedTex", ptResolution.x, ptResolution.y, RGB(255, 0, 0));
+	m_pWhiteTex = GETINSTANCE(CResourceManager)->CreateTexture(L"whiteTex", ptResolution.x, ptResolution.y, RGB(255, 255, 255));
+	m_pCurTex = m_pBlindTex;
 }
 CCamera::~CCamera()
 {
@@ -30,6 +36,22 @@ CCamera::~CCamera()
 void CCamera::Settarget(CZero* obj)
 {
 	m_cam->SetTarget(obj);
+}
+
+void CCamera::SetTextureType(eFADECOLOR color)
+{
+	switch (color)
+	{
+	case eFADECOLOR::BLIND:
+		m_pCurTex = m_pBlindTex;
+		break;
+	case eFADECOLOR::WARNING:
+		m_pCurTex = m_pRedTex;
+		break;
+	case eFADECOLOR::WHITE:
+		m_pCurTex = m_pWhiteTex;
+		break;
+	}
 }
 
 void CCamera::tick()
@@ -86,12 +108,12 @@ void CCamera::render(HDC _dc)
 
 	AlphaBlend(_dc
 		, 0, 0
-		, m_pBlindTex->Width()
-		, m_pBlindTex->Height()
-		, m_pBlindTex->GetDC()
+		, m_pCurTex->Width()
+		, m_pCurTex->Height()
+		, m_pCurTex->GetDC()
 		, 0, 0
-		, m_pBlindTex->Width()
-		, m_pBlindTex->Height()
+		, m_pCurTex->Width()
+		, m_pCurTex->Height()
 		, tBlend);
 }
 
@@ -101,6 +123,18 @@ void CCamera::FadeOut(float _fTerm)
 	effect.m_eCurEffect = CAMERA_EFFECT::FADE_OUT;
 	effect.m_fAccTime = 0.f;
 	effect.m_fMaxTime = _fTerm;
+	effect.m_fdestRatioper = 1.f;
+
+	m_CamEffectList.push_back(effect);
+}
+
+void CCamera::FadeOut(float _fTerm, float _destRatio)
+{
+	tCamEffect effect = {};
+	effect.m_eCurEffect = CAMERA_EFFECT::FADE_OUT;
+	effect.m_fAccTime = 0.f;
+	effect.m_fMaxTime = _fTerm;
+	effect.m_fdestRatioper = _destRatio;
 
 	m_CamEffectList.push_back(effect);
 }
@@ -111,6 +145,18 @@ void CCamera::FadeIn(float _fTerm)
 	effect.m_eCurEffect = CAMERA_EFFECT::FADE_IN;
 	effect.m_fAccTime = 0.f;
 	effect.m_fMaxTime = _fTerm;
+	effect.m_fdestRatioper = 1.f;
+
+	m_CamEffectList.push_back(effect);
+}
+
+void CCamera::FadeIn(float _fTerm, float _destRatio)
+{
+	tCamEffect effect = {};
+	effect.m_eCurEffect = CAMERA_EFFECT::FADE_IN;
+	effect.m_fAccTime = 0.f;
+	effect.m_fMaxTime = _fTerm;
+	effect.m_fdestRatioper = _destRatio;
 
 	m_CamEffectList.push_back(effect);
 }
@@ -146,6 +192,7 @@ void CCamera::CameraEffect()
 	m_fRatio = effect.m_fAccTime / effect.m_fMaxTime;
 	if (CAMERA_EFFECT::FADE_IN == effect.m_eCurEffect)
 		m_fRatio = 1.f - m_fRatio;
+	m_fRatio *= effect.m_fdestRatioper;
 }
 
 void CCamera::CameraShake()

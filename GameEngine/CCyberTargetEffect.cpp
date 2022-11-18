@@ -96,6 +96,11 @@ void CCyberTargetEffect::render(HDC _dc)
 {
 	if (m_isUsing == false)
 		return;
+
+	if (m_boss->m_bossState == CYBERBOSS_STATE::HPZERO)
+	{
+		return;
+	}
 	CEffect::render(_dc);
 }
 

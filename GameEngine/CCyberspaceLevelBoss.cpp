@@ -7,12 +7,14 @@
 
 #include "CTextureAnim.h"
 
+#include "CMonsterHpbar.h"
 
-
+#include "CCyberKujacer.h"
 
 CCyberspaceLevelBoss::CCyberspaceLevelBoss()
 {
 	m_isReady = false;
+	
 }
 
 CCyberspaceLevelBoss::~CCyberspaceLevelBoss()
@@ -25,12 +27,18 @@ void CCyberspaceLevelBoss::init()
 	CRockmanLevel::init();
 	m_textureReadyAnim->SetWarning();
 	m_textureReadyAnim->SetfrmDuration(0.030f);
+	m_nextLevel = LEVEL_TYPE::TITLE;
+	m_curLevel = LEVEL_TYPE::CYBERSPACEBOSS;
 }
 
 void CCyberspaceLevelBoss::tick()
 {
 	CRockmanLevel::tick();
 
+	//if (IS_INPUT_TAB(KEY::ENTER))
+	//{
+	//	NextLevel();
+	//}
 }
 
 void CCyberspaceLevelBoss::Enter()

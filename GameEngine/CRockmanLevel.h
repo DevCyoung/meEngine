@@ -36,7 +36,7 @@ private:
     float               m_exitDelay;
 protected:
     LEVEL_TYPE           m_nextLevel;
-
+    LEVEL_TYPE           m_curLevel;
 protected:
     bool            m_isReady;
 public:

@@ -79,6 +79,23 @@ CTexture* CResourceManager::CreateTexture(const wstring& _strKey, UINT _iWidth, 
     return pTexture;
 }
 
+CTexture* CResourceManager::CreateTexture(const wstring& _strKey, UINT _iWidth, UINT _iHeight, UINT _fillColor)
+{
+    CTexture* pTexture = FindTexture(_strKey);
+
+    if (nullptr != pTexture)
+        return (CTexture*)pTexture;
+
+    // 텍스쳐 생성 및 로딩
+    pTexture = new CTexture;
+    pTexture->Create(_iWidth, _iHeight, _fillColor);
+    pTexture->SetKey(_strKey);
+
+    // Map 에 저장
+    m_mapTex.insert(make_pair(_strKey, pTexture));
+    return pTexture;
+}
+
 CSound* CResourceManager::FindSound(const wstring& _strKey)
 {
     map<wstring, CSound*>::iterator iter = m_mapSounds.find(_strKey);

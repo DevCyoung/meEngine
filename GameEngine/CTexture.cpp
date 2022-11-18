@@ -38,7 +38,25 @@ void CTexture::Create(UINT _iWidth, UINT _iHeight)
     m_hDC = CreateCompatibleDC(GETINSTANCE(CEngine)->GetMainDC());
 
     HBITMAP hPrevBit = (HBITMAP)SelectObject(m_hDC, m_hBit);
+    DeleteObject(hPrevBit);    
+
+    GetObject(m_hBit, sizeof(BITMAP), &m_tBitmapInfo);
+}
+
+void CTexture::Create(UINT _iWidth, UINT _iHeight, UINT _fillColor)
+{
+    // 별도의 비트맵을 윈도우와 동일한 해상도로 생성시킴    
+    m_hBit = CreateCompatibleBitmap(GETINSTANCE(CEngine)->GetMainDC(), _iWidth, _iHeight);
+
+    // 생성시킨 비트맵을 목적지로 하는 DC 를 생성함
+    m_hDC = CreateCompatibleDC(GETINSTANCE(CEngine)->GetMainDC());
+
+    HBITMAP hPrevBit = (HBITMAP)SelectObject(m_hDC, m_hBit);
     DeleteObject(hPrevBit);
+
+    SelectObject(m_hDC, GetStockObject(DC_BRUSH));
+    SetDCBrushColor(m_hDC, _fillColor);
+    Rectangle(m_hDC, 0, 0, _iWidth, _iHeight);
 
     GetObject(m_hBit, sizeof(BITMAP), &m_tBitmapInfo);
 }

@@ -20,6 +20,7 @@
 
 #include "CEffectManager.h"
 
+#include "CKeyManager.h"
 CRockmanLevel::CRockmanLevel()
 	: m_editor(nullptr)
 	, m_zero(nullptr)
@@ -30,6 +31,7 @@ CRockmanLevel::CRockmanLevel()
 	, m_isReady(true)
 	, m_exitDelay(0.f)
 	, m_nextLevel{}
+	, m_curLevel{}
 {
 	m_levelState = eLEVELSTATE::FADEENTER;
 }
@@ -74,6 +76,34 @@ void CRockmanLevel::tick()
 {
 	CLevel::tick();
 
+	if (IS_INPUT_PRESSED(KEY::LSHIFT))
+	{
+		if (IS_INPUT_TAB(KEY::_1))
+		{
+			NextLevel(LEVEL_TYPE::CYBERSPACE);
+		}
+		else if (IS_INPUT_TAB(KEY::_2))
+		{
+			NextLevel(LEVEL_TYPE::CYBERSPACE2);
+		}
+		else if (IS_INPUT_TAB(KEY::_3))
+		{
+			NextLevel(LEVEL_TYPE::CYBERSPACE3);
+		}
+		else if (IS_INPUT_TAB(KEY::_4))
+		{
+			NextLevel(LEVEL_TYPE::CYBERSPACE4);
+		}
+		else if (IS_INPUT_TAB(KEY::_5))
+		{
+			NextLevel(LEVEL_TYPE::CYBERSPACEBOSS);
+		}
+		else if (IS_INPUT_TAB(KEY::_6))
+		{
+			NextLevel(LEVEL_TYPE::TITLE);
+		}
+	}
+
 	LevelDealy();
 }
 
@@ -83,14 +113,13 @@ void CRockmanLevel::Enter()
 	init();
 	GETINSTANCE(CEffectManager)->LoadAllEffect();
 	GETINSTANCE(CCamera)->FadeIn(1.0f);	
+	m_delay = 0.f;
 }
 
 void CRockmanLevel::Exit()
 {
 	DeleteAllObject();
-	//CLevel::Exit(); = 0
-
-	//GETINSTANCE(CCamera)->FadeOut(1.0f);
+	m_levelState = eLEVELSTATE::FADEENTER;
 	m_zero = nullptr;
 }
 
@@ -181,6 +210,8 @@ void CRockmanLevel::NextAread(UINT idx)
 
 void CRockmanLevel::NextLevel(LEVEL_TYPE layer)
 {	
+	if (layer == m_curLevel)
+		return;
 	m_levelState = eLEVELSTATE::FADEEXIT;
 	m_nextLevel = layer;
 	m_exitDelay = 0.f;

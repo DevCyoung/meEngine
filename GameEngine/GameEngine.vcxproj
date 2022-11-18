@@ -198,6 +198,7 @@
     <ClInclude Include="CMonster.h" />
     <ClInclude Include="CCollideEdit.h" />
     <ClInclude Include="CMonsterHitBox.h" />
+    <ClInclude Include="CMonsterHpbar.h" />
     <ClInclude Include="CNextArea.h" />
     <ClInclude Include="CObjectEdit.h" />
     <ClInclude Include="CPanelUI.h" />
@@ -213,6 +214,7 @@
     <ClInclude Include="CResourceManager.h" />
     <ClInclude Include="CRigidbody.h" />
     <ClInclude Include="CRockmanLevel.h" />
+    <ClInclude Include="CRockmanManager.h" />
     <ClInclude Include="CRockmanMonster.h" />
     <ClInclude Include="CRockmanObj.h" />
     <ClInclude Include="CSliceEffect.h" />
@@ -224,6 +226,7 @@
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CTextureAnim.h" />
     <ClInclude Include="CTile.h" />
+    <ClInclude Include="CTileObj.h" />
     <ClInclude Include="CTimeManager.h" />
     <ClInclude Include="CTinEffect.h" />
     <ClInclude Include="CTitleLevel.h" />
@@ -290,6 +293,7 @@
     <ClCompile Include="CCollideEdit.cpp" />
     <ClCompile Include="CMiru.cpp" />
     <ClCompile Include="CMonsterHitBox.cpp" />
+    <ClCompile Include="CMonsterHpbar.cpp" />
     <ClCompile Include="CNextArea.cpp" />
     <ClCompile Include="CObjectEdit.cpp" />
     <ClCompile Include="CPlayerAnimEvent.cpp" />
@@ -297,12 +301,14 @@
     <ClCompile Include="CRaycast.cpp" />
     <ClCompile Include="CRedBoomEffect.cpp" />
     <ClCompile Include="CRockmanLevel.cpp" />
+    <ClCompile Include="CRockmanManager.cpp" />
     <ClCompile Include="CRockmanMonster.cpp" />
     <ClCompile Include="CSliceEffect.cpp" />
     <ClCompile Include="CSlideDustEffect.cpp" />
     <ClCompile Include="CSound.cpp" />
     <ClCompile Include="CSoundMgr.cpp" />
     <ClCompile Include="CTextureAnim.cpp" />
+    <ClCompile Include="CTileObj.cpp" />
     <ClCompile Include="CTinEffect.cpp" />
     <ClCompile Include="CTry.cpp" />
     <ClCompile Include="CWall.cpp" />

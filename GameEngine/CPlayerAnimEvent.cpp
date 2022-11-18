@@ -72,6 +72,17 @@ CPlayerAnimEvent::CPlayerAnimEvent(CGameObject* obj)
 	m_animztor->LoadAnimation(L"animation\\zero\\damaged.anim");
 	m_animztor->LoadAnimation(L"animation\\zero\\damagedready.anim");
 
+	//GOOD
+	//goodreturn.anim
+	m_animztor->LoadAnimation(L"animation\\zero\\good.anim");
+	m_animztor->LoadAnimation(L"animation\\zero\\goodreturn.anim");
+
+
+
+	m_animztor->FindAnimation(L"GOOD")->SetFrameEvent(6, this, (DELEGATE)&CPlayerAnimEvent::GoodEffect);
+	m_animztor->FindAnimation(L"GOODRETURN")->SetFrameEvent(6, this, (DELEGATE)&CPlayerAnimEvent::ReturnReady);
+
+
 
 	m_animztor->FindAnimation(L"JUMPREADY")->SetFrameEvent(1, this, (DELEGATE)&CPlayerAnimEvent::JumpReady);
 	m_animztor->FindAnimation(L"FALLINGREADY")->SetFrameEvent(4, this, (DELEGATE)&CPlayerAnimEvent::FallingReady);
@@ -252,6 +263,7 @@ void CPlayerAnimEvent::DamagedReady()
 	GETINSTANCE(CResourceManager)->LoadSound(L"zeroHit", L"sound\\zeroHit.wav")->SetPosition(0);
 	GETINSTANCE(CResourceManager)->LoadSound(L"zeroHit", L"sound\\zeroHit.wav")->SetVolume(18.f);
 	GETINSTANCE(CResourceManager)->LoadSound(L"zeroHit", L"sound\\zeroHit.wav")->Play();
+	
 }
 
 void CPlayerAnimEvent::Idle()
@@ -304,6 +316,18 @@ void CPlayerAnimEvent::LandDashReadyEffect()
 
 	GETINSTANCE(CEffectManager)->OnShootPlay(EFFECT_TYPE::LANDDASH, pos, !m_zero->GetFlipX());
 
+}
+
+void CPlayerAnimEvent::GoodEffect()
+{
+	GETINSTANCE(CResourceManager)->LoadSound(L"good", L"sound\\Finish_form.wav")->SetPosition(0);
+	GETINSTANCE(CResourceManager)->LoadSound(L"good", L"sound\\Finish_form.wav")->SetVolume(25.f);
+	GETINSTANCE(CResourceManager)->LoadSound(L"good", L"sound\\Finish_form.wav")->Play();	
+}
+
+void CPlayerAnimEvent::GoodReturn()
+{
+	m_animztor->Play(L"RETURNBLINK", true);
 }
 
 void CPlayerAnimEvent::Falling()

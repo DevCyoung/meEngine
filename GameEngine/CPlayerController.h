@@ -32,6 +32,7 @@ public:
     
     float       m_curFallingMove;
 
+    bool        m_isKeyinput;
 
     //attackdelay
 

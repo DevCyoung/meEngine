@@ -11,14 +11,16 @@ enum class CYBERBOSS_STATE
 	ATTACK3,
 	ATTACK3SHOOT,
 	ATTACK2READY,
-	
+	HPZERO,
 	MOVEINVISIBLE,
+	BOOMSHOOTS,
 	MOVEVISIBLE
 };
 
 
 
 class CZero;
+class CMonsterHpbar;
 
 class CCyberKujacer :
     public CRockmanMonster
@@ -28,10 +30,14 @@ public:
 	float		m_ultimateTime;
 	float		m_curUltimateTime;
 	int			m_reciveAttackCnt;
+	CMonsterHpbar* m_hpBar;
 	Vector2		m_targetPos;
 
 	CYBERBOSS_STATE	m_bossState;
+
 	float			m_stateDelay;
+	float			m_destTime;
+	int				m_destCount;
 
 	int			m_randomAttack;
 
@@ -44,7 +50,7 @@ public:
 	virtual void OnTriggerStay(CCollider* _pOhter);
 	virtual void OnTriggerExit(CCollider* _pOhter);
 
-	
+	virtual void Die() override;
 
 	//
 	void MoveEvent();

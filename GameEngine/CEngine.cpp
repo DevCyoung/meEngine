@@ -15,6 +15,7 @@
 #include "CTexture.h"
 #include "CUIManager.h"
 #include "CLineColManager.h"
+#include "CRockmanManager.h"
 
 //그냥 윈도우가 시키는대로하는거임
 //DeleteDC(m_pTexBuffer->GetDC());
@@ -107,11 +108,12 @@ void CEngine::tick()
 
 
 	GETINSTANCE(CLevelManager)->fixed_tick();
-
+	GETINSTANCE(CRockmanManager)->tick();
 
 	GETINSTANCE(CUIManager)->tick();
 
 	GETINSTANCE(CHitManager)->tick();
+
 }
 
 Vector2 test = {};

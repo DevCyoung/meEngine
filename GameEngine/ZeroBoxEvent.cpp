@@ -33,7 +33,7 @@ void CZero::OnTriggerStay(CCollider* _pOther)
 		if (_pOther->GetOwner()->m_isAttackable == false)
 			return;
 
-		if (m_playerController->m_state == PLAYER_STATE::RETURNREADY || m_playerController->m_state == PLAYER_STATE::BLINK)
+		if (m_playerController->m_state == PLAYER_STATE::RETURNREADY || m_playerController->m_state == PLAYER_STATE::BLINK || m_playerController->m_isKeyinput == false)
 		{
 			return;
 		}

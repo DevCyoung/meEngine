@@ -1,10 +1,10 @@
 #pragma once
 #include "CGameObject.h"
 
+class CCyberKujacer;
 class CTexture;
-class CZero;
 
-class CHPbar :
+class CMonsterHpbar :
     public CGameObject
 {
 public:
@@ -15,18 +15,17 @@ public:
     float                 m_HPoffset;
     float                 m_HPRedOffset;
     float                 m_distance;
-    CZero*                m_target;
-
-    CTexture* m_hpTexture;
+    CCyberKujacer*          m_target;
+    CTexture*             m_hpTexture;
 
     virtual void tick() override;
-    virtual void render(HDC _dc) override;    
+    virtual void render(HDC _dc) override;
 
-    CLONE(CHPbar);
+    CLONE(CMonsterHpbar);
 
 
 public:
-    CHPbar();
-    ~CHPbar();
+    CMonsterHpbar();
+    ~CMonsterHpbar();
 };
 

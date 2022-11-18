@@ -37,21 +37,20 @@ CLevelManager::~CLevelManager()
 void CLevelManager::init()
 {	
 	// Level »ý¼º
-	m_arrLevel[(UINT)LEVEL_TYPE::TITLE] = new CTitleLevel;
-	m_arrLevel[(UINT)LEVEL_TYPE::START] = new CStartLevel;
-
+	
+	m_arrLevel[(UINT)LEVEL_TYPE::START]	 = new CStartLevel;
 	m_arrLevel[(UINT)LEVEL_TYPE::COLLISION] = new CCollisionLevel;
+	m_arrLevel[(UINT)LEVEL_TYPE::EDITOR]	= new CEditorLevel;
 
 
-	m_arrLevel[(UINT)LEVEL_TYPE::EDITOR] = new CEditorLevel;
-
+	m_arrLevel[(UINT)LEVEL_TYPE::TITLE] = new CTitleLevel;
 	m_arrLevel[(UINT)LEVEL_TYPE::CYBERSPACE] = new CCyberspaceLevel;
 	m_arrLevel[(UINT)LEVEL_TYPE::CYBERSPACE2] = new CCyberspaceLevel2;
 	m_arrLevel[(UINT)LEVEL_TYPE::CYBERSPACE3] = new CCyberspaceLevel3;
 	m_arrLevel[(UINT)LEVEL_TYPE::CYBERSPACE4] = new CCyberspaceLevel4;
 	m_arrLevel[(UINT)LEVEL_TYPE::CYBERSPACEBOSS] = new CCyberspaceLevelBoss;
 
-	this->LoadLevelEvent(LEVEL_TYPE::CYBERSPACE);
+	this->LoadLevelEvent(LEVEL_TYPE::TITLE);
 
 }
 

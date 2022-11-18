@@ -59,6 +59,8 @@ private:
     void JumpReadyEffect();
     void LandDashReadyEffect();
 
+    void GoodEffect();
+    void GoodReturn();
 public:
     CPlayerAnimEvent(CGameObject* obj); //기본생성자 안만듬
     CPlayerAnimEvent(const CGameObject& _other);

@@ -33,6 +33,7 @@ void CCyberspaceLevel::init()
 	CRockmanLevel::init();
 	m_nextLevel = LEVEL_TYPE::CYBERSPACE2;
 
+	m_curLevel = LEVEL_TYPE::CYBERSPACE;
 
 	//background play
 	CSound* sound = GETINSTANCE(CResourceManager)->LoadSound(L"cyberbackground1", L"sound\\cyberspacebackground.wav");
@@ -52,12 +53,6 @@ void CCyberspaceLevel::tick()
 
 
 
-	if (IS_INPUT_TAB(KEY::ENTER))
-	{
-		//exit
-		NextLevel(LEVEL_TYPE::CYBERSPACE2);
-		//GETINSTANCE(CLevelManager)->LoadLevel(LEVEL_TYPE::CYBERSPACE2);
-	}
 
 	if (m_levelState == eLEVELSTATE::FADEENTER)
 	{

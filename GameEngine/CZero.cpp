@@ -187,6 +187,13 @@ void CZero::tick()
 			break;		
 		}
 	}
+
+	//Å×½ºÆ®
+
+	if (IS_INPUT_TAB(KEY::SPACE))
+	{
+		GetAnimator()->Play(L"GOOD", false);
+	}
 }
 
 

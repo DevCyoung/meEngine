@@ -14,6 +14,8 @@
 
 #include "CLevelManager.h"
 
+
+
 CRockmanMonster::CRockmanMonster()
 	:m_hitBox(nullptr)
 	, m_zero(nullptr)
@@ -131,7 +133,8 @@ void CRockmanMonster::OnTriggerEnter(CCollider* _pOhter)
 				m_hitBox->Destroy();
 			}
 			
-			this->Destroy();
+			m_isAttackable = false;
+			this->Die();
 		}
 
 		if (m_damagedState == DAMAGED_STATE::ULTIMAGE)
