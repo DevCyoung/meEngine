@@ -29,6 +29,9 @@
 
 #include "CHPbar.h"
 
+
+#include "CRockmanManager.h"
+
 CTexture* mm_pTexuture = nullptr;
 
 CZero::CZero()
@@ -80,13 +83,12 @@ CZero::CZero()
 	
 	CGameObject::Instantiate(hbox, Vector2(0.f, 0.f), LAYER::PLAYERATTACK);
 	
-	m_hp = 10;
+	m_hp = GETINSTANCE(CRockmanManager)->m_zeroCurHP;
 	CHPbar* bar = new CHPbar();
-	bar->m_Maxhp = m_hp;
+	bar->m_Maxhp = GETINSTANCE(CRockmanManager)->m_zeroMaxHp;
 	bar->m_target = this;
 	bar->m_prevHp = m_hp;
 	CGameObject::Instantiate(bar, bar->GetPos(), LAYER::EDITOR);
-
 }
 
 CZero::CZero(const CZero& _other)
@@ -129,10 +131,7 @@ CZero::~CZero()
 		delete m_animEvent;
 	}
 
-	if (nullptr != m_camera)
-	{
-		m_camera->Destroy();
-	}
+
 }
 
 
@@ -192,7 +191,9 @@ void CZero::tick()
 
 	if (IS_INPUT_TAB(KEY::SPACE))
 	{
-		GetAnimator()->Play(L"GOOD", false);
+		//GETINSTANCE(CEffectManager)->OnShootPlay(EFFECT_TYPE::DIEBALL, GetPos(), false);
+		//GetAnimator()->Play(L"GOOD", false);
+		++m_hp;
 	}
 }
 

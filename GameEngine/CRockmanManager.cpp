@@ -21,7 +21,14 @@ CRockmanManager::CRockmanManager()
 	, m_offset{}
 	, m_fadeColor(eFADECOLOR::BLIND)
 	, m_whiteDelay(0.f)
+	, m_zeroDelay(0.f)
+	, m_dumyDleay(0.f)
 	, m_isWhite(false)
+	, m_nextLevel{}
+	, m_backGroundsound(nullptr)
+	, m_zeroLife(0)
+	, m_zeroCurHP(0)
+	, m_zeroMaxHp(0)
 {
 	m_offset.x = 10.f;
 	m_offset.y = 10.f;
@@ -30,7 +37,15 @@ CRockmanManager::CRockmanManager()
 	GETINSTANCE(CResourceManager)->LoadSound(L"finishboomting", L"sound\\finishboomting.wav")->SetVolume(89.f);
 	GETINSTANCE(CResourceManager)->LoadSound(L"finishwin", L"sound\\finishwin.wav")->SetVolume(89.f);
 	
+	m_backGroundsound = GETINSTANCE(CResourceManager)->LoadSound(L"cyberbackground1", L"sound\\cyberspacebackground.wav");
+	m_backGroundsound->SetVolume(16.f);
+	//m_backGroundsound->PlayToBGM(true);
+	//m_backGroundsound->SetVolume(16.f);	
+	//backGroundsound->Stop();
 
+	m_zeroMaxHp = 10;
+	m_zeroCurHP = 2;
+	m_zeroLife = 2;
 }
 
 CRockmanManager::~CRockmanManager()
@@ -152,48 +167,62 @@ void CRockmanManager::tick()
 			m_isWhite = false;
 		}
 	case ROCKEVENT::FADEEXIT:
-		/*m_stateDelay += DELTATIME;
-		if (m_stateDelay >= 1.4f)
-		{			
+		break;
+
+	case ROCKEVENT::ZERODIE:
+		m_zeroDelay += DELTATIME;
+		m_dumyDleay += DELTATIME;
+
+		if (m_dumyDleay >= 2.f)
+		{
+			m_zeroDelay = 0.f;
+			m_dumyDleay = 0.f;
+			m_event = ROCKEVENT::TODUMMYLEVEL;
+			//GETINSTANCE(CCamera)->FadeOut(1.f);
+			GETINSTANCE(CCamera)->SetTextureType(eFADECOLOR::BLIND);
 			CLevel* lv = GETINSTANCE(CLevelManager)->GetCurLevel();
 			CRockmanLevel* rmLevel = dynamic_cast<CRockmanLevel*>(lv);
-			rmLevel->NextLevel();
-		}*/
+			GETINSTANCE(CRockmanManager)->m_backGroundsound->Stop();
+			GETINSTANCE(CRockmanManager)->m_backGroundsound->SetPosition(0.f);
+
+			if (GETINSTANCE(CRockmanManager)->m_zeroLife < 0)
+			{
+				rmLevel->NextLevel(LEVEL_TYPE::TITLE);
+			}
+			else
+			{
+				rmLevel->NextLevel(rmLevel->m_curLevel);
+			}
+			
+			return;
+		}
+		if (m_zeroDelay >= 0.09f)
+		{
+			CZero* zero = GETINSTANCE(CLevelManager)->GetPlayerObject();
+			for (size_t i = 0; i < 3; i++)
+			{
+				GETINSTANCE(CEffectManager)->OnShootPlay(EFFECT_TYPE::DIEBALL, zero->GetPos(), false);
+			}			
+			m_zeroDelay = 0.f;
+		}
+		break;
+	case ROCKEVENT::TODUMMYLEVEL:
 		break;
 	}
 }
 
 void CRockmanManager::BossDieBoom(Vector2 monsterPos)
 {
-	/*m_stateDelay += DELTATIME;
 
-	if (m_stateDelay > 0.09f)
-	{
-		Vector2 pos = monsterPos;
-
-		Vector2 offset = {};
-
-		offset.x = (int)(rand() % 350);
-		offset.y = (int)(rand() % 350);
-
-		if (rand() % 2 == 0)
-		{
-			offset.x *= -1;
-		}
-		if (rand() % 2 == 1)
-		{
-			offset.y *= -1;
-		}
-
-		pos += offset;
-		GETINSTANCE(CEffectManager)->OnShootPlay(EFFECT_TYPE::BOOMRED, pos, false);
-		m_stateDelay = 0.f;*/
 }
 
 void CRockmanManager::SetEvent(ROCKEVENT _event)
 {
 	m_event = _event;	
 	m_stateDelay = 1.f;
+	m_zeroDelay = 0.f;
+	m_dumyDleay = 0.f;
+
 	switch (m_event)
 	{
 	case ROCKEVENT::BOSSDIE:

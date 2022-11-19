@@ -13,8 +13,8 @@
 
 CCyberspaceLevelBoss::CCyberspaceLevelBoss()
 {
-	m_isReady = false;
-	
+	m_isDestReady = false;
+	m_isReady = m_isDestReady;	
 }
 
 CCyberspaceLevelBoss::~CCyberspaceLevelBoss()
@@ -25,8 +25,7 @@ CCyberspaceLevelBoss::~CCyberspaceLevelBoss()
 void CCyberspaceLevelBoss::init()
 {
 	CRockmanLevel::init();
-	m_textureReadyAnim->SetWarning();
-	m_textureReadyAnim->SetfrmDuration(0.030f);
+	
 	m_nextLevel = LEVEL_TYPE::TITLE;
 	m_curLevel = LEVEL_TYPE::CYBERSPACEBOSS;
 }

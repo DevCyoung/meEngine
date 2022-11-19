@@ -11,6 +11,8 @@
 #include "CRedBoomEffect.h"
 
 #include "CCyberTargetEffect.h"
+#include "CZeroDieBall.h"
+
 #include "CZero.h"
 
 CEffectManager::CEffectManager()
@@ -135,4 +137,13 @@ void CEffectManager::LoadAllEffect()
 		m_vecEffect[(UINT)EFFECT_TYPE::CYBERTARGET].push_back(effect);
 		CGameObject::Instantiate(effect, effect->GetPos(), LAYER::EDITOR);
 	}
+
+
+	for (size_t i = 0; i < EFFECTPULLSIZE; i++)
+	{
+		CEffect* effect = new CZeroDieBall();
+		m_vecEffect[(UINT)EFFECT_TYPE::DIEBALL].push_back(effect);
+		CGameObject::Instantiate(effect, effect->GetPos(), LAYER::EDITOR);
+	}
+
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "CRockmanLevel.h"
+#include "CSound.h"
 
 class CTexture;
 
@@ -11,6 +12,8 @@ public:
     //CTexture*
     //titlebackground.bmp
     // CLevel을(를) 통해 상속됨
+    CSound* m_titleBackGround;
+
     virtual void init() override;
     virtual void tick() override;
 

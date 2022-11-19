@@ -48,10 +48,12 @@ void CTextureAnim::tick()
 	if (m_state == eTextAnimState::REMOVE)
 	{
 		m_curVolum -= 10.f * DELTATIME;
+
 		if (m_curVolum <= 0)
 		{
 			m_curVolum = 0.f;			
 		}
+
 		GETINSTANCE(CResourceManager)->FindSound(L"ready")->SetVolume(m_curVolum);
 		GETINSTANCE(CResourceManager)->FindSound(L"warning")->SetVolume(m_curVolum);
 
@@ -132,6 +134,7 @@ void CTextureAnim::Enter()
 		warningSound->SetPosition(0.f);
 		warningSound->SetVolume(20.f);
 		warningSound->PlayToBGM(true);
+		m_curVolum = 20.f;
 		AutoSplitRandom(13);
 	}
 	

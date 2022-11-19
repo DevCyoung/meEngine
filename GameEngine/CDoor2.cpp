@@ -73,6 +73,7 @@ void CDoor2::tick()
 		pos.x -= 40.f;
 
 		CGameObject::Instantiate(m_cameraWall, pos, LAYER::CAMERAWALL);
+		
 		m_state = DOORSTATE::WARNING;
 	}
 

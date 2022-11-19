@@ -114,8 +114,17 @@ void CDoor1::tick()
 				//m_destPos = 2500.f;
 				GetAnimator()->Play(L"CLOSE", false);		
 
+				
+
 				if (m_closeTo == PLAYER_STATE::EVENT)
 				{
+
+					Vector2 camPos = GETINSTANCE(CCamera)->GetLook();
+					m_zero->m_camera->SetPos(camPos);
+					m_zero->m_camera->m_position = camPos;
+
+					rmLevel->m_textureReadyAnim->SetWarning();
+					rmLevel->m_textureReadyAnim->SetfrmDuration(0.030f);
 					rmLevel->m_textureReadyAnim->Enter();
 					GETINSTANCE(CCamera)->SetTextureType(eFADECOLOR::WARNING);
 					for (size_t i = 0; i < 6; i++)

@@ -279,6 +279,7 @@ void CEditorLevel::SaveGame()
 
 void CEditorLevel::Enter()
 {
+
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::WALL);
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::PLAYER);
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::MOUSE, LAYER::MONSTER);
@@ -295,6 +296,7 @@ void CEditorLevel::Enter()
 	AddObject(m_objectEditor, LAYER::MOUSE);
 	AddObject(m_atlasEditor, LAYER::MOUSE);
 
+		
 	//메뉴바생성
 	if (nullptr == m_hMenu)
 	{
@@ -309,6 +311,8 @@ void CEditorLevel::Enter()
 
 	//초기 오브젝트 설정
 	init();
+
+	//this->Load(L"cyber\\cyberspace_Level_4.map");
 }
 
 void CEditorLevel::Exit()

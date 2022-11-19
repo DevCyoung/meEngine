@@ -16,29 +16,7 @@
 #include "CCollisionManager.h"
 void CEditorLevel::init()
 {
-	//카메라시점
-	/*Vector2 vResolution = GETINSTANCE(CEngine)->GetWndScreenSize();
-	GETINSTANCE(CCamera)->SetLook(vResolution / 2.f);
-
-
-	CreateUI();
-
-	CTexture* pTex = GETINSTANCE(CResourceManager)->LoadTexture(L"TILE_EDIT", L"texture\\TILE.bmp");
-	CreateTile(8, 6);
-	const vector<CGameObject*>& vecTile = GetLayer(LAYER::TILE);
-
-	for (int i = 0; i < vecTile.size(); i++)
-	{
-		((CTile*)vecTile[i])->SetAtlas(pTex);
-		((CTile*)vecTile[i])->SetImgIdx(i);
-	}
-
-
-	m_eMode = EDITOR_MODE::TILE;*/
-	//CTexture* cyberMap = GETINSTANCE(CResourceManager)->LoadTexture(L"Panel", L"texture\\OakUI.bmp");
 	GETINSTANCE(CCollisionManager)->LayerRegister(LAYER::WALL, LAYER::PLAYER);
-
-
 }
 
 //

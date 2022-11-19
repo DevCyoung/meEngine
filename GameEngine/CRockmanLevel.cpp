@@ -21,6 +21,8 @@
 #include "CEffectManager.h"
 
 #include "CKeyManager.h"
+
+#include "CRockmanManager.h"
 CRockmanLevel::CRockmanLevel()
 	: m_editor(nullptr)
 	, m_zero(nullptr)
@@ -29,6 +31,7 @@ CRockmanLevel::CRockmanLevel()
 	, m_delay(0.f)
 	, m_levelState(eLEVELSTATE::NONE)
 	, m_isReady(true)
+	, m_isDestReady(true)
 	, m_exitDelay(0.f)
 	, m_nextLevel{}
 	, m_curLevel{}
@@ -114,6 +117,11 @@ void CRockmanLevel::Enter()
 	GETINSTANCE(CEffectManager)->LoadAllEffect();
 	GETINSTANCE(CCamera)->FadeIn(1.0f);	
 	m_delay = 0.f;
+
+	if (m_isReady == true)
+	{		
+		GETINSTANCE(CRockmanManager)->m_backGroundsound->PlayToBGM(true);
+	}
 }
 
 void CRockmanLevel::Exit()
@@ -139,8 +147,15 @@ void CRockmanLevel::ZeroEnter(UINT idx)
 	m_zero->SetState(PLAYER_STATE::ENTER);
 
 	m_cam = new CCameraObj();
-	m_cam->SetTarget(m_zero);	
+	m_cam->SetTarget(m_zero);
 	CGameObject::Instantiate(m_cam, m_cam->GetPos(), LAYER::CAMERA);
+
+	Vector2 camPos = GETINSTANCE(CCamera)->GetLook();
+
+	m_cam->SetPos(camPos);
+	m_cam->m_position = camPos;
+
+	m_zero->m_camera = m_cam;
 }
 
 void CRockmanLevel::ZeroRetrun()
@@ -185,6 +200,7 @@ void CRockmanLevel::LevelDealy()
 
 			m_levelState = eLEVELSTATE::ZEROENTER;
 			m_textureReadyAnim->Remove();
+			m_isReady = m_isDestReady;
 		}
 	}
 
@@ -197,10 +213,24 @@ void CRockmanLevel::LevelDealy()
 		
 		if (m_exitDelay >= 1.0f)
 		{			
-			GETINSTANCE(CLevelManager)->LoadLevel(m_nextLevel);			
+			GETINSTANCE(CLevelManager)->LoadLevel(LEVEL_TYPE::DUMY);
+			GETINSTANCE(CRockmanManager)->m_nextLevel = m_nextLevel;
 			m_levelState = eLEVELSTATE::FADEFIX;
+			m_exitDelay = 0.f;
 		}
 	}
+
+	//if (m_levelState == eLEVELSTATE::DUMYLEVEL)
+	//{
+	//	m_exitDelay += DELTATIME;
+
+	//	if (m_exitDelay >= 0.5f)
+	//	{
+	//		
+	//		m_levelState = eLEVELSTATE::FADEFIX;
+	//		m_exitDelay = 0.f;
+	//	}
+	//}
 }
 
 void CRockmanLevel::NextAread(UINT idx)
@@ -210,8 +240,9 @@ void CRockmanLevel::NextAread(UINT idx)
 
 void CRockmanLevel::NextLevel(LEVEL_TYPE layer)
 {	
-	if (layer == m_curLevel)
-		return;
+	//if (layer == m_curLevel)
+	//	return;
+
 	m_levelState = eLEVELSTATE::FADEEXIT;
 	m_nextLevel = layer;
 	m_exitDelay = 0.f;

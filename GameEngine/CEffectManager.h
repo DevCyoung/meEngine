@@ -1,6 +1,6 @@
 #pragma once
 
-#define EFFECTPULLSIZE	15
+#define EFFECTPULLSIZE	30
 class CEffect;
 class CZero;
 class CRockmanObj;
@@ -11,6 +11,8 @@ class CEffectManager
 
 	vector<CEffect*>	m_vecEffect[(UINT)EFFECT_TYPE::END];
 	UINT				m_curiDX[(UINT)EFFECT_TYPE::END];
+
+
 
 public:
 	void tick();

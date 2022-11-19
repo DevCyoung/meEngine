@@ -19,6 +19,8 @@ public:
 
     CTexture* m_hpTexture;
 
+    CTexture* m_lifes[3];
+
     virtual void tick() override;
     virtual void render(HDC _dc) override;    
 

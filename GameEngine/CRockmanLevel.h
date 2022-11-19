@@ -8,6 +8,7 @@ enum class eLEVELSTATE
     FADEEXIT,
     FADEFIX,
     READY,
+    DUMYLEVEL,
     ZEROENTER,
 };
 
@@ -34,11 +35,15 @@ public:
 private:
     float               m_delay;
     float               m_exitDelay;
-protected:
+public:
     LEVEL_TYPE           m_nextLevel;
     LEVEL_TYPE           m_curLevel;
-protected:
-    bool            m_isReady;
+
+public:
+    bool                m_isReady;
+    bool                m_isDestReady;
+
+
 public:
     // CLevel을(를) 통해 상속됨
     virtual void init() override;

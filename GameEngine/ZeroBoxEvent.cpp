@@ -16,6 +16,13 @@
 #include "CPlayerAnimEvent.h"
 #include "CLevelManager.h"
 
+#include "CRockmanManager.h"
+
+#include "CResourceManager.h"
+#include "CSound.h"
+#include "CRockmanLevel.h"
+
+#include "CSoundMgr.h"
 void CZero::OnTriggerEnter(CCollider* _pOther)
 {
 	CRockmanObj::OnTriggerEnter(_pOther);
@@ -37,7 +44,11 @@ void CZero::OnTriggerStay(CCollider* _pOther)
 		{
 			return;
 		}
-			
+		
+		if (m_playerController->m_state == PLAYER_STATE::DIE)
+		{
+			return;
+		}
 
 		SetState(PLAYER_STATE::DAMAGED);
 		m_damagedState = DAMAGED_STATE::ULTIMAGE;
@@ -64,8 +75,36 @@ void CZero::OnTriggerStay(CCollider* _pOther)
 		}
 		
 		//여기서 죽습니다.
+		//애니메이션끄기?
+		//여기는DIE입니다.
 		if (m_hp <= 0)
 		{
+			//죽습니다.
+			
+			//GETINSTANCE(CLevelManager)->get
+			//우악우악우악
+			
+			
+			//Die.wav
+			GETINSTANCE(CResourceManager)->LoadSound(L"die", L"sound\\Die.wav")->SetPosition(0);
+			GETINSTANCE(CResourceManager)->LoadSound(L"die", L"sound\\Die.wav")->SetVolume(18.f);
+			GETINSTANCE(CResourceManager)->LoadSound(L"die", L"sound\\Die.wav")->Play();
+
+			//GETINSTANCE(CRockmanManager)->m_zeroCurHP = GETINSTANCE(CRockmanManager)->m_zeroMaxHp;
+			--GETINSTANCE(CRockmanManager)->m_zeroLife;
+
+			GetAnimator()->Play(L"DIE", false);
+
+			CLevel* lv = GETINSTANCE(CLevelManager)->GetCurLevel();
+			CRockmanLevel* rmLevel = dynamic_cast<CRockmanLevel*>(lv);
+			//현재레벨에접근
+			GETINSTANCE(CRockmanManager)->SetEvent(ROCKEVENT::ZERODIE);
+			m_playerController->m_state = PLAYER_STATE::DIE;			
+			rmLevel->m_isReady = true;
+
+			/*GETINSTANCE(CRockmanManager)->m_backGroundsound->Stop();
+			GETINSTANCE(CRockmanManager)->m_backGroundsound->SetPosition(0.f);*/
+			//GETINSTANCE(CResourceManager)->FindSound()
 			//GETINSTANCE(CLevelManager)->LoadLevel(LEVEL_TYPE::CYBERSPACE2);
 		}
 	}

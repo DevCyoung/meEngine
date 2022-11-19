@@ -47,7 +47,8 @@ CRockmanMonster::~CRockmanMonster()
 }
 void CRockmanMonster::tick()
 {
-	
+	//긴급수정
+	CRockmanObj::tick();
 
 	if (nullptr == m_zero)
 	{
@@ -65,14 +66,12 @@ void CRockmanMonster::tick()
 
 	m_CurstartLen = (m_zero->GetPos() - GetPos()).Length();
 
-	
-
 	if (m_CurstartLen <= m_startLen)
 	{
 		m_isStart = true;
 	}
 
-	CRockmanObj::tick();
+	//CRockmanObj::tick();
 
 	//test
 	if (m_damagedState == DAMAGED_STATE::DAMAGED)

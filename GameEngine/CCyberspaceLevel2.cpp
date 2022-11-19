@@ -5,7 +5,8 @@
 
 CCyberspaceLevel2::CCyberspaceLevel2()
 {
-	m_isReady = false;
+	m_isDestReady = false;
+	m_isReady = m_isDestReady;
 }
 
 CCyberspaceLevel2::~CCyberspaceLevel2()

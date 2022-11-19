@@ -78,6 +78,8 @@ CPlayerAnimEvent::CPlayerAnimEvent(CGameObject* obj)
 	m_animztor->LoadAnimation(L"animation\\zero\\goodreturn.anim");
 
 
+	//DIE
+	m_animztor->LoadAnimation(L"animation\\zero\\die.anim");
 
 	m_animztor->FindAnimation(L"GOOD")->SetFrameEvent(6, this, (DELEGATE)&CPlayerAnimEvent::GoodEffect);
 	m_animztor->FindAnimation(L"GOODRETURN")->SetFrameEvent(6, this, (DELEGATE)&CPlayerAnimEvent::ReturnReady);

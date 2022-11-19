@@ -278,6 +278,9 @@
     <Filter Include="Game\RockMan\Title">
       <UniqueIdentifier>{926c7f04-82cc-4540-9753-af11935fade4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Level\RockmanLevel\Cyberspace\level\Dumy">
+      <UniqueIdentifier>{117e128f-89e7-4366-b432-03bb04d2d443}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -579,6 +582,12 @@
     </ClInclude>
     <ClInclude Include="CTileObj.h">
       <Filter>Game\RockMan\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="CZeroDieBall.h">
+      <Filter>Game\RockMan\Effect\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CDumyLevel.h">
+      <Filter>Game\Level\RockmanLevel\Cyberspace\level\Dumy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -913,6 +922,12 @@
     </ClCompile>
     <ClCompile Include="CTileObj.cpp">
       <Filter>Game\RockMan\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="CZeroDieBall.cpp">
+      <Filter>Game\RockMan\Effect\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CDumyLevel.cpp">
+      <Filter>Game\Level\RockmanLevel\Cyberspace\level\Dumy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

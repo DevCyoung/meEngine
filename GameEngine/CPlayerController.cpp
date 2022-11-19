@@ -95,13 +95,15 @@ void CPlayerController::tick()
 	Vector2 pos = m_zero->GetPos();
 	Vector2 velo = m_zero->GetRigidbody()->GetVelocity();
 
-	if (m_state == PLAYER_STATE::EVENT)
+	if (m_state == PLAYER_STATE::EVENT || m_state == PLAYER_STATE::DIE)
 	{
 		m_zero->GetRigidbody()->SetVelocity(Vector2(0.f, 0.f));
 		//m_curdashScale = 1.f;
 		m_arrDashFrame.clear();
 		return;
 	}
+
+	
 
 
 	if (m_state == PLAYER_STATE::ENTER)

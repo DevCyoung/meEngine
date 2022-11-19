@@ -172,6 +172,7 @@
     <ClInclude Include="CDashPowerEffect.h" />
     <ClInclude Include="CDoor1.h" />
     <ClInclude Include="CDoor2.h" />
+    <ClInclude Include="CDumyLevel.h" />
     <ClInclude Include="CEditorLevel.h" />
     <ClInclude Include="CEffect.h" />
     <ClInclude Include="CEffectManager.h" />
@@ -236,6 +237,7 @@
     <ClInclude Include="CWall.h" />
     <ClInclude Include="CWallHitEffect.h" />
     <ClInclude Include="CZero.h" />
+    <ClInclude Include="CZeroDieBall.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="function.h" />
@@ -276,6 +278,7 @@
     <ClCompile Include="CDashPowerEffect.cpp" />
     <ClCompile Include="CDoor1.cpp" />
     <ClCompile Include="CDoor2.cpp" />
+    <ClCompile Include="CDumyLevel.cpp" />
     <ClCompile Include="CEditorLevel.cpp" />
     <ClCompile Include="CEditorLevel_init.cpp" />
     <ClCompile Include="CEffect.cpp" />
@@ -313,6 +316,7 @@
     <ClCompile Include="CTry.cpp" />
     <ClCompile Include="CWall.cpp" />
     <ClCompile Include="CWallHitEffect.cpp" />
+    <ClCompile Include="CZeroDieBall.cpp" />
     <ClCompile Include="Line_Func.cpp" />
     <ClCompile Include="Tile_Func.cpp" />
     <ClCompile Include="Tile_SaveLoad.cpp" />

@@ -150,11 +150,11 @@ CCyberKujacer::CCyberKujacer(const CCyberKujacer& _other)
 
 CCyberKujacer::~CCyberKujacer()
 {
-	if (nullptr != m_hpBar)
-	{
-		m_hpBar->m_target = nullptr;
-		m_hpBar->Destroy();
-	}
+	//if (nullptr != m_hpBar)
+	//{
+	//	m_hpBar->m_target = nullptr;
+	//	//m_hpBar->Destroy();
+	//}
 }
 
 

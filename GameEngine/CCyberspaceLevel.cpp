@@ -21,7 +21,8 @@
 
 CCyberspaceLevel::CCyberspaceLevel()
 {
-	
+	m_isDestReady = true;
+	m_isReady = m_isDestReady;
 }
 
 CCyberspaceLevel::~CCyberspaceLevel()
@@ -32,14 +33,12 @@ void CCyberspaceLevel::init()
 {
 	CRockmanLevel::init();
 	m_nextLevel = LEVEL_TYPE::CYBERSPACE2;
-
 	m_curLevel = LEVEL_TYPE::CYBERSPACE;
 
 	//background play
-	CSound* sound = GETINSTANCE(CResourceManager)->LoadSound(L"cyberbackground1", L"sound\\cyberspacebackground.wav");
-	sound->SetVolume(16.f);
+	
 	//GETINSTANCE(CSoundMgr)->RegisterToBGM(sound);
-	sound->PlayToBGM(true);
+	
 	//sound->Play();
 
 
@@ -69,9 +68,10 @@ void CCyberspaceLevel::Enter()
 	CRockmanLevel::Enter();	
 	init();
 	LoadMap(L"cyber\\cyberspace_Level_1.map");
-	//GETINSTANCE(CMapManager)->MapCameraSet(0);
-}
+	GETINSTANCE(CMapManager)->MapCameraSet(0);
 
+}
+	
 void CCyberspaceLevel::Exit()
 {
 	CRockmanLevel::Exit();

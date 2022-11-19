@@ -11,9 +11,14 @@
 #include "CPlatform.h"
 #include "CTileObj.h"
 
-CTitleLevel::CTitleLevel()
-{
+#include "CRockmanManager.h"
 
+CTitleLevel::CTitleLevel()
+	:m_titleBackGround(nullptr)
+{
+	m_titleBackGround = GETINSTANCE(CResourceManager)->LoadSound(L"titlebackground", L"sound\\titlebackground.wav");	
+	m_titleBackGround->SetVolume(18.f);
+	
 }
 
 CTitleLevel::~CTitleLevel()
@@ -48,11 +53,18 @@ void CTitleLevel::Enter()
 	this->init();
 	GETINSTANCE(CCamera)->FadeIn(1.0f);
 	CTileObj* titleObj = new CTileObj();
-	CGameObject::Instantiate(titleObj, titleObj->GetPos(), LAYER::DEFAUT
-	);
+	CGameObject::Instantiate(titleObj, titleObj->GetPos(), LAYER::DEFAUT);
+
+	GETINSTANCE(CRockmanManager)->m_zeroCurHP  = 8;
+	GETINSTANCE(CRockmanManager)->m_zeroMaxHp  = 8;
+	GETINSTANCE(CRockmanManager)->m_zeroLife   = 2;
+
+	m_titleBackGround->SetPosition(0.f);
+	m_titleBackGround->PlayToBGM(true);
 }
 
 void CTitleLevel::Exit()
-{
+{	
+	m_titleBackGround->Stop(true);
 	this->DeleteAllObject();
 }

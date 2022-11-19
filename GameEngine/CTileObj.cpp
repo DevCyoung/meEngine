@@ -32,7 +32,7 @@ CTileObj::CTileObj()
 		;
 	//GETINSTANCE(CResourceManager)->LoadSound(L"saver", L"sound\\saver.wav")->Play();
 	
-
+		
 }
 
 CTileObj::~CTileObj()

@@ -5,7 +5,8 @@
 
 CCyberspaceLevel3::CCyberspaceLevel3()
 {
-	m_isReady = false;
+	m_isDestReady = false;
+	m_isReady = m_isDestReady;
 }
 
 CCyberspaceLevel3::~CCyberspaceLevel3()
@@ -37,7 +38,7 @@ void CCyberspaceLevel3::Enter()
 	CRockmanLevel::Enter();
 	init();
 	LoadMap(L"cyber\\cyberspace_Level_3.map");
-	//GETINSTANCE(CMapManager)->MapCameraSet(0);
+	GETINSTANCE(CMapManager)->MapCameraSet(0);
 
 
 }

@@ -17,6 +17,8 @@
 #include "CLineColManager.h"
 #include "CRockmanManager.h"
 
+#include "CEffectManager.h"
+
 //그냥 윈도우가 시키는대로하는거임
 //DeleteDC(m_pTexBuffer->GetDC());
 //DeleteObject(m_pTexBuffer->Get);
@@ -97,6 +99,8 @@ void CEngine::tick()
 
 	GETINSTANCE(CCamera)->tick();
 
+	GETINSTANCE(CEffectManager)->tick();
+
 	GETINSTANCE(CLevelManager)->tick();	
 
 	
@@ -105,15 +109,15 @@ void CEngine::tick()
 	GETINSTANCE(CLineColManager)->tick();
 
 
-
-
-	GETINSTANCE(CLevelManager)->fixed_tick();
 	GETINSTANCE(CRockmanManager)->tick();
+	
+
+	
+	GETINSTANCE(CLevelManager)->fixed_tick();
 
 	GETINSTANCE(CUIManager)->tick();
-
+	
 	GETINSTANCE(CHitManager)->tick();
-
 }
 
 Vector2 test = {};
