@@ -68,6 +68,7 @@ void CCyberspaceLevel::Enter()
 	CRockmanLevel::Enter();	
 	init();
 	LoadMap(L"cyber\\cyberspace_Level_1.map");
+	//LoadMap(L"cyber\\show.map");
 	GETINSTANCE(CMapManager)->MapCameraSet(0);
 
 }
