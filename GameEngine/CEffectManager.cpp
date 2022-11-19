@@ -16,7 +16,7 @@
 CEffectManager::CEffectManager()
 	:m_curiDX{}
 {
-
+	int a = 0;
 }
 
 CEffectManager::~CEffectManager()

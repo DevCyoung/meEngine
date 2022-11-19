@@ -31,6 +31,16 @@ void CTitleLevel::init()
 void CTitleLevel::tick()
 {
 	CRockmanLevel::tick();
+
+	if (IS_INPUT_PRESSED(KEY::LSHIFT))
+	{
+		if (IS_INPUT_TAB(KEY::_7))
+		{
+			GETINSTANCE(CLevelManager)->LoadLevel(LEVEL_TYPE::EDITOR);
+		}
+	}
+
+	
 }
 
 void CTitleLevel::Enter()

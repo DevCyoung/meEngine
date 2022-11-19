@@ -22,6 +22,8 @@
 #include "CEventBox.h"
 #include "CCameraWall.h"
 
+#include "CEffectManager.h"
+
 CCollideEdit::CCollideEdit()
 	: m_detectBox(nullptr)
 	, m_curGizmoPoint{}
@@ -371,6 +373,7 @@ void CCollideEdit::Update()
 	if (IS_INPUT_TAB(KEY::RBTN))
 	{
 		CZero* zero = new CZero();
+		
 		Vector2 pos = GETINSTANCE(CKeyManager)->GetMousePos();
 		pos = GETINSTANCE(CCamera)->GetRealPos(pos);
 		CGameObject::Instantiate(zero, pos, LAYER::PLAYER);

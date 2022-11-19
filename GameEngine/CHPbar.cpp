@@ -80,7 +80,12 @@ void CHPbar::render(HDC _dc)
 		{
 			return;
 		}
+		
+	}
 
+	if (nullptr == m_target)
+	{
+		return;
 	}
 
 	Vector2 pos = GetPos();
@@ -95,9 +100,10 @@ void CHPbar::render(HDC _dc)
 	
 	//HBRUSH	hOriginBrush = (HBRUSH)SelectObject(_dc, hNullBrush);		
 	//red
-		SelectObject(_dc, GetStockObject(DC_BRUSH));
-		SetDCBrushColor(_dc, RGB(128, 34, 28));
-		Rectangle
+	SelectObject(_dc, GetStockObject(DC_BRUSH));
+	SetDCBrushColor(_dc, RGB(128, 34, 28));
+
+	Rectangle
 		(
 			_dc,
 			pos.x - m_hpTexture->Width() / 2 - 10,

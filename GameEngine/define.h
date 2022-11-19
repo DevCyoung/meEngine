@@ -27,7 +27,7 @@
 #define RAD	0.0174532925
 
 #define BACKGROUNDCOLOR   0x00ff00ff
-#define REDZEROCOLOR      0xffE90100
+#define REDZEROCOLOR      0xffEE0100
 #define BLACKZEROCOLOR    0xff5000A0
 #define VIRUSZEROCOLOR    0xff4880c0
 

@@ -41,8 +41,6 @@ void CLevelManager::init()
 	m_arrLevel[(UINT)LEVEL_TYPE::START]	 = new CStartLevel;
 	m_arrLevel[(UINT)LEVEL_TYPE::COLLISION] = new CCollisionLevel;
 	m_arrLevel[(UINT)LEVEL_TYPE::EDITOR]	= new CEditorLevel;
-
-
 	m_arrLevel[(UINT)LEVEL_TYPE::TITLE] = new CTitleLevel;
 	m_arrLevel[(UINT)LEVEL_TYPE::CYBERSPACE] = new CCyberspaceLevel;
 	m_arrLevel[(UINT)LEVEL_TYPE::CYBERSPACE2] = new CCyberspaceLevel2;

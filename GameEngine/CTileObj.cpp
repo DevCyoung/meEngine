@@ -79,6 +79,7 @@ void CTileObj::render(HDC _dc)
 {	
 	Vector2 pos = GetPos();
 	pos.x -= 2.f;
+	pos.y -= 2.f;
 	CRenderHelper::StretchRenderTextrue(_dc, m_backgorund, pos);
 
 	pos.y += 150.f;

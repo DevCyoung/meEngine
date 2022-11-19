@@ -591,7 +591,7 @@ void CPlayerController::DashFrame()
 
 	for (int i = 0; i < m_arrDashFrame.size(); )
 	{
-		if (m_arrDashFrame[i].duration >= 0.23f)
+		if (m_arrDashFrame[i].duration >= 0.26f)
 		{
 			m_arrDashFrame.erase(m_arrDashFrame.begin() + i);
 		}

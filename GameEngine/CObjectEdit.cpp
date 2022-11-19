@@ -147,13 +147,14 @@ void CObjectEdit::CreateUI(CLevel* level)
 	CTexture*	pButtonTex			 = GETINSTANCE(CResourceManager)->LoadTexture(L"Button", L"texture\\button.bmp");
 	CTexture*	pButtonPressedTex	 = GETINSTANCE(CResourceManager)->LoadTexture(L"Button_Pressed", L"texture\\button_pressed.bmp");
 	CTexture*	pPanelTex			 = GETINSTANCE(CResourceManager)->LoadTexture(L"Panel", L"texture\\OakUI.bmp");
+	CTexture*	pRockmanPenl		 = GETINSTANCE(CResourceManager)->LoadTexture(L"RockmanPanel", L"texture\\rockmanpanel\\rockmanpanel.bmp");
 
 
 	//UI¹èÄ¡
 	CPanelUI* pPanelUI = new CPanelUI();
 	{
-		pPanelUI->SetIdleTex(pPanelTex);
-		pPanelUI->SetPos(Vector2(vResolution.x - pPanelTex->Width() + 20.f, 10.f));
+		pPanelUI->SetIdleTex(pRockmanPenl);
+		pPanelUI->SetPos(Vector2(vResolution.x - pRockmanPenl->Width() + 20.f, 10.f));
 
 
 		CButton* pSaveButton = new CButton();
@@ -170,7 +171,7 @@ void CObjectEdit::CreateUI(CLevel* level)
 		CButton* pLoadButton = pSaveButton->Clone();
 		{
 
-			pLoadButton->SetPos(Vector2(10.f, 70.f));
+			pLoadButton->SetPos(Vector2(30.f, 30.f));
 			pLoadButton->SetRockman(new CMiru());
 			pLoadButton->SetDelegate(this, (DELEGATERockman)&CObjectEdit::SelectGameObject);
 		}
@@ -181,7 +182,7 @@ void CObjectEdit::CreateUI(CLevel* level)
 		CButton* pLoadButton2 = pSaveButton->Clone();
 		{
 
-			pLoadButton2->SetPos(Vector2(120.f, 20.f));
+			pLoadButton2->SetPos(Vector2(100.f, 35.f));
 			pLoadButton2->SetRockman(new CGosm());
 			pLoadButton2->SetDelegate(this, (DELEGATERockman)&CObjectEdit::SelectGameObject);
 		}
@@ -189,7 +190,7 @@ void CObjectEdit::CreateUI(CLevel* level)
 
 		CButton* pLoadButton3 = pSaveButton->Clone();
 		{
-			pLoadButton3->SetPos(Vector2(10.f, 120.f));
+			pLoadButton3->SetPos(Vector2(45.f, 100.f));
 			pLoadButton3->SetRockman(new CTry());
 			pLoadButton3->SetDelegate(this, (DELEGATERockman)&CObjectEdit::SelectGameObject);
 		}
@@ -198,7 +199,7 @@ void CObjectEdit::CreateUI(CLevel* level)
 
 		CButton* pLoadButton4 = pSaveButton->Clone();
 		{
-			pLoadButton4->SetPos(Vector2(50.f, 120.f));
+			pLoadButton4->SetPos(Vector2(90.f, 90.f));
 			pLoadButton4->SetRockman(new CCong());
 			pLoadButton4->SetDelegate(this, (DELEGATERockman)&CObjectEdit::SelectGameObject);
 		}
@@ -207,7 +208,7 @@ void CObjectEdit::CreateUI(CLevel* level)
 
 		CButton* pLoadButton5 = pSaveButton->Clone();
 		{
-			pLoadButton5->SetPos(Vector2(80.f, 120.f));
+			pLoadButton5->SetPos(Vector2(140.f, 100.f));
 			pLoadButton5->SetRockman(new CFlyCong());
 			pLoadButton5->SetDelegate(this, (DELEGATERockman)&CObjectEdit::SelectGameObject);
 		}
@@ -216,7 +217,7 @@ void CObjectEdit::CreateUI(CLevel* level)
 
 		CButton* pLoadButton6 = pSaveButton->Clone();
 		{
-			pLoadButton6->SetPos(Vector2(130.f, 120.f));
+			pLoadButton6->SetPos(Vector2(210.f, 60.f));
 			pLoadButton6->SetRockman(new CDoor1());
 			pLoadButton6->SetDelegate(this, (DELEGATERockman)&CObjectEdit::SelectGameObject);
 		}
@@ -225,7 +226,7 @@ void CObjectEdit::CreateUI(CLevel* level)
 
 		CButton* pLoadButton7 = pSaveButton->Clone();
 		{
-			pLoadButton7->SetPos(Vector2(160.f, 120.f));
+			pLoadButton7->SetPos(Vector2(240.f, 60.f));
 			pLoadButton7->SetRockman(new CDoor2());
 			pLoadButton7->SetDelegate(this, (DELEGATERockman)&CObjectEdit::SelectGameObject);
 		}

@@ -32,6 +32,7 @@
 #include "CAtlasEdit.h"
 
 #include "CCameraObj.h"
+#include "CEffectManager.h"
 
 CTexture* mapText;
 
@@ -44,6 +45,7 @@ CEditorLevel::CEditorLevel()
 	m_objectEditor = new CObjectEdit();	
 	m_atlasEditor = new CAtlasEdit();
 
+	
 }
 
 
@@ -70,6 +72,7 @@ CEditorLevel::~CEditorLevel()
 		delete m_atlasEditor;
 	}
 	
+
 
 
 }
@@ -205,6 +208,14 @@ void CEditorLevel::tick()
 	if (IS_INPUT_TAB(KEY::ESE))
 	{
 		//refresh
+	}
+
+	if (IS_INPUT_PRESSED(KEY::LSHIFT))
+	{
+		if (IS_INPUT_TAB(KEY::_7))
+		{
+			GETINSTANCE(CLevelManager)->LoadLevel(LEVEL_TYPE::TITLE);
+		}
 	}
 	Update();
 }

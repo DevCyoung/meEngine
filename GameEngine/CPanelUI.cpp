@@ -37,6 +37,7 @@ void CPanelUI::render(HDC _dc)
 	if (nullptr == GetIdleTex())
 		return;
 	Vector2 vPos = GetPos();
+
 	TransparentBlt(_dc, vPos.x, vPos.y, GetIdleTex()->Width(), GetIdleTex()->Height(), GetIdleTex()->GetDC(), 0, 0, GetIdleTex()->Width(), GetIdleTex()->Height(), RGB(255, 0, 255));
 
 
