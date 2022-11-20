@@ -33,7 +33,8 @@
 
 #include "CCameraObj.h"
 #include "CEffectManager.h"
-
+#include "CLineCollider.h"
+#include "CLine.h"
 CTexture* mapText;
 
 CEditorLevel::CEditorLevel()
@@ -329,6 +330,10 @@ void CEditorLevel::Exit()
 	m_collideEditor = new CCollideEdit();
 	m_objectEditor = new CObjectEdit();
 	m_atlasEditor = new CAtlasEdit();
+
+	m_collideEditor->m_mouseX->GetLineCollider()->TranslateSetPos(Vector2(-100000.f, -100000.f));
+	m_collideEditor->m_mouseY->GetLineCollider()->TranslateSetPos(Vector2(-100000.f, -100000.f));
+
 }
 
 #pragma endregion
