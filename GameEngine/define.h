@@ -89,6 +89,7 @@ enum class LEVEL_TYPE
 	CYBERSPACE3,
 	CYBERSPACE4,
 	CYBERSPACEBOSS,
+	SHOW,
 	DUMY,
 	END, //갯수지정용도
 };

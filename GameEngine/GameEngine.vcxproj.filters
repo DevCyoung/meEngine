@@ -281,6 +281,12 @@
     <Filter Include="Game\Level\RockmanLevel\Cyberspace\level\Dumy">
       <UniqueIdentifier>{117e128f-89e7-4366-b432-03bb04d2d443}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Level\ShowLevel">
+      <UniqueIdentifier>{4a2e718c-8219-4553-a3ff-c05b5fda2307}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\RockMan\Monster\CyberStage\Cuner">
+      <UniqueIdentifier>{145f8bb1-f946-4bd9-aae4-5e0a784ddd2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -588,6 +594,12 @@
     </ClInclude>
     <ClInclude Include="CDumyLevel.h">
       <Filter>Game\Level\RockmanLevel\Cyberspace\level\Dumy</Filter>
+    </ClInclude>
+    <ClInclude Include="CShowLevel.h">
+      <Filter>Game\Level\ShowLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="CCuner.h">
+      <Filter>Game\RockMan\Monster\CyberStage\Cuner</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -928,6 +940,12 @@
     </ClCompile>
     <ClCompile Include="CDumyLevel.cpp">
       <Filter>Game\Level\RockmanLevel\Cyberspace\level\Dumy</Filter>
+    </ClCompile>
+    <ClCompile Include="CShowLevel.cpp">
+      <Filter>Game\Level\ShowLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="CCuner.cpp">
+      <Filter>Game\RockMan\Monster\CyberStage\Cuner</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

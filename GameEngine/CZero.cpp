@@ -187,14 +187,7 @@ void CZero::tick()
 		}
 	}
 
-	//Å×½ºÆ®
 
-	if (IS_INPUT_TAB(KEY::SPACE))
-	{
-		//GETINSTANCE(CEffectManager)->OnShootPlay(EFFECT_TYPE::DIEBALL, GetPos(), false);
-		//GetAnimator()->Play(L"GOOD", false);
-		++m_hp;
-	}
 }
 
 

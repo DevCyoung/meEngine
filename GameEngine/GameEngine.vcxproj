@@ -159,6 +159,7 @@
     <ClInclude Include="CComponent.h" />
     <ClInclude Include="CCong.h" />
     <ClInclude Include="CCongBullet.h" />
+    <ClInclude Include="CCuner.h" />
     <ClInclude Include="CCyberCongBoost.h" />
     <ClInclude Include="CCyberCongBullet.h" />
     <ClInclude Include="CCyberKujacer.h" />
@@ -218,6 +219,7 @@
     <ClInclude Include="CRockmanManager.h" />
     <ClInclude Include="CRockmanMonster.h" />
     <ClInclude Include="CRockmanObj.h" />
+    <ClInclude Include="CShowLevel.h" />
     <ClInclude Include="CSliceEffect.h" />
     <ClInclude Include="CSlideDustEffect.h" />
     <ClInclude Include="CSound.h" />
@@ -265,6 +267,7 @@
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CCong.cpp" />
     <ClCompile Include="CCongBullet.cpp" />
+    <ClCompile Include="CCuner.cpp" />
     <ClCompile Include="CCyberCongBoost.cpp" />
     <ClCompile Include="CCyberCongBullet.cpp" />
     <ClCompile Include="CCyberKujacer.cpp" />
@@ -306,6 +309,7 @@
     <ClCompile Include="CRockmanLevel.cpp" />
     <ClCompile Include="CRockmanManager.cpp" />
     <ClCompile Include="CRockmanMonster.cpp" />
+    <ClCompile Include="CShowLevel.cpp" />
     <ClCompile Include="CSliceEffect.cpp" />
     <ClCompile Include="CSlideDustEffect.cpp" />
     <ClCompile Include="CSound.cpp" />

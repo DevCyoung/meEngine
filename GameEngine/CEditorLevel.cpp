@@ -313,6 +313,7 @@ void CEditorLevel::Enter()
 	init();
 
 	//this->Load(L"cyber\\cyberspace_Level_4.map");
+
 }
 
 void CEditorLevel::Exit()

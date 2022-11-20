@@ -16,6 +16,8 @@
 #include "CZero.h"
 #include "CRockmanLevel.h"
 #include "CDumyLevel.h"
+#include "CShowLevel.h"
+
 CLevelManager::CLevelManager()
 	: m_pCurLevel(nullptr)
 	, m_arrLevel{}
@@ -51,7 +53,8 @@ void CLevelManager::init()
 	m_arrLevel[(UINT)LEVEL_TYPE::CYBERSPACE3]		= new CCyberspaceLevel3;
 	m_arrLevel[(UINT)LEVEL_TYPE::CYBERSPACE4]		= new CCyberspaceLevel4;
 	m_arrLevel[(UINT)LEVEL_TYPE::CYBERSPACEBOSS]	= new CCyberspaceLevelBoss;
-	
+	m_arrLevel[(UINT)LEVEL_TYPE::SHOW] = new CShowLevel;
+
 
 	this->LoadLevelEvent(LEVEL_TYPE::TITLE);
 

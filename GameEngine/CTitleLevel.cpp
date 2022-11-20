@@ -43,6 +43,10 @@ void CTitleLevel::tick()
 		{
 			GETINSTANCE(CLevelManager)->LoadLevel(LEVEL_TYPE::EDITOR);
 		}
+		if (IS_INPUT_TAB(KEY::_8))
+		{
+			GETINSTANCE(CLevelManager)->LoadLevel(LEVEL_TYPE::SHOW);
+		}
 	}
 
 	
