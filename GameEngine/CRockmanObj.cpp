@@ -183,7 +183,7 @@ void CRockmanObj::tick()
 		Vector2 p1 = m_curLineLand->GetP1();
 		Vector2 p2 = m_curLineLand->GetP2();
 		Vector2 pos = GetPos();
-		pos.y = ((p2.y - p1.y) / (p2.x - p1.x)) * (pos.x - p1.x) + p1.y - GetLineCollider()->GetLineCollider()->m_distance + 1.f;
+		pos.y = ((p2.y - p1.y) / (p2.x - p1.x)) * (pos.x - p1.x) + p1.y - GetLineCollider()->GetLineCollider()->m_distance + 1;
 		SetPos(pos);
 	}
 
@@ -319,6 +319,11 @@ void CRockmanObj::DownHitEnter(CLineCollider* _pOhter)
 	m_curLineLand = _pOhter;
 
 }
+void CRockmanObj::DownHitExit(CLineCollider* _pOhter)
+{
+	m_LineDir &= ~(UINT)COL_STATE_DIR::DOWN;
+	m_curLineLand = nullptr;
+}
 
 
 void CRockmanObj::OnTriggerExitUp(CCollider* _pOther)
@@ -385,11 +390,6 @@ void CRockmanObj::OnTriggerExitRight(CCollider* _pOther)
 
 
 
-void CRockmanObj::DownHitExit(CLineCollider* _pOhter)
-{
-	m_LineDir &= ~(UINT)COL_STATE_DIR::DOWN;
-	m_curLineLand = nullptr;
-}
 
 
 

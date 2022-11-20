@@ -154,7 +154,62 @@ void CZero::tick()
 		m_playerController->tick();
 
 
-	CRockmanObj::tick();
+	if (nullptr != m_downRay)
+	{
+		m_downRay->GetLineCollider()->MoveRaycast(GetPos());
+	}
+
+	if (nullptr != GetRigidbody())
+	{
+		if (GetCollision() == true)
+		{
+			if (DownColState() == false)
+			{
+				GetRigidbody()->SetGravity(true);
+			}
+			else
+			{
+				GetRigidbody()->SetGravity(false);
+			}
+		}
+
+
+
+		Vector2 velo = GetRigidbody()->GetVelocity();
+		if (abs(velo.x) > 0.001f)
+		{
+			if (velo.x < 0.01f)
+			{
+				SetFlipX(false);
+			}
+			if (velo.x > 0.01f)
+			{
+				SetFlipX(true);
+			}
+
+
+
+		}
+		float d = GetRigidbody()->GetGravityScale();
+		if (GetRigidbody()->GetGravityScale() > 1.f)
+		{
+			SetFilpY(false);
+		}
+		else if (GetRigidbody()->GetGravityScale() < 1.f)
+		{
+			SetFilpY(true);
+		}
+	}
+
+	if (nullptr != m_curLineLand && GetState() != PLAYER_STATE::JUMP)
+	{
+		Vector2 p1 = m_curLineLand->GetP1();
+		Vector2 p2 = m_curLineLand->GetP2();
+		Vector2 pos = GetPos();
+		pos.y = ((p2.y - p1.y) / (p2.x - p1.x)) * (pos.x - p1.x) + p1.y - GetLineCollider()->GetLineCollider()->m_distance + 1;
+		SetPos(pos);
+	}
+
 
 	if (nullptr != m_playerController)
 		m_playerController->flip_tick();
